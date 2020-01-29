@@ -45,7 +45,7 @@ export const isLoggedIn = () => {
 
 export const logout = callback => {
   window.localStorage.clear()
-  callback()
+  // callback()
 }
 
 // ++++++++++++++++++++++++++++++++++++++++

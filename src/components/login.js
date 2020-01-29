@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react"
 import { navigate } from "gatsby"
 import { handleLogin, isLoggedIn } from "../services/auth"
 
+import { openNotificationWithIcon } from "./Notifications"
+
 function Login() {
   const [userData, setUserData] = useState({ email: "", password: "" })
 
@@ -11,8 +13,11 @@ function Login() {
 
   const handleSubmit = async event => {
     event.preventDefault()
-    await handleLogin(userData)
-    navigate(`/app/profile`)
+    const loggedInSuccessfully = await handleLogin(userData)
+    if (loggedInSuccessfully) {
+      openNotificationWithIcon("success", "Logged In!")
+      navigate(`/app/profile`)
+    }
   }
 
   useEffect(() => {
