@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react"
 import { navigate } from "gatsby"
 import { handleLogin, isLoggedIn } from "../services/auth"
 
+import NormalLoginForm from "./NormalLoginForm"
+
 import { openNotificationWithIcon } from "./Notifications"
 
 function Login() {
@@ -29,26 +31,7 @@ function Login() {
   return (
     <>
       <h1>Log in</h1>
-      <form
-        method="post"
-        onSubmit={event => {
-          handleSubmit(event)
-        }}
-      >
-        <label>
-          Email
-          <input type="text" name="email" onChange={e => handleUpdate(e)} />
-        </label>
-        <label>
-          Password
-          <input
-            type="password"
-            name="password"
-            onChange={e => handleUpdate(e)}
-          />
-        </label>
-        <input type="submit" value="Log In" />
-      </form>
+      <NormalLoginForm />
     </>
   )
 }

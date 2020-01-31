@@ -1,10 +1,10 @@
 import React from "react"
 import "antd/dist/antd.css"
-import Nav_Bar from "./nav-bar"
+import NavBar from "./nav-bar"
 
-import { Layout, NavBar, Breadcrumb, Menu } from "antd"
+import { Layout } from "./MyStyledComponents"
 
-const { Header, Footer, Sider, Content } = Layout
+const { Header, Footer, Content } = Layout
 
 const _layout = ({ children }) => (
   // <Layout>
@@ -18,7 +18,7 @@ const _layout = ({ children }) => (
   <Layout className="layout">
     <Header>
       <div className="logo" />
-      <Nav_Bar />
+      <NavBar />
     </Header>
     <Content style={{ padding: "1.5rem" }}>
       {/* <Breadcrumb style={{ margin: "16px 0" }}>
@@ -26,7 +26,14 @@ const _layout = ({ children }) => (
         <Breadcrumb.Item>List</Breadcrumb.Item>
         <Breadcrumb.Item>App</Breadcrumb.Item>
       </Breadcrumb> */}
-      <div style={{ background: "#fff", padding: "1rem", minHeight: "80vh" }}>
+      <div
+        style={{
+          background: "#fff",
+          padding: "1rem",
+          minHeight: "80vh",
+          display: "grid",
+        }}
+      >
         {children}
       </div>
     </Content>

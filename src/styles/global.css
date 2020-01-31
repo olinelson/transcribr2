@@ -1,0 +1,34 @@
+.login-form {
+  max-width: 300px;
+}
+.login-form-forgot {
+  float: right;
+}
+.login-form-button {
+  width: 100%;
+}
+
+.ant-avatar {
+  margin: 1rem;
+}
+
+/* .grid-container--fill {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(5rem, 6rem));
+} */
+
+.grid-container--fit {
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(5rem, 20rem));
+}
+
+.ant-upload.ant-upload-drag {
+  border: none !important;
+  height: auto !important;
+  margin-top: 2rem !important;
+}
+
+p {
+  line-height: 2.5em;
+}

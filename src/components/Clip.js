@@ -3,7 +3,11 @@ import WithLocation from "./WithLocation"
 import { getUser } from "../services/auth"
 import { API_URL } from "../config"
 
-import { Redirect, navigate } from "gatsby"
+import { navigate } from "gatsby"
+
+import { deleteClip } from "../services/clipManagement"
+
+import { Popover, Icon, Tag, Switch, Button, Popconfirm } from "antd"
 
 import ReactPlayer from "react-player"
 import { openNotificationWithIcon } from "./Notifications"
@@ -12,58 +16,49 @@ function Clip(props) {
   const clipId = props.search.id || undefined
 
   const [clip, setClip] = useState(null)
+  const [sticky, setSticky] = useState(false)
+  const [deleting, setDeleting] = useState(false)
+  const [transcribing, setTranscribing] = useState(false)
   const player = useRef(null)
 
-  console.log(clip)
+  useEffect(() => {
+    const getClip = async () => {
+      try {
+        let res = await fetch(API_URL + "/clips/" + clipId, {
+          mode: "cors", // no-cors, *cors, same-origin
+          cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+          credentials: "same-origin", // include, *same-origin, omit
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: getUser(),
+          },
+          redirect: "follow", // manual, *follow, error
+          referrerPolicy: "no-referrer", // no-referrer, *client
+        })
+        if (!res.ok) throw new Error("Something went wrong")
+        res = await res.json() // parses JSON response into native JavaScript objects
 
-  const getClip = async () => {
-    try {
-      let res = await fetch(API_URL + "/clips/" + clipId, {
-        mode: "cors", // no-cors, *cors, same-origin
-        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: "same-origin", // include, *same-origin, omit
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: getUser(),
-        },
-        redirect: "follow", // manual, *follow, error
-        referrerPolicy: "no-referrer", // no-referrer, *client
-      })
-      if (!res.ok) throw new Error("Something went wrong")
-      res = await res.json() // parses JSON response into native JavaScript objects
-
-      return setClip(res)
-    } catch (error) {
-      console.log(error)
-      return false
+        return setClip(res)
+      } catch (error) {
+        console.log(error)
+        return false
+      }
     }
-  }
-  const deleteClip = async () => {
-    try {
-      let res = await fetch(API_URL + "/clips/" + clipId, {
-        method: "DELETE",
-        mode: "cors", // no-cors, *cors, same-origin
-        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: "same-origin", // include, *same-origin, omit
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: getUser(),
-        },
-        redirect: "follow", // manual, *follow, error
-        referrerPolicy: "no-referrer", // no-referrer, *client
-      })
-      console.log(res)
-      if (!res.ok) throw new Error("Something went wrong")
-      res = await res.json() // parses JSON response into native JavaScript objects
+    getClip()
+  }, [clipId])
+
+  const deleteClipHandler = async clipId => {
+    setDeleting(true)
+    let success = await deleteClip(clipId)
+    if (success) {
       navigate("/app/profile")
-      openNotificationWithIcon("warning", `Successfully deleted "${res.name}"`)
-      return
-    } catch (error) {
-      console.log(error)
-      return false
+    } else {
+      setDeleting(false)
     }
   }
+
   const convertClip = async () => {
+    setTranscribing(true)
     try {
       let res = await fetch(API_URL + "/convert/clips/" + clipId, {
         mode: "cors", // no-cors, *cors, same-origin
@@ -108,10 +103,6 @@ function Clip(props) {
     }
   }
 
-  useEffect(() => {
-    getClip()
-  }, [])
-
   const showClipAudio = () => {
     if (!clip || !clip.rawFileName) return null
 
@@ -121,6 +112,16 @@ function Clip(props) {
         url={`https://storage.googleapis.com/${clip.owner}/${clip.rawFileName}`}
         playing
         controls
+        width="100%"
+        height="auto"
+        style={{
+          position: sticky ? "sticky" : "static",
+          top: 0,
+          // right: "1rem",
+          maxWidth: "50rem",
+          margin: "auto",
+          zIndex: 3,
+        }}
       />
       // <audio
       //   controls
@@ -147,32 +148,80 @@ function Clip(props) {
 
   console.log(props)
   return (
-    <div>
-      <h1> showing clip {props.search.id}</h1>
-      {clip ? <h1>{clip.name}</h1> : null}
+    <>
       {showClipAudio()}
-      <button onClick={() => convertClip()}> Convert </button>
-      <button onClick={() => transcribeClip()}> Transcribe </button>
-      <button onClick={() => deleteClip()}> Delete </button>
+      <div style={{ maxWidth: "50rem", margin: "auto" }}>
+        {clip ? <h1>{clip.name}</h1> : null}
+        {/* <button onClick={() => convertClip()}> Convert </button> */}
+        <Popconfirm
+          title="Transcribe this clip?"
+          onConfirm={() => convertClip()}
+          // onCancel={cancel}
 
-      {/* <button onClick={() => player.current.seekTo(2)}>
+          okText="Yes"
+          cancelText="No"
+        >
+          <Button loading={transcribing} type="primary">
+            <Icon type="file-word" />
+            Transcribe
+          </Button>
+        </Popconfirm>
+        {/* <button onClick={() => deleteClip()}> Delete </button> */}
+        <Popconfirm
+          title="Are you sure delete this task?"
+          onConfirm={() => deleteClipHandler(clip._id)}
+          // onCancel={cancel}
+          okText="Yes"
+          cancelText="No"
+        >
+          <Button type="danger" loading={deleting}>
+            <Icon type="delete" />
+            Delete
+          </Button>
+        </Popconfirm>
+        ,
+        <Switch
+          onChange={() => setSticky(!sticky)}
+          checkedChildren="Sticky"
+          unCheckedChildren="Fixed"
+        />
+        {/* <button onClick={() => player.current.seekTo(2)}>
         {" "}
         go to 2 seconds{" "}
       </button> */}
-
-      {getWords().map(w => (
-        <span key={w._id}>
-          <button
-            onClick={() =>
-              player.current.seekTo(parseInt(w.startTime.replace("s", "")))
-            }
-          >
-            {" "}
-            {w.word}{" "}
-          </button>
-        </span>
-      ))}
-    </div>
+        <p>
+          {getWords().map(w => (
+            <Popover
+              content={
+                <div>
+                  <Tag>{w.startTime}</Tag>
+                  <Icon
+                    type="login"
+                    onClick={() =>
+                      player.current.seekTo(
+                        parseInt(w.startTime.replace("s", ""))
+                      )
+                    }
+                  />
+                </div>
+              }
+            >
+              <span> {" " + w.word + " "}</span>
+            </Popover>
+            // <span key={w._id}>
+            //   <span
+            // onClick={() =>
+            //   player.current.seekTo(parseInt(w.startTime.replace("s", "")))
+            // }
+            //   >
+            //     {" "}
+            //     {w.word}{" "}
+            //   </span>
+            // </span>
+          ))}
+        </p>
+      </div>
+    </>
   )
 }
 

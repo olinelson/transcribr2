@@ -1,7 +1,7 @@
 import React from "react"
 import { Link, navigate } from "gatsby"
-import { getUser, isLoggedIn, logout } from "../services/auth"
-import { Layout, NavBar, Breadcrumb, Menu, Button, notification } from "antd"
+import { isLoggedIn, logout } from "../services/auth"
+import { Menu } from "./MyStyledComponents"
 
 import { openNotificationWithIcon } from "./Notifications"
 
@@ -23,10 +23,9 @@ export default () => {
         <Link to="/app/profile">Profile</Link>
       </Menu.Item>
       {isLoggedIn() ? (
-        <a
+        <Menu.Item
           href="/"
-          onClick={event => {
-            event.preventDefault()
+          onClick={() => {
             logout()
             if (!isLoggedIn()) {
               openNotificationWithIcon("success", "Successfully logged out.")
@@ -34,8 +33,9 @@ export default () => {
             }
           }}
         >
+          {" "}
           Logout
-        </a>
+        </Menu.Item>
       ) : null}
     </Menu>
     // <div
