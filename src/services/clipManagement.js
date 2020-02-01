@@ -1,5 +1,4 @@
 import { API_URL } from "../config"
-import { navigate } from "gatsby"
 import { getUser } from "./auth"
 import { openNotificationWithIcon } from "../components/Notifications"
 

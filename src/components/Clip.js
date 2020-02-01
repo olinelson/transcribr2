@@ -10,42 +10,39 @@ import { deleteClip } from "../services/clipManagement"
 import { Popover, Icon, Tag, Switch, Button, Popconfirm } from "antd"
 
 import ReactPlayer from "react-player"
-import { openNotificationWithIcon } from "./Notifications"
 
 function Clip(props) {
-  const clipId = props.search.id || undefined
-
-  const [clip, setClip] = useState(null)
+  const [clip, setClip] = useState(props.clip)
   const [sticky, setSticky] = useState(false)
   const [deleting, setDeleting] = useState(false)
   const [transcribing, setTranscribing] = useState(false)
   const player = useRef(null)
 
-  useEffect(() => {
-    const getClip = async () => {
-      try {
-        let res = await fetch(API_URL + "/clips/" + clipId, {
-          mode: "cors", // no-cors, *cors, same-origin
-          cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-          credentials: "same-origin", // include, *same-origin, omit
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: getUser(),
-          },
-          redirect: "follow", // manual, *follow, error
-          referrerPolicy: "no-referrer", // no-referrer, *client
-        })
-        if (!res.ok) throw new Error("Something went wrong")
-        res = await res.json() // parses JSON response into native JavaScript objects
+  // useEffect(() => {
+  //   const getClip = async () => {
+  //     try {
+  //       let res = await fetch(API_URL + "/clips/" + clipId, {
+  //         mode: "cors", // no-cors, *cors, same-origin
+  //         cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+  //         credentials: "same-origin", // include, *same-origin, omit
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: getUser(),
+  //         },
+  //         redirect: "follow", // manual, *follow, error
+  //         referrerPolicy: "no-referrer", // no-referrer, *client
+  //       })
+  //       if (!res.ok) throw new Error("Something went wrong")
+  //       res = await res.json() // parses JSON response into native JavaScript objects
 
-        return setClip(res)
-      } catch (error) {
-        console.log(error)
-        return false
-      }
-    }
-    getClip()
-  }, [clipId])
+  //       return setClip(res)
+  //     } catch (error) {
+  //       console.log(error)
+  //       return false
+  //     }
+  //   }
+  //   getClip()
+  // }, [clipId])
 
   const deleteClipHandler = async clipId => {
     setDeleting(true)
@@ -60,29 +57,7 @@ function Clip(props) {
   const convertClip = async () => {
     setTranscribing(true)
     try {
-      let res = await fetch(API_URL + "/convert/clips/" + clipId, {
-        mode: "cors", // no-cors, *cors, same-origin
-        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: "same-origin", // include, *same-origin, omit
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: getUser(),
-        },
-        redirect: "follow", // manual, *follow, error
-        referrerPolicy: "no-referrer", // no-referrer, *client
-      })
-      if (!res.ok) throw new Error("Something went wrong")
-      res = await res.json() // parses JSON response into native JavaScript objects
-      console.log(res)
-      //   return setClip(res)
-    } catch (error) {
-      console.log(error)
-      return false
-    }
-  }
-  const transcribeClip = async () => {
-    try {
-      let res = await fetch(API_URL + "/transcribe/clips/" + clipId, {
+      let res = await fetch(API_URL + "/convert/clips/" + clip.clipId, {
         mode: "cors", // no-cors, *cors, same-origin
         cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
         credentials: "same-origin", // include, *same-origin, omit
@@ -192,6 +167,7 @@ function Clip(props) {
         <p>
           {getWords().map(w => (
             <Popover
+              key={w._id}
               content={
                 <div>
                   <Tag>{w.startTime}</Tag>

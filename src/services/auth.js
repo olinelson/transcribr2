@@ -3,12 +3,14 @@ import { API_URL } from "../config"
 export const isBrowser = () => typeof window !== "undefined"
 
 export const getUser = () =>
-  isBrowser() && window.localStorage.getItem("authToken")
-    ? window.localStorage.getItem("authToken")
+  isBrowser() && window.localStorage.getItem("token")
+    ? window.localStorage.getItem("token")
     : null
 
-const setAuthToken = token =>
-  window.localStorage.setItem("authToken", "Bearer " + token)
+const setUserAndToken = res => {
+  window.localStorage.setItem("token", "Bearer " + res.token)
+  // window.localStorage.setItem("user", JSON.stringify(res.user))
+}
 
 export const handleLogin = async ({ email, password }) => {
   try {
@@ -28,7 +30,7 @@ export const handleLogin = async ({ email, password }) => {
 
     res = await res.json() // parses JSON response into native JavaScript objects
     console.log(res)
-    await setAuthToken(res.token)
+    await setUserAndToken(res)
     return true
   } catch (error) {
     console.log(error)
