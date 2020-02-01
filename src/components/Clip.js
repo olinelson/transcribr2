@@ -48,7 +48,9 @@ function Clip(props) {
     setDeleting(true)
     let success = await deleteClip(clipId)
     if (success) {
-      navigate("/app/profile")
+      props.removeClipFromSideBar()
+      props.setView({ route: "/user" })
+      // navigate("/app/profile")
     } else {
       setDeleting(false)
     }
@@ -201,4 +203,4 @@ function Clip(props) {
   )
 }
 
-export default WithLocation(Clip)
+export default Clip
