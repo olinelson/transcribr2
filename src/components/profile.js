@@ -18,8 +18,8 @@ const { SubMenu } = Menu
 function Profile(props) {
   const [view, setView] = useState({ route: "/user" })
   const [uploadDrawOpen, setUploadDrawOpen] = useState(false)
+  const [uploading, setUploading] = useState(false)
   const [userProfile, setUserProfile] = useState({})
-  const [editModalOpen, setEditModalOpen] = useState(false)
 
   const getUserProfile = async () => {
     try {
@@ -117,47 +117,90 @@ function Profile(props) {
     }
   }
 
+  const closeUploadDrawHandler = () => {
+    setUploadDrawOpen(false)
+    setView({ route: "/user" })
+  }
+
   if (!userProfile || !userProfile.clips) return <h1>loading</h1>
 
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "1fr 3fr" }}>
-      <Menu
-        style={{ width: 256, height: "100%" }}
-        defaultSelectedKeys={["1"]}
-        defaultOpenKeys={["sub1"]}
-        mode="inline"
-        // theme={this.state.theme}
-      >
-        <Menu.Item key="1" onClick={() => setView({ route: "/user" })}>
-          <Icon type="user" />
-          User Profile
-        </Menu.Item>
-        <Menu.Item key="2" onClick={() => setView({ route: "/upload" })}>
-          <Icon type="upload" />
-          Add Clip
-        </Menu.Item>
-        <SubMenu
-          key="sub1"
-          title={
-            <span>
-              <Icon type="audio" />
-              <span>Clips</span>
-            </span>
-          }
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "1fr 3fr",
+        gridTemplateRows: "auto, 1fr",
+      }}
+    >
+      <div>
+        <Menu style={{ width: 256 }} mode="inline" selectable={false}>
+          <Menu.Item onClick={() => setUploadDrawOpen(true)}>
+            {uploading ? (
+              <Icon type={"loading"} spin />
+            ) : (
+              <Icon type="upload" />
+            )}
+            Add Clip
+          </Menu.Item>
+        </Menu>
+        <Menu
+          style={{ width: 256, height: "auto" }}
+          defaultSelectedKeys={["1"]}
+          defaultOpenKeys={["sub1"]}
+          mode="inline"
         >
-          {clips.sort(sortClipsChronologically).map(c => (
-            <Menu.Item
-              onClick={() => setView({ route: "/clip", id: c._id })}
-              key={c._id}
-            >
-              {c.name}
-            </Menu.Item>
-          ))}
-          {/* <Menu.Item key="3">Option 3</Menu.Item>
+          <Menu.Item key="1" onClick={() => setView({ route: "/user" })}>
+            <Icon type="user" />
+            User Profile
+          </Menu.Item>
+          {/* <Menu.Item> */}
+
+          {/* </Menu.Item> */}
+          {/* <Menu.Item key="2" onClick={() => setUploadDrawOpen(true)}>
+        
+          Add Clip
+        </Menu.Item> */}
+          <SubMenu
+            key="sub1"
+            title={
+              <span>
+                <Icon type="audio" />
+                <span>Clips</span>
+              </span>
+            }
+          >
+            {clips.sort(sortClipsChronologically).map(c => (
+              <Menu.Item
+                onClick={() => setView({ route: "/clip", id: c._id })}
+                key={c._id}
+              >
+                {c.name}
+              </Menu.Item>
+            ))}
+            {/* <Menu.Item key="3">Option 3</Menu.Item>
           <Menu.Item key="4">Option 4</Menu.Item> */}
-        </SubMenu>
-      </Menu>
+          </SubMenu>
+        </Menu>
+      </div>
       <div>{viewRouter()}</div>
+
+      <Drawer
+        title="Upload Clip"
+        placement="right"
+        closable={true}
+        onClose={() => closeUploadDrawHandler()}
+        visible={uploadDrawOpen}
+        width="500"
+        // headerStyle={{ height: "5vh" }}
+        bodyStyle={{
+          display: "grid",
+          gridTemplateColumns: "1fr",
+          gridTemplateRows: "1fr",
+          height: "90%",
+        }}
+      >
+        <UploadClip setUploading={e => setUploading(e)} addClip={addClip} />
+      </Drawer>
     </div>
   )
 }

@@ -35,3 +35,7 @@ p {
 audio {
   min-height: 3.5rem;
 }
+
+.ant-upload.ant-upload-drag {
+  height: 100% !important;
+}

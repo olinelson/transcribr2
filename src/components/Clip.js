@@ -40,6 +40,8 @@ function Clip(props) {
     loading: false,
   })
 
+  const [clipSaving, setClipSaving] = useState(false)
+
   const [searchLoading, setSearchLoading] = useState(false)
 
   const getWords = clip => {
@@ -131,6 +133,7 @@ function Clip(props) {
     }
   }
   const updateClip = async () => {
+    setClipSaving(true)
     try {
       let res = await fetch(API_URL + "/clips/" + clip._id, {
         method: "PATCH",
@@ -153,8 +156,8 @@ function Clip(props) {
       props.updateClip(res)
     } catch (error) {
       console.log(error)
-      return false
     }
+    setClipSaving(false)
   }
 
   const showClipAudio = () => {
@@ -295,7 +298,9 @@ function Clip(props) {
       >
         Cancel
       </Button>
-      <Button onClick={() => updateClip()}>Save</Button>
+      <Button loading={clipSaving} onClick={() => updateClip()}>
+        Save
+      </Button>
     </Drawer>
   )
 
