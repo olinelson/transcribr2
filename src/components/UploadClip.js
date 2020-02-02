@@ -7,7 +7,7 @@ const { Dragger } = Upload
 
 function UploadClip(props) {
   const settings = {
-    name: "audioFile",
+    name: "file",
     multiple: true,
     action: API_URL + "/clips",
     method: "POST",

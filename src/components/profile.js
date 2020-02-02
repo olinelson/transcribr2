@@ -20,7 +20,6 @@ function Profile(props) {
   const [uploadDrawOpen, setUploadDrawOpen] = useState(false)
   const [userProfile, setUserProfile] = useState({})
   const [editModalOpen, setEditModalOpen] = useState(false)
-  const [editing] = useState(false)
 
   const getUserProfile = async () => {
     try {
@@ -47,11 +46,24 @@ function Profile(props) {
     setUserProfile({ ...userProfile, clips: [...clips, clip] })
   }
 
+  const updateClip = clip => {
+    let filteredClips = { ...userProfile }.clips.filter(c => c._id !== clip._id)
+    setUserProfile({ ...userProfile, clips: [...filteredClips, clip] })
+  }
+
   useEffect(() => {
     getUserProfile()
   }, [])
 
-  const clipId = props.search.id || undefined
+  const sortClipsChronologically = (a, b) => {
+    let comparison = 0
+    if (a.dateCreated > b.dateCreated) {
+      comparison = 1
+    } else if (a.dateCreated < b.dateCreated) {
+      comparison = -1
+    }
+    return comparison
+  }
 
   const { user, clips } = userProfile || null
 
@@ -76,93 +88,6 @@ function Profile(props) {
       </>
     )
   }
-  // const deleteClipHandler = async clipId => {
-  //   let success = await deleteClip(clipId)
-  //   if (success) {
-  //     let filteredClips = userProfile.clips.filter(c => c._id !== clipId)
-
-  //     setUserProfile({ ...userProfile, clips: filteredClips })
-  //   }
-  // }
-
-  const editClipHandler = async clipId => {
-    console.log("editing clip", clipId)
-  }
-
-  // const showUserClips = () => {
-  //   if (!clips || !clips.length) return <p>no clips yet...</p>
-  //   return (
-  //     <div className="grid-container--fit">
-  //       {clips.map(c => (
-  //         <Card
-  //           key={c._id}
-  //           hoverable
-  //           title={c.name}
-  //           extra={<Link to={`/app/profile?id=${c._id}`}>Open</Link>}
-  //           actions={[
-  //             <div>
-  //               <Icon type="edit" onClick={() => setEditModalOpen(true)} />
-  //               <Modal
-  //                 title="Edit"
-  //                 visible={editModalOpen}
-  //                 onOk={() => editClipHandler(c._id)}
-  //                 confirmLoading={editing}
-  //                 onCancel={() => setEditModalOpen(false)}
-  //               >
-  //                 <p>This is editing the modal</p>
-  //               </Modal>
-  //             </div>,
-  //             <Popconfirm
-  //               title="Are you sure delete this clip?"
-  //               onConfirm={() => deleteClipHandler(c._id)}
-  //               // onCancel={cancel}
-  //               okText="Yes"
-  //               cancelText="No"
-  //             >
-  //               <Icon type="delete" />
-  //             </Popconfirm>,
-  //           ]}
-  //         >
-  //           <Card.Meta>
-  //             <Icon type="audio" />
-  //             <Icon type="file-word" />
-  //           </Card.Meta>
-
-  //           {/* <Link key={c._id} to={`/app/clip?id=${c._id}`}>
-  //             {c.name}
-  //           </Link> */}
-  //           <div>
-  //             <Icon type="audio" />
-  //             <Icon type="file-word" />
-  //           </div>
-  //         </Card>
-  //       ))}
-  //     </div>
-  //   )
-  // }
-
-  // if (props.search.id && userProfile.clips) {
-  //   console.log("showing clip")
-  //   let clip =
-  //     userProfile.clips.find(c => c._id === props.search.id) || undefined
-
-  //   if (!clip) return navigate("/404")
-
-  //   return <Clip clip={clip} />
-  //   // if (!clip) navigate("/404")
-  // } else {
-  //   console.log("showing all clips")
-  // }
-
-  // return (
-  //   <>
-  //     <Button onClick={() => navigate("/app/profile?id=12345")}>test</Button>
-  //     {showUserDetails()}
-  //     {showUserClips()}
-  //     <UploadClip addClip={clip => addClip(clip)}></UploadClip>
-  //     {/* <AddClip addClip={clip => addClip(clip)} /> */}
-  //   </>
-  // )
 
   const removeClipFromSideBar = async clipId => {
     let filteredClips = { ...userProfile }.clips.filter(c => c._id !== clipId)
@@ -184,18 +109,12 @@ function Profile(props) {
             setView={e => setView(e)}
             key={clip._id}
             clip={clip}
+            updateClip={e => updateClip(e)}
           />
         )
+      default:
+        navigate("/404")
     }
-
-    // console.log("view router running")
-    // if (view.name === "user") return <h1>User Profile</h1>
-    // if (view.name === "upload") return <UploadClip addClip={addClip} />
-    // else if (view.name === "clip") {
-    //   let clip = userProfile.clips.find(c => c._id === view.id)
-    //   if (!clip) return <h1>Not found</h1>
-    //   return <Clip clip={clip} />
-    // }
   }
 
   if (!userProfile || !userProfile.clips) return <h1>loading</h1>
@@ -226,7 +145,7 @@ function Profile(props) {
             </span>
           }
         >
-          {clips.map(c => (
+          {clips.sort(sortClipsChronologically).map(c => (
             <Menu.Item
               onClick={() => setView({ route: "/clip", id: c._id })}
               key={c._id}
