@@ -32,3 +32,6 @@
 p {
   line-height: 2.5em;
 }
+audio {
+  min-height: 3.5rem;
+}
