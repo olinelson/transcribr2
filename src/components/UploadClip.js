@@ -15,9 +15,6 @@ function UploadClip(props) {
     headers: {
       Authorization: getUser(),
     },
-    data: {
-      name: "new file name",
-    },
     onChange(info) {
       const { status } = info.file
 

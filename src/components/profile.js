@@ -163,7 +163,7 @@ function Profile(props) {
         closable={true}
         onClose={() => closeUploadDrawHandler()}
         visible={uploadDrawOpen}
-        width="500"
+        width="auto"
       >
         <UploadClip setUploading={e => setUploading(e)} addClip={addClip} />
       </Drawer>
