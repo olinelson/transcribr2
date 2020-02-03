@@ -23,12 +23,6 @@
   grid-template-columns: repeat(auto-fit, minmax(5rem, 20rem));
 }
 
-.ant-upload.ant-upload-drag {
-  border: none !important;
-  height: auto !important;
-  margin-top: 2rem !important;
-}
-
 p {
   line-height: 2.5em;
 }
@@ -36,6 +30,9 @@ audio {
   min-height: 3.5rem;
 }
 
-.ant-upload.ant-upload-drag {
-  height: 100% !important;
+/* for drag and drop upload drawer */
+.ant-drawer-wrapper-body {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 3fr 1fr;
 }

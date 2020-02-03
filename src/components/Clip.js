@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from "react"
 import { getUser } from "../services/auth"
-import { API_URL } from "../config"
+import { API_URL, LanguageOptions } from "../config"
+
+import { navigate } from "gatsby"
 
 import { openNotificationWithIcon } from "./Notifications"
 
@@ -19,19 +21,27 @@ import {
   Form,
   Pagination,
   Input,
-  Select,
-  Modal,
   List,
-  Avatar,
-  Divider,
+  Modal,
+  Select,
 } from "antd"
+
+const { Option } = Select
 
 const { Search } = Input
 
 function Clip(props) {
-  const [clip, setClip] = useState(props.clip)
-  const [sticky, setSticky] = useState(false)
+  const { clip } = props
   const [deleting, setDeleting] = useState(false)
+  const [transcribeData, setTranscribeData] = useState({
+    modalOpen: false,
+    language: "",
+    loading:
+      props.clip.conversionComplete === false ||
+      props.clip.operationCompleted === false
+        ? true
+        : false,
+  })
 
   const [searchData, setSearchData] = useState({
     modalOpen: false,
@@ -42,42 +52,24 @@ function Clip(props) {
 
   const [clipSaving, setClipSaving] = useState(false)
 
-  const [searchLoading, setSearchLoading] = useState(false)
-
-  const getWords = clip => {
-    if (!clip || !clip.results) return []
-
-    let alternatives = clip.results.map(r => {
-      return r.alternatives[0]
-    })
-
-    let words = alternatives.map(a => a.words)
-
-    words = words.flat()
-    return words
-  }
-
-  const splitWordsIntoPages = (clip, pageSize = 200) => {
-    let words = getWords(clip)
+  const splitWordsIntoPages = (_words, pageSize = 200) => {
+    let words = [..._words]
     let wordPages = []
+
     while (words.length) wordPages.push(words.splice(0, pageSize))
+    console.log(wordPages)
     return wordPages
   }
 
   const [wordData, setWordData] = useState({
     currentPageIndex: 0,
-    selectedWord: null,
+    selectedWord: undefined,
     wordPageSize: 200,
-    wordPages: splitWordsIntoPages(props.clip, 200),
-    words: getWords(props.clip),
+    wordPages: splitWordsIntoPages(props.clip.words, 200),
+    words: props.clip.words,
+    editing: false,
+    loading: false,
   })
-
-  const [transcribing, setTranscribing] = useState(
-    props.clip.conversionComplete === false ||
-      props.clip.operationCompleted === false
-      ? true
-      : false
-  )
 
   const [editDrawerOpen, setEditDrawOpen] = useState(false)
 
@@ -86,11 +78,27 @@ function Clip(props) {
   })
   const player = useRef(null)
 
+  const mounted = useRef()
+  useEffect(() => {
+    if (!mounted.current) {
+      mounted.current = true
+    } else {
+      setWordData({
+        ...wordData,
+        wordPages: splitWordsIntoPages(clip.words, wordData.wordPageSize),
+        words: clip.words,
+        editing: false,
+        loading: false,
+      })
+    }
+  }, [clip])
+
   const wordShowSizeChangeHandler = num => {
     setWordData({
+      ...wordData,
       currentPageIndex: 0,
       wordPageSize: num,
-      wordPages: splitWordsIntoPages(clip, num),
+      wordPages: splitWordsIntoPages(wordData.words, num),
     })
   }
 
@@ -99,28 +107,32 @@ function Clip(props) {
     let success = await deleteClip(clipId)
     if (success) {
       props.removeClipFromSideBar()
-      props.setView({ route: "/user" })
+      navigate("/app/profile")
     } else {
       setDeleting(false)
     }
   }
 
   const convertClip = async () => {
-    setTranscribing(true)
+    setTranscribeData({ ...transcribeData, loading: true, modalOpen: false })
     try {
-      let res = await fetch(API_URL + "/convert/clips/" + clip._id, {
-        mode: "cors", // no-cors, *cors, same-origin
-        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: "same-origin", // include, *same-origin, omit
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: getUser(),
-        },
-        redirect: "follow", // manual, *follow, error
-        referrerPolicy: "no-referrer", // no-referrer, *client
-      })
+      let res = await fetch(
+        `${API_URL}/convert/clips/${clip._id}?lang=${transcribeData.language}`,
+        {
+          mode: "cors", // no-cors, *cors, same-origin
+          cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+          credentials: "same-origin", // include, *same-origin, omit
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: getUser(),
+          },
+          redirect: "follow", // manual, *follow, error
+          referrerPolicy: "no-referrer", // no-referrer, *client
+        }
+      )
       if (!res.ok) throw new Error("Something went wrong")
       res = await res.json() // parses JSON response into native JavaScript objects
+
       openNotificationWithIcon("success", `Transcription Started!`)
       props.updateClip(res.clip)
     } catch (error) {
@@ -132,10 +144,11 @@ function Clip(props) {
       return false
     }
   }
-  const updateClip = async () => {
+  const updateClip = async ({ name, words, _id }) => {
+    console.log("fetch", name, words, _id)
     setClipSaving(true)
     try {
-      let res = await fetch(API_URL + "/clips/" + clip._id, {
+      let res = await fetch(API_URL + "/clips/" + _id, {
         method: "PATCH",
         mode: "cors", // no-cors, *cors, same-origin
         cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
@@ -144,13 +157,15 @@ function Clip(props) {
           "Content-Type": "application/json",
           Authorization: getUser(),
         },
-        body: JSON.stringify({ name: clip.name }),
+        body: JSON.stringify({ name: name }),
         redirect: "follow", // manual, *follow, error
         referrerPolicy: "no-referrer", // no-referrer, *client
       })
       // if (!res.ok) throw new Error("Something went wrong")
       res = await res.json() // parses JSON response into native JavaScript objects
-      console.log(res)
+      console.log("this is updateClip Res", res)
+      console.log("this is updateClip words", res.words)
+
       setEditDrawOpen(false)
       openNotificationWithIcon("success", `Changes saved`)
       props.updateClip(res)
@@ -171,10 +186,7 @@ function Clip(props) {
         controls
         width="100%"
         height="auto"
-        maxHeight="30vh"
-        minHeight="1rem"
         style={{
-          position: sticky ? "sticky" : "static",
           top: 0,
           maxWidth: "50rem",
           margin: "auto",
@@ -183,8 +195,6 @@ function Clip(props) {
       />
     )
   }
-
-  var wait = ms => new Promise((r, j) => setTimeout(r, ms))
 
   const onSearch = async (query, words) => {
     setSearchData({ ...searchData, loading: true })
@@ -197,17 +207,47 @@ function Clip(props) {
   const clipOptionsBar = () => (
     <>
       {clip ? <h1>{clip.name}</h1> : null}
-      <Popconfirm
-        title="Transcribe this clip?"
-        onConfirm={() => convertClip()}
-        okText="Yes"
-        cancelText="No"
+      <Button
+        type="primary"
+        loading={transcribeData.loading}
+        onClick={() =>
+          setTranscribeData({ ...transcribeData, modalOpen: true })
+        }
       >
-        <Button loading={transcribing} type="primary">
-          <Icon type="file-word" />
-          Transcribe
-        </Button>
-      </Popconfirm>
+        Transcribe Clip
+      </Button>
+      <Modal
+        title={`Transcribe ${clip.name}`}
+        visible={transcribeData.modalOpen}
+        onOk={() => convertClip()}
+        onCancel={() =>
+          setTranscribeData({ ...transcribeData, modalOpen: false })
+        }
+      >
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <Select
+            showSearch
+            style={{ width: "100%" }}
+            placeholder="Select a language"
+            optionFilterProp="children"
+            onChange={lang =>
+              setTranscribeData({ ...transcribeData, language: lang })
+            }
+            filterOption={(input, option) =>
+              option.props.children
+                .toLowerCase()
+                .indexOf(input.toLowerCase()) >= 0
+            }
+          >
+            {LanguageOptions.map(l => (
+              <Option key={l.languageCode} value={l.languageCode}>
+                {l.languageEnglishName}
+              </Option>
+            ))}
+          </Select>
+        </div>
+      </Modal>
+
       <Popconfirm
         title="Are you sure delete this task?"
         onConfirm={() => deleteClipHandler(clip._id)}
@@ -219,12 +259,12 @@ function Clip(props) {
           Delete
         </Button>
       </Popconfirm>
-
+      {/* 
       <Switch
         onChange={() => setSticky(!sticky)}
         checkedChildren="Sticky"
         unCheckedChildren="Fixed"
-      />
+      /> */}
       <Button onClick={() => setEditDrawOpen(true)}>Edit</Button>
       <Button onClick={() => setSearchData({ ...searchData, modalOpen: true })}>
         Search
@@ -244,8 +284,7 @@ function Clip(props) {
   `
 
   const wordsParagraph = () => {
-    if (!wordData.words || !wordData.words.length)
-      return <p> No words yet...</p>
+    if (!wordData.wordPages.length) return <p> No words yet...</p>
     return (
       <p>
         {wordData.wordPages[wordData.currentPageIndex].map(w => (
@@ -262,6 +301,12 @@ function Clip(props) {
                     )
                     setPlayerControls({ ...playerControls, playing: true })
                   }}
+                />
+                <Icon
+                  type="edit"
+                  onClick={() =>
+                    setWordData({ ...wordData, selectedWord: w, editing: true })
+                  }
                 />
               </div>
             }
@@ -286,21 +331,36 @@ function Clip(props) {
       visible={editDrawerOpen}
     >
       <Form
-        onChange={e => setClip({ ...clip, [e.target.name]: e.target.value })}
-      >
-        <input name="name" value={clip.name} />
-      </Form>
-      <Button
-        onClick={() => {
-          setClip(props.clip)
-          setEditDrawOpen(false)
+        onSubmit={e => {
+          e.preventDefault()
+
+          console.log({ [e.target.name.name]: e.target.name.value })
+          let editedClip = {
+            ...clip,
+            [e.target.name.name]: e.target.name.value,
+          }
+          updateClip(editedClip)
         }}
+        // onChange={e =>
+        //   props.updateClip({ ...clip, [e.target.name]: e.target.value })
+        // }
       >
-        Cancel
-      </Button>
-      <Button loading={clipSaving} onClick={() => updateClip()}>
-        Save
-      </Button>
+        <input name="name" defaultValue={clip.name} />
+        <Form.Item>
+          <Button
+            onClick={() => {
+              setEditDrawOpen(false)
+            }}
+          >
+            Cancel
+          </Button>
+        </Form.Item>
+        <Form.Item>
+          <Button htmlType="submit" loading={clipSaving}>
+            Save
+          </Button>
+        </Form.Item>
+      </Form>
     </Drawer>
   )
 
@@ -321,6 +381,46 @@ function Clip(props) {
     setSearchData({ ...searchData, modalOpen: false })
   }
 
+  const handleEditWord = async e => {
+    e.preventDefault()
+    let newWordValue = e.target.newWordValue.value
+    let clipId = clip._id
+    let wordId = wordData.selectedWord._id
+
+    console.log({ clipId, wordId, newWordValue })
+
+    setWordData({
+      ...wordData,
+      loading: true,
+    })
+    try {
+      let res = await fetch(API_URL + "/words", {
+        method: "PATCH",
+        mode: "cors", // no-cors, *cors, same-origin
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: "same-origin", // include, *same-origin, omit
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: getUser(),
+        },
+        body: JSON.stringify({ clipId, wordId, newWordValue }),
+        redirect: "follow", // manual, *follow, error
+        referrerPolicy: "no-referrer", // no-referrer, *client
+      })
+      // if (!res.ok) throw new Error("Something went wrong")
+      res = await res.json() // parses JSON response into native JavaScript objects
+      console.log(res)
+      props.updateClip(res)
+      openNotificationWithIcon("success", `Changes saved`)
+    } catch (error) {
+      console.log(error)
+      setWordData({
+        ...wordData,
+        loading: false,
+      })
+    }
+  }
+
   return (
     <>
       {showClipAudio()}
@@ -338,9 +438,9 @@ function Clip(props) {
         onChange={e => setWordData({ ...wordData, currentPageIndex: e - 1 })}
         // defaultCurrent={wordData.currentPageIndex + 1}
         current={wordData.currentPageIndex + 1}
-        pageSizeOptions={["200", "300", "400"]}
+        pageSizeOptions={["200", "300", "400", "500", "600"]}
         onShowSizeChange={(e, num) => wordShowSizeChangeHandler(num)}
-        total={200 * wordData.wordPages.length}
+        total={wordData.words.length}
         pageSize={wordData.wordPageSize}
         hideOnSinglePage
       />
@@ -349,7 +449,6 @@ function Clip(props) {
 
       <Drawer
         title="Search"
-        centered
         visible={searchData.modalOpen}
         onClose={() => setSearchData({ ...searchData, modalOpen: false })}
       >
@@ -375,7 +474,7 @@ function Clip(props) {
                 // avatar={
                 //   <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
                 // }
-                title={<a onClick={e => navigateToWord(word)}>{word.word}</a>}
+                title={<a onClick={() => navigateToWord(word)}>{word.word}</a>}
                 description={
                   <span>
                     <Icon type="clock-circle" /> {word.startTime}
@@ -400,6 +499,39 @@ function Clip(props) {
         {/* {searchData.results.map(r => (
             <p>{r.word}</p>
           ))} */}
+      </Drawer>
+
+      <Drawer
+        visible={wordData.editing}
+        destroyOnClose={true}
+        onClose={() =>
+          setWordData({ ...wordData, selectedWord: undefined, editing: false })
+        }
+        closable={true}
+        title="Edit"
+      >
+        {wordData.editing ? (
+          <Form onSubmit={e => handleEditWord(e)}>
+            <Form.Item>
+              <Input
+                autoFocus
+                name="newWordValue"
+                defaultValue={
+                  wordData.selectedWord ? wordData.selectedWord.word : ""
+                }
+              ></Input>
+            </Form.Item>
+            <Form.Item>
+              <Button
+                loading={wordData.loading}
+                type="primary"
+                htmlType="submit"
+              >
+                Save
+              </Button>
+            </Form.Item>
+          </Form>
+        ) : null}
       </Drawer>
     </>
   )

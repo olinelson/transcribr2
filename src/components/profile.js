@@ -1,25 +1,27 @@
 import React, { useEffect, useState } from "react"
 import { API_URL } from "../config"
 import { getUser } from "../services/auth"
-import { Link, navigate } from "gatsby"
-
+import { navigate } from "gatsby"
 import WithLocation from "./WithLocation"
-
-import { deleteClip } from "../services/clipManagement"
+import UserDetails from "./UserDetails"
 
 import UploadClip from "./UploadClip"
 
-import { Avatar, Divider, Card, Icon } from "./MyStyledComponents"
-import { Popconfirm, Modal, Button, Menu, Drawer } from "antd"
+import { Icon } from "./MyStyledComponents"
+import { Menu, Drawer } from "antd"
 import Clip from "./Clip"
 
+import queryString from "query-string"
 const { SubMenu } = Menu
 
 function Profile(props) {
-  const [view, setView] = useState({ route: "/user" })
   const [uploadDrawOpen, setUploadDrawOpen] = useState(false)
   const [uploading, setUploading] = useState(false)
   const [userProfile, setUserProfile] = useState({})
+
+  const PageLocation = props.location.search
+    ? queryString.parse(props.location.search)
+    : null
 
   const getUserProfile = async () => {
     try {
@@ -65,29 +67,7 @@ function Profile(props) {
     return comparison
   }
 
-  const { user, clips } = userProfile || null
-
-  const showUserDetails = () => {
-    if (!user) return null
-    return (
-      <>
-        <div
-          style={{
-            display: "grid",
-            placeItems: "center left",
-            justifyContent: "left",
-            gridAutoFlow: "column",
-            gridGap: "1rem",
-          }}
-        >
-          <Avatar size={64} icon="user" />
-          <h4> {user.email}</h4>
-        </div>
-
-        <Divider />
-      </>
-    )
-  }
+  const { clips } = userProfile || null
 
   const removeClipFromSideBar = async clipId => {
     let filteredClips = { ...userProfile }.clips.filter(c => c._id !== clipId)
@@ -95,18 +75,17 @@ function Profile(props) {
   }
 
   const viewRouter = () => {
-    switch (view.route) {
-      case "/user":
-        return <h1>User Profile</h1>
-      case "/upload":
-        return <UploadClip addClip={addClip} />
-      case "/clip":
-        let clip = userProfile.clips.find(c => c._id === view.id)
+    if (!PageLocation || !PageLocation.view)
+      return <UserDetails user={userProfile.user} />
+
+    switch (PageLocation.view) {
+      case "clip":
+        let clip = userProfile.clips.find(c => c._id === PageLocation.id)
         if (!clip) return <h1>Not found</h1>
         return (
           <Clip
             removeClipFromSideBar={() => removeClipFromSideBar(clip._id)}
-            setView={e => setView(e)}
+            // setView={e => setView(e)}
             key={clip._id}
             clip={clip}
             updateClip={e => updateClip(e)}
@@ -119,7 +98,6 @@ function Profile(props) {
 
   const closeUploadDrawHandler = () => {
     setUploadDrawOpen(false)
-    setView({ route: "/user" })
   }
 
   if (!userProfile || !userProfile.clips) return <h1>loading</h1>
@@ -145,23 +123,18 @@ function Profile(props) {
         </Menu>
         <Menu
           style={{ width: 256, height: "auto" }}
-          defaultSelectedKeys={["1"]}
-          defaultOpenKeys={["sub1"]}
           mode="inline"
+          selectedKeys={
+            PageLocation ? [PageLocation.view, PageLocation.id] : ["user"]
+          }
         >
-          <Menu.Item key="1" onClick={() => setView({ route: "/user" })}>
+          <Menu.Item key="user" onClick={() => navigate("app/profile")}>
             <Icon type="user" />
             User Profile
           </Menu.Item>
-          {/* <Menu.Item> */}
 
-          {/* </Menu.Item> */}
-          {/* <Menu.Item key="2" onClick={() => setUploadDrawOpen(true)}>
-        
-          Add Clip
-        </Menu.Item> */}
           <SubMenu
-            key="sub1"
+            key="clip"
             title={
               <span>
                 <Icon type="audio" />
@@ -171,7 +144,7 @@ function Profile(props) {
           >
             {clips.sort(sortClipsChronologically).map(c => (
               <Menu.Item
-                onClick={() => setView({ route: "/clip", id: c._id })}
+                onClick={() => navigate(`app/profile?view=clip&id=${c._id}`)}
                 key={c._id}
               >
                 {c.name}
@@ -191,13 +164,6 @@ function Profile(props) {
         onClose={() => closeUploadDrawHandler()}
         visible={uploadDrawOpen}
         width="500"
-        // headerStyle={{ height: "5vh" }}
-        bodyStyle={{
-          display: "grid",
-          gridTemplateColumns: "1fr",
-          gridTemplateRows: "1fr",
-          height: "90%",
-        }}
       >
         <UploadClip setUploading={e => setUploading(e)} addClip={addClip} />
       </Drawer>
