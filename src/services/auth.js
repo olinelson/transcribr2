@@ -29,7 +29,6 @@ export const handleLogin = async ({ email, password }) => {
     })
 
     res = await res.json() // parses JSON response into native JavaScript objects
-    console.log(res)
     await setUserAndToken(res)
     return true
   } catch (error) {
@@ -40,7 +39,6 @@ export const handleLogin = async ({ email, password }) => {
 
 export const isLoggedIn = () => {
   const token = getUser()
-  console.log("is logged in?", !!token)
 
   return !!token
 }

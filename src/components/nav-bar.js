@@ -7,7 +7,6 @@ import { openNotificationWithIcon } from "./Notifications"
 
 export default () => {
   const path = [window.location.pathname]
-  console.log(path)
 
   return (
     <Menu

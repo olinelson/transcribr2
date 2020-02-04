@@ -11,11 +11,10 @@ class NormalLoginForm extends React.Component {
 
   handleSubmit = e => {
     this.setState({ loading: true })
-    console.log()
+
     e.preventDefault()
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
-        console.log("Received values of form: ", values)
         const loggedInSuccessfully = await handleLogin(values)
         if (loggedInSuccessfully) {
           openNotificationWithIcon("success", "Logged In!")
