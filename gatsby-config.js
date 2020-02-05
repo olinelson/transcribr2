@@ -5,5 +5,5 @@
  */
 
 module.exports = {
-  pathPrefix: "/still-waters-psychology",
+  pathPrefix: "/transcribr2",
 }
