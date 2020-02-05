@@ -7,6 +7,8 @@ import { editWord, insertWord } from "../services/wordManagement"
 function EditWordDrawer(props) {
   const { wordData, setWordData, setClip, clip } = props
 
+  const inserting = wordData.inserting !== null
+
   const insertOrEditWord = ({ e }) => {
     e.preventDefault()
     setWordData({ ...wordData, loading: true })
@@ -28,7 +30,7 @@ function EditWordDrawer(props) {
 
   return (
     <Drawer
-      visible={wordData.editing || wordData.inserting !== null}
+      visible={wordData.editing}
       destroyOnClose={true}
       onClose={() =>
         setWordData({
@@ -39,7 +41,7 @@ function EditWordDrawer(props) {
         })
       }
       closable={true}
-      title={wordData.inserting ? "Insert Word" : "Edit Word"}
+      title={inserting ? "Insert Word" : "Edit Word"}
     >
       {wordData.editing ? (
         <Form onSubmit={e => insertOrEditWord({ ...props, e })}>
@@ -49,7 +51,7 @@ function EditWordDrawer(props) {
               name="newWordValue"
               spellCheck="true"
               defaultValue={
-                wordData.selectedWord && !wordData.inserting
+                wordData.selectedWord && !inserting
                   ? wordData.selectedWord.word
                   : ""
               }

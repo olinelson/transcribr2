@@ -83,26 +83,20 @@ function Word(props) {
             ...wordData,
             selectedWord: word,
             editing: true,
-            inserting: -1,
+            inserting: 0,
           })
         }
-        // onClick={e =>
-        //   insertWord({
-        //     ...props,
-        //     newWord: { word: "NEW_WORD", startTime: word.startTime },
-        //     index: clip.words.indexOf(word),
-        //   })
-        // }
       >
         <Icon type="arrow-left" />
         <Icon type="plus-circle" /> Insert Before
       </Menu.Item>
       <Menu.Item
         onClick={e =>
-          insertWord({
-            ...props,
-            newWord: { word: "NEW_WORD", startTime: word.startTime },
-            index: clip.words.indexOf(word) + 1,
+          setWordData({
+            ...wordData,
+            selectedWord: word,
+            editing: true,
+            inserting: 1,
           })
         }
       >

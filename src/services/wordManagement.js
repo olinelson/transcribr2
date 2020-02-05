@@ -46,9 +46,8 @@ export const editWord = async ({ wordData, newWordValue, clip, setClip }) => {
 }
 
 export const insertWord = async ({ index, setClip, clip, newWord }) => {
-  // e.preventDefault()
-  console.log("inserting", { clipId, index, newWord })
   let clipId = clip._id
+  console.log("inserting word", index)
   try {
     let res = await fetch(API_URL + "/words", {
       method: "POST",
