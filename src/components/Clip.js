@@ -55,8 +55,10 @@ function Clip(props) {
     modalOpen: false,
     input: "",
     results: [],
-    loading: false,
+    // loading: false,
   })
+
+  const [searching, setSearching] = useState(false)
 
   const splitWordsIntoPages = (_words, pageSize = 200) => {
     let words = [..._words]
@@ -184,13 +186,35 @@ function Clip(props) {
     )
   }
 
-  const onSearch = async (query, words) => {
-    setSearchData({ ...searchData, loading: true })
-    const results = await Promise.all(
-      words.filter(w => w.word.toLowerCase().includes(query.toLowerCase()))
-    )
-    setSearchData({ ...searchData, results, loading: false })
-  }
+  // const splitResultsIntoPages = (_results, pageSize = 20) => {
+  //   let results = [..._results]
+  //   let resultPages = []
+
+  //   while (results.length) resultPages.push(results.splice(0, pageSize))
+  //   return resultPages
+  // }
+
+  // const onSearch = async (query, words) => {
+  //   Array.prototype.asyncFilter = async function(f) {
+  //     var array = this
+  //     var booleans = await Promise.all(array.map(f))
+  //     return array.filter((x, i) => booleans[i])
+  //   }
+
+  //   setSearchData({ ...searchData, loading: true })
+
+  //   let results = await words.asyncFilter(w =>
+  //     w.word.toLowerCase().includes(query.toLowerCase())
+  //   )
+
+  //   // results = results.slice(0, 50)
+
+  //   setSearchData({
+  //     ...searchData,
+  //     results: splitResultsIntoPages(results, 20),
+  //   })
+  //   setSearching(false)
+  // }
 
   const clipOptions = () => (
     <Menu>
@@ -333,7 +357,7 @@ function Clip(props) {
 
         <SearchClipDrawer
           searchData={searchData}
-          onSearch={onSearch}
+          searching={searching}
           navigateToWord={navigateToWord}
           setPlayerControls={setPlayerControls}
           formatTimeStamp={formatTimeStamp}
