@@ -1,6 +1,8 @@
 import React from "react"
 
-import { Popover, Icon, Tag } from "antd"
+import { Popover, Icon, Tag, Dropdown, Menu, Popconfirm } from "antd"
+
+import { deleteWord, insertWord } from "../services/wordManagement"
 
 import { formatTimeStamp } from "../utils"
 
@@ -24,7 +26,74 @@ const Word = ({
   player,
   playerControls,
   setPlayerControls,
+  updateClipInProfile,
+  clip,
 }) => {
+  const wordOptions = () => (
+    <Menu>
+      <Menu.Item>
+        <Popconfirm
+          title="Are you sure delete this word?"
+          onConfirm={e =>
+            deleteWord(
+              e,
+              wordData,
+              setWordData,
+              clip,
+              updateClipInProfile,
+              clip.words.indexOf(word)
+            )
+          }
+          okText="Yes"
+          cancelText="No"
+        >
+          <Icon type="delete" />
+          Delete
+        </Popconfirm>
+      </Menu.Item>
+      <Menu.Item
+        onClick={() =>
+          setWordData({ ...wordData, selectedWord: word, editing: true })
+        }
+      >
+        <Icon type="edit" />
+        Edit
+      </Menu.Item>
+      <Menu.Item
+        onClick={e =>
+          insertWord(
+            e,
+            wordData,
+            setWordData,
+            clip,
+            updateClipInProfile,
+            { word: "NEW_WORD", startTime: word.startTime },
+            clip.words.indexOf(word)
+          )
+        }
+      >
+        <Icon type="arrow-left" />
+        <Icon type="plus-circle" /> Insert Before
+      </Menu.Item>
+      <Menu.Item
+        onClick={e =>
+          insertWord(
+            e,
+            wordData,
+            setWordData,
+            clip,
+            updateClipInProfile,
+            { word: "NEW_WORD", startTime: word.startTime },
+            clip.words.indexOf(word) + 1
+          )
+        }
+      >
+        <Icon type="arrow-right" />
+        <Icon type="plus-circle" /> Insert After
+      </Menu.Item>
+    </Menu>
+  )
+
   return (
     <Popover
       key={word._id}
@@ -38,12 +107,15 @@ const Word = ({
               setPlayerControls({ ...playerControls, playing: true })
             }}
           />
-          <Icon
+          {/* <Icon
             type="edit"
             onClick={() =>
               setWordData({ ...wordData, selectedWord: word, editing: true })
             }
-          />
+          /> */}
+          <Dropdown overlay={wordOptions()} trigger={["click"]}>
+            <Icon type="down" />
+          </Dropdown>
         </div>
       }
     >

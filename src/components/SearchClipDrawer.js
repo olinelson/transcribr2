@@ -1,6 +1,7 @@
 import React from "react"
 
 import { Icon, Drawer, Input, List } from "antd"
+import Word from "./Word"
 
 const { Search } = Input
 
@@ -36,6 +37,7 @@ const SearchClipDrawer = ({
       }}
       itemLayout="horizontal"
       dataSource={searchData.results}
+      // renderItem={word => <Word word={word} wordData={wordData} setWordData={setWordData}  />}
       renderItem={word => (
         <List.Item>
           <List.Item.Meta

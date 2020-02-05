@@ -1,10 +1,10 @@
 import React from "react"
 import { Form, Icon, Input, Button, Checkbox } from "./MyStyledComponents"
-import { handleLogin } from "../services/auth"
+import { handleLogin, handleSignup } from "../services/auth"
 import { openNotificationWithIcon } from "./Notifications"
 import { navigate, Link } from "gatsby"
 
-class NormalLoginForm extends React.Component {
+class SignUp extends React.Component {
   state = {
     loading: false,
   }
@@ -15,7 +15,7 @@ class NormalLoginForm extends React.Component {
     e.preventDefault()
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
-        const loggedInSuccessfully = await handleLogin(values)
+        const loggedInSuccessfully = await handleSignup(values)
         if (loggedInSuccessfully) {
           openNotificationWithIcon("success", "Logged In!")
           navigate(`/app/profile`)
@@ -39,7 +39,7 @@ class NormalLoginForm extends React.Component {
         }}
       >
         <Form onSubmit={this.handleSubmit} className="login-form">
-          <h1>Login</h1>
+          <h1>Sign Up</h1>
           <Form.Item>
             {getFieldDecorator("email", {
               rules: [{ required: true, message: "Please input your email!" }],
@@ -82,9 +82,9 @@ class NormalLoginForm extends React.Component {
               className="login-form-button"
               loading={this.state.loading}
             >
-              Log in
+              Sign Up
             </Button>
-            Or <Link to="/app/signup">register now!</Link>
+            Or <Link to="/app/login">Log in</Link>
           </Form.Item>
         </Form>
       </div>
@@ -92,8 +92,6 @@ class NormalLoginForm extends React.Component {
   }
 }
 
-const WrappedNormalLoginForm = Form.create({ name: "normal_login" })(
-  NormalLoginForm
-)
+const WrappedSignUp = Form.create({ name: "SignUp " })(SignUp)
 
-export default WrappedNormalLoginForm
+export default WrappedSignUp

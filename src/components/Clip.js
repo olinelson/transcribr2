@@ -25,8 +25,10 @@ import EditWordDrawer from "./EditWordDrawer"
 import TranscriptionModal from "./TranscriptionModal"
 import EditClipDrawer from "./EditClipDrawer"
 import Word from "./Word"
+import { insertWord } from "../services/wordManagement"
 
 function Clip(props) {
+  // todo load up clip on load...
   const { clip } = props
   const [deleting, setDeleting] = useState(false)
   const [transcribeData, setTranscribeData] = useState({
@@ -149,33 +151,6 @@ function Clip(props) {
       return false
     }
   }
-  // const updateClip = async ({ name, words, _id }) => {
-  //   setClipSaving(true)
-  //   try {
-  //     let res = await fetch(API_URL + "/clips/" + _id, {
-  //       method: "PATCH",
-  //       mode: "cors", // no-cors, *cors, same-origin
-  //       cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-  //       credentials: "same-origin", // include, *same-origin, omit
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: getUser(),
-  //       },
-  //       body: JSON.stringify({ name: name }),
-  //       redirect: "follow", // manual, *follow, error
-  //       referrerPolicy: "no-referrer", // no-referrer, *client
-  //     })
-  //     // if (!res.ok) throw new Error("Something went wrong")
-  //     res = await res.json() // parses JSON response into native JavaScript objects
-
-  //     setEditDrawOpen(false)
-  //     openNotificationWithIcon("success", `Changes saved`)
-  //     props.updateClip(res)
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  //   setClipSaving(false)
-  // }
 
   const showClipAudio = () => {
     if (!clip || !clip.rawFileName) return null
@@ -230,7 +205,6 @@ function Clip(props) {
     <>
       {clip ? (
         <div style={{ display: "flex", justifyContent: "space-between" }}>
-          {/* <h1 style={{ marginRight: "1rem" }}>{clip.name}</h1> */}
           <Dropdown overlay={clipOptions()} trigger={["click"]}>
             <h1
               className="ant-dropdown-link"
@@ -252,17 +226,6 @@ function Clip(props) {
       ) : null}
     </>
   )
-
-  // const Word = styled.span`
-  //   background: ${props =>
-  //     props.selectedWord && props.selectedWord._id === props.word._id
-  //       ? "#E6F7FF"
-  //       : "none"};
-  //   border-bottom: ${props =>
-  //     props.selectedWord && props.selectedWord._id === props.word._id
-  //       ? "2px solid #1890FF;"
-  //       : "none"};
-  // `
 
   const wordsParagraph = () => {
     if (!wordData.wordPages.length)
@@ -301,6 +264,8 @@ function Clip(props) {
             player={player}
             playerControls={playerControls}
             setPlayerControls={setPlayerControls}
+            updateClipInProfile={props.updateClipInProfile}
+            clip={clip}
           />
         ))}
       </p>

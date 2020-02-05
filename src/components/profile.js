@@ -70,8 +70,9 @@ function Profile(props) {
     <div
       style={{
         display: "grid",
-        gridTemplateColumns: "1fr 3fr",
+        gridTemplateColumns: "1fr 3fr 1fr",
         gridTemplateRows: "auto, 1fr",
+        gridGap: "1rem",
       }}
     >
       {!userProfile || !userProfile.clips ? (

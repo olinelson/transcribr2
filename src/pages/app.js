@@ -5,6 +5,7 @@ import PrivateRoute from "../components/privateRoute"
 import Profile from "../components/profile"
 import Login from "../components/NormalLoginForm"
 import Clip from "../components/Clip"
+import WrappedSignUp from "../components/SignUp"
 
 const App = () => (
   <Layout>
@@ -12,6 +13,7 @@ const App = () => (
       <PrivateRoute path="/app/profile" component={Profile} />
       <PrivateRoute path="/app/clip" component={Clip} />
       <Login path="/app/login" />
+      <WrappedSignUp path="/app/signup" />
     </Router>
   </Layout>
 )
