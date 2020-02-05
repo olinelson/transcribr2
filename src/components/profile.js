@@ -18,7 +18,7 @@ function Profile(props) {
   const [uploadDrawOpen, setUploadDrawerOpen] = useState(false)
   const [uploading, setUploading] = useState(false)
   const [userProfile, setUserProfile] = useState({})
-  const { clips } = userProfile || null
+  const { clips = [] } = userProfile
   const PageLocation = props.location.search
     ? queryString.parse(props.location.search)
     : null
@@ -66,6 +66,8 @@ function Profile(props) {
     setUploadDrawerOpen(false)
   }
 
+  console.log(userProfile)
+
   return (
     <div
       style={{
@@ -75,13 +77,13 @@ function Profile(props) {
         gridGap: "1rem",
       }}
     >
-      {!userProfile || !userProfile.clips ? (
+      {!userProfile.user ? (
         <ProfileSkeleton />
       ) : (
         <>
           <SideBar
             setUploadDrawerOpen={setUploadDrawerOpen}
-            clips={clips}
+            clips={clips || []}
             uploading={uploading}
             location={props.location}
           />

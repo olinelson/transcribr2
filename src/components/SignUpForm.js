@@ -13,14 +13,18 @@ class SignUp extends React.Component {
     this.setState({ loading: true })
 
     e.preventDefault()
+
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
-        const loggedInSuccessfully = await handleSignup(values)
-        if (loggedInSuccessfully) {
+        const signedUp = await handleSignup(values)
+        if (signedUp) {
           openNotificationWithIcon("success", "Logged In!")
           navigate(`/app/profile`)
         } else {
-          openNotificationWithIcon("error", "Sorry, wrong email or password...")
+          openNotificationWithIcon(
+            "error",
+            "Sorry, email address already taken"
+          )
         }
       }
       this.setState({ loading: false })
@@ -40,6 +44,19 @@ class SignUp extends React.Component {
       >
         <Form onSubmit={this.handleSubmit} className="login-form">
           <h1>Sign Up</h1>
+          <Form.Item>
+            {getFieldDecorator("name", {
+              rules: [{ required: true, message: "Please input your name!" }],
+            })(
+              <Input
+                type="name"
+                prefix={
+                  <Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />
+                }
+                placeholder="name"
+              />
+            )}
+          </Form.Item>
           <Form.Item>
             {getFieldDecorator("email", {
               rules: [{ required: true, message: "Please input your email!" }],
@@ -92,6 +109,6 @@ class SignUp extends React.Component {
   }
 }
 
-const WrappedSignUp = Form.create({ name: "SignUp " })(SignUp)
+const SignUpForm = Form.create({ name: "SignUp " })(SignUp)
 
-export default WrappedSignUp
+export default SignUpForm
