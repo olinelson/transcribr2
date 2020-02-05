@@ -5,5 +5,5 @@
  */
 
 module.exports = {
-  pathPrefix: "/transcribr2",
+  // pathPrefix: "/transcribr2",
 }
