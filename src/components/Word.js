@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 
 import { Popover, Icon, Tag, Dropdown, Menu, Popconfirm } from "antd"
 
@@ -6,7 +6,17 @@ import { deleteWord, insertWord } from "../services/wordManagement"
 
 import { formatTimeStamp } from "../utils"
 
-import styled from "styled-components"
+import styled, { keyframes } from "styled-components"
+
+const flash = keyframes`
+  from {
+    opacity: 0.5;
+  }
+
+  to {
+    opacity: .7;
+  }
+`
 
 const WordContainer = styled.span`
   background: ${props =>
@@ -17,33 +27,41 @@ const WordContainer = styled.span`
     props.selectedWord && props.selectedWord._id === props.word._id
       ? "2px solid #1890FF;"
       : "none"};
+  animation: ${flash} 0.5s alternate infinite linear;
+  animation: ${props => (!props.deleting ? "none" : null)};
 `
 
-const Word = ({
-  word,
-  wordData,
-  setWordData,
-  player,
-  playerControls,
-  setPlayerControls,
-  updateClipInProfile,
-  clip,
-}) => {
+function Word(props) {
+  const {
+    clip,
+    word,
+    setWordData,
+    selectedWord,
+    wordData,
+    setPlayerControls,
+    player,
+    playerControls,
+  } = props
+
+  const [deleting, setDeleting] = useState(false)
+
+  const deleteWordHandler = e => {
+    e.preventDefault()
+    setDeleting(true)
+    deleteWord({
+      ...props,
+      index: clip.words.indexOf(word),
+    })
+  }
+
   const wordOptions = () => (
     <Menu>
-      <Menu.Item>
+      <Menu.Item
+        onClick={() => setWordData({ ...wordData, selectedWord: word })}
+      >
         <Popconfirm
           title="Are you sure delete this word?"
-          onConfirm={e =>
-            deleteWord(
-              e,
-              wordData,
-              setWordData,
-              clip,
-              updateClipInProfile,
-              clip.words.indexOf(word)
-            )
-          }
+          onConfirm={e => deleteWordHandler(e)}
           okText="Yes"
           cancelText="No"
         >
@@ -61,31 +79,31 @@ const Word = ({
       </Menu.Item>
       <Menu.Item
         onClick={e =>
-          insertWord(
-            e,
-            wordData,
-            setWordData,
-            clip,
-            updateClipInProfile,
-            { word: "NEW_WORD", startTime: word.startTime },
-            clip.words.indexOf(word)
-          )
+          setWordData({
+            ...wordData,
+            selectedWord: word,
+            editing: true,
+            inserting: -1,
+          })
         }
+        // onClick={e =>
+        //   insertWord({
+        //     ...props,
+        //     newWord: { word: "NEW_WORD", startTime: word.startTime },
+        //     index: clip.words.indexOf(word),
+        //   })
+        // }
       >
         <Icon type="arrow-left" />
         <Icon type="plus-circle" /> Insert Before
       </Menu.Item>
       <Menu.Item
         onClick={e =>
-          insertWord(
-            e,
-            wordData,
-            setWordData,
-            clip,
-            updateClipInProfile,
-            { word: "NEW_WORD", startTime: word.startTime },
-            clip.words.indexOf(word) + 1
-          )
+          insertWord({
+            ...props,
+            newWord: { word: "NEW_WORD", startTime: word.startTime },
+            index: clip.words.indexOf(word) + 1,
+          })
         }
       >
         <Icon type="arrow-right" />
@@ -121,7 +139,11 @@ const Word = ({
     >
       <span>
         {" "}
-        <WordContainer word={word} selectedWord={wordData.selectedWord}>
+        <WordContainer
+          deleting={deleting}
+          word={word}
+          selectedWord={wordData.selectedWord}
+        >
           {word.word}
         </WordContainer>{" "}
       </span>

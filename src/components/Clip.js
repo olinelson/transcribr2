@@ -8,7 +8,7 @@ import { openNotificationWithIcon } from "./Notifications"
 
 import moment from "moment"
 
-import { deleteClip } from "../services/clipManagement"
+import { deleteClip, getClip } from "../services/clipManagement"
 import ReactPlayer from "react-player"
 import {
   Icon,
@@ -19,6 +19,7 @@ import {
   Select,
   Menu,
   Dropdown,
+  Skeleton,
 } from "antd"
 import SearchClipDrawer from "./SearchClipDrawer"
 import EditWordDrawer from "./EditWordDrawer"
@@ -28,9 +29,18 @@ import Word from "./Word"
 import { insertWord } from "../services/wordManagement"
 
 function Clip(props) {
-  // todo load up clip on load...
-  const { clip } = props
-  const [deleting, setDeleting] = useState(false)
+  const { _id, name } = props.clip
+
+  const [clip, setClip] = useState({
+    _id,
+    name,
+    loading: true,
+    words: [],
+    saving: false,
+    editing: false,
+    deleting: false,
+  })
+
   const [transcribeData, setTranscribeData] = useState({
     modalOpen: false,
     language: "",
@@ -48,8 +58,6 @@ function Clip(props) {
     loading: false,
   })
 
-  const [clipSaving, setClipSaving] = useState(false)
-
   const splitWordsIntoPages = (_words, pageSize = 200) => {
     let words = [..._words]
     let wordPages = []
@@ -61,14 +69,13 @@ function Clip(props) {
   const [wordData, setWordData] = useState({
     currentPageIndex: 0,
     selectedWord: undefined,
+    inserting: null,
     wordPageSize: 200,
-    wordPages: splitWordsIntoPages(props.clip.words, 200),
-    words: props.clip.words,
+    wordPages: splitWordsIntoPages(clip.words, 200),
+    words: clip.words,
     editing: false,
     loading: false,
   })
-
-  const [editDrawerOpen, setEditDrawerOpen] = useState(false)
 
   const [playerControls, setPlayerControls] = useState({
     playing: false,
@@ -89,13 +96,17 @@ function Clip(props) {
   useEffect(() => {
     if (!mounted.current) {
       mounted.current = true
+      getClip(_id, setClip)
     } else {
       setWordData({
         ...wordData,
         wordPages: splitWordsIntoPages(clip.words, wordData.wordPageSize),
         words: clip.words,
         editing: false,
+        inserting: null,
+        deleting: false,
         loading: false,
+        selectedWord: undefined,
       })
     }
   }, [clip])
@@ -110,13 +121,13 @@ function Clip(props) {
   }
 
   const deleteClipHandler = async clipId => {
-    setDeleting(true)
+    setClip({ ...clip, deleting: true })
     let success = await deleteClip(clipId)
     if (success) {
       props.removeClipFromSideBar()
       navigate("/app/profile")
     } else {
-      setDeleting(false)
+      setClip({ ...clip, deleting: false })
     }
   }
 
@@ -141,7 +152,7 @@ function Clip(props) {
       res = await res.json() // parses JSON response into native JavaScript objects
 
       openNotificationWithIcon("success", `Transcription Started!`)
-      props.updateClipInProfile(res.clip)
+      setClip(res.clip)
     } catch (error) {
       openNotificationWithIcon(
         "error",
@@ -183,18 +194,18 @@ function Clip(props) {
 
   const clipOptions = () => (
     <Menu>
-      <Menu.Item onClick={() => setEditDrawerOpen(true)}>
+      <Menu.Item onClick={() => setClip({ ...clip, editing: true })}>
         <Icon type="edit" />
         Edit Name
       </Menu.Item>
-      <Menu.Item disabled={deleting}>
+      <Menu.Item disabled={clip.deleting}>
         <Popconfirm
-          title="Are you sure delete this task?"
+          title="Are you sure you want to delete this clip?"
           onConfirm={() => deleteClipHandler(clip._id)}
           okText="Yes"
           cancelText="No"
         >
-          {deleting ? <Icon type="loading" /> : <Icon type="delete" />}
+          {clip.deleting ? <Icon type="loading" /> : <Icon type="delete" />}
           Delete
         </Popconfirm>
       </Menu.Item>
@@ -212,7 +223,7 @@ function Clip(props) {
               style={{ cursor: "pointer" }}
             >
               {clip.name}{" "}
-              {deleting ? <Icon type="loading" /> : <Icon type="down" />}
+              {clip.deleting ? <Icon type="loading" /> : <Icon type="down" />}
             </h1>
           </Dropdown>{" "}
           <Button
@@ -266,6 +277,7 @@ function Clip(props) {
             setPlayerControls={setPlayerControls}
             updateClipInProfile={props.updateClipInProfile}
             clip={clip}
+            setClip={setClip}
           />
         ))}
       </p>
@@ -285,68 +297,132 @@ function Clip(props) {
     setSearchData({ ...searchData, modalOpen: false })
   }
 
-  return (
-    <>
-      {showClipAudio()}
+  if (!!clip.loading) {
+    return <Skeleton active />
+  } else {
+    return (
+      <>
+        {showClipAudio()}
 
-      <div style={{ maxWidth: "50rem", margin: "auto", minHeight: "70vh" }}>
-        {clipOptionsBar()}
+        <div style={{ maxWidth: "50rem", margin: "auto", minHeight: "70vh" }}>
+          {clipOptionsBar()}
 
-        {wordsParagraph()}
-      </div>
+          {wordsParagraph()}
+        </div>
 
-      <Pagination
-        style={{ display: "flex", justifyContent: "center" }}
-        showQuickJumper
-        showSizeChanger
-        onChange={e => setWordData({ ...wordData, currentPageIndex: e - 1 })}
-        // defaultCurrent={wordData.currentPageIndex + 1}
-        current={wordData.currentPageIndex + 1}
-        pageSizeOptions={["200", "300", "400", "500", "600"]}
-        onShowSizeChange={(e, num) => wordShowSizeChangeHandler(num)}
-        total={wordData.words.length}
-        pageSize={wordData.wordPageSize}
-        hideOnSinglePage
-      />
+        <Pagination
+          style={{ display: "flex", justifyContent: "center" }}
+          showQuickJumper
+          showSizeChanger
+          onChange={e => setWordData({ ...wordData, currentPageIndex: e - 1 })}
+          // defaultCurrent={wordData.currentPageIndex + 1}
+          current={wordData.currentPageIndex + 1}
+          pageSizeOptions={["200", "300", "400", "500", "600"]}
+          onShowSizeChange={(e, num) => wordShowSizeChangeHandler(num)}
+          total={wordData.words.length}
+          pageSize={wordData.wordPageSize}
+          hideOnSinglePage
+        />
 
-      {/* {editClipDrawer()} */}
-      <EditClipDrawer
-        clip={clip}
-        clipSaving={clipSaving}
-        editDrawerOpen={editDrawerOpen}
-        updateClipInProfile={props.updateClipInProfile}
-        setClipSaving={setClipSaving}
-        setEditDrawerOpen={setEditDrawerOpen}
-      />
+        {/* {editClipDrawer()} */}
+        <EditClipDrawer
+          clip={clip}
+          updateClipInProfile={props.updateClipInProfile}
+          setClip={setClip}
+        />
 
-      <SearchClipDrawer
-        searchData={searchData}
-        onSearch={onSearch}
-        navigateToWord={navigateToWord}
-        setPlayerControls={setPlayerControls}
-        formatTimeStamp={formatTimeStamp}
-        wordData={wordData}
-        setSearchData={setSearchData}
-        playerControls={playerControls}
-        player={player}
-      />
+        <SearchClipDrawer
+          searchData={searchData}
+          onSearch={onSearch}
+          navigateToWord={navigateToWord}
+          setPlayerControls={setPlayerControls}
+          formatTimeStamp={formatTimeStamp}
+          wordData={wordData}
+          setSearchData={setSearchData}
+          playerControls={playerControls}
+          player={player}
+        />
 
-      <EditWordDrawer
-        wordData={wordData}
-        updateClipInProfile={props.updateClipInProfile}
-        clip={clip}
-        // handleEditWord={handleEditWord}
-        setWordData={setWordData}
-      />
+        <EditWordDrawer
+          wordData={wordData}
+          setClip={setClip}
+          // updateClipInProfile={props.updateClipInProfile}
+          clip={clip}
+          setWordData={setWordData}
+        />
 
-      <TranscriptionModal
-        convertClip={convertClip}
-        clip={clip}
-        transcribeData={transcribeData}
-        setTranscribeData={setTranscribeData}
-      />
-    </>
-  )
+        <TranscriptionModal
+          convertClip={convertClip}
+          clip={clip}
+          transcribeData={transcribeData}
+          setTranscribeData={setTranscribeData}
+        />
+      </>
+    )
+  }
+
+  // return (
+  // <>
+  //   {showClipAudio()}
+
+  //   <div style={{ maxWidth: "50rem", margin: "auto", minHeight: "70vh" }}>
+  //     {clipOptionsBar()}
+
+  //     {wordsParagraph()}
+  //   </div>
+
+  //   <Pagination
+  //     style={{ display: "flex", justifyContent: "center" }}
+  //     showQuickJumper
+  //     showSizeChanger
+  //     onChange={e => setWordData({ ...wordData, currentPageIndex: e - 1 })}
+  //     // defaultCurrent={wordData.currentPageIndex + 1}
+  //     current={wordData.currentPageIndex + 1}
+  //     pageSizeOptions={["200", "300", "400", "500", "600"]}
+  //     onShowSizeChange={(e, num) => wordShowSizeChangeHandler(num)}
+  //     total={wordData.words.length}
+  //     pageSize={wordData.wordPageSize}
+  //     hideOnSinglePage
+  //   />
+
+  //   {/* {editClipDrawer()} */}
+  //   <EditClipDrawer
+  //     clip={clip}
+  //     clipSaving={clipSaving}
+  //     editDrawerOpen={editDrawerOpen}
+  //     updateClipInProfile={props.updateClipInProfile}
+  //     setClipSaving={setClipSaving}
+  //     setEditDrawerOpen={setEditDrawerOpen}
+  //   />
+
+  //   <SearchClipDrawer
+  //     searchData={searchData}
+  //     onSearch={onSearch}
+  //     navigateToWord={navigateToWord}
+  //     setPlayerControls={setPlayerControls}
+  //     formatTimeStamp={formatTimeStamp}
+  //     wordData={wordData}
+  //     setSearchData={setSearchData}
+  //     playerControls={playerControls}
+  //     player={player}
+  //   />
+
+  //   <EditWordDrawer
+  //     wordData={wordData}
+  //     updateClipInProfile={props.updateClipInProfile}
+  //     clip={clip}
+  //     // handleEditWord={handleEditWord}
+  //     setWordData={setWordData}
+  //   />
+
+  //   <TranscriptionModal
+  //     convertClip={convertClip}
+  //     clip={clip}
+  //     transcribeData={transcribeData}
+  //     setTranscribeData={setTranscribeData}
+  //   />
+  // </>
+  // )
 }
 
 export default Clip

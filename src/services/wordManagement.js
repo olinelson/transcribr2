@@ -2,22 +2,16 @@ import { API_URL } from "../config"
 import { openNotificationWithIcon } from "../components/Notifications"
 import { getUser } from "../services/auth"
 
-export const handleEditWord = async (
-  e,
-  wordData,
-  setWordData,
-  clip,
-  updateClipInProfile
-) => {
-  e.preventDefault()
-  let newWordValue = e.target.newWordValue.value
+export const editWord = async ({ wordData, newWordValue, clip, setClip }) => {
+  // e.preventDefault()
+  // let newWordValue = e.target.newWordValue.value
   let clipId = clip._id
   let wordId = wordData.selectedWord._id
 
-  setWordData({
-    ...wordData,
-    loading: true,
-  })
+  // setWordData({
+  //   ...wordData,
+  //   loading: true,
+  // })
   try {
     let res = await fetch(API_URL + "/words", {
       method: "PATCH",
@@ -32,35 +26,29 @@ export const handleEditWord = async (
       redirect: "follow", // manual, *follow, error
       referrerPolicy: "no-referrer", // no-referrer, *client
     })
+
     res = await res.json() // parses JSON response into native JavaScript objects
 
-    updateClipInProfile(res)
+    let newWords = [...clip.words]
+    let index = newWords.indexOf(wordData.selectedWord)
+    newWords.splice(index, 1, res)
+
+    setClip({
+      ...clip,
+      words: newWords,
+    })
     openNotificationWithIcon("success", `Changes saved`)
   } catch (error) {
     console.log(error)
-    setWordData({
-      ...wordData,
-      loading: false,
-    })
+    openNotificationWithIcon("error", `Something went wrong :(`)
+    setClip({ ...clip })
   }
 }
 
-export const insertWord = async (
-  e,
-  wordData,
-  setWordData,
-  clip,
-  updateClipInProfile,
-  newWord,
-  index
-) => {
+export const insertWord = async ({ index, setClip, clip, newWord }) => {
   // e.preventDefault()
+  console.log("inserting", { clipId, index, newWord })
   let clipId = clip._id
-
-  setWordData({
-    ...wordData,
-    loading: true,
-  })
   try {
     let res = await fetch(API_URL + "/words", {
       method: "POST",
@@ -76,30 +64,31 @@ export const insertWord = async (
       referrerPolicy: "no-referrer", // no-referrer, *client
     })
     res = await res.json() // parses JSON response into native JavaScript objects
-    updateClipInProfile(res.clip)
+    console.log(res)
+    let newWords = [...clip.words]
+    newWords.splice(index, 0, res)
+
+    setClip({
+      ...clip,
+      words: newWords,
+      editing: false,
+      inserting: null,
+      loading: false,
+    })
     openNotificationWithIcon("success", `Word Created`)
   } catch (error) {
     console.log(error)
-    setWordData({
-      ...wordData,
-      loading: false,
-    })
+    setClip({ ...clip })
   }
 }
 
-export const deleteWord = async (
-  e,
-  wordData,
-  setWordData,
+export const deleteWord = async ({
   clip,
+  setClip,
   updateClipInProfile,
-  index
-) => {
+  index,
+}) => {
   let clipId = clip._id
-  setWordData({
-    ...wordData,
-    loading: true,
-  })
   try {
     let res = await fetch(API_URL + "/words", {
       method: "DELETE",
@@ -116,13 +105,15 @@ export const deleteWord = async (
     })
     res = await res.json() // parses JSON response into native JavaScript objects
     console.log(res)
-    updateClipInProfile(res)
-    openNotificationWithIcon("success", `Word Created`)
+
+    let newWords = [...clip.words]
+    newWords.splice(index, 1)
+
+    updateClipInProfile({ ...clip, words: newWords })
+    setClip({ ...clip, words: newWords })
+    openNotificationWithIcon("success", `Word Deleted`)
   } catch (error) {
     console.log(error)
-    setWordData({
-      ...wordData,
-      loading: false,
-    })
+    setClip({ ...clip })
   }
 }

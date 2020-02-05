@@ -27,13 +27,9 @@ export const deleteClip = async clipId => {
   }
 }
 
-export const updateClip = async (
-  clip,
-  setClipSaving,
-  setEditDrawOpen,
-  updateClipInProfile
-) => {
-  setClipSaving(true)
+export const updateClip = async (clip, updateClipInProfile, setClip) => {
+  setClip({ ...clip, saving: true })
+
   try {
     let res = await fetch(API_URL + "/clips/" + clip._id, {
       method: "PATCH",
@@ -48,14 +44,35 @@ export const updateClip = async (
       redirect: "follow", // manual, *follow, error
       referrerPolicy: "no-referrer", // no-referrer, *client
     })
+    res = await res.json() // parses JSON response into native JavaScript objects
+
+    openNotificationWithIcon("success", `Changes saved`)
+    updateClipInProfile(res)
+    setClip({ ...res, saving: false, editing: false })
+  } catch (error) {
+    console.log(error)
+    setClip({ ...clip, saving: false })
+  }
+}
+
+export const getClip = async (_id, setClip) => {
+  try {
+    let res = await fetch(API_URL + "/clips/" + _id, {
+      mode: "cors", // no-cors, *cors, same-origin
+      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: "same-origin", // include, *same-origin, omit
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: getUser(),
+      },
+      redirect: "follow", // manual, *follow, error
+      referrerPolicy: "no-referrer", // no-referrer, *client
+    })
     // if (!res.ok) throw new Error("Something went wrong")
     res = await res.json() // parses JSON response into native JavaScript objects
 
-    setEditDrawOpen(false)
-    openNotificationWithIcon("success", `Changes saved`)
-    updateClipInProfile(res)
+    setClip(res)
   } catch (error) {
     console.log(error)
   }
-  setClipSaving(false)
 }
