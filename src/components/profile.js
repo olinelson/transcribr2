@@ -5,7 +5,7 @@ import UserDetails from "./UserDetails"
 
 import UploadClip from "./UploadClip"
 
-import { Drawer, Menu } from "antd"
+import { Drawer, Menu, Affix } from "antd"
 
 import { getUserProfile } from "../services/userManagement"
 import Clip from "./Clip"
@@ -13,6 +13,7 @@ import Clip from "./Clip"
 import queryString from "query-string"
 import SideBar from "./SideBar"
 import ProfileSkeleton from "./ProfileSkeleton"
+import { ProfileContainer } from "./MyStyledComponents"
 
 function Profile(props) {
   const [uploadDrawOpen, setUploadDrawerOpen] = useState(false)
@@ -66,27 +67,20 @@ function Profile(props) {
     setUploadDrawerOpen(false)
   }
 
-  console.log(userProfile)
-
   return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "1fr 3fr 1fr",
-        gridTemplateRows: "auto, 1fr",
-        gridGap: "1rem",
-      }}
-    >
+    <ProfileContainer>
       {!userProfile.user ? (
         <ProfileSkeleton />
       ) : (
         <>
+          {/* <Affix offsetTop={16}> */}
           <SideBar
             setUploadDrawerOpen={setUploadDrawerOpen}
             clips={clips || []}
             uploading={uploading}
             location={props.location}
           />
+          {/* </Affix> */}
           <div>{viewRouter()}</div>
           <Drawer
             title="Upload Clip"
@@ -100,7 +94,7 @@ function Profile(props) {
           </Drawer>
         </>
       )}
-    </div>
+    </ProfileContainer>
   )
 }
 

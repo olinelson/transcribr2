@@ -66,8 +66,6 @@ function SearchClipDrawer(props) {
     }, 50)
   }
 
-  // console.log()
-
   return (
     <Drawer
       title="Search"

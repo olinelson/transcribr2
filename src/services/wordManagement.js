@@ -47,7 +47,6 @@ export const editWord = async ({ wordData, newWordValue, clip, setClip }) => {
 
 export const insertWord = async ({ index, setClip, clip, newWord }) => {
   let clipId = clip._id
-  console.log("inserting word", index)
   try {
     let res = await fetch(API_URL + "/words", {
       method: "POST",
@@ -63,7 +62,6 @@ export const insertWord = async ({ index, setClip, clip, newWord }) => {
       referrerPolicy: "no-referrer", // no-referrer, *client
     })
     res = await res.json() // parses JSON response into native JavaScript objects
-    console.log(res)
     let newWords = [...clip.words]
     newWords.splice(index, 0, res)
 
@@ -103,7 +101,6 @@ export const deleteWord = async ({
       referrerPolicy: "no-referrer", // no-referrer, *client
     })
     res = await res.json() // parses JSON response into native JavaScript objects
-    console.log(res)
 
     let newWords = [...clip.words]
     newWords.splice(index, 1)

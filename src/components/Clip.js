@@ -4,6 +4,7 @@ import { API_URL } from "../config"
 
 import { navigate } from "gatsby"
 
+import { ClipContainer, WordsParagraph } from "./MyStyledComponents"
 import { openNotificationWithIcon } from "./Notifications"
 
 import moment from "moment"
@@ -174,12 +175,13 @@ function Clip(props) {
         url={`https://storage.googleapis.com/${clip.owner}/${clip.rawFileName}`}
         playing={playerControls.playing}
         controls
-        width="100%"
-        height="auto"
+        // width="auto"
+        // height="100%"
         style={{
-          top: 0,
-          maxWidth: "50rem",
-          margin: "auto",
+          // top: 0,
+          maxWidth: "100%",
+          maxHeight: "100%",
+          justifySelf: "center",
           zIndex: 3,
         }}
       />
@@ -237,7 +239,7 @@ function Clip(props) {
   )
 
   const clipOptionsBar = () => (
-    <>
+    <div>
       {clip ? (
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <Dropdown overlay={clipOptions()} trigger={["click"]}>
@@ -259,7 +261,7 @@ function Clip(props) {
           </Button>
         </div>
       ) : null}
-    </>
+    </div>
   )
 
   const wordsParagraph = () => {
@@ -289,7 +291,7 @@ function Clip(props) {
         </div>
       )
     return (
-      <p>
+      <WordsParagraph>
         {wordData.wordPages[wordData.currentPageIndex].map(w => (
           <Word
             key={w._id}
@@ -304,7 +306,7 @@ function Clip(props) {
             setClip={setClip}
           />
         ))}
-      </p>
+      </WordsParagraph>
     )
   }
 
@@ -322,31 +324,36 @@ function Clip(props) {
   }
 
   if (!!clip.loading) {
-    return <Skeleton active />
+    return <Skelton active />
   } else {
     return (
       <>
-        {showClipAudio()}
+        <ClipContainer isVideo={clip.isVideo}>
+          {/* spacer */}
+          <div />
 
-        <div style={{ maxWidth: "50rem", margin: "auto", minHeight: "70vh" }}>
+          {showClipAudio()}
+
           {clipOptionsBar()}
 
           {wordsParagraph()}
-        </div>
 
-        <Pagination
-          style={{ display: "flex", justifyContent: "center" }}
-          showQuickJumper
-          showSizeChanger
-          onChange={e => setWordData({ ...wordData, currentPageIndex: e - 1 })}
-          // defaultCurrent={wordData.currentPageIndex + 1}
-          current={wordData.currentPageIndex + 1}
-          pageSizeOptions={["200", "300", "400", "500", "600"]}
-          onShowSizeChange={(e, num) => wordShowSizeChangeHandler(num)}
-          total={wordData.words.length}
-          pageSize={wordData.wordPageSize}
-          hideOnSinglePage
-        />
+          <Pagination
+            style={{ display: "flex", justifyContent: "center" }}
+            showQuickJumper
+            showSizeChanger
+            onChange={e =>
+              setWordData({ ...wordData, currentPageIndex: e - 1 })
+            }
+            // defaultCurrent={wordData.currentPageIndex + 1}
+            current={wordData.currentPageIndex + 1}
+            pageSizeOptions={["200", "300", "400", "500", "600"]}
+            onShowSizeChange={(e, num) => wordShowSizeChangeHandler(num)}
+            total={wordData.words.length}
+            pageSize={wordData.wordPageSize}
+            hideOnSinglePage
+          />
+        </ClipContainer>
 
         {/* {editClipDrawer()} */}
         <EditClipDrawer

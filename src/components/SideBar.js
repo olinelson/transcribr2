@@ -1,10 +1,12 @@
 import React from "react"
 
-import { Menu, Icon } from "antd"
+import { Menu, Icon, Affix } from "antd"
 import queryString from "query-string"
 import { navigate } from "gatsby"
 
 import { sortClipsChronologically } from "../utils"
+import { Input } from "antd"
+const { Search } = Input
 
 const { SubMenu } = Menu
 function SideBar({ clips, uploading, setUploadDrawerOpen, location }) {
@@ -13,7 +15,15 @@ function SideBar({ clips, uploading, setUploadDrawerOpen, location }) {
     : null
 
   return (
-    <div>
+    <div
+      style={{
+        height: "100%",
+        overflowX: "hidden",
+        overflowY: "scroll",
+      }}
+    >
+      {/* spacer */}
+      <div style={{ height: "4rem" }} />
       <Menu style={{ width: 256 }} mode="inline" selectable={false}>
         <Menu.Item onClick={() => setUploadDrawerOpen(true)}>
           {uploading ? <Icon type={"loading"} spin /> : <Icon type="upload" />}
@@ -50,8 +60,12 @@ function SideBar({ clips, uploading, setUploadDrawerOpen, location }) {
               {c.name}
             </Menu.Item>
           ))}
+
+          {/* spacer */}
+          <div style={{ height: "1rem" }} />
         </SubMenu>
-      </Menu>
+      </Menu>{" "}
+      {/* </Affix> */}
     </div>
   )
 }
