@@ -1,33 +1,41 @@
 import React from "react"
 import "antd/dist/antd.css"
 import NavBar from "./nav-bar"
+import WithLocation from "./WithLocation"
 
 import { Layout, Header, Footer, Content } from "./MyStyledComponents"
 
 // const { Header, Footer, Content } = Layout
 
-const layout = ({ children }) => (
-  <Layout className="layout">
-    <Header>
-      <div className="logo" />
-      <NavBar />
-    </Header>
-    <Content>
-      <div
+const layout = ({ children, location }) => {
+  const path = location.pathname
+
+  return (
+    <Layout>
+      <Header style={{ gridArea: "header" }}>
+        <NavBar />
+      </Header>
+
+      <Content style={{ gridArea: "content" }}>
+        {/* <div
         style={{
           background: "#fff",
-          padding: "1rem",
-          minHeight: "80vh",
+          border: "1rem solid #F0F2F5",
+          height: "100%",
           display: "grid",
         }}
-      >
+      > */}
         {children}
-      </div>
-    </Content>
-    {/* <Footer style={{ textAlign: "center" }}>
-      Ant Design ©2018 Created by Ant UED
-    </Footer> */}
-  </Layout>
-)
+        {/* </div> */}
+      </Content>
 
-export default layout
+      {path.includes("/app") ? null : (
+        <Footer style={{ textAlign: "center", gridArea: "footer" }}>
+          Ant Design ©2018 Created by Ant UED
+        </Footer>
+      )}
+    </Layout>
+  )
+}
+
+export default WithLocation(layout)

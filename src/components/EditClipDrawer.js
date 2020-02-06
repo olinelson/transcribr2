@@ -8,7 +8,8 @@ const EditClipDrawer = ({ clip, updateClipInProfile, setClip }) => (
   <Drawer
     title="Edit Clip"
     placement="right"
-    closable={false}
+    closable={true}
+    onClose={() => setClip({ ...clip, editing: false })}
     visible={clip.editing}
   >
     <Form
@@ -24,7 +25,7 @@ const EditClipDrawer = ({ clip, updateClipInProfile, setClip }) => (
     >
       <Input name="name" spellCheck="true" defaultValue={clip.name} />
       <Form.Item>
-        <Button onClick={() => setClip({ ...clip, editing: true })}>
+        <Button onClick={() => setClip({ ...clip, editing: false })}>
           Cancel
         </Button>
       </Form.Item>

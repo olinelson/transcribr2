@@ -4,7 +4,11 @@ import { API_URL } from "../config"
 
 import { navigate } from "gatsby"
 
-import { ClipContainer, WordsParagraph } from "./MyStyledComponents"
+import {
+  ClipContainer,
+  WordsParagraph,
+  WordsContainer,
+} from "./MyStyledComponents"
 import { openNotificationWithIcon } from "./Notifications"
 
 import moment from "moment"
@@ -183,6 +187,7 @@ function Clip(props) {
           maxHeight: "100%",
           justifySelf: "center",
           zIndex: 3,
+          gridArea: "clip",
         }}
       />
     )
@@ -239,7 +244,7 @@ function Clip(props) {
   )
 
   const clipOptionsBar = () => (
-    <div>
+    <div style={{ gridArea: "toolbar" }}>
       {clip ? (
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <Dropdown overlay={clipOptions()} trigger={["click"]}>
@@ -291,22 +296,24 @@ function Clip(props) {
         </div>
       )
     return (
-      <WordsParagraph>
-        {wordData.wordPages[wordData.currentPageIndex].map(w => (
-          <Word
-            key={w._id}
-            word={w}
-            wordData={wordData}
-            setWordData={setWordData}
-            player={player}
-            playerControls={playerControls}
-            setPlayerControls={setPlayerControls}
-            updateClipInProfile={props.updateClipInProfile}
-            clip={clip}
-            setClip={setClip}
-          />
-        ))}
-      </WordsParagraph>
+      <WordsContainer style={{ gridArea: "words" }}>
+        <p>
+          {wordData.wordPages[wordData.currentPageIndex].map(w => (
+            <Word
+              key={w._id}
+              word={w}
+              wordData={wordData}
+              setWordData={setWordData}
+              player={player}
+              playerControls={playerControls}
+              setPlayerControls={setPlayerControls}
+              updateClipInProfile={props.updateClipInProfile}
+              clip={clip}
+              setClip={setClip}
+            />
+          ))}
+        </p>
+      </WordsContainer>
     )
   }
 
@@ -324,14 +331,16 @@ function Clip(props) {
   }
 
   if (!!clip.loading) {
-    return <Skelton active />
+    return (
+      <div>
+        <div style={{ height: "4rem" }} />
+        <Skeleton />
+      </div>
+    )
   } else {
     return (
       <>
         <ClipContainer isVideo={clip.isVideo}>
-          {/* spacer */}
-          <div />
-
           {showClipAudio()}
 
           {clipOptionsBar()}
@@ -339,13 +348,17 @@ function Clip(props) {
           {wordsParagraph()}
 
           <Pagination
-            style={{ display: "flex", justifyContent: "center" }}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignSelf: "center",
+              gridArea: "pagination",
+            }}
             showQuickJumper
             showSizeChanger
             onChange={e =>
               setWordData({ ...wordData, currentPageIndex: e - 1 })
             }
-            // defaultCurrent={wordData.currentPageIndex + 1}
             current={wordData.currentPageIndex + 1}
             pageSizeOptions={["200", "300", "400", "500", "600"]}
             onShowSizeChange={(e, num) => wordShowSizeChangeHandler(num)}
@@ -355,7 +368,6 @@ function Clip(props) {
           />
         </ClipContainer>
 
-        {/* {editClipDrawer()} */}
         <EditClipDrawer
           clip={clip}
           updateClipInProfile={props.updateClipInProfile}

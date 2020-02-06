@@ -18,20 +18,21 @@ function SideBar({ clips, uploading, setUploadDrawerOpen, location }) {
     <div
       style={{
         height: "100%",
-        overflowX: "hidden",
-        overflowY: "scroll",
+        maxHeight: "90vh",
       }}
     >
-      {/* spacer */}
-      <div style={{ height: "4rem" }} />
-      <Menu style={{ width: 256 }} mode="inline" selectable={false}>
+      <Menu
+        style={{ width: 256, height: "auto" }}
+        mode="inline"
+        selectable={false}
+      >
         <Menu.Item onClick={() => setUploadDrawerOpen(true)}>
           {uploading ? <Icon type={"loading"} spin /> : <Icon type="upload" />}
           Add Clip
         </Menu.Item>
       </Menu>
       <Menu
-        style={{ width: 256, height: "auto" }}
+        style={{ width: 256, height: "100%" }}
         mode="inline"
         defaultOpenKeys={["clip"]}
         selectedKeys={
@@ -60,9 +61,6 @@ function SideBar({ clips, uploading, setUploadDrawerOpen, location }) {
               {c.name}
             </Menu.Item>
           ))}
-
-          {/* spacer */}
-          <div style={{ height: "1rem" }} />
         </SubMenu>
       </Menu>{" "}
       {/* </Affix> */}

@@ -75,13 +75,14 @@ function Profile(props) {
         <>
           {/* <Affix offsetTop={16}> */}
           <SideBar
+            style={{ gridArea: "sidebar" }}
             setUploadDrawerOpen={setUploadDrawerOpen}
             clips={clips || []}
             uploading={uploading}
             location={props.location}
           />
           {/* </Affix> */}
-          <div>{viewRouter()}</div>
+          <div style={{ gridArea: "main" }}>{viewRouter()}</div>
           <Drawer
             title="Upload Clip"
             placement="right"
