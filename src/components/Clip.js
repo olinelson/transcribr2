@@ -4,6 +4,8 @@ import { API_URL } from "../config"
 
 import { navigate } from "gatsby"
 
+import { joinUserChannel } from "../services/socket"
+
 import {
   ClipContainer,
   WordsParagraph,
@@ -105,6 +107,7 @@ function Clip(props) {
       mounted.current = true
       getClip(_id, setClip)
     } else {
+      console.log("updating")
       setWordData({
         ...wordData,
         wordPages: splitWordsIntoPages(clip.words, wordData.wordPageSize),
@@ -117,6 +120,26 @@ function Clip(props) {
       })
     }
   }, [clip])
+
+  // useEffect(() => {
+  //   console.log("clip use effect runnings")
+  //   const bearerToken = getUser()
+
+  //   joinClipChannel(bearerToken, _id, notification =>
+  //     notificationHandler(notification)
+  //   )
+  // }, [])
+
+  // const notificationHandler = notification => {
+  //   // console.log("got notification", notification)
+  //   if (notification.name === "transcriptionComplete") {
+  //     console.log("trans complete", notification)
+  //     setClip(notification.data.clip)
+  //   }
+  //   if (notification.name === "joinedClip") {
+  //     openNotificationWithIcon("success", notification.message)
+  //   }
+  // }
 
   const wordShowSizeChangeHandler = num => {
     setWordData({
@@ -179,15 +202,15 @@ function Clip(props) {
         url={`https://storage.googleapis.com/${clip.owner}/${clip.rawFileName}`}
         playing={playerControls.playing}
         controls
-        // width="auto"
-        // height="100%"
+        width={"100%"}
+        playsinline
+        pip={true}
+        height="100%"
+        width="100%"
         style={{
-          // top: 0,
-          maxWidth: "100%",
-          maxHeight: "100%",
+          maxWidth: clip.isVideo ? "30rem" : "100%",
+          marginTop: "1rem",
           justifySelf: "center",
-          zIndex: 3,
-          gridArea: "clip",
         }}
       />
     )
@@ -223,40 +246,32 @@ function Clip(props) {
   //   setSearching(false)
   // }
 
-  const clipOptions = () => (
-    <Menu>
-      <Menu.Item onClick={() => setClip({ ...clip, editing: true })}>
-        <Icon type="edit" />
-        Edit Name
-      </Menu.Item>
-      <Menu.Item disabled={clip.deleting}>
-        <Popconfirm
-          title="Are you sure you want to delete this clip?"
-          onConfirm={() => deleteClipHandler(clip._id)}
-          okText="Yes"
-          cancelText="No"
-        >
-          {clip.deleting ? <Icon type="loading" /> : <Icon type="delete" />}
-          Delete
-        </Popconfirm>
-      </Menu.Item>
-    </Menu>
-  )
-
   const clipOptionsBar = () => (
     <div style={{ gridArea: "toolbar" }}>
       {clip ? (
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <Dropdown overlay={clipOptions()} trigger={["click"]}>
-            <h1
-              className="ant-dropdown-link"
-              href="#"
-              style={{ cursor: "pointer" }}
-            >
-              {clip.name}{" "}
-              {clip.deleting ? <Icon type="loading" /> : <Icon type="down" />}
-            </h1>
-          </Dropdown>{" "}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <h1
+            className="ant-dropdown-link"
+            style={{ cursor: "pointer", margin: 0 }}
+          >
+            {clip.name}{" "}
+            {clip.deleting ? (
+              <Icon type="loading" />
+            ) : (
+              <Icon
+                style={{ fontSize: "1rem" }}
+                onClick={() => setClip({ ...clip, editing: true })}
+                type="edit"
+              />
+            )}
+          </h1>
+
           <Button
             disabled={!wordData.words.length}
             onClick={() => setSearchData({ ...searchData, modalOpen: true })}
@@ -372,6 +387,7 @@ function Clip(props) {
           clip={clip}
           updateClipInProfile={props.updateClipInProfile}
           setClip={setClip}
+          deleteClipHandler={deleteClipHandler}
         />
 
         <SearchClipDrawer

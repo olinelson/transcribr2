@@ -1,10 +1,15 @@
 import React from "react"
 
-import { Drawer, Input, Button, Form } from "antd"
+import { Drawer, Input, Button, Form, Popconfirm, Icon } from "antd"
 
 import { updateClip } from "../services/clipManagement"
 
-const EditClipDrawer = ({ clip, updateClipInProfile, setClip }) => (
+const EditClipDrawer = ({
+  clip,
+  updateClipInProfile,
+  setClip,
+  deleteClipHandler,
+}) => (
   <Drawer
     title="Edit Clip"
     placement="right"
@@ -35,6 +40,18 @@ const EditClipDrawer = ({ clip, updateClipInProfile, setClip }) => (
         </Button>
       </Form.Item>
     </Form>
+
+    <Popconfirm
+      title="Are you sure you want to delete this clip?"
+      onConfirm={() => deleteClipHandler(clip._id)}
+      okText="Yes"
+      cancelText="No"
+    >
+      <Button type="danger">
+        <Icon type="delete" />
+        Delete
+      </Button>
+    </Popconfirm>
   </Drawer>
 )
 
