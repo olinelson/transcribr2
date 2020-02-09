@@ -92,7 +92,7 @@ export const deleteWord = async ({
       redirect: "follow", // manual, *follow, error
       referrerPolicy: "no-referrer", // no-referrer, *client
     })
-    res = await res.json() // parses JSON response into native JavaScript objects
+    if (!res.ok) throw new Error("problem deleting word...")
 
     let newWords = [...clip.words]
     newWords.splice(index, 1)

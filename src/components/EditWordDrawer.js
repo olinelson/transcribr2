@@ -5,7 +5,7 @@ import { Drawer, Input, Button, Form } from "antd"
 import { editWord, insertWord } from "../services/wordManagement"
 
 function EditWordDrawer(props) {
-  const { wordData, setWordData, setClip, clip } = props
+  const { wordData, setWordData } = props
 
   const inserting = wordData.inserting !== null
 

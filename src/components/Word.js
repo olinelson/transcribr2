@@ -2,7 +2,7 @@ import React, { useState } from "react"
 
 import { Popover, Icon, Tag, Dropdown, Menu, Popconfirm } from "antd"
 
-import { deleteWord, insertWord } from "../services/wordManagement"
+import { deleteWord } from "../services/wordManagement"
 
 import { formatTimeStamp } from "../utils"
 
@@ -36,7 +36,6 @@ function Word(props) {
     clip,
     word,
     setWordData,
-    selectedWord,
     wordData,
     setPlayerControls,
     player,
@@ -78,7 +77,7 @@ function Word(props) {
         Edit
       </Menu.Item>
       <Menu.Item
-        onClick={e =>
+        onClick={() =>
           setWordData({
             ...wordData,
             selectedWord: word,
@@ -91,7 +90,7 @@ function Word(props) {
         <Icon type="plus-circle" /> Insert Before
       </Menu.Item>
       <Menu.Item
-        onClick={e =>
+        onClick={() =>
           setWordData({
             ...wordData,
             selectedWord: word,

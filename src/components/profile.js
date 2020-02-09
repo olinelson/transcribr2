@@ -40,27 +40,17 @@ function Profile(props) {
   }
 
   useEffect(() => {
-    console.log("profile updating")
     if (!mounted.current) {
       mounted.current = true
       joinUserChannel(bearerToken, notification =>
         notificationHandler(notification)
       )
       getUserProfileAndSet(setUserProfile)
-    } else {
-      // getUserProfileAndSet(setUserProfile)
     }
   }, [])
 
   const notificationHandler = notification => {
     openNotificationWithIcon("success", notification.message)
-    // if (notification.name === "transcriptionComplete") {
-    //   openNotificationWithIcon("success", notification.message)
-    //   getUserProfileAndSet(setUserProfile)
-    // }
-    // if (notification.name === "joinedUser") {
-    //   openNotificationWithIcon("success", notification.message)
-    // }
   }
 
   const addClip = clip => {
@@ -68,10 +58,7 @@ function Profile(props) {
   }
 
   const updateClipInProfile = clip => {
-    console.log("user profile", userProfile)
     let filteredClips = { ...userProfile }.clips.filter(c => c._id !== clip._id)
-    // setClips(filteredClips)
-    console.log(filteredClips)
     setUserProfile({ ...userProfile, clips: [...filteredClips, clip] })
   }
 
@@ -101,10 +88,6 @@ function Profile(props) {
     }
   }
 
-  const closeUploadDrawHandler = () => {
-    setUploadDrawerOpen(false)
-  }
-
   return (
     <ProfileContainer>
       {!userProfile.user ? (
@@ -123,7 +106,7 @@ function Profile(props) {
             title="Upload Clip"
             placement="right"
             closable={true}
-            onClose={() => closeUploadDrawHandler()}
+            onClose={() => setUploadDrawerOpen(false)}
             visible={uploadDrawOpen}
             width="auto"
           >

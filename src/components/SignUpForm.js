@@ -1,6 +1,6 @@
 import React from "react"
 import { Form, Icon, Input, Button, Checkbox } from "./MyStyledComponents"
-import { handleLogin, handleSignup } from "../services/auth"
+import { handleSignup } from "../services/auth"
 import { openNotificationWithIcon } from "./Notifications"
 import { navigate, Link } from "gatsby"
 

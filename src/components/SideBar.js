@@ -1,12 +1,10 @@
 import React from "react"
 
-import { Menu, Icon, Affix } from "antd"
+import { Menu, Icon } from "antd"
 import queryString from "query-string"
 import { navigate } from "gatsby"
 
 import { sortClipsChronologically } from "../utils"
-import { Input } from "antd"
-const { Search } = Input
 
 const { SubMenu } = Menu
 function SideBar({ clips, uploading, setUploadDrawerOpen, location }) {

@@ -2,7 +2,6 @@ import React, { useState } from "react"
 import { debounce } from "debounce"
 
 import { Icon, Drawer, Input, List } from "antd"
-import Word from "./Word"
 
 const { Search } = Input
 
@@ -21,19 +20,11 @@ function SearchClipDrawer(props) {
   const [results, setResults] = useState([])
   const [loading, setLoading] = useState(false)
 
-  const splitResultsIntoPages = (_results, pageSize = 20) => {
-    let results = [..._results]
-    let resultPages = []
-
-    while (results.length) resultPages.push(results.splice(0, pageSize))
-    return resultPages
-  }
-
-  Array.prototype.asyncFilter = async function(f) {
-    var array = this
-    var booleans = await Promise.all(array.map(f))
-    return array.filter((x, i) => booleans[i])
-  }
+  // Array.prototype.asyncFilter = async function(f) {
+  //   var array = this
+  //   var booleans = await Promise.all(array.map(f))
+  //   return array.filter((x, i) => booleans[i])
+  // }
 
   const filterWords = (query, words) => {
     return words.filter(w => w.word.toLowerCase().includes(query.toLowerCase()))

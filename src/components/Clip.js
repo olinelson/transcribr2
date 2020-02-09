@@ -53,14 +53,6 @@ function Clip(props) {
 
   const [searching] = useState(false)
 
-  // const splitWordsIntoPages = (_words, pageSize = 200) => {
-  //   let words = [..._words]
-  //   let wordPages = []
-
-  //   while (words.length) wordPages.push(words.splice(0, pageSize))
-  //   return wordPages
-  // }
-
   const [wordData, setWordData] = useState({
     currentPageIndex: 0,
     selectedWord: undefined,
@@ -87,22 +79,14 @@ function Clip(props) {
     return `${hrs}:${mins}:${secs}`
   }
 
-  const socket = openSocket(API_URL)
-
-  function joinClipChannel(token, cb) {
-    socket.on("clipChannelUpdate", data => cb(data))
-    socket.emit("joinClipChannel", token, _id)
-  }
-  // console.log("clip notification", props.clipNotification)
-
   const notificationHandler = notification => {
     if (notification.name === "transcriptionUpdate") {
-      // getClip(_id, setClip)
       setClip(notification.data.clip)
     }
 
     if (notification.name === "joinedClipChannel") {
-      openNotificationWithIcon("success", notification.message)
+      console.log(notification.message)
+      // openNotificationWithIcon("success", notification.message)
     }
   }
 
@@ -111,6 +95,12 @@ function Clip(props) {
     if (!mounted.current) {
       mounted.current = true
 
+      const socket = openSocket(API_URL)
+
+      function joinClipChannel(token, cb) {
+        socket.on("clipChannelUpdate", data => cb(data))
+        socket.emit("joinClipChannel", token, _id)
+      }
       getClip(_id, setClip)
 
       joinClipChannel(getUser(), notification => {
@@ -129,11 +119,6 @@ function Clip(props) {
       })
     }
   }, [clip])
-
-  // const notificationHandler = notification => {
-  //   openNotificationWithIcon("success", notification.message)
-  //   setClip(notification.data.clip)
-  // }
 
   const wordShowSizeChangeHandler = num => {
     setWordData({
@@ -161,9 +146,6 @@ function Clip(props) {
       let res = await fetch(
         `${API_URL}/convert/clips/${clip._id}?lang=${transcribeData.language}`,
         {
-          // mode: "cors", // no-cors, *cors, same-origin
-          // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-          // credentials: "same-origin", // include, *same-origin, omit
           headers: {
             "Content-Type": "application/json",
             Authorization: getUser(),
@@ -196,7 +178,6 @@ function Clip(props) {
         url={`https://storage.googleapis.com/${clip.owner}/${clip.rawFileName}`}
         playing={playerControls.playing}
         controls
-        width={"100%"}
         playsinline
         pip={true}
         height="100%"
@@ -256,7 +237,8 @@ function Clip(props) {
             display: "grid",
             height: "50vh",
             justifyItems: "center",
-            alignItems: "center",
+            gridTemplateRows: "auto auto auto auto",
+            // alignItems: "center",
           }}
         >
           <Button
@@ -272,16 +254,23 @@ function Clip(props) {
             <Icon type="message" />
             Transcribe
           </Button>
-          {transcribeData.loading ? (
-            <>
-              <Progress percent={clip.progressPercent || 0} status="active" />
-              <Steps current={clip.progressPercent > 0 ? 1 : 0}>
-                <Step title="Convert" icon={<Icon type="tool" />} />
-                <Step title="Transcribe" icon={<Icon type="message" />} />
-                <Step title="Done" icon={<Icon type="smile-o" />} />
-              </Steps>
-            </>
-          ) : null}
+
+          <>
+            <Progress percent={clip.progressPercent || 0} status="active" />
+            <Steps>
+              <Step
+                status={clip.conversionComplete ? "finish" : "process"}
+                title="Convert"
+                icon={<Icon type="tool" />}
+              />
+              <Step
+                status={clip.conversionComplete ? "process" : "wait"}
+                title="Transcribe"
+                icon={<Icon type="message" />}
+              />
+              <Step title="Done" icon={<Icon type="smile-o" />} />
+            </Steps>
+          </>
         </div>
       )
     return (
