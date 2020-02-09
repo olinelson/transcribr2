@@ -40,7 +40,7 @@ export const updateClip = async (clip, updateClipInProfile, setClip) => {
         "Content-Type": "application/json",
         Authorization: getUser(),
       },
-      body: JSON.stringify({ name: clip.name }),
+      body: JSON.stringify({ name: clip.name, citation: clip.citation }),
       redirect: "follow", // manual, *follow, error
       referrerPolicy: "no-referrer", // no-referrer, *client
     })

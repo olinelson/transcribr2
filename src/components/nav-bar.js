@@ -38,23 +38,6 @@ function Navbar(props) {
         </Menu.Item>
       ) : null}
     </Menu>
-    // <div
-    //   style={{
-    //     display: "flex",
-    //     flex: "1",
-    //     justifyContent: "space-between",
-    //     borderBottom: "1px solid #d1c1e0",
-    //   }}
-    // >
-    //   <span>{content.message}</span>
-    //   <nav>
-    //     <Link to="/">Home</Link>
-
-    //     <Link to="/app/profile">Profile</Link>
-    //     {` `}
-    //
-    //   </nav>
-    // </div>
   )
 }
 

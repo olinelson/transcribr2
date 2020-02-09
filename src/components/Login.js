@@ -4,7 +4,7 @@ import { handleLogin } from "../services/auth"
 import { openNotificationWithIcon } from "./Notifications"
 import { navigate, Link } from "gatsby"
 
-class NormalLoginForm extends React.Component {
+class Login extends React.Component {
   state = {
     loading: false,
   }
@@ -92,8 +92,6 @@ class NormalLoginForm extends React.Component {
   }
 }
 
-const WrappedNormalLoginForm = Form.create({ name: "normal_login" })(
-  NormalLoginForm
-)
+const WrappedNormalLoginForm = Form.create({ name: "normal_login" })(Login)
 
 export default WrappedNormalLoginForm

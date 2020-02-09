@@ -13,12 +13,7 @@ function SideBar({ clips, uploading, setUploadDrawerOpen, location }) {
     : null
 
   return (
-    <div
-      style={{
-        height: "100%",
-        maxHeight: "90vh",
-      }}
-    >
+    <div style={{ display: "flex", flexDirection: "column" }}>
       <Menu
         style={{ width: 256, height: "auto" }}
         mode="inline"
@@ -61,7 +56,6 @@ function SideBar({ clips, uploading, setUploadDrawerOpen, location }) {
           ))}
         </SubMenu>
       </Menu>{" "}
-      {/* </Affix> */}
     </div>
   )
 }

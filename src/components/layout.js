@@ -30,8 +30,15 @@ const layout = ({ children, location }) => {
       </Content>
 
       {path.includes("/app") ? null : (
-        <Footer style={{ textAlign: "center", gridArea: "footer" }}>
-          Ant Design ©2018 Created by Ant UED
+        <Footer
+          style={{
+            textAlign: "center",
+            gridArea: "footer",
+            margin: "1rem",
+            // background: "#f0f2f5",
+          }}
+        >
+          Oli Nelson ©2020
         </Footer>
       )}
     </Layout>

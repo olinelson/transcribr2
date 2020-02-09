@@ -19,6 +19,7 @@ import EditWordDrawer from "./EditWordDrawer"
 import TranscriptionModal from "./TranscriptionModal"
 import EditClipDrawer from "./EditClipDrawer"
 import Word from "./Word"
+import CitationModal from "./CitationModal"
 
 const { Step } = Steps
 
@@ -34,6 +35,8 @@ function Clip(props) {
     editing: false,
     deleting: false,
   })
+
+  const [citationModalOpen, setCitationModalOpen] = useState(false)
 
   const [transcribeData, setTranscribeData] = useState({
     modalOpen: false,
@@ -209,11 +212,18 @@ function Clip(props) {
             {clip.deleting ? (
               <Icon type="loading" />
             ) : (
-              <Icon
-                style={{ fontSize: "1rem" }}
-                onClick={() => setClip({ ...clip, editing: true })}
-                type="edit"
-              />
+              <>
+                <Icon
+                  style={{ fontSize: "1rem" }}
+                  onClick={() => setClip({ ...clip, editing: true })}
+                  type="edit"
+                />
+                <Icon
+                  style={{ fontSize: "1rem" }}
+                  onClick={() => setCitationModalOpen(true)}
+                  type="link"
+                />
+              </>
             )}
           </h1>
 
@@ -377,6 +387,12 @@ function Clip(props) {
           clip={clip}
           transcribeData={transcribeData}
           setTranscribeData={setTranscribeData}
+        />
+
+        <CitationModal
+          citationModalOpen={citationModalOpen}
+          setCitationModalOpen={setCitationModalOpen}
+          clip={clip}
         />
       </>
     )

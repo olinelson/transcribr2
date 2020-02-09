@@ -24,6 +24,7 @@ export const Checkbox = styled(_Checkbox)``
 export const Card = styled(_Card)``
 
 export const Layout = styled.div`
+  background: #f0f2f5;
   display: grid;
   justify-content: center;
   grid-template-columns: 1fr;
@@ -36,9 +37,13 @@ export const Layout = styled.div`
 `
 export const Header = styled.div``
 export const Footer = styled.div`
-  background: pink;
+  // background: pink;
 `
-export const Content = styled.div``
+export const Content = styled.div`
+  display: grid;
+  border: 1rem solid #f0f2f5;
+  background: white;
+`
 export const Breadcrumb = styled(_Breadcrumb)``
 export const Menu = styled(_Menu)``
 export const Avatar = styled(_Avatar)``
