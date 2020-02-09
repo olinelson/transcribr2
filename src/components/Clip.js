@@ -1,41 +1,24 @@
 import React, { useState, useRef, useEffect } from "react"
-import { getUser } from "../services/auth"
+import { navigate } from "gatsby"
 import { API_URL } from "../config"
 
-import { navigate } from "gatsby"
-
-import { joinUserChannel } from "../services/socket"
-import openSocket from "socket.io-client"
-import {
-  ClipContainer,
-  WordsParagraph,
-  WordsContainer,
-} from "./MyStyledComponents"
-import { openNotificationWithIcon } from "./Notifications"
-
-import moment from "moment"
-
+import { getUser } from "../services/auth"
 import { deleteClip, getClip } from "../services/clipManagement"
+import { splitWordsIntoPages } from "../services/wordManagement"
+
+import openSocket from "socket.io-client"
+import moment from "moment"
 import ReactPlayer from "react-player"
-import {
-  Icon,
-  Button,
-  Popconfirm,
-  Pagination,
-  Input,
-  Select,
-  Menu,
-  Dropdown,
-  Steps,
-  Skeleton,
-  Progress,
-} from "antd"
+
+// components
+import { Icon, Button, Pagination, Steps, Skeleton, Progress } from "antd"
+import { ClipContainer, WordsContainer } from "./MyStyledComponents"
+import { openNotificationWithIcon } from "./Notifications"
 import SearchClipDrawer from "./SearchClipDrawer"
 import EditWordDrawer from "./EditWordDrawer"
 import TranscriptionModal from "./TranscriptionModal"
 import EditClipDrawer from "./EditClipDrawer"
 import Word from "./Word"
-import { insertWord } from "../services/wordManagement"
 
 const { Step } = Steps
 
@@ -66,18 +49,17 @@ function Clip(props) {
     modalOpen: false,
     input: "",
     results: [],
-    // loading: false,
   })
 
-  const [searching, setSearching] = useState(false)
+  const [searching] = useState(false)
 
-  const splitWordsIntoPages = (_words, pageSize = 200) => {
-    let words = [..._words]
-    let wordPages = []
+  // const splitWordsIntoPages = (_words, pageSize = 200) => {
+  //   let words = [..._words]
+  //   let wordPages = []
 
-    while (words.length) wordPages.push(words.splice(0, pageSize))
-    return wordPages
-  }
+  //   while (words.length) wordPages.push(words.splice(0, pageSize))
+  //   return wordPages
+  // }
 
   const [wordData, setWordData] = useState({
     currentPageIndex: 0,
@@ -227,36 +209,6 @@ function Clip(props) {
       />
     )
   }
-
-  // const splitResultsIntoPages = (_results, pageSize = 20) => {
-  //   let results = [..._results]
-  //   let resultPages = []
-
-  //   while (results.length) resultPages.push(results.splice(0, pageSize))
-  //   return resultPages
-  // }
-
-  // const onSearch = async (query, words) => {
-  //   Array.prototype.asyncFilter = async function(f) {
-  //     var array = this
-  //     var booleans = await Promise.all(array.map(f))
-  //     return array.filter((x, i) => booleans[i])
-  //   }
-
-  //   setSearchData({ ...searchData, loading: true })
-
-  //   let results = await words.asyncFilter(w =>
-  //     w.word.toLowerCase().includes(query.toLowerCase())
-  //   )
-
-  //   // results = results.slice(0, 50)
-
-  //   setSearchData({
-  //     ...searchData,
-  //     results: splitResultsIntoPages(results, 20),
-  //   })
-  //   setSearching(false)
-  // }
 
   const clipOptionsBar = () => (
     <div style={{ gridArea: "toolbar" }}>
@@ -427,7 +379,6 @@ function Clip(props) {
         <EditWordDrawer
           wordData={wordData}
           setClip={setClip}
-          // updateClipInProfile={props.updateClipInProfile}
           clip={clip}
           setWordData={setWordData}
         />

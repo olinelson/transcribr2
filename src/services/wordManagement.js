@@ -2,22 +2,20 @@ import { API_URL } from "../config"
 import { openNotificationWithIcon } from "../components/Notifications"
 import { getUser } from "../services/auth"
 
+export const splitWordsIntoPages = (_words, pageSize = 200) => {
+  let words = [..._words]
+  let wordPages = []
+
+  while (words.length) wordPages.push(words.splice(0, pageSize))
+  return wordPages
+}
+
 export const editWord = async ({ wordData, newWordValue, clip, setClip }) => {
-  // e.preventDefault()
-  // let newWordValue = e.target.newWordValue.value
   let clipId = clip._id
   let wordId = wordData.selectedWord._id
-
-  // setWordData({
-  //   ...wordData,
-  //   loading: true,
-  // })
   try {
     let res = await fetch(API_URL + "/words", {
       method: "PATCH",
-      // mode: "cors", // no-cors, *cors, same-origin
-      // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-      // credentials: "same-origin", // include, *same-origin, omit
       headers: {
         "Content-Type": "application/json",
         Authorization: getUser(),
@@ -50,9 +48,6 @@ export const insertWord = async ({ index, setClip, clip, newWord }) => {
   try {
     let res = await fetch(API_URL + "/words", {
       method: "POST",
-      // mode: "cors", // no-cors, *cors, same-origin
-      // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-      // credentials: "same-origin", // include, *same-origin, omit
       headers: {
         "Content-Type": "application/json",
         Authorization: getUser(),
@@ -89,9 +84,6 @@ export const deleteWord = async ({
   try {
     let res = await fetch(API_URL + "/words", {
       method: "DELETE",
-      // mode: "cors", // no-cors, *cors, same-origin
-      // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-      // credentials: "same-origin", // include, *same-origin, omit
       headers: {
         "Content-Type": "application/json",
         Authorization: getUser(),

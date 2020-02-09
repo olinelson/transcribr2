@@ -24,13 +24,9 @@ function Profile(props) {
   const [uploading, setUploading] = useState(false)
   const [userProfile, setUserProfile] = useState({ clips: [] })
 
-  const [clipNotification, setClipNotification] = useState(false)
-
   const PageLocation = props.location.search
     ? queryString.parse(props.location.search)
     : null
-
-  console.log("profile runnning")
 
   const bearerToken = getUser()
 
@@ -57,21 +53,14 @@ function Profile(props) {
   }, [])
 
   const notificationHandler = notification => {
-    if (notification.name === "transcriptionComplete") {
-      openNotificationWithIcon("success", notification.message)
-      getUserProfileAndSet(setUserProfile)
-    }
-    if (notification.name === "joinedUser") {
-      openNotificationWithIcon("success", notification.message)
-      console.log(notification.data.user)
-      // setUserProfile(notification.data)
-
-      // setTimeout(() => {
-      //   getUserProfileAndSet(setUserProfile)
-      // }, 4000)
-
-      // setClipNotification(true)
-    }
+    openNotificationWithIcon("success", notification.message)
+    // if (notification.name === "transcriptionComplete") {
+    //   openNotificationWithIcon("success", notification.message)
+    //   getUserProfileAndSet(setUserProfile)
+    // }
+    // if (notification.name === "joinedUser") {
+    //   openNotificationWithIcon("success", notification.message)
+    // }
   }
 
   const addClip = clip => {
@@ -105,7 +94,6 @@ function Profile(props) {
             key={clip._id}
             clip={clip}
             updateClipInProfile={e => updateClipInProfile(e)}
-            clipNotification={clipNotification}
           />
         )
       default:
@@ -123,7 +111,6 @@ function Profile(props) {
         <ProfileSkeleton />
       ) : (
         <>
-          {/* <Affix offsetTop={16}> */}
           <SideBar
             style={{ gridArea: "sidebar" }}
             setUploadDrawerOpen={setUploadDrawerOpen}
@@ -131,7 +118,6 @@ function Profile(props) {
             uploading={uploading}
             location={props.location}
           />
-          {/* </Affix> */}
           <div style={{ gridArea: "main" }}>{viewRouter()}</div>
           <Drawer
             title="Upload Clip"
