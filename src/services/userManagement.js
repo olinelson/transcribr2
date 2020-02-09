@@ -4,9 +4,9 @@ import { getUser } from "./auth"
 export const getUserProfileAndSet = async setUserProfile => {
   try {
     let res = await fetch(API_URL + "/users/me", {
-      mode: "cors", // no-cors, *cors, same-origin
-      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: "same-origin", // include, *same-origin, omit
+      // mode: "cors", // no-cors, *cors, same-origin
+      // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+      // credentials: "same-origin", // include, *same-origin, omit
       headers: {
         "Content-Type": "application/json",
         Authorization: getUser(),
@@ -25,9 +25,9 @@ export const getUserProfileAndSet = async setUserProfile => {
 export const getUserProfile = async setUserProfile => {
   try {
     let res = await fetch(API_URL + "/users/me", {
-      mode: "cors", // no-cors, *cors, same-origin
-      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: "same-origin", // include, *same-origin, omit
+      // mode: "cors", // no-cors, *cors, same-origin
+      // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+      // credentials: "same-origin", // include, *same-origin, omit
       headers: {
         "Content-Type": "application/json",
         Authorization: getUser(),

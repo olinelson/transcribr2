@@ -17,7 +17,7 @@ function AddClip(props) {
 
       let res = await fetch(API_URL + "/clips", {
         method: "POST",
-        mode: "cors", // no-cors, *cors, same-origin
+        // mode: "cors", // no-cors, *cors, same-origin
         // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
         // credentials: "same-origin", // include, *same-origin, omit
         headers: {

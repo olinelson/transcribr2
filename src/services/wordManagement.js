@@ -15,9 +15,9 @@ export const editWord = async ({ wordData, newWordValue, clip, setClip }) => {
   try {
     let res = await fetch(API_URL + "/words", {
       method: "PATCH",
-      mode: "cors", // no-cors, *cors, same-origin
-      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: "same-origin", // include, *same-origin, omit
+      // mode: "cors", // no-cors, *cors, same-origin
+      // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+      // credentials: "same-origin", // include, *same-origin, omit
       headers: {
         "Content-Type": "application/json",
         Authorization: getUser(),
@@ -50,9 +50,9 @@ export const insertWord = async ({ index, setClip, clip, newWord }) => {
   try {
     let res = await fetch(API_URL + "/words", {
       method: "POST",
-      mode: "cors", // no-cors, *cors, same-origin
-      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: "same-origin", // include, *same-origin, omit
+      // mode: "cors", // no-cors, *cors, same-origin
+      // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+      // credentials: "same-origin", // include, *same-origin, omit
       headers: {
         "Content-Type": "application/json",
         Authorization: getUser(),
@@ -89,9 +89,9 @@ export const deleteWord = async ({
   try {
     let res = await fetch(API_URL + "/words", {
       method: "DELETE",
-      mode: "cors", // no-cors, *cors, same-origin
-      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: "same-origin", // include, *same-origin, omit
+      // mode: "cors", // no-cors, *cors, same-origin
+      // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+      // credentials: "same-origin", // include, *same-origin, omit
       headers: {
         "Content-Type": "application/json",
         Authorization: getUser(),

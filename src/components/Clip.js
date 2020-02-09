@@ -5,7 +5,7 @@ import { API_URL } from "../config"
 import { navigate } from "gatsby"
 
 import { joinUserChannel } from "../services/socket"
-
+import openSocket from "socket.io-client"
 import {
   ClipContainer,
   WordsParagraph,
@@ -26,7 +26,9 @@ import {
   Select,
   Menu,
   Dropdown,
+  Steps,
   Skeleton,
+  Progress,
 } from "antd"
 import SearchClipDrawer from "./SearchClipDrawer"
 import EditWordDrawer from "./EditWordDrawer"
@@ -34,6 +36,8 @@ import TranscriptionModal from "./TranscriptionModal"
 import EditClipDrawer from "./EditClipDrawer"
 import Word from "./Word"
 import { insertWord } from "../services/wordManagement"
+
+const { Step } = Steps
 
 function Clip(props) {
   const { _id, name } = props.clip
@@ -101,13 +105,36 @@ function Clip(props) {
     return `${hrs}:${mins}:${secs}`
   }
 
+  const socket = openSocket(API_URL)
+
+  function joinClipChannel(token, cb) {
+    socket.on("clipChannelUpdate", data => cb(data))
+    socket.emit("joinClipChannel", token, _id)
+  }
+  // console.log("clip notification", props.clipNotification)
+
+  const notificationHandler = notification => {
+    if (notification.name === "transcriptionUpdate") {
+      // getClip(_id, setClip)
+      setClip(notification.data.clip)
+    }
+
+    if (notification.name === "joinedClipChannel") {
+      openNotificationWithIcon("success", notification.message)
+    }
+  }
+
   const mounted = useRef()
   useEffect(() => {
     if (!mounted.current) {
       mounted.current = true
+
       getClip(_id, setClip)
+
+      joinClipChannel(getUser(), notification => {
+        notificationHandler(notification)
+      })
     } else {
-      console.log("updating")
       setWordData({
         ...wordData,
         wordPages: splitWordsIntoPages(clip.words, wordData.wordPageSize),
@@ -121,24 +148,9 @@ function Clip(props) {
     }
   }, [clip])
 
-  // useEffect(() => {
-  //   console.log("clip use effect runnings")
-  //   const bearerToken = getUser()
-
-  //   joinClipChannel(bearerToken, _id, notification =>
-  //     notificationHandler(notification)
-  //   )
-  // }, [])
-
   // const notificationHandler = notification => {
-  //   // console.log("got notification", notification)
-  //   if (notification.name === "transcriptionComplete") {
-  //     console.log("trans complete", notification)
-  //     setClip(notification.data.clip)
-  //   }
-  //   if (notification.name === "joinedClip") {
-  //     openNotificationWithIcon("success", notification.message)
-  //   }
+  //   openNotificationWithIcon("success", notification.message)
+  //   setClip(notification.data.clip)
   // }
 
   const wordShowSizeChangeHandler = num => {
@@ -167,9 +179,9 @@ function Clip(props) {
       let res = await fetch(
         `${API_URL}/convert/clips/${clip._id}?lang=${transcribeData.language}`,
         {
-          mode: "cors", // no-cors, *cors, same-origin
-          cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-          credentials: "same-origin", // include, *same-origin, omit
+          // mode: "cors", // no-cors, *cors, same-origin
+          // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+          // credentials: "same-origin", // include, *same-origin, omit
           headers: {
             "Content-Type": "application/json",
             Authorization: getUser(),
@@ -308,6 +320,16 @@ function Clip(props) {
             <Icon type="message" />
             Transcribe
           </Button>
+          {transcribeData.loading ? (
+            <>
+              <Progress percent={clip.progressPercent || 0} status="active" />
+              <Steps current={clip.progressPercent > 0 ? 1 : 0}>
+                <Step title="Convert" icon={<Icon type="tool" />} />
+                <Step title="Transcribe" icon={<Icon type="message" />} />
+                <Step title="Done" icon={<Icon type="smile-o" />} />
+              </Steps>
+            </>
+          ) : null}
         </div>
       )
     return (
@@ -419,69 +441,6 @@ function Clip(props) {
       </>
     )
   }
-
-  // return (
-  // <>
-  //   {showClipAudio()}
-
-  //   <div style={{ maxWidth: "50rem", margin: "auto", minHeight: "70vh" }}>
-  //     {clipOptionsBar()}
-
-  //     {wordsParagraph()}
-  //   </div>
-
-  //   <Pagination
-  //     style={{ display: "flex", justifyContent: "center" }}
-  //     showQuickJumper
-  //     showSizeChanger
-  //     onChange={e => setWordData({ ...wordData, currentPageIndex: e - 1 })}
-  //     // defaultCurrent={wordData.currentPageIndex + 1}
-  //     current={wordData.currentPageIndex + 1}
-  //     pageSizeOptions={["200", "300", "400", "500", "600"]}
-  //     onShowSizeChange={(e, num) => wordShowSizeChangeHandler(num)}
-  //     total={wordData.words.length}
-  //     pageSize={wordData.wordPageSize}
-  //     hideOnSinglePage
-  //   />
-
-  //   {/* {editClipDrawer()} */}
-  //   <EditClipDrawer
-  //     clip={clip}
-  //     clipSaving={clipSaving}
-  //     editDrawerOpen={editDrawerOpen}
-  //     updateClipInProfile={props.updateClipInProfile}
-  //     setClipSaving={setClipSaving}
-  //     setEditDrawerOpen={setEditDrawerOpen}
-  //   />
-
-  //   <SearchClipDrawer
-  //     searchData={searchData}
-  //     onSearch={onSearch}
-  //     navigateToWord={navigateToWord}
-  //     setPlayerControls={setPlayerControls}
-  //     formatTimeStamp={formatTimeStamp}
-  //     wordData={wordData}
-  //     setSearchData={setSearchData}
-  //     playerControls={playerControls}
-  //     player={player}
-  //   />
-
-  //   <EditWordDrawer
-  //     wordData={wordData}
-  //     updateClipInProfile={props.updateClipInProfile}
-  //     clip={clip}
-  //     // handleEditWord={handleEditWord}
-  //     setWordData={setWordData}
-  //   />
-
-  //   <TranscriptionModal
-  //     convertClip={convertClip}
-  //     clip={clip}
-  //     transcribeData={transcribeData}
-  //     setTranscribeData={setTranscribeData}
-  //   />
-  // </>
-  // )
 }
 
 export default Clip

@@ -6,9 +6,9 @@ export const deleteClip = async clipId => {
   try {
     let res = await fetch(API_URL + "/clips/" + clipId, {
       method: "DELETE",
-      mode: "cors", // no-cors, *cors, same-origin
-      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: "same-origin", // include, *same-origin, omit
+      // mode: "cors", // no-cors, *cors, same-origin
+      // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+      // credentials: "same-origin", // include, *same-origin, omit
       headers: {
         "Content-Type": "application/json",
         Authorization: getUser(),
@@ -33,9 +33,9 @@ export const updateClip = async (clip, updateClipInProfile, setClip) => {
   try {
     let res = await fetch(API_URL + "/clips/" + clip._id, {
       method: "PATCH",
-      mode: "cors", // no-cors, *cors, same-origin
-      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: "same-origin", // include, *same-origin, omit
+      // mode: "cors", // no-cors, *cors, same-origin
+      // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+      // credentials: "same-origin", // include, *same-origin, omit
       headers: {
         "Content-Type": "application/json",
         Authorization: getUser(),
@@ -59,8 +59,8 @@ export const getClip = async (_id, setClip) => {
   try {
     let res = await fetch(API_URL + "/clips/" + _id, {
       mode: "cors", // no-cors, *cors, same-origin
-      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: "same-origin", // include, *same-origin, omit
+      // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+      // credentials: "same-origin", // include, *same-origin, omit
       headers: {
         "Content-Type": "application/json",
         Authorization: getUser(),

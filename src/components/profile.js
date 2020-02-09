@@ -1,18 +1,13 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import { navigate } from "gatsby"
 import WithLocation from "./WithLocation"
 import UserDetails from "./UserDetails"
 
 import UploadClip from "./UploadClip"
 
-import { Drawer, Menu, Affix } from "antd"
+import { Drawer } from "antd"
 
-import { joinUserChannel } from "../services/socket"
-
-import {
-  getUserProfile,
-  getUserProfileAndSet,
-} from "../services/userManagement"
+import { getUserProfileAndSet } from "../services/userManagement"
 import Clip from "./Clip"
 
 import queryString from "query-string"
@@ -21,39 +16,61 @@ import ProfileSkeleton from "./ProfileSkeleton"
 import { ProfileContainer } from "./MyStyledComponents"
 import { openNotificationWithIcon } from "./Notifications"
 import { getUser } from "../services/auth"
+import openSocket from "socket.io-client"
+import { API_URL } from "../config"
 
 function Profile(props) {
   const [uploadDrawOpen, setUploadDrawerOpen] = useState(false)
   const [uploading, setUploading] = useState(false)
   const [userProfile, setUserProfile] = useState({ clips: [] })
-  // const [clips, setClips] = useState([])
-  console.log(userProfile.clips)
+
+  const [clipNotification, setClipNotification] = useState(false)
 
   const PageLocation = props.location.search
     ? queryString.parse(props.location.search)
     : null
 
+  console.log("profile runnning")
+
   const bearerToken = getUser()
 
-  useEffect(() => {
-    getUserProfileAndSet(setUserProfile)
+  const mounted = useRef()
 
-    joinUserChannel(bearerToken, notification =>
-      notificationHandler(notification)
-    )
+  const socket = openSocket(API_URL)
+
+  function joinUserChannel(token, cb) {
+    socket.on("notification", notification => cb(notification))
+    socket.emit("joinUserChannel", token)
+  }
+
+  useEffect(() => {
+    console.log("profile updating")
+    if (!mounted.current) {
+      mounted.current = true
+      joinUserChannel(bearerToken, notification =>
+        notificationHandler(notification)
+      )
+      getUserProfileAndSet(setUserProfile)
+    } else {
+      // getUserProfileAndSet(setUserProfile)
+    }
   }, [])
 
   const notificationHandler = notification => {
     if (notification.name === "transcriptionComplete") {
-      console.log("trans complete", notification)
       openNotificationWithIcon("success", notification.message)
       getUserProfileAndSet(setUserProfile)
-      // updateClipInProfile(notification.data.clip)
-
-      // if (location)
     }
     if (notification.name === "joinedUser") {
       openNotificationWithIcon("success", notification.message)
+      console.log(notification.data.user)
+      // setUserProfile(notification.data)
+
+      // setTimeout(() => {
+      //   getUserProfileAndSet(setUserProfile)
+      // }, 4000)
+
+      // setClipNotification(true)
     }
   }
 
@@ -88,6 +105,7 @@ function Profile(props) {
             key={clip._id}
             clip={clip}
             updateClipInProfile={e => updateClipInProfile(e)}
+            clipNotification={clipNotification}
           />
         )
       default:
