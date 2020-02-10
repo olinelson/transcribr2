@@ -10,8 +10,11 @@ function CitationModal(props) {
   const { citationModalOpen, setCitationModalOpen, clip } = props
 
   const {
-    name,
-    contributorName,
+    firstName,
+    middleInitial,
+    contributorTitle,
+    lastName,
+    mediaDescription,
     showTitle,
     episodeTitle,
     publisher,
@@ -52,24 +55,6 @@ function CitationModal(props) {
       centered
     >
       <CitationContainer>
-        <h4>MLA</h4>
-        <textarea
-          className="ant-input"
-          // rows={4}
-          autoSize
-          readOnly
-          style={{
-            resize: "none",
-            display: "flex",
-          }}
-          ref={mlaRef}
-          value={`${contributorName}. ${showTitle} - ${episodeTitle}. ${publisher}, (${moment(
-            datePosted
-          ).year()}) ${url} ${datePosted}`}
-        />
-        <Icon type="copy" onClick={e => copyToClipboard(e, mlaRef)} />
-      </CitationContainer>
-      <CitationContainer>
         <h4>APA</h4>
         <textarea
           className="ant-input"
@@ -78,12 +63,17 @@ function CitationModal(props) {
           readOnly
           style={{
             resize: "none",
-            display: "flex",
+            // display: "flex",
           }}
           ref={apaRef}
-          value={`${contributorName}, (${moment(
+          // Last, F. M. (Contributor title). (Year, Month Date). Podcast title [Audio podcast]. URL.
+          value={`${lastName}, ${
+            firstName[0]
+          }. ${middleInitial} (${contributorTitle}). (${moment(
             datePosted
-          ).year()}). ${showTitle} - ${episodeTitle}. ${url} `}
+          ).format(
+            "YYYY, MMMM D"
+          )}). ${episodeTitle} [${mediaDescription}]. ${url} `}
         />
         <Icon type="copy" onClick={e => copyToClipboard(e, apaRef)} />
       </CitationContainer>
