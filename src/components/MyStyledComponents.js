@@ -69,7 +69,7 @@ export const ClipContainer = styled.div`
     "clip"
     "toolbar"
     "words"
-    "."
+    "space"
     "pagination";
 `
 

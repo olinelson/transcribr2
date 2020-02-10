@@ -247,71 +247,111 @@ function Clip(props) {
     </div>
   )
 
-  const wordsParagraph = () => {
-    if (!wordData.wordPages.length)
+  const maybeShowWordsParagraph = () => {
+    if (wordData.wordPages.length)
+      return (
+        <WordsContainer style={{ gridArea: "words" }}>
+          <p>
+            {wordData.wordPages[wordData.currentPageIndex].map(w => (
+              <Word
+                key={w._id}
+                word={w}
+                wordData={wordData}
+                setWordData={setWordData}
+                player={player}
+                playerControls={playerControls}
+                setPlayerControls={setPlayerControls}
+                updateClipInProfile={props.updateClipInProfile}
+                clip={clip}
+                setClip={setClip}
+                setWordCitationModalOpen={setWordCitationModalOpen}
+              />
+            ))}
+          </p>
+        </WordsContainer>
+      )
+  }
+
+  const maybeShowTranscribeButtton = () => {
+    if (!wordData.wordPages.length && !transcribeData.loading)
+      return (
+        <Button
+          type="primary"
+          loading={transcribeData.loading}
+          onClick={() =>
+            setTranscribeData({
+              ...transcribeData,
+              modalOpen: true,
+            })
+          }
+        >
+          <Icon type="message" />
+          Transcribe
+        </Button>
+      )
+  }
+
+  const maybeShowTranscribingLoadingState = () => {
+    if (!wordData.wordPages.length && transcribeData.loading)
       return (
         <div
           style={{
             display: "grid",
-            height: "50vh",
+            // height: "50vh",
+            height: "20rem",
+
             justifyItems: "center",
+            alignItems: "center",
+            alignContent: "center",
             gridTemplateRows: "auto auto auto auto",
-            // alignItems: "center",
+            borderRadius: "6px",
+            backgroundColor: "#fafafa",
+            padding: "1rem",
+            gridArea: "space",
           }}
         >
-          <Button
-            type="primary"
-            loading={transcribeData.loading}
-            onClick={() =>
-              setTranscribeData({
-                ...transcribeData,
-                modalOpen: true,
-              })
-            }
-          >
-            <Icon type="message" />
-            Transcribe
-          </Button>
-
           <>
-            <Progress percent={clip.progressPercent || 0} status="active" />
-            <Steps>
+            <Steps style={{ padding: "1rem" }}>
               <Step
                 status={clip.conversionComplete ? "finish" : "process"}
-                title="Convert"
-                icon={<Icon type="tool" />}
+                title="Converting"
+                icon={
+                  clip.conversionComplete ? (
+                    <Icon
+                      type="check-circle"
+                      theme="twoTone"
+                      twoToneColor="#52c41a"
+                    />
+                  ) : (
+                    <Icon active type="loading" />
+                  )
+                }
               />
               <Step
-                status={clip.conversionComplete ? "process" : "wait"}
-                title="Transcribe"
-                icon={<Icon type="message" />}
+                status={clip.operationId ? "process" : "wait"}
+                title="Transcribing"
+                icon={
+                  clip.conversionComplete ? (
+                    <Icon active type="loading" />
+                  ) : (
+                    <Icon type="message" />
+                  )
+                }
               />
+
               <Step title="Done" icon={<Icon type="smile-o" />} />
             </Steps>
+            {clip.operationId ? (
+              <Progress
+                // strokeWidth={100}
+                style={{ padding: ".25rem", marginRight: "-8px" }}
+                percent={clip.progressPercent || 1}
+                status="active"
+              />
+            ) : null}
           </>
         </div>
       )
-    return (
-      <WordsContainer style={{ gridArea: "words" }}>
-        <p>
-          {wordData.wordPages[wordData.currentPageIndex].map(w => (
-            <Word
-              key={w._id}
-              word={w}
-              wordData={wordData}
-              setWordData={setWordData}
-              player={player}
-              playerControls={playerControls}
-              setPlayerControls={setPlayerControls}
-              updateClipInProfile={props.updateClipInProfile}
-              clip={clip}
-              setClip={setClip}
-              setWordCitationModalOpen={setWordCitationModalOpen}
-            />
-          ))}
-        </p>
-      </WordsContainer>
-    )
   }
 
   const navigateToWord = word => {
@@ -341,7 +381,11 @@ function Clip(props) {
 
           {clipOptionsBar()}
 
-          {wordsParagraph()}
+          {maybeShowWordsParagraph()}
+
+          {maybeShowTranscribeButtton()}
+
+          {maybeShowTranscribingLoadingState()}
 
           <Pagination
             style={{
