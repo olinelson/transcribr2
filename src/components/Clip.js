@@ -11,7 +11,15 @@ import moment from "moment"
 import ReactPlayer from "react-player"
 
 // components
-import { Icon, Button, Pagination, Steps, Skeleton, Progress } from "antd"
+import {
+  Icon,
+  Button,
+  Pagination,
+  Steps,
+  Skeleton,
+  Progress,
+  Radio,
+} from "antd"
 import { ClipContainer, WordsContainer } from "./MyStyledComponents"
 import { openNotificationWithIcon } from "./Notifications"
 import SearchClipDrawer from "./SearchClipDrawer"
@@ -20,6 +28,7 @@ import TranscriptionModal from "./TranscriptionModal"
 import EditClipDrawer from "./EditClipDrawer"
 import Word from "./Word"
 import CitationModal from "./CitationModal"
+import WordCitationModal from "./WordCitationModal"
 
 const { Step } = Steps
 
@@ -37,6 +46,7 @@ function Clip(props) {
   })
 
   const [citationModalOpen, setCitationModalOpen] = useState(false)
+  const [wordCitationModalOpen, setWordCitationModalOpen] = useState(false)
 
   const [transcribeData, setTranscribeData] = useState({
     modalOpen: false,
@@ -65,22 +75,13 @@ function Clip(props) {
     words: clip.words,
     editing: false,
     loading: false,
+    citing: false,
   })
 
   const [playerControls, setPlayerControls] = useState({
     playing: false,
   })
   const player = useRef(null)
-
-  const formatTimeStamp = string => {
-    let seconds = parseInt(string.replace("s", ""))
-    let mo = moment.duration(seconds, "seconds")
-    let hrs = Math.round(mo.asHours())
-    let mins = Math.round(mo.asMinutes())
-    let secs = Math.round(mo.asSeconds())
-
-    return `${hrs}:${mins}:${secs}`
-  }
 
   const notificationHandler = notification => {
     if (notification.name === "transcriptionUpdate") {
@@ -218,22 +219,29 @@ function Clip(props) {
                   onClick={() => setClip({ ...clip, editing: true })}
                   type="edit"
                 />
-                <Icon
+                {/* <Icon
                   style={{ fontSize: "1rem" }}
                   onClick={() => setCitationModalOpen(true)}
                   type="link"
-                />
+                /> */}
               </>
             )}
           </h1>
 
-          <Button
-            disabled={!wordData.words.length}
-            onClick={() => setSearchData({ ...searchData, modalOpen: true })}
-          >
-            <Icon type="file-search" />
-            Search
-          </Button>
+          <Button.Group>
+            <Button onClick={() => setCitationModalOpen(true)}>
+              <Icon type="snippets" />
+              Cite
+            </Button>
+
+            <Button
+              disabled={!wordData.words.length}
+              onClick={() => setSearchData({ ...searchData, modalOpen: true })}
+            >
+              <Icon type="file-search" />
+              Search
+            </Button>
+          </Button.Group>
         </div>
       ) : null}
     </div>
@@ -298,6 +306,7 @@ function Clip(props) {
               updateClipInProfile={props.updateClipInProfile}
               clip={clip}
               setClip={setClip}
+              setWordCitationModalOpen={setWordCitationModalOpen}
             />
           ))}
         </p>
@@ -315,7 +324,6 @@ function Clip(props) {
       currentPageIndex: pageNumber,
       selectedWord: word,
     })
-    setSearchData({ ...searchData, modalOpen: false })
   }
 
   if (!!clip.loading) {
@@ -368,7 +376,6 @@ function Clip(props) {
           searching={searching}
           navigateToWord={navigateToWord}
           setPlayerControls={setPlayerControls}
-          formatTimeStamp={formatTimeStamp}
           wordData={wordData}
           setSearchData={setSearchData}
           playerControls={playerControls}
@@ -393,6 +400,11 @@ function Clip(props) {
           citationModalOpen={citationModalOpen}
           setCitationModalOpen={setCitationModalOpen}
           clip={clip}
+        />
+        <WordCitationModal
+          clip={clip}
+          wordData={wordData}
+          setWordData={setWordData}
         />
       </>
     )

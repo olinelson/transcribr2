@@ -28,12 +28,14 @@ const EditClipDrawer = props => {
 
   return (
     <Drawer
-      // mask={false}
       width="400"
       title="Edit Clip"
       placement="right"
       closable={true}
-      onClose={() => props.setClip({ ...clip, editing: false })}
+      onClose={() => {
+        updateClip(clip, updateClipInProfile, setClip)
+        props.setClip({ ...clip, editing: false })
+      }}
       visible={editing}
     >
       <Form
@@ -63,6 +65,7 @@ const EditClipDrawer = props => {
             name="firstName"
             spellCheck="true"
             defaultValue={clip.citation.firstName}
+            placeholder="Dave"
           />
         </Form.Item>
         <Form.Item label="Middle Initial">
@@ -70,6 +73,7 @@ const EditClipDrawer = props => {
             name="middleInitial"
             spellCheck="true"
             defaultValue={clip.citation.middleInitial}
+            placeholder="D"
           />
         </Form.Item>
 
@@ -78,6 +82,7 @@ const EditClipDrawer = props => {
             name="lastName"
             spellCheck="true"
             defaultValue={clip.citation.lastName}
+            placeholder="Varialle"
           />
         </Form.Item>
         <Form.Item label="Contributor Title">
@@ -85,6 +90,7 @@ const EditClipDrawer = props => {
             name="contributorTitle"
             spellCheck="true"
             defaultValue={clip.citation.contributorTitle}
+            placeholder="host"
           />
         </Form.Item>
 
@@ -95,6 +101,7 @@ const EditClipDrawer = props => {
             name="mediaDescription"
             spellCheck="true"
             defaultValue={clip.citation.mediaDescription}
+            placeholder="Audio Podcast"
           />
         </Form.Item>
 
@@ -103,6 +110,7 @@ const EditClipDrawer = props => {
             name="showTitle"
             spellCheck="true"
             defaultValue={clip.citation.showTitle}
+            placeholder="I'd Hit That"
           />
         </Form.Item>
         <Form.Item label="Episode Title">
@@ -110,6 +118,7 @@ const EditClipDrawer = props => {
             name="episodeTitle"
             spellCheck="true"
             defaultValue={clip.citation.episodeTitle}
+            placeholder="102 - Dan Weiss"
           />
         </Form.Item>
         <Form.Item label="Publisher">
@@ -117,12 +126,13 @@ const EditClipDrawer = props => {
             name="publisher"
             spellCheck="true"
             defaultValue={clip.citation.publisher}
+            placeholder="Podomatic.net"
           />
         </Form.Item>
 
         <Divider />
 
-        <Form.Item label="Date Posted/Accessed">
+        <Form.Item label="Date Posted">
           <DatePicker
             allowClear={false}
             defaultValue={moment(clip.citation.datePosted)}
@@ -134,11 +144,32 @@ const EditClipDrawer = props => {
             }
           />
         </Form.Item>
+        <Form.Item label="Date Accessed">
+          <DatePicker
+            allowClear={false}
+            defaultValue={moment(clip.citation.accessed)}
+            onChange={e =>
+              setClip({
+                ...clip,
+                citation: { ...clip.citation, dateAccessed: e.valueOf() },
+              })
+            }
+          />
+        </Form.Item>
+        <Form.Item label="Place Of Recording">
+          <Input
+            name="placeOfRecording"
+            spellCheck="true"
+            defaultValue={clip.citation.placeOfRecording}
+            placeholder="Los Angeles, USA"
+          />
+        </Form.Item>
         <Form.Item label="Url">
           <Input
             name="url"
             spellCheck="true"
             defaultValue={clip.citation.url}
+            placeholder="https://www.podomatic.com/podcasts/idhitthatpodcast/episodes/2017-10-22T09_39_47-07_00"
           />
         </Form.Item>
 

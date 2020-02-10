@@ -3,13 +3,14 @@ import { debounce } from "debounce"
 
 import { Icon, Drawer, Input, List } from "antd"
 
+import { formatTimeStamp } from "../utils"
+
 const { Search } = Input
 
 function SearchClipDrawer(props) {
   const {
     navigateToWord,
     setPlayerControls,
-    formatTimeStamp,
     wordData,
     playerControls,
     player,
@@ -60,6 +61,8 @@ function SearchClipDrawer(props) {
   return (
     <Drawer
       title="Search"
+      mask={false}
+      maskClosable={false}
       visible={searchData.modalOpen}
       onClose={() => setSearchData({ ...searchData, modalOpen: false })}
     >
@@ -87,9 +90,13 @@ function SearchClipDrawer(props) {
               title={<a onClick={() => navigateToWord(word)}>{word.word}</a>}
               description={
                 <span>
-                  <Icon type="clock-circle" /> {formatTimeStamp(word.startTime)}
                   <Icon
-                    type="login"
+                    onClick={() => navigateToWord(word)}
+                    type="clock-circle"
+                  />{" "}
+                  {formatTimeStamp(word.startTime)}{" "}
+                  <Icon
+                    type="play-circle"
                     onClick={() => {
                       player.current.seekTo(
                         parseInt(word.startTime.replace("s", ""))

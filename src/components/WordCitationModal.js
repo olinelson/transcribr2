@@ -6,9 +6,10 @@ import moment from "moment"
 import styled from "styled-components"
 import { openNotificationWithIcon } from "./Notifications"
 import TextArea from "antd/lib/input/TextArea"
+import { formatTimeStamp } from "../utils"
 
-function CitationModal(props) {
-  const { citationModalOpen, setCitationModalOpen, clip } = props
+function WordCitationModal(props) {
+  const { wordData, setWordData, clip } = props
 
   const {
     firstName = "First Name",
@@ -44,16 +45,19 @@ function CitationModal(props) {
     grid-gap: 1rem;
   `
 
+  if (!wordData.selectedWord) return null
   return (
     <Modal
-      onCancel={() => setCitationModalOpen(false)}
+      onCancel={() => setWordData({ ...wordData, citing: false })}
       footer={null}
-      visible={citationModalOpen}
+      visible={wordData.citing}
       title="Citation"
       autoSize
       centered
     >
       <CitationContainer>
+        {/* APA */}
+
         <h4>APA</h4>
         <TextArea
           className="ant-input"
@@ -64,13 +68,12 @@ function CitationModal(props) {
           }}
           name="Apa"
           ref={apaRef}
-          value={`${lastName}, ${
-            firstName[0]
-          }. ${middleInitial} (${contributorTitle}). (${moment(
-            datePosted
-          ).format(
-            "YYYY, MMMM D"
-          )}). ${episodeTitle} [${mediaDescription}]. ${url} `}
+          //   (University of Oxford, 2019, 0:29)
+          value={`(${clip.citation.lastName}, ${moment(
+            clip.citation.datePosted
+          ).format("YYYY")}, ${formatTimeStamp(
+            wordData.selectedWord.startTime
+          )})`}
         />
         <Icon type="copy" onClick={() => copyToClipboard(apaRef, "APA")} />
 
@@ -83,15 +86,13 @@ function CitationModal(props) {
             resize: "none",
           }}
           ref={mlaRef}
-          value={`${lastName}, ${
-            firstName[0]
-          } ${middleInitial}. "${episodeTitle}". ${mediaDescription}. ${showTitle}. ${publisher}, ${moment(
-            datePosted
-          ).format("DD MMMM YYYY")}. Web. ${moment(dateAccessed).format(
-            "DD MMMM YYYY"
-          )}`}
+          value={`(${clip.citation.lastName}, ${formatTimeStamp(
+            wordData.selectedWord.startTime
+          )})`}
         />
         <Icon type="copy" onClick={() => copyToClipboard(apaRef, "MLA")} />
+
+        {/* 
 
         <h4>Vancouver</h4>
         <TextArea
@@ -111,10 +112,9 @@ function CitationModal(props) {
             "YYYY"
           )}]. Available from: ${url}.`}
         />
-        <Icon
-          type="copy"
-          onClick={() => copyToClipboard(apaRef, "Vancouver")}
-        />
+        <Icon type="copy" onClick={() => copyToClipboard(apaRef, "APA")} /> */}
+
+        {/* 
 
         <h4>Chicago</h4>
         <TextArea
@@ -130,7 +130,9 @@ function CitationModal(props) {
             datePosted
           ).format("MMM. DD, YYYY")}. ${url}`}
         />
-        <Icon type="copy" onClick={() => copyToClipboard(apaRef, "Chicago")} />
+        <Icon type="copy" onClick={() => copyToClipboard(apaRef, "APA")} /> */}
+
+        {/* 
 
         <h4>Harvard</h4>
         <TextArea
@@ -147,10 +149,10 @@ function CitationModal(props) {
             dateAccessed
           ).format("D MMM. YYYY")}].`}
         />
-        <Icon type="copy" onClick={() => copyToClipboard(apaRef, "Harvard")} />
+        <Icon type="copy" onClick={() => copyToClipboard(apaRef, "APA")} /> */}
       </CitationContainer>
     </Modal>
   )
 }
 
-export default CitationModal
+export default WordCitationModal

@@ -2,12 +2,10 @@ import moment from "moment"
 
 export const formatTimeStamp = string => {
   let seconds = parseInt(string.replace("s", ""))
-  let mo = moment.duration(seconds, "seconds")
-  let hrs = Math.round(mo.asHours())
-  let mins = Math.round(mo.asMinutes())
-  let secs = Math.round(mo.asSeconds())
 
-  return `${hrs}:${mins}:${secs}`
+  return moment
+    .utc(moment.duration(seconds, "seconds").asMilliseconds())
+    .format("H:m:s")
 }
 
 export const sortClipsChronologically = (a, b) => {

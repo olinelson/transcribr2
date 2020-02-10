@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-import { Popover, Icon, Tag, Dropdown, Menu, Popconfirm } from "antd"
+import { Popover, Icon, Tag, Dropdown, Menu, Popconfirm, Modal } from "antd"
 
 import { deleteWord } from "../services/wordManagement"
 
@@ -102,45 +102,59 @@ function Word(props) {
         <Icon type="arrow-right" />
         <Icon type="plus-circle" /> Insert After
       </Menu.Item>
+      <Menu.Item
+        onClick={() =>
+          setWordData({
+            ...wordData,
+            selectedWord: word,
+            citing: true,
+          })
+        }
+      >
+        <Icon type="snippets" />
+        Cite
+      </Menu.Item>
     </Menu>
   )
 
   return (
-    <Popover
-      key={word._id}
-      content={
-        <div>
-          <Tag>{formatTimeStamp(word.startTime)} </Tag>
-          <Icon
-            type="login"
-            onClick={() => {
-              player.current.seekTo(parseInt(word.startTime.replace("s", "")))
-              setPlayerControls({ ...playerControls, playing: true })
-            }}
-          />
-          {/* <Icon
+    <>
+      <Popover
+        key={word._id}
+        content={
+          <div>
+            <Tag>{formatTimeStamp(word.startTime)} </Tag>
+            <Icon
+              type="play-circle"
+              onClick={() => {
+                player.current.seekTo(parseInt(word.startTime.replace("s", "")))
+                setPlayerControls({ ...playerControls, playing: true })
+              }}
+            />
+            {/* <Icon
             type="edit"
             onClick={() =>
               setWordData({ ...wordData, selectedWord: word, editing: true })
             }
           /> */}
-          <Dropdown overlay={wordOptions()} trigger={["click"]}>
-            <Icon type="down" />
-          </Dropdown>
-        </div>
-      }
-    >
-      <span>
-        {" "}
-        <WordContainer
-          deleting={deleting}
-          word={word}
-          selectedWord={wordData.selectedWord}
-        >
-          {word.word}
-        </WordContainer>{" "}
-      </span>
-    </Popover>
+            <Dropdown overlay={wordOptions()} trigger={["click"]}>
+              <Icon type="down" />
+            </Dropdown>
+          </div>
+        }
+      >
+        <span>
+          {" "}
+          <WordContainer
+            deleting={deleting}
+            word={word}
+            selectedWord={wordData.selectedWord}
+          >
+            {word.word}
+          </WordContainer>{" "}
+        </span>
+      </Popover>
+    </>
   )
 }
 
