@@ -134,7 +134,7 @@ function Clip(props) {
   }
 
   const deleteClipHandler = async clipId => {
-    setClip({ ...clip, deleting: true })
+    setClip({ ...clip, editing: false, deleting: true })
     let success = await deleteClip(clipId)
     if (success) {
       props.removeClipFromSideBar()
