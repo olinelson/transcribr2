@@ -130,13 +130,7 @@ function Word(props) {
                 player.current.seekTo(parseInt(word.startTime.replace("s", "")))
                 setPlayerControls({ ...playerControls, playing: true })
               }}
-            />
-            {/* <Icon
-            type="edit"
-            onClick={() =>
-              setWordData({ ...wordData, selectedWord: word, editing: true })
-            }
-          /> */}
+            />{" "}
             <Dropdown overlay={wordOptions()} trigger={["click"]}>
               <Icon type="down" />
             </Dropdown>

@@ -241,11 +241,31 @@ function Clip(props) {
               <Icon type="file-search" />
               Search
             </Button>
+
+            <Button
+              disabled={!wordData.words.length}
+              onClick={() => downloadTextFile()}
+            >
+              <Icon type="download" />
+              Download Transcript
+            </Button>
           </Button.Group>
         </div>
       ) : null}
     </div>
   )
+
+  const downloadTextFile = () => {
+    const allWords = clip.words.map(w => w.word).join(" ")
+    const element = document.createElement("a")
+    const file = new Blob([allWords], {
+      type: "text/plain",
+    })
+    element.href = URL.createObjectURL(file)
+    element.download = "myFile.txt"
+    document.body.appendChild(element) // Required for this to work in FireFox
+    element.click()
+  }
 
   const maybeShowWordsParagraph = () => {
     if (wordData.wordPages.length)
