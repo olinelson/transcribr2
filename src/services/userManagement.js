@@ -4,9 +4,6 @@ import { getUser } from "./auth"
 export const getUserProfileAndSet = async setUserProfile => {
   try {
     let res = await fetch(API_URL + "/users/me", {
-      // mode: "cors", // no-cors, *cors, same-origin
-      // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-      // credentials: "same-origin", // include, *same-origin, omit
       headers: {
         "Content-Type": "application/json",
         Authorization: getUser(),
@@ -22,12 +19,50 @@ export const getUserProfileAndSet = async setUserProfile => {
     return false
   }
 }
+
 export const getUserProfile = async setUserProfile => {
   try {
     let res = await fetch(API_URL + "/users/me", {
-      // mode: "cors", // no-cors, *cors, same-origin
-      // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-      // credentials: "same-origin", // include, *same-origin, omit
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: getUser(),
+      },
+      redirect: "follow", // manual, *follow, error
+      referrerPolicy: "no-referrer", // no-referrer, *client
+    })
+
+    res = await res.json() // parses JSON response into native JavaScript objects
+    return res
+  } catch (error) {
+    console.log(error)
+    return false
+  }
+}
+
+export const updateUser = async user => {
+  try {
+    let res = await fetch(API_URL + "/users/me", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: getUser(),
+      },
+      body: JSON.stringify(user),
+      redirect: "follow", // manual, *follow, error
+      referrerPolicy: "no-referrer", // no-referrer, *client
+    })
+
+    res = await res.json() // parses JSON response into native JavaScript objects
+    return res
+  } catch (error) {
+    console.log(error)
+    return false
+  }
+}
+export const deleteUser = async () => {
+  try {
+    let res = await fetch(API_URL + "/users/me", {
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
         Authorization: getUser(),
