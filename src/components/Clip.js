@@ -188,6 +188,8 @@ function Clip(props) {
         height="100%"
         width="100%"
         style={{
+          border: "1px solid red",
+          display: "flex",
           maxWidth: clip.isVideo ? "30rem" : "100%",
           marginTop: "1rem",
           justifySelf: "center",

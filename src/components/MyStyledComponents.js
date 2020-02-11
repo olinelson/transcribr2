@@ -30,12 +30,18 @@ export const Layout = styled.div`
   grid-template-columns: 1fr;
   grid-template-rows: 4rem 1fr auto;
   height: 100vh;
+  width: 100vw;
+  maxwidth: 100vw;
+  overflow: hidden;
   grid-template-areas:
     "header"
     "content"
     "footer";
 `
-export const Header = styled.div``
+export const Header = styled.div`
+  width: 100%;
+  maxwidth: 100vw;
+`
 export const Footer = styled.div`
   // background: pink;
 `
@@ -43,6 +49,8 @@ export const Content = styled.div`
   display: grid;
   border: 1rem solid #f0f2f5;
   background: white;
+  width: 100%;
+  maxwidth: 100vw;
   @media (max-width: 40rem) {
     border: 0.25rem solid white;
   }
@@ -60,7 +68,7 @@ export const ProfileContainer = styled.div`
   grid-gap: 1rem;
   grid-template-areas: "sidebar main .";
   @media (max-width: 40rem) {
-    grid-template-columns: 5rem 1fr 1rem;
+    grid-template-columns: auto 1fr 0.5rem;
   }
 `
 export const ClipContainer = styled.div`

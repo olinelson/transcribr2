@@ -25,17 +25,14 @@ export default function IndexPage() {
     <Layout>
       <div
         style={{
-          margin: "1rem",
           minHeight: "50vh",
           justifySelf: "center",
           alignSelf: "center",
-          width: "100%",
           maxWidth: "40rem",
           textAlign: "center",
         }}
       >
         <Img
-          style={{ width: "100%" }}
           fluid={data.file.childImageSharp.fluid}
           alt="Gatsby Docs are awesome"
         />
