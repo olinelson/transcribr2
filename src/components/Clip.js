@@ -18,7 +18,9 @@ import {
   Steps,
   Skeleton,
   Progress,
+  Menu,
   Radio,
+  Dropdown,
 } from "antd"
 import { ClipContainer, WordsContainer } from "./MyStyledComponents"
 import { openNotificationWithIcon } from "./Notifications"
@@ -90,7 +92,6 @@ function Clip(props) {
 
     if (notification.name === "joinedClipChannel") {
       console.log(notification.message)
-      // openNotificationWithIcon("success", notification.message)
     }
   }
 
@@ -214,11 +215,6 @@ function Clip(props) {
               <Icon type="loading" />
             ) : (
               <>
-                <Icon
-                  style={{ fontSize: "1rem" }}
-                  onClick={() => setClip({ ...clip, editing: true })}
-                  type="edit"
-                />
                 {/* <Icon
                   style={{ fontSize: "1rem" }}
                   onClick={() => setCitationModalOpen(true)}
@@ -229,11 +225,6 @@ function Clip(props) {
           </h1>
 
           <Button.Group>
-            <Button onClick={() => setCitationModalOpen(true)}>
-              <Icon type="snippets" />
-              Cite
-            </Button>
-
             <Button
               disabled={!wordData.words.length}
               onClick={() => setSearchData({ ...searchData, modalOpen: true })}
@@ -241,14 +232,35 @@ function Clip(props) {
               <Icon type="file-search" />
               Search
             </Button>
+            <Dropdown
+              trigger={["click"]}
+              overlay={
+                <Menu>
+                  <Menu.Item
+                    onClick={() => setClip({ ...clip, editing: true })}
+                  >
+                    <Icon type="edit" />
+                    Edit
+                  </Menu.Item>
+                  <Menu.Item onClick={() => setCitationModalOpen(true)}>
+                    <Icon type="snippets" />
+                    Cite
+                  </Menu.Item>
 
-            <Button
-              disabled={!wordData.words.length}
-              onClick={() => downloadTextFile()}
+                  <Menu.Item
+                    disabled={!wordData.words.length}
+                    onClick={() => downloadTextFile()}
+                  >
+                    <Icon type="download" />
+                    Download Transcript
+                  </Menu.Item>
+                </Menu>
+              }
             >
-              <Icon type="download" />
-              Download Transcript
-            </Button>
+              <Button>
+                <Icon type="more" />
+              </Button>
+            </Dropdown>
           </Button.Group>
         </div>
       ) : null}
@@ -413,6 +425,7 @@ function Clip(props) {
               justifyContent: "center",
               alignSelf: "center",
               gridArea: "pagination",
+              paddingBottom: ".5rem",
             }}
             showQuickJumper
             showSizeChanger

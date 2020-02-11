@@ -34,11 +34,11 @@ const layout = ({ children, location }) => {
           style={{
             textAlign: "center",
             gridArea: "footer",
-            margin: "1rem",
+            // margin: "1rem",
             // background: "#f0f2f5",
           }}
         >
-          Oli Nelson ©2020
+          {/* Oli Nelson ©2020 */}
         </Footer>
       )}
     </Layout>

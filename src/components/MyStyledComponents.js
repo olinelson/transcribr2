@@ -43,6 +43,9 @@ export const Content = styled.div`
   display: grid;
   border: 1rem solid #f0f2f5;
   background: white;
+  @media (max-width: 40rem) {
+    border: 0.25rem solid white;
+  }
 `
 export const Breadcrumb = styled(_Breadcrumb)``
 export const Menu = styled(_Menu)``
@@ -56,6 +59,9 @@ export const ProfileContainer = styled.div`
   grid-template-rows: 1fr;
   grid-gap: 1rem;
   grid-template-areas: "sidebar main .";
+  @media (max-width: 40rem) {
+    grid-template-columns: 5rem 1fr 1rem;
+  }
 `
 export const ClipContainer = styled.div`
   display: grid;
