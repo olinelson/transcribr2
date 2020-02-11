@@ -13,7 +13,9 @@ function SideBar({ clips, uploading, setUploadDrawerOpen, location }) {
     ? queryString.parse(location.search)
     : null
 
-  const [inlineCollapsed, setInlineCollapsed] = useState(false)
+  const [inlineCollapsed, setInlineCollapsed] = useState(
+    window.innerWidth < 700 ? true : false
+  )
 
   useEffect(() => {
     function handleResize() {
