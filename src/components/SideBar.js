@@ -26,7 +26,7 @@ function SideBar({ clips, uploading, setUploadDrawerOpen, location }) {
     }
 
     window.addEventListener("resize", handleResize)
-  })
+  }, [])
 
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
