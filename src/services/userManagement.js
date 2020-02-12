@@ -1,5 +1,6 @@
 import { API_URL } from "../config"
 import { getUser } from "./auth"
+import { navigate } from "gatsby"
 
 export const getUserProfileAndSet = async setUserProfile => {
   try {
@@ -11,10 +12,13 @@ export const getUserProfileAndSet = async setUserProfile => {
       redirect: "follow", // manual, *follow, error
       referrerPolicy: "no-referrer", // no-referrer, *client
     })
+    if (!res.ok) throw new Error("Can't find user")
 
     res = await res.json() // parses JSON response into native JavaScript objects
     return setUserProfile(res)
   } catch (error) {
+    window.localStorage.clear()
+    navigate("/app/login")
     console.log(error)
     return false
   }
