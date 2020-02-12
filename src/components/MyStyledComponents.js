@@ -68,6 +68,7 @@ export const ClipContainer = styled.div`
   display: grid;
   grid-gap: 1rem;
   height: 100vh;
+  width: 100%;
   align-items: center;
   grid-template-columns: 1fr;
 

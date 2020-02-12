@@ -53,7 +53,8 @@ function Clip(props) {
     language: "",
     loading:
       props.clip.conversionComplete === false ||
-      props.clip.operationCompleted === false
+      props.clip.operationCompleted === false ||
+      props.clip.operationId
         ? true
         : false,
   })
@@ -330,8 +331,8 @@ function Clip(props) {
         <div
           style={{
             display: "grid",
-            // height: "50vh",
-            height: "20rem",
+            gridArea: "words",
+            height: "100%",
 
             justifyItems: "center",
             alignItems: "center",
@@ -340,7 +341,6 @@ function Clip(props) {
             borderRadius: "6px",
             backgroundColor: "#fafafa",
             padding: "1rem",
-            gridArea: "space",
           }}
         >
           <>
