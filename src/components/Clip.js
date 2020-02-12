@@ -306,21 +306,24 @@ function Clip(props) {
   }
 
   const maybeShowTranscribeButtton = () => {
+    console.log("hello maybe transcribe")
     if (!wordData.wordPages.length && !transcribeData.loading)
       return (
-        <Button
-          type="primary"
-          loading={transcribeData.loading}
-          onClick={() =>
-            setTranscribeData({
-              ...transcribeData,
-              modalOpen: true,
-            })
-          }
-        >
-          <Icon type="message" />
-          Transcribe
-        </Button>
+        <div style={{ gridArea: "words", justifySelf: "center" }}>
+          <Button
+            type="primary"
+            loading={transcribeData.loading}
+            onClick={() =>
+              setTranscribeData({
+                ...transcribeData,
+                modalOpen: true,
+              })
+            }
+          >
+            <Icon type="message" />
+            Transcribe
+          </Button>
+        </div>
       )
   }
 
