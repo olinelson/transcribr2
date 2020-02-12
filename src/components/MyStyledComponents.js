@@ -7,7 +7,6 @@ import {
   Button as _Button,
   Checkbox as _Checkbox,
   Card as _Card,
-  // Layout as _Layout,
   Breadcrumb as _Breadcrumb,
   Menu as _Menu,
   Avatar as _Avatar,
@@ -15,7 +14,6 @@ import {
   Upload as _Upload,
 } from "antd"
 
-// import { Form, Icon, Input, Button, Checkbox } from "antd"
 export const Form = styled(_Form)``
 export const Icon = styled(_Icon)``
 export const Input = styled(_Input)``
@@ -40,7 +38,6 @@ export const Header = styled.div`
 
   @media (max-width: 600px) {
     bottom: 0;
-    // display: none !important;
   }
 `
 export const Footer = styled.div``
