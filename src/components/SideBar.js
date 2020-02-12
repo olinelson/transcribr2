@@ -41,6 +41,7 @@ function SideBar({ clips, uploading, setUploadDrawerOpen, location }) {
           flexDirection: "column",
           gridArea: "sidebar",
           marginTop: "4rem",
+          maxWidth: "30vw",
         }}
       >
         <Menu
