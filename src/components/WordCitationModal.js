@@ -11,26 +11,11 @@ import { formatTimeStamp } from "../utils"
 function WordCitationModal(props) {
   const { wordData, setWordData, clip } = props
 
-  const {
-    firstName = "First Name",
-    middleInitial = "Middle Initial",
-    contributorTitle = "Contributor Title",
-    lastName = "Last Name",
-    mediaDescription = "Media Description",
-    showTitle = "Show Title",
-    episodeTitle = "Episode Title",
-    publisher = "Publisher",
-    datePosted = moment().unix(),
-    dateAccessed = moment().unix(),
-    placeOfRecording = "Place Of Recording",
-    url = "URL",
-  } = clip.citation
-
   const mlaRef = useRef(null)
   const apaRef = useRef(null)
-  const chicagoRef = useRef(null)
-  const harvardRef = useRef(null)
-  const vancouverRef = useRef(null)
+  // const chicagoRef = useRef(null)
+  // const harvardRef = useRef(null)
+  // const vancouverRef = useRef(null)
 
   function copyToClipboard(ref, style) {
     navigator.clipboard.writeText(ref.current.state.value)

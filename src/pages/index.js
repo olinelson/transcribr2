@@ -1,6 +1,4 @@
 import React from "react"
-import { Link } from "gatsby"
-import { isLoggedIn } from "../services/auth"
 
 import { useStaticQuery, graphql } from "gatsby"
 import Img from "gatsby-image"
@@ -25,23 +23,16 @@ export default function IndexPage() {
     <Layout>
       <div
         style={{
-          // display: "grid",
-          // minHeight: "50vh",
-          // height: "80vh",
+          display: "grid",
           justifySelf: "center",
           alignSelf: "center",
+          justifyContent: "center",
           width: "100%",
-          // maxWidth: "40rem",
+          maxWidth: "40rem",
           textAlign: "center",
-
-          // width: "100%",
         }}
       >
-        <Img
-          fluid={data.file.childImageSharp.fluid}
-          alt="Gatsby Docs are awesome"
-          // style={{ maxWidth: "100vw" }}
-        />
+        <Img fluid={data.file.childImageSharp.fluid} alt="Transcribr Logo" />
         <h1
           style={{
             color: "#1890FF",

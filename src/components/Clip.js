@@ -7,7 +7,6 @@ import { deleteClip, getClip } from "../services/clipManagement"
 import { splitWordsIntoPages } from "../services/wordManagement"
 
 import openSocket from "socket.io-client"
-import moment from "moment"
 import ReactPlayer from "react-player"
 
 // components
@@ -19,7 +18,6 @@ import {
   Skeleton,
   Progress,
   Menu,
-  Radio,
   Dropdown,
 } from "antd"
 import { ClipContainer, WordsContainer } from "./MyStyledComponents"
@@ -48,7 +46,7 @@ function Clip(props) {
   })
 
   const [citationModalOpen, setCitationModalOpen] = useState(false)
-  const [wordCitationModalOpen, setWordCitationModalOpen] = useState(false)
+  const [, setWordCitationModalOpen] = useState(false)
 
   const [transcribeData, setTranscribeData] = useState({
     modalOpen: false,
@@ -277,7 +275,7 @@ function Clip(props) {
       type: "text/plain",
     })
     element.href = URL.createObjectURL(file)
-    element.download = "myFile.txt"
+    element.download = `${clip.name}.txt`
     document.body.appendChild(element) // Required for this to work in FireFox
     element.click()
   }

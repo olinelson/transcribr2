@@ -39,7 +39,8 @@ export const Header = styled.div`
   z-index: 2;
 
   @media (max-width: 600px) {
-    display: none !important;
+    bottom: 0;
+    // display: none !important;
   }
 `
 export const Footer = styled.div``

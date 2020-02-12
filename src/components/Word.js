@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-import { Popover, Icon, Tag, Dropdown, Menu, Popconfirm, Modal } from "antd"
+import { Popover, Icon, Tag, Dropdown, Menu, Popconfirm } from "antd"
 
 import { deleteWord } from "../services/wordManagement"
 

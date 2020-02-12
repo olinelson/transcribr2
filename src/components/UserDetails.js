@@ -13,6 +13,8 @@ import { updateUser, deleteUser } from "../services/userManagement"
 import { openNotificationWithIcon } from "./Notifications"
 import { navigate } from "gatsby"
 
+import styled from "styled-components"
+
 export default function UserDetails(props) {
   const [editDrawerOpen, setEditDrawerOpen] = useState(false)
   const [user, setUser] = useState(props.user)
@@ -29,9 +31,16 @@ export default function UserDetails(props) {
     }
   }
 
+  const DividerForTabletUp = styled.div`
+    @media (min-width: 600px) {
+      height: 4rem;
+    }
+  `
+
   return (
     <>
-      <h1 style={{ marginTop: "4rem" }}>
+      <DividerForTabletUp />
+      <h1>
         User Profile{" "}
         <Icon
           onClick={() => setEditDrawerOpen(true)}
