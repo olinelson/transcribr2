@@ -29,6 +29,7 @@ function Navbar(props) {
 
       {isLoggedIn() ? (
         <Menu.Item
+          style={{ position: "absolute", right: "0" }}
           onClick={() => {
             logout()
             openNotificationWithIcon("success", "Successfully logged out.")
@@ -40,6 +41,7 @@ function Navbar(props) {
         </Menu.Item>
       ) : (
         <Menu.Item
+          style={{ position: "absolute", right: "0" }}
           key="/app/login"
           href="/"
           onClick={() => navigate("/app/login")}

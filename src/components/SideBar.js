@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 
-import { Menu, Icon, Drawer } from "antd"
+import { Menu, Icon, Drawer, Dropdown, Divider } from "antd"
 import queryString from "query-string"
 import { navigate } from "gatsby"
 
@@ -23,6 +23,7 @@ function SideBar({ clips, uploading, setUploadDrawerOpen, location }) {
     getViewStyleFromWidth(window.innerWidth)
   )
   const [clipDrawerShown, setClipDrawShown] = useState(false)
+  const [extraOptionsShown, setExtraOptionsShown] = useState(false)
 
   useEffect(() => {
     function handleResize() {
@@ -122,42 +123,17 @@ function SideBar({ clips, uploading, setUploadDrawerOpen, location }) {
 
         <Menu.Item onClick={() => setClipDrawShown(true)}>Clips</Menu.Item>
 
-        {/* <SubMenu
-        key="clip"
-        title={
-          <span>
-            <Icon type="audio" />
-            <span>Clips</span>
-          </span>
-        }
-      >
-        {clips.sort(sortClipsChronologically).map(c => (
-          <Menu.Item
-            onClick={() => navigate(`app/profile?view=clip&id=${c._id}`)}
-            key={c._id}
-          >
-            <span>{c.name}</span>
-          </Menu.Item>
-        ))}
-      </SubMenu> */}
-
-        <Menu.Item onClick={() => setUploadDrawerOpen(true)}>
-          {uploading ? <Icon type={"loading"} spin /> : <Icon type="upload" />}
-          <span>Add Clip</span>
-        </Menu.Item>
-
         <Menu.Item
-          onClick={() => {
-            window.localStorage.clear()
-            navigate("/")
-          }}
+          style={{ position: "absolute", right: "0" }}
+          onClick={() => setExtraOptionsShown(true)}
         >
-          <Icon type="logout" />
-          Logout
+          <Icon type="up" />
         </Menu.Item>
       </StyledMenu>
       <Drawer
+        placement="bottom"
         title="Clips"
+        height="auto"
         onClose={() => setClipDrawShown(false)}
         visible={clipDrawerShown}
       >
@@ -173,6 +149,38 @@ function SideBar({ clips, uploading, setUploadDrawerOpen, location }) {
               <span>{c.name}</span>
             </Menu.Item>
           ))}
+        </Menu>
+      </Drawer>
+
+      <Drawer
+        placement="bottom"
+        height="auto"
+        onClose={() => setExtraOptionsShown(false)}
+        visible={extraOptionsShown}
+        onClick={() => setExtraOptionsShown(false)}
+      >
+        <Menu
+          selectable={false}
+          mode="vertical"
+          style={{ borderRight: "none" }}
+        >
+          <Menu.Item onClick={() => setUploadDrawerOpen(true)}>
+            {uploading ? (
+              <Icon type={"loading"} spin />
+            ) : (
+              <Icon type="upload" />
+            )}
+            <span>Add Clip</span>
+          </Menu.Item>
+          <Menu.Item
+            onClick={() => {
+              window.localStorage.clear()
+              navigate("/")
+            }}
+          >
+            <Icon type="logout" />
+            Logout
+          </Menu.Item>
         </Menu>
       </Drawer>
     </>
