@@ -87,8 +87,8 @@ export const ClipContainer = styled.div`
   @media (max-width: 600px) {
     grid-template-rows: ${props =>
       props.isVideo
-        ? " 30vh auto auto 1fr   3rem"
-        : "  4rem auto auto  1fr   3rem"};
+        ? " 30vh auto auto 1fr   4rem"
+        : "  4rem auto auto  1fr   4rem"};
     grid-template-areas:
       "clip"
       "toolbar"
@@ -98,11 +98,15 @@ export const ClipContainer = styled.div`
   }
 `
 
-export const WordsParagraph = styled.p`
-  overflow-y: scroll;
-  height: 100%;
-`
+// export const WordsParagraph = styled.p`
+//   overflow-y: scroll;
+//   -webkit-overflow-scrolling: touch;
+//   height: 100%;
+//   border: 5px solid green;
+// `
 export const WordsContainer = styled.div`
   overflow-y: scroll;
   height: 100%;
+
+  max-height: 100vw;
 `

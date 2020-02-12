@@ -103,6 +103,7 @@ function SideBar({ clips, uploading, setUploadDrawerOpen, location }) {
         bottom: "0",
         width: "100vw",
         zIndex: 6,
+        paddingBottom: "1.25rem",
       }}
       mode="horizontal"
       selectedKeys={
