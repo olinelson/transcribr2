@@ -25,19 +25,22 @@ export default function IndexPage() {
     <Layout>
       <div
         style={{
-          minHeight: "50vh",
+          // display: "grid",
+          // minHeight: "50vh",
+          // height: "80vh",
           justifySelf: "center",
           alignSelf: "center",
-          maxWidth: "40rem",
+          width: "100%",
+          // maxWidth: "40rem",
           textAlign: "center",
 
-          width: "100%",
+          // width: "100%",
         }}
       >
         <Img
           fluid={data.file.childImageSharp.fluid}
           alt="Gatsby Docs are awesome"
-          style={{ maxWidth: "100vw" }}
+          // style={{ maxWidth: "100vw" }}
         />
         <h1
           style={{

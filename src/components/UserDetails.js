@@ -31,7 +31,7 @@ export default function UserDetails(props) {
 
   return (
     <>
-      <h1>
+      <h1 style={{ marginTop: "4rem" }}>
         User Profile{" "}
         <Icon
           onClick={() => setEditDrawerOpen(true)}

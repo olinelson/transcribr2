@@ -105,7 +105,7 @@ function SideBar({ clips, uploading, setUploadDrawerOpen, location }) {
         display: "flex",
         justifyContent: "space-between",
         position: "fixed",
-        top: "0",
+        bottom: "0",
         width: "100vw",
       }}
       mode="horizontal"

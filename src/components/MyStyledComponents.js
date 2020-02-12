@@ -27,8 +27,8 @@ export const Layout = styled.div`
   background: #f0f2f5;
   display: grid;
   grid-template-rows: 1fr auto;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   grid-template-areas:
     "content"
     "footer";
@@ -36,12 +36,17 @@ export const Layout = styled.div`
 export const Header = styled.div`
   width: 100%;
   position: fixed;
+  z-index: 2;
+
+  @media (max-width: 600px) {
+    display: none !important;
+  }
 `
 export const Footer = styled.div``
 export const Content = styled.div`
   display: grid;
-
   background: white;
+  min-height: 100vh;
 `
 export const Breadcrumb = styled(_Breadcrumb)``
 export const Menu = styled(_Menu)``
@@ -56,6 +61,7 @@ export const ProfileContainer = styled.div`
   grid-column-gap: 1rem;
   height: 100vh;
   grid-template-areas: "sidebar main .";
+
   @media (max-width: 700px) {
     grid-template-columns: auto 1fr 0.5rem;
   }
@@ -75,6 +81,19 @@ export const ClipContainer = styled.div`
     "toolbar"
     "words"
     "pagination";
+
+  @media (max-width: 600px) {
+    grid-template-rows: ${props =>
+      props.isVideo
+        ? " 30vh auto auto 1fr   3rem"
+        : "  4rem auto auto  1fr   3rem"};
+    grid-template-areas:
+      "clip"
+      "toolbar"
+      "pagination"
+      "words"
+      ".";
+  }
 `
 
 export const WordsParagraph = styled.p`

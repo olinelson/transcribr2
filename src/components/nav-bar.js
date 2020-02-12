@@ -12,12 +12,7 @@ function Navbar(props) {
   // if (path === "/app/profile") return null
 
   return (
-    <Menu
-      theme="dark"
-      mode="horizontal"
-      // style={{ position: "fixed", width: "100%" }}
-      selectedKeys={[path]}
-    >
+    <Menu theme="dark" mode="horizontal" selectedKeys={[path]}>
       <Menu.Item key="/">
         <Link to="/">Home</Link>
       </Menu.Item>
