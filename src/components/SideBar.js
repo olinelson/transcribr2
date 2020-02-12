@@ -114,14 +114,14 @@ function SideBar({ clips, uploading, setUploadDrawerOpen, location }) {
       >
         <Menu.Item onClick={() => navigate("/")}>
           <Icon type="home" />
-          Home
         </Menu.Item>
         <Menu.Item key="user" onClick={() => navigate("app/profile")}>
           <Icon type="user" />
-          <span>Profile</span>
         </Menu.Item>
 
-        <Menu.Item onClick={() => setClipDrawShown(true)}>Clips</Menu.Item>
+        <Menu.Item onClick={() => setClipDrawShown(true)}>
+          <Icon type="audio" />
+        </Menu.Item>
 
         <Menu.Item
           style={{ position: "absolute", right: "0" }}
@@ -159,11 +159,7 @@ function SideBar({ clips, uploading, setUploadDrawerOpen, location }) {
         visible={extraOptionsShown}
         onClick={() => setExtraOptionsShown(false)}
       >
-        <Menu
-          selectable={false}
-          mode="vertical"
-          style={{ borderRight: "none" }}
-        >
+        <Menu selectable={false} mode="vertical">
           <Menu.Item onClick={() => setUploadDrawerOpen(true)}>
             {uploading ? (
               <Icon type={"loading"} spin />

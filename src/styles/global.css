@@ -44,3 +44,8 @@ audio {
 input {
   font-size: 16px !important;
 }
+
+.ant-menu.ant-menu-light.ant-menu-root.ant-menu-vertical {
+  max-width: 85vw;
+  border-right: none;
+}
