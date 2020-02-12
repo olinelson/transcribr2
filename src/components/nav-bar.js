@@ -17,13 +17,13 @@ function Navbar(props) {
     <StyledMenu theme="dark" mode="horizontal" selectedKeys={[path]}>
       <Menu.Item onClick={() => navigate("/")} key="/">
         <Icon type="home" />
-        <span>Home</span>
+        {/* <span>Home</span> */}
       </Menu.Item>
 
       {isLoggedIn() ? (
         <Menu.Item onClick={() => navigate("/app/profile")} key="/app/profile">
           <Icon type="user" />
-          <span>Profile</span>
+          {/* <span>Profile</span> */}
         </Menu.Item>
       ) : null}
 
@@ -37,7 +37,7 @@ function Navbar(props) {
           }}
         >
           <Icon type="logout" />
-          Logout
+          {/* Logout */}
         </Menu.Item>
       ) : (
         <Menu.Item
@@ -47,7 +47,7 @@ function Navbar(props) {
           onClick={() => navigate("/app/login")}
         >
           <Icon type="login" />
-          Login
+          {/* Login */}
         </Menu.Item>
       )}
     </StyledMenu>
