@@ -403,7 +403,7 @@ function Clip(props) {
     return (
       <div>
         <div style={{ height: "4rem" }} />
-        <Skeleton />
+        <Skeleton active />
       </div>
     )
   } else {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 
-import { Menu, Icon } from "antd"
+import { Menu, Icon, Drawer } from "antd"
 import queryString from "query-string"
 import { navigate } from "gatsby"
 
@@ -22,6 +22,7 @@ function SideBar({ clips, uploading, setUploadDrawerOpen, location }) {
   const [viewStyle, setViewStyle] = useState(
     getViewStyleFromWidth(window.innerWidth)
   )
+  const [clipDrawerShown, setClipDrawShown] = useState(false)
 
   useEffect(() => {
     function handleResize() {
@@ -94,34 +95,33 @@ function SideBar({ clips, uploading, setUploadDrawerOpen, location }) {
     )
 
   return (
-    <StyledMenu
-      theme="dark"
-      inlineCollapsed={viewStyle === "tablet" ? true : false}
-      style={{
-        // height: "3rem",
-        // justifyContent: "space-between",
-        position: "fixed",
-        bottom: "0",
-        width: "100vw",
-        zIndex: 6,
+    <>
+      <StyledMenu
+        theme="dark"
+        inlineCollapsed={viewStyle === "tablet" ? true : false}
+        style={{
+          position: "fixed",
+          bottom: "0",
+          width: "100vw",
+          zIndex: 6,
+        }}
+        mode="horizontal"
+        selectedKeys={
+          PageLocation ? [PageLocation.view, PageLocation.id] : ["user"]
+        }
+      >
+        <Menu.Item onClick={() => navigate("/")}>
+          <Icon type="home" />
+          Home
+        </Menu.Item>
+        <Menu.Item key="user" onClick={() => navigate("app/profile")}>
+          <Icon type="user" />
+          <span>Profile</span>
+        </Menu.Item>
 
-        // paddingBottom: "1.25rem",
-      }}
-      mode="horizontal"
-      selectedKeys={
-        PageLocation ? [PageLocation.view, PageLocation.id] : ["user"]
-      }
-    >
-      <Menu.Item onClick={() => navigate("/")}>
-        <Icon type="home" />
-        Home
-      </Menu.Item>
-      <Menu.Item key="user" onClick={() => navigate("app/profile")}>
-        <Icon type="user" />
-        <span>Profile</span>
-      </Menu.Item>
+        <Menu.Item onClick={() => setClipDrawShown(true)}>Clips</Menu.Item>
 
-      <SubMenu
+        {/* <SubMenu
         key="clip"
         title={
           <span>
@@ -138,28 +138,13 @@ function SideBar({ clips, uploading, setUploadDrawerOpen, location }) {
             <span>{c.name}</span>
           </Menu.Item>
         ))}
-      </SubMenu>
+      </SubMenu> */}
 
-      <Menu.Item onClick={() => setUploadDrawerOpen(true)}>
-        {uploading ? <Icon type={"loading"} spin /> : <Icon type="upload" />}
-        <span>Add Clip</span>
-      </Menu.Item>
-
-      <Menu.Item
-        onClick={() => {
-          window.localStorage.clear()
-          navigate("/")
-        }}
-      >
-        <Icon type="logout" />
-        Logout
-      </Menu.Item>
-
-      {/* <SubMenu key="more" title={<Icon type="more" />}>
-        <Menu.Item onClick={() => navigate("/")}>
-          <Icon type="home" />
-          Home
+        <Menu.Item onClick={() => setUploadDrawerOpen(true)}>
+          {uploading ? <Icon type={"loading"} spin /> : <Icon type="upload" />}
+          <span>Add Clip</span>
         </Menu.Item>
+
         <Menu.Item
           onClick={() => {
             window.localStorage.clear()
@@ -169,8 +154,27 @@ function SideBar({ clips, uploading, setUploadDrawerOpen, location }) {
           <Icon type="logout" />
           Logout
         </Menu.Item>
-      </SubMenu> */}
-    </StyledMenu>
+      </StyledMenu>
+      <Drawer
+        title="Clips"
+        onClose={() => setClipDrawShown(false)}
+        visible={clipDrawerShown}
+      >
+        <Menu>
+          {clips.sort(sortClipsChronologically).map(c => (
+            <Menu.Item
+              onClick={() => {
+                navigate(`app/profile?view=clip&id=${c._id}`)
+                setClipDrawShown(false)
+              }}
+              key={c._id}
+            >
+              <span>{c.name}</span>
+            </Menu.Item>
+          ))}
+        </Menu>
+      </Drawer>
+    </>
   )
 }
 
