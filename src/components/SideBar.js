@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 
-import { Menu, Icon, Dropdown, Popconfirm } from "antd"
+import { Menu, Icon } from "antd"
 import queryString from "query-string"
 import { navigate } from "gatsby"
 
@@ -11,10 +11,6 @@ function SideBar({ clips, uploading, setUploadDrawerOpen, location }) {
   const PageLocation = location.search
     ? queryString.parse(location.search)
     : null
-
-  const [inlineCollapsed, setInlineCollapsed] = useState(
-    window.innerWidth < 700 ? true : false
-  )
 
   const getViewStyleFromWidth = num => {
     if (num > 700) return "desktop"
@@ -100,7 +96,6 @@ function SideBar({ clips, uploading, setUploadDrawerOpen, location }) {
     <Menu
       theme="dark"
       inlineCollapsed={viewStyle === "tablet" ? true : false}
-      mode="inline"
       style={{
         display: "flex",
         justifyContent: "space-between",

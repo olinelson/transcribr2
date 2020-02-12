@@ -47,7 +47,6 @@ function EditWordDrawer(props) {
         <Form onSubmit={e => insertOrEditWord({ ...props, e })}>
           <Form.Item>
             <Input
-              autoFocus
               name="newWordValue"
               spellCheck="true"
               defaultValue={

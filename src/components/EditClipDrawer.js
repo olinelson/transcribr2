@@ -13,18 +13,11 @@ import {
 } from "antd"
 
 import { updateClip } from "../services/clipManagement"
-import styled from "styled-components"
 
 const EditClipDrawer = props => {
   const { updateClipInProfile, deleteClipHandler } = props
   const editing = props.clip.editing
   const [clip, setClip] = useState(props.clip)
-
-  const FormRow = styled.div`
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
-    grid-gap: 1rem;
-  `
 
   return (
     <Drawer

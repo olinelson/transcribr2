@@ -73,7 +73,6 @@ function SearchClipDrawer(props) {
         onChange={e => debounce(onChange(e.target.value, wordData.words), 1000)}
         enterButton
         loading={loading}
-        autoFocus
       />
 
       <List
@@ -87,7 +86,11 @@ function SearchClipDrawer(props) {
         renderItem={word => (
           <List.Item>
             <List.Item.Meta
-              title={<a onClick={() => navigateToWord(word)}>{word.word}</a>}
+              title={
+                <a href="#" onClick={() => navigateToWord(word)}>
+                  {word.word}
+                </a>
+              }
               description={
                 <span>
                   <Icon
