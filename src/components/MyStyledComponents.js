@@ -75,14 +75,18 @@ export const ClipContainer = styled.div`
   grid-template-columns: 1fr;
 
   grid-template-rows: ${props =>
-    props.isVideo ? "2rem 30vh auto 1fr  auto" : "2rem  4rem auto  1fr  auto"};
+    props.isVideo
+      ? "2rem 30vh auto 1fr  auto .25rem"
+      : "2rem  4rem auto  1fr  auto .25rem"};
   grid-template-areas:
     "."
     "clip"
     "toolbar"
     "words"
-    "pagination";
+    "pagination"
+    ".";
 
+  // smallest screens
   @media (max-width: 600px) {
     grid-template-rows: ${props =>
       props.isVideo

@@ -66,6 +66,7 @@ export default function UserDetails(props) {
           onChange={e => setUser({ ...user, [e.target.name]: e.target.value })}
           onSubmit={async e => {
             e.preventDefault()
+            setLoading(true)
             const success = await updateUser(user)
             if (success) {
               setEditDrawerOpen(false)
@@ -73,6 +74,7 @@ export default function UserDetails(props) {
             } else {
               openNotificationWithIcon("error", "There was a problem :(")
             }
+            setLoading(false)
           }}
         >
           <Form.Item label="Name">

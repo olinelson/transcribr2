@@ -423,12 +423,13 @@ function Clip(props) {
           <Pagination
             style={{
               display: "flex",
-              justifyContent: "center",
+              justifyContent: "space-between",
               alignSelf: "center",
               gridArea: "pagination",
-              paddingBottom: ".5rem",
+              // paddingBottom: ".5rem",
               flexWrap: "wrap",
             }}
+            size="small"
             showQuickJumper
             showSizeChanger
             onChange={e =>
