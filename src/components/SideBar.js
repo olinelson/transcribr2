@@ -4,6 +4,7 @@ import { Menu, Icon } from "antd"
 import queryString from "query-string"
 import { navigate } from "gatsby"
 
+import { StyledMenu } from "./MyStyledComponents"
 import { sortClipsChronologically } from "../utils"
 
 const { SubMenu } = Menu
@@ -93,26 +94,31 @@ function SideBar({ clips, uploading, setUploadDrawerOpen, location }) {
     )
 
   return (
-    <Menu
+    <StyledMenu
       theme="dark"
       inlineCollapsed={viewStyle === "tablet" ? true : false}
       style={{
-        display: "flex",
-        justifyContent: "space-between",
+        // height: "3rem",
+        // justifyContent: "space-between",
         position: "fixed",
         bottom: "0",
         width: "100vw",
         zIndex: 6,
-        paddingBottom: "1.25rem",
+
+        // paddingBottom: "1.25rem",
       }}
       mode="horizontal"
       selectedKeys={
         PageLocation ? [PageLocation.view, PageLocation.id] : ["user"]
       }
     >
+      <Menu.Item onClick={() => navigate("/")}>
+        <Icon type="home" />
+        Home
+      </Menu.Item>
       <Menu.Item key="user" onClick={() => navigate("app/profile")}>
         <Icon type="user" />
-        <span>User Profile</span>
+        <span>Profile</span>
       </Menu.Item>
 
       <SubMenu
@@ -139,10 +145,6 @@ function SideBar({ clips, uploading, setUploadDrawerOpen, location }) {
         <span>Add Clip</span>
       </Menu.Item>
 
-      <Menu.Item onClick={() => navigate("/")}>
-        <Icon type="home" />
-        Home
-      </Menu.Item>
       <Menu.Item
         onClick={() => {
           window.localStorage.clear()
@@ -168,7 +170,7 @@ function SideBar({ clips, uploading, setUploadDrawerOpen, location }) {
           Logout
         </Menu.Item>
       </SubMenu> */}
-    </Menu>
+    </StyledMenu>
   )
 }
 

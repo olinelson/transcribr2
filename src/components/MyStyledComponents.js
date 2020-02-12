@@ -98,15 +98,19 @@ export const ClipContainer = styled.div`
   }
 `
 
-// export const WordsParagraph = styled.p`
-//   overflow-y: scroll;
-//   -webkit-overflow-scrolling: touch;
-//   height: 100%;
-//   border: 5px solid green;
-// `
 export const WordsContainer = styled.div`
   overflow-y: scroll;
   height: 100%;
 
   max-height: 100vw;
+`
+export const StyledMenu = styled(Menu)`
+  @media (max-width: 600px) {
+    height: 4rem;
+  }
+  .ant-menu-overflowed-submenu {
+    position: absolute;
+    right: 0;
+    font-size: 2rem;
+  }
 `
