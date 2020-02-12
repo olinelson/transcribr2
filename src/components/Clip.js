@@ -425,7 +425,7 @@ function Clip(props) {
               justifyContent: "space-between",
               alignSelf: "center",
               gridArea: "pagination",
-              // paddingBottom: ".5rem",
+
               flexWrap: "wrap",
             }}
             size="small"
