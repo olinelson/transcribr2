@@ -111,7 +111,7 @@ export const WordsContainer = styled.div`
 `
 export const StyledMenu = styled(Menu)`
   @media (max-width: 600px) {
-    height: 4rem;
+    height: 5rem;
   }
   .ant-menu-overflowed-submenu {
     position: absolute;
