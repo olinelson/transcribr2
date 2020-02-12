@@ -188,10 +188,9 @@ function Clip(props) {
         height="100%"
         width="100%"
         style={{
-          border: "1px solid red",
           display: "flex",
           maxWidth: clip.isVideo ? "30rem" : "100%",
-          marginTop: "1rem",
+          minHeight: ".5rem",
           justifySelf: "center",
         }}
       />
@@ -206,6 +205,7 @@ function Clip(props) {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
+            flexWrap: "wrap",
           }}
         >
           <h1
@@ -428,6 +428,7 @@ function Clip(props) {
               alignSelf: "center",
               gridArea: "pagination",
               paddingBottom: ".5rem",
+              flexWrap: "wrap",
             }}
             showQuickJumper
             showSizeChanger

@@ -95,7 +95,6 @@ function Profile(props) {
       ) : (
         <>
           <SideBar
-            style={{ gridArea: "sidebar" }}
             setUploadDrawerOpen={setUploadDrawerOpen}
             clips={userProfile.clips}
             uploading={uploading}

@@ -30,13 +30,22 @@ export default function IndexPage() {
           alignSelf: "center",
           maxWidth: "40rem",
           textAlign: "center",
+
+          width: "100%",
         }}
       >
         <Img
           fluid={data.file.childImageSharp.fluid}
           alt="Gatsby Docs are awesome"
+          style={{ maxWidth: "100vw" }}
         />
-        <h1 style={{ fontSize: "5rem", color: "#1890FF" }}>
+        <h1
+          style={{
+            color: "#1890FF",
+            textAlign: "center",
+            fontSize: "10vw",
+          }}
+        >
           transcribr<span style={{ color: "orange" }}>.</span>
         </h1>
       </div>
