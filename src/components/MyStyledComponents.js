@@ -26,29 +26,22 @@ export const Card = styled(_Card)``
 export const Layout = styled.div`
   background: #f0f2f5;
   display: grid;
-  grid-template-rows: 4rem 1fr auto;
+  grid-template-rows: 1fr auto;
   height: 100vh;
   width: 100vw;
   grid-template-areas:
-    "header"
     "content"
     "footer";
 `
 export const Header = styled.div`
   width: 100%;
+  position: fixed;
 `
-export const Footer = styled.div`
-  // background: pink;
-`
+export const Footer = styled.div``
 export const Content = styled.div`
   display: grid;
-  border: 1rem solid #f0f2f5;
-  background: white;
-  width: 100%;
 
-  @media (max-width: 40rem) {
-    border: 0.25rem solid white;
-  }
+  background: white;
 `
 export const Breadcrumb = styled(_Breadcrumb)``
 export const Menu = styled(_Menu)``
@@ -60,27 +53,27 @@ export const ProfileContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 3fr 1fr;
   grid-template-rows: 1fr;
-  grid-gap: 1rem;
-  grid-template-areas:
-    "mobileSidebar mobileSidebar mobileSidebar"
-    "sidebar main .";
-  @media (max-width: 600px) {
+  grid-column-gap: 1rem;
+  height: 100vh;
+  grid-template-areas: "sidebar main .";
+  @media (max-width: 700px) {
     grid-template-columns: auto 1fr 0.5rem;
   }
 `
 export const ClipContainer = styled.div`
   display: grid;
-  height: 90vh;
   grid-gap: 1rem;
+  height: 100vh;
   align-items: center;
   grid-template-columns: 1fr;
+
   grid-template-rows: ${props =>
-    props.isVideo ? " 30vh auto auto 1fr auto" : "  4rem auto  auto 1fr auto"};
+    props.isVideo ? "2rem 30vh auto 1fr  auto" : "2rem  4rem auto  1fr  auto"};
   grid-template-areas:
+    "."
     "clip"
     "toolbar"
     "words"
-    "space"
     "pagination";
 `
 

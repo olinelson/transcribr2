@@ -192,6 +192,7 @@ function Clip(props) {
           maxWidth: clip.isVideo ? "30rem" : "100%",
           minHeight: ".5rem",
           justifySelf: "center",
+          gridArea: "clip",
         }}
       />
     )

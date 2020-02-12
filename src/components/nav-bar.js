@@ -9,11 +9,13 @@ import { openNotificationWithIcon } from "./Notifications"
 function Navbar(props) {
   const path = props.location.pathname
 
+  // if (path === "/app/profile") return null
+
   return (
     <Menu
       theme="dark"
       mode="horizontal"
-      style={{ lineHeight: "64px" }}
+      // style={{ position: "fixed", width: "100%" }}
       selectedKeys={[path]}
     >
       <Menu.Item key="/">

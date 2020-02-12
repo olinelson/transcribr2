@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 
-import { Menu, Icon, Dropdown } from "antd"
+import { Menu, Icon, Dropdown, Popconfirm } from "antd"
 import queryString from "query-string"
 import { navigate } from "gatsby"
 
@@ -42,6 +42,7 @@ function SideBar({ clips, uploading, setUploadDrawerOpen, location }) {
           display: "flex",
           flexDirection: "column",
           gridArea: "sidebar",
+          marginTop: "4rem",
         }}
       >
         <Menu
@@ -63,7 +64,7 @@ function SideBar({ clips, uploading, setUploadDrawerOpen, location }) {
           inlineCollapsed={viewStyle === "tablet" ? true : false}
           style={{ width: "100%", height: "100%" }}
           mode="inline"
-          defaultOpenKeys={["clip"]}
+          // defaultOpenKeys={["clip"]}
           selectedKeys={
             PageLocation ? [PageLocation.view, PageLocation.id] : ["user"]
           }
@@ -96,50 +97,81 @@ function SideBar({ clips, uploading, setUploadDrawerOpen, location }) {
     )
 
   return (
-    <div
+    <Menu
+      theme="dark"
+      inlineCollapsed={viewStyle === "tablet" ? true : false}
+      mode="inline"
       style={{
-        gridArea: "mobileSidebar",
+        display: "flex",
+        justifyContent: "space-between",
+        position: "fixed",
+        top: "0",
+        width: "100vw",
       }}
+      mode="horizontal"
+      selectedKeys={
+        PageLocation ? [PageLocation.view, PageLocation.id] : ["user"]
+      }
     >
-      <Menu
-        inlineCollapsed={viewStyle === "tablet" ? true : false}
-        mode="inline"
-        defaultOpenKeys={["clip"]}
-        mode="horizontal"
-        selectedKeys={
-          PageLocation ? [PageLocation.view, PageLocation.id] : ["user"]
+      <Menu.Item key="user" onClick={() => navigate("app/profile")}>
+        <Icon type="user" />
+        <span>User Profile</span>
+      </Menu.Item>
+
+      <SubMenu
+        key="clip"
+        title={
+          <span>
+            <Icon type="audio" />
+            <span>Clips</span>
+          </span>
         }
       >
-        <Menu.Item key="user" onClick={() => navigate("app/profile")}>
-          <Icon type="user" />
-          <span>User Profile</span>
-        </Menu.Item>
+        {clips.sort(sortClipsChronologically).map(c => (
+          <Menu.Item
+            onClick={() => navigate(`app/profile?view=clip&id=${c._id}`)}
+            key={c._id}
+          >
+            <span>{c.name}</span>
+          </Menu.Item>
+        ))}
+      </SubMenu>
 
-        <SubMenu
-          key="clip"
-          title={
-            <span>
-              <Icon type="audio" />
-              <span>Clips</span>
-            </span>
-          }
+      <Menu.Item onClick={() => setUploadDrawerOpen(true)}>
+        {uploading ? <Icon type={"loading"} spin /> : <Icon type="upload" />}
+        <span>Add Clip</span>
+      </Menu.Item>
+
+      <Menu.Item onClick={() => navigate("/")}>
+        <Icon type="home" />
+        Home
+      </Menu.Item>
+      <Menu.Item
+        onClick={() => {
+          window.localStorage.clear()
+          navigate("/")
+        }}
+      >
+        <Icon type="logout" />
+        Logout
+      </Menu.Item>
+
+      {/* <SubMenu key="more" title={<Icon type="more" />}>
+        <Menu.Item onClick={() => navigate("/")}>
+          <Icon type="home" />
+          Home
+        </Menu.Item>
+        <Menu.Item
+          onClick={() => {
+            window.localStorage.clear()
+            navigate("/")
+          }}
         >
-          {clips.sort(sortClipsChronologically).map(c => (
-            <Menu.Item
-              onClick={() => navigate(`app/profile?view=clip&id=${c._id}`)}
-              key={c._id}
-            >
-              <span>{c.name}</span>
-            </Menu.Item>
-          ))}
-        </SubMenu>
-
-        <Menu.Item onClick={() => setUploadDrawerOpen(true)}>
-          {uploading ? <Icon type={"loading"} spin /> : <Icon type="upload" />}
-          <span>Add Clip</span>
+          <Icon type="logout" />
+          Logout
         </Menu.Item>
-      </Menu>
-    </div>
+      </SubMenu> */}
+    </Menu>
   )
 }
 
