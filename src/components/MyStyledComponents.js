@@ -86,9 +86,13 @@ export const ClipContainer = styled.div`
 
   // smallest screens
   @media (max-width: 600px) {
+    .ant-dropdown-link {
+      font-size: 1rem;
+    }
+    grid-gap: 0.25rem;
     grid-template-rows: ${props =>
       props.isVideo
-        ? " 30vh auto auto 1fr   4rem"
+        ? " 35vw auto auto 1fr   4rem"
         : "  4rem auto auto  1fr   4rem"};
     grid-template-areas:
       "clip"

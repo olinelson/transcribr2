@@ -210,7 +210,7 @@ function Clip(props) {
         >
           <h1
             className="ant-dropdown-link"
-            style={{ cursor: "pointer", margin: 0 }}
+            style={{ cursor: "pointer", margin: 0, maxWidth: "50vw" }}
           >
             {clip.name}{" "}
             {clip.deleting ? (
@@ -232,7 +232,6 @@ function Clip(props) {
               onClick={() => setSearchData({ ...searchData, modalOpen: true })}
             >
               <Icon type="file-search" />
-              Search
             </Button>
             <Dropdown
               trigger={["click"]}
