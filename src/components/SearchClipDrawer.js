@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { debounce } from "debounce"
 
-import { Icon, Drawer, Input, List } from "antd"
+import { Icon, Drawer, Input, List, Button } from "antd"
 
 import { formatTimeStamp } from "../utils"
 
@@ -84,7 +84,34 @@ function SearchClipDrawer(props) {
         dataSource={results}
         loadMore
         renderItem={word => (
-          <List.Item>
+          <List.Item
+            actions={[
+              <Button
+                size="small"
+                type="primary"
+                ghost
+                onClick={() => navigateToWord(word)}
+              >
+                <Icon type="eye" />
+              </Button>,
+              <Button
+                onClick={() => {
+                  player.current.seekTo(
+                    parseInt(word.startTime.replace("s", ""))
+                  )
+                  setPlayerControls({
+                    ...playerControls,
+                    playing: true,
+                  })
+                }}
+                size="small"
+                type="primary"
+                ghost
+              >
+                <Icon type="play-circle" />
+              </Button>,
+            ]}
+          >
             <List.Item.Meta
               title={
                 <a href="#" onClick={() => navigateToWord(word)}>
@@ -98,18 +125,6 @@ function SearchClipDrawer(props) {
                     type="clock-circle"
                   />{" "}
                   {formatTimeStamp(word.startTime)}{" "}
-                  <Icon
-                    type="play-circle"
-                    onClick={() => {
-                      player.current.seekTo(
-                        parseInt(word.startTime.replace("s", ""))
-                      )
-                      setPlayerControls({
-                        ...playerControls,
-                        playing: true,
-                      })
-                    }}
-                  />
                 </span>
               }
             />
