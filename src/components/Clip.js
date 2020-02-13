@@ -99,17 +99,17 @@ function Clip(props) {
     if (!mounted.current) {
       mounted.current = true
 
-      const socket = openSocket(API_URL)
+      // const socket = openSocket(API_URL)
 
-      function joinClipChannel(token, cb) {
-        socket.on("clipChannelUpdate", data => cb(data))
-        socket.emit("joinClipChannel", token, _id)
-      }
+      // function joinClipChannel(token, cb) {
+      //   socket.on("clipChannelUpdate", data => cb(data))
+      //   socket.emit("joinClipChannel", token, _id)
+      // }
       getClip(_id, setClip)
 
-      joinClipChannel(getUser(), notification => {
-        notificationHandler(notification)
-      })
+      // joinClipChannel(getUser(), notification => {
+      //   notificationHandler(notification)
+      // })
     } else {
       setWordData({
         ...wordData,

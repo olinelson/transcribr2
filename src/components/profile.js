@@ -19,6 +19,8 @@ import { getUser } from "../services/auth"
 import openSocket from "socket.io-client"
 import { API_URL } from "../config"
 
+// import { joinUserChannel, leaveUserChannel } from "../services/socket"
+
 function Profile(props) {
   const [uploadDrawOpen, setUploadDrawerOpen] = useState(false)
   const [uploading, setUploading] = useState(false)
@@ -28,26 +30,45 @@ function Profile(props) {
     ? queryString.parse(props.location.search)
     : null
 
-  const bearerToken = getUser()
+  // const bearerToken = getUser()
 
   const mounted = useRef()
 
-  const socket = openSocket(API_URL)
+  // function joinUserChannel(token, cb) {
+  //   socket.on("notification", notification => cb(notification))
+  //   socket.emit("joinUserChannel", token)
+  // }
+  // function leaveUserChannel(token, cb) {
+  //   // socket.on("notification", notification => cb(notification))
+  //   socket.emit("leaveUserChannel", token)
+  // }
+  const bearerToken = getUser()
 
-  function joinUserChannel(token, cb) {
-    socket.on("notification", notification => cb(notification))
-    socket.emit("joinUserChannel", token)
-  }
+  let socket
 
   useEffect(() => {
     if (!mounted.current) {
       mounted.current = true
-      joinUserChannel(bearerToken, notification =>
+
+      socket = openSocket(API_URL)
+
+      function joinUserChannel(token, cb) {
+        socket.on("notification", notification => cb(notification))
+        socket.emit("joinUserChannel", token)
+      }
+
+      joinUserChannel(getUser(), notification =>
         notificationHandler(notification)
       )
       getUserProfileAndSet(setUserProfile)
     }
-  }, [])
+
+    return function leaveUserChannel(token, cb) {
+      console.log("leaving")
+      // socket.on("notification", notification => cb(notification))
+      socket.emit("leaveUserChannel", getUser())
+    }
+  }, [socket])
 
   const notificationHandler = notification => {
     openNotificationWithIcon("success", notification.message)
