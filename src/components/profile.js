@@ -44,31 +44,28 @@ function Profile(props) {
   // }
   const bearerToken = getUser()
 
-  let socket
+  const socket = openSocket(API_URL)
 
   useEffect(() => {
+    function joinUserChannel(bearerToken, cb) {
+      socket.on("notification", notification => cb(notification))
+      socket.emit("joinUserChannel", bearerToken)
+    }
+
+    // first load
     if (!mounted.current) {
       mounted.current = true
-
-      socket = openSocket(API_URL)
-
-      function joinUserChannel(token, cb) {
-        socket.on("notification", notification => cb(notification))
-        socket.emit("joinUserChannel", token)
-      }
-
       joinUserChannel(getUser(), notification =>
         notificationHandler(notification)
       )
       getUserProfileAndSet(setUserProfile)
     }
-
-    return function leaveUserChannel(token, cb) {
+    // cleanup
+    return function leaveUserChannel() {
       console.log("leaving")
-      // socket.on("notification", notification => cb(notification))
-      socket.emit("leaveUserChannel", getUser())
+      socket.emit("leaveUserChannel", bearerToken)
     }
-  }, [socket])
+  }, [])
 
   const notificationHandler = notification => {
     openNotificationWithIcon("success", notification.message)

@@ -87,29 +87,38 @@ function Clip(props) {
   const notificationHandler = notification => {
     if (notification.name === "transcriptionUpdate") {
       setClip(notification.data.clip)
+    } else {
+      openNotificationWithIcon("success", notification.message)
     }
 
     if (notification.name === "joinedClipChannel") {
       console.log(notification.message)
     }
   }
-
+  const socket = openSocket(API_URL)
   const mounted = useRef()
+  const token = getUser()
+
+  useEffect(() => {
+    function joinClipChannel(token, cb) {
+      socket.on("clipChannelUpdate", data => cb(data))
+      socket.emit("joinClipChannel", token, _id)
+    }
+
+    joinClipChannel(token, notification => {
+      notificationHandler(notification)
+    })
+
+    return function leaveClipChannel(token) {
+      socket.emit("leaveClipChannel", token, _id)
+    }
+  }, [])
+
   useEffect(() => {
     if (!mounted.current) {
       mounted.current = true
 
-      // const socket = openSocket(API_URL)
-
-      // function joinClipChannel(token, cb) {
-      //   socket.on("clipChannelUpdate", data => cb(data))
-      //   socket.emit("joinClipChannel", token, _id)
-      // }
       getClip(_id, setClip)
-
-      // joinClipChannel(getUser(), notification => {
-      //   notificationHandler(notification)
-      // })
     } else {
       setWordData({
         ...wordData,
@@ -306,7 +315,6 @@ function Clip(props) {
   }
 
   const maybeShowTranscribeButtton = () => {
-    console.log("hello maybe transcribe")
     if (!wordData.wordPages.length && !transcribeData.loading)
       return (
         <div style={{ gridArea: "words", justifySelf: "center" }}>
