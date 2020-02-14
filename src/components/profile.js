@@ -144,9 +144,9 @@ function Profile(props) {
 
           <Drawer
             width={"auto"}
-            placement="bottom"
+            placement="right"
             title="Clips"
-            height="90vh"
+            height="auto"
             onClose={() => setClipDrawerOpen(false)}
             visible={clipDrawerOpen}
           >

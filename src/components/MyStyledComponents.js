@@ -45,8 +45,8 @@ export const Layout = styled.div`
   }
 
   @supports (padding: max(0px)) {
-    padding-left: max(12px, env(safe-area-inset-left));
-    padding-right: max(12px, env(safe-area-inset-right));
+    // padding-left: max(12px, env(safe-area-inset-left));
+    // padding-right: max(12px, env(safe-area-inset-right));
     padding-bottom: max(12px, env(safe-area-inset-bottom));
   }
 `
@@ -98,6 +98,8 @@ export const FixedMenuDiv = styled.div`
   left: 0;
   width: 100vw;
   z-index: 100;
+
+  }
 `
 
 export const StyledSideBar = styled(Affix)`
