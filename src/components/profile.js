@@ -157,6 +157,7 @@ function Profile(props) {
                 borderRight: "none",
                 // display: "flex",
                 overflow: "scroll",
+                webkitOverflowScrolling: "touch",
                 flexDirection: "column",
               }}
             >
