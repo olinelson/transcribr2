@@ -19,6 +19,7 @@ import {
   Progress,
   Menu,
   Dropdown,
+  Slider,
 } from "antd"
 import { ClipContainer, WordsContainer } from "./MyStyledComponents"
 import { openNotificationWithIcon } from "./Notifications"
@@ -81,6 +82,8 @@ function Clip(props) {
 
   const [playerControls, setPlayerControls] = useState({
     playing: false,
+    progress: 0,
+    duration: 0,
   })
   const player = useRef(null)
 
@@ -186,23 +189,30 @@ function Clip(props) {
     if (!clip || !clip.rawFileName) return null
 
     return (
-      <ReactPlayer
-        ref={player}
-        url={`https://storage.googleapis.com/${clip.owner}/${clip.rawFileName}`}
-        playing={playerControls.playing}
-        controls
-        playsinline
-        pip={true}
-        height="100%"
-        width="100%"
-        style={{
-          display: "flex",
-          maxWidth: clip.isVideo ? "30rem" : "100%",
-          minHeight: ".5rem",
-          justifySelf: "center",
-          gridArea: "clip",
-        }}
-      />
+      <>
+        <ReactPlayer
+          ref={player}
+          url={`https://storage.googleapis.com/${clip.owner}/${clip.rawFileName}`}
+          playing={playerControls.playing}
+          controls
+          playsinline
+          pip={true}
+          height="100%"
+          width="100%"
+          style={{
+            // display: "grid",
+            // justifyContent: "center",
+            // justifyItems: "center",
+            justifySelf: "center",
+            width: "100%",
+            // height: "auto",
+            marginTop: ".5rem",
+            maxWidth: clip.isVideo ? "30rem" : "100%",
+            minHeight: ".5rem",
+            gridArea: "clip",
+          }}
+        />
+      </>
     )
   }
 
@@ -436,7 +446,7 @@ function Clip(props) {
               justifyContent: "space-between",
               alignSelf: "center",
               gridArea: "pagination",
-
+              margin: "1rem 0",
               flexWrap: "wrap",
             }}
             size="small"

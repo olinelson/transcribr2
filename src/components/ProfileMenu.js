@@ -1,20 +1,39 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { Link, navigate } from "gatsby"
 import { isLoggedIn, logout } from "../services/auth"
 import { Menu } from "./MyStyledComponents"
 import WithLocation from "./WithLocation"
 
-import { Icon, Affix } from "antd"
+import { Icon, Drawer, Affix } from "antd"
 
-import { StyledMenu, FixedMenuDiv } from "./MyStyledComponents"
+import { StyledMenu, FixedMenuDiv, MobileOnlyMenu } from "./MyStyledComponents"
 
 import { openNotificationWithIcon } from "./Notifications"
 
-function Navbar(props) {
+import { sortClipsChronologically } from "../utils"
+
+const { SubMenu } = Menu
+function ProfileMenu(props) {
+  const [viewWidth, setViewWidth] = useState(window.innerWidth)
+
+  useEffect(() => {
+    function handleResize() {
+      console.log("handle resize")
+      setViewWidth(window.innerWidth)
+      // setViewStyle(getViewStyleFromWidth())
+    }
+
+    window.addEventListener("resize", handleResize)
+  }, [])
+
+  const {
+    clips,
+    uploading,
+    setUploadDrawerOpen,
+    location,
+    setClipDrawerOpen,
+  } = props
   const path = props.location.pathname
-
-  if (path.includes("app")) return null
-
   return (
     <FixedMenuDiv>
       <Menu theme="dark" mode="horizontal" selectedKeys={[path]}>
@@ -30,6 +49,23 @@ function Navbar(props) {
           >
             <Icon type="user" />
             {/* <span>Profile</span> */}
+          </Menu.Item>
+        ) : null}
+
+        {viewWidth < 600 ? (
+          <Menu.Item onClick={() => setClipDrawerOpen(true)}>
+            <Icon type="audio" />
+          </Menu.Item>
+        ) : null}
+
+        {viewWidth < 600 ? (
+          <Menu.Item onClick={() => setUploadDrawerOpen(true)}>
+            {uploading ? (
+              <Icon type={"loading"} spin />
+            ) : (
+              <Icon type="upload" />
+            )}
+            {/* <span>Add Clip</span> */}
           </Menu.Item>
         ) : null}
 
@@ -56,9 +92,11 @@ function Navbar(props) {
             {/* Login */}
           </Menu.Item>
         )}
+
+        {/* small screen */}
       </Menu>
     </FixedMenuDiv>
   )
 }
 
-export default WithLocation(Navbar)
+export default ProfileMenu

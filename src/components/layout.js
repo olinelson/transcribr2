@@ -11,37 +11,27 @@ const layout = ({ children, location }) => {
   const path = location.pathname
 
   return (
-    <Layout>
-      <Header style={{ gridArea: "header" }}>
-        <NavBar />
-      </Header>
+    <>
+      <Layout>
+        {path.includes("/app") ? null : <NavBar />}
 
-      <Content style={{ gridArea: "content" }}>
-        {/* <div
-        style={{
-          background: "#fff",
-          border: "1rem solid #F0F2F5",
-          height: "100%",
-          display: "grid",
-        }}
-      > */}
         {children}
-        {/* </div> */}
-      </Content>
-
-      {path.includes("/app") ? null : (
+      </Layout>
+      {path.includes("app") ? null : (
         <Footer
           style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
             textAlign: "center",
-            gridArea: "footer",
-            // margin: "1rem",
-            // background: "#f0f2f5",
+            height: "10rem",
+            background: "#f0f2f5",
           }}
         >
-          {/* Oli Nelson ©2020 */}
+          <small>Oli Nelson ©2020</small>
         </Footer>
       )}
-    </Layout>
+    </>
   )
 }
 

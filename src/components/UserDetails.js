@@ -38,8 +38,8 @@ export default function UserDetails(props) {
   `
 
   return (
-    <>
-      <DividerForTabletUp />
+    <div style={{ padding: "0 1rem" }}>
+      {/* <DividerForTabletUp /> */}
       <h1>
         User Profile{" "}
         <Icon
@@ -108,6 +108,6 @@ export default function UserDetails(props) {
           </Popconfirm>
         </Form>
       </Drawer>
-    </>
+    </div>
   )
 }

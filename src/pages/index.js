@@ -21,18 +21,37 @@ export default function IndexPage() {
 
   return (
     <Layout>
-      <div
+      {/* <div
         style={{
           display: "grid",
           justifySelf: "center",
-          alignSelf: "center",
-          justifyContent: "center",
-          width: "100%",
+          // alignSelf: "center",
+          // justifyContent: "center",
+          // width: "100vw",
           maxWidth: "40rem",
           textAlign: "center",
+          // gridArea: "sidebar / main",
+          // gridColumn: "1 / -1",
+        }}
+      > */}
+      <div
+        style={{
+          gridColumn: "1/-1",
+          gridRow: "2",
+          // height: "100%",
+          display: "grid",
+          alignSelf: "center",
+          justifyContent: "center",
+          justifyItems: "center",
+          justifySelf: "center",
         }}
       >
-        <Img fluid={data.file.childImageSharp.fluid} alt="Transcribr Logo" />
+        <Img
+          style={{ width: "90vw", maxWidth: "40rem", height: "auto" }}
+          // style={{ position: "static" }}
+          fluid={data.file.childImageSharp.fluid}
+          alt="Transcribr Logo"
+        />
         <h1
           style={{
             color: "#1890FF",

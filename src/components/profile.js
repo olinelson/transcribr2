@@ -3,13 +3,14 @@ import { navigate } from "gatsby"
 import WithLocation from "./WithLocation"
 import UserDetails from "./UserDetails"
 
+import Layout from "./layout"
 import UploadClip from "./UploadClip"
 
-import { Drawer } from "antd"
+import { Drawer, Menu, Skeleton } from "antd"
 
 import { getUserProfileAndSet } from "../services/userManagement"
 import Clip from "./Clip"
-
+import { sortClipsChronologically } from "../utils"
 import queryString from "query-string"
 import SideBar from "./SideBar"
 import ProfileSkeleton from "./ProfileSkeleton"
@@ -18,11 +19,13 @@ import { openNotificationWithIcon } from "./Notifications"
 import { getUser } from "../services/auth"
 import openSocket from "socket.io-client"
 import { API_URL } from "../config"
+import ProfileMenu from "./ProfileMenu"
 
 // import { joinUserChannel, leaveUserChannel } from "../services/socket"
 
 function Profile(props) {
   const [uploadDrawOpen, setUploadDrawerOpen] = useState(false)
+  const [clipDrawerOpen, setClipDrawerOpen] = useState(false)
   const [uploading, setUploading] = useState(false)
   const [userProfile, setUserProfile] = useState({ clips: [] })
 
@@ -87,7 +90,9 @@ function Profile(props) {
 
   const viewRouter = () => {
     if (!PageLocation || !PageLocation.view)
-      return <UserDetails user={userProfile.user} />
+      return (
+        <UserDetails style={{ gridArea: "main" }} user={userProfile.user} />
+      )
 
     switch (PageLocation.view) {
       case "clip":
@@ -107,11 +112,18 @@ function Profile(props) {
   }
 
   return (
-    <ProfileContainer>
+    <Layout>
       {!userProfile.user ? (
         <ProfileSkeleton />
       ) : (
         <>
+          <ProfileMenu
+            setUploadDrawerOpen={setUploadDrawerOpen}
+            setClipDrawerOpen={setClipDrawerOpen}
+            clips={userProfile.clips}
+            uploading={uploading}
+            location={props.location}
+          />
           <SideBar
             setUploadDrawerOpen={setUploadDrawerOpen}
             clips={userProfile.clips}
@@ -129,9 +141,41 @@ function Profile(props) {
           >
             <UploadClip setUploading={e => setUploading(e)} addClip={addClip} />
           </Drawer>
+
+          <Drawer
+            width={"auto"}
+            placement="bottom"
+            title="Clips"
+            height="90vh"
+            onClose={() => setClipDrawerOpen(false)}
+            visible={clipDrawerOpen}
+          >
+            <Menu
+              style={{
+                maxWidth: "85vw",
+                maxHeight: "70vh",
+                borderRight: "none",
+                // display: "flex",
+                overflow: "scroll",
+                flexDirection: "column",
+              }}
+            >
+              {userProfile.clips.sort(sortClipsChronologically).map(c => (
+                <Menu.Item
+                  onClick={() => {
+                    navigate(`app/profile?view=clip&id=${c._id}`)
+                    setClipDrawerOpen(false)
+                  }}
+                  key={c._id}
+                >
+                  <span>{c.name}</span>
+                </Menu.Item>
+              ))}
+            </Menu>
+          </Drawer>
         </>
       )}
-    </ProfileContainer>
+    </Layout>
   )
 }
 
