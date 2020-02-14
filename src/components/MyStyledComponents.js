@@ -43,6 +43,12 @@ export const Layout = styled.div`
       ". . ."
       "sidebar main  main";
   }
+
+  @supports (padding: max(0px)) {
+    padding-left: max(12px, env(safe-area-inset-left));
+    padding-right: max(12px, env(safe-area-inset-right));
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
+  }
 `
 export const Header = styled.div``
 export const Footer = styled.div``
