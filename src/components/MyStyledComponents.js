@@ -27,13 +27,21 @@ export const Layout = styled.div`
   overflow-x: hidden;
   min-height: 100vh;
   overflow: hidden;
-  grid-template-columns: 1fr 3fr;
+  grid-template-columns: 1fr 3fr 1fr;
   grid-template-rows: 46px 1fr auto;
   grid-gap: 1rem;
-  grid-template-areas: ". ." "sidebar main";
+  max-width: 120rem;
+  margin: auto;
+
+  grid-template-areas:
+    ". . ."
+    "sidebar main  .";
   @media (max-width: 800px) {
     grid-template-columns: auto 1fr;
     grid-gap: 0;
+    grid-template-areas:
+      ". . ."
+      "sidebar main  main";
   }
 `
 export const Header = styled.div``
@@ -81,8 +89,9 @@ export const StyledMenu = styled(Menu)``
 export const FixedMenuDiv = styled.div`
   position: fixed;
   top: 0;
+  left: 0;
   width: 100vw;
-  z-index: 2;
+  z-index: 100;
 `
 
 export const StyledSideBar = styled(Affix)`
