@@ -1,18 +1,14 @@
 import React, { useState, useEffect } from "react"
-import { Link, navigate } from "gatsby"
+import { navigate } from "gatsby"
 import { isLoggedIn, logout } from "../services/auth"
 import { Menu } from "./MyStyledComponents"
-import WithLocation from "./WithLocation"
 
-import { Icon, Drawer, Affix } from "antd"
+import { Icon } from "antd"
 
-import { StyledMenu, FixedMenuDiv, MobileOnlyMenu } from "./MyStyledComponents"
+import { FixedMenuDiv } from "./MyStyledComponents"
 
 import { openNotificationWithIcon } from "./Notifications"
 
-import { sortClipsChronologically } from "../utils"
-
-const { SubMenu } = Menu
 function ProfileMenu(props) {
   const [viewWidth, setViewWidth] = useState(window.innerWidth)
 
@@ -20,19 +16,12 @@ function ProfileMenu(props) {
     function handleResize() {
       console.log("handle resize")
       setViewWidth(window.innerWidth)
-      // setViewStyle(getViewStyleFromWidth())
     }
 
     window.addEventListener("resize", handleResize)
   }, [])
 
-  const {
-    clips,
-    uploading,
-    setUploadDrawerOpen,
-    location,
-    setClipDrawerOpen,
-  } = props
+  const { uploading, setUploadDrawerOpen, setClipDrawerOpen } = props
   const path = props.location.pathname
   return (
     <FixedMenuDiv>

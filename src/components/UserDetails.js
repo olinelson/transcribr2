@@ -13,8 +13,6 @@ import { updateUser, deleteUser } from "../services/userManagement"
 import { openNotificationWithIcon } from "./Notifications"
 import { navigate } from "gatsby"
 
-import styled from "styled-components"
-
 export default function UserDetails(props) {
   const [editDrawerOpen, setEditDrawerOpen] = useState(false)
   const [user, setUser] = useState(props.user)
@@ -30,12 +28,6 @@ export default function UserDetails(props) {
       openNotificationWithIcon("error", "Something went wrong :(")
     }
   }
-
-  const DividerForTabletUp = styled.div`
-    @media (min-width: 600px) {
-      height: 4rem;
-    }
-  `
 
   return (
     <div style={{ padding: "0 1rem" }}>

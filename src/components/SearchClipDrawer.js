@@ -113,11 +113,7 @@ function SearchClipDrawer(props) {
             ]}
           >
             <List.Item.Meta
-              title={
-                <a href="#" onClick={() => navigateToWord(word)}>
-                  {word.word}
-                </a>
-              }
+              title={word.word}
               description={
                 <span>
                   <Icon

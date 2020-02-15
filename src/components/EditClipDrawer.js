@@ -14,8 +14,6 @@ import {
 } from "antd"
 
 import { updateClip } from "../services/clipManagement"
-import ButtonGroup from "antd/lib/button/button-group"
-import CollapsePanel from "antd/lib/collapse/CollapsePanel"
 
 const { Panel } = Collapse
 const EditClipDrawer = props => {

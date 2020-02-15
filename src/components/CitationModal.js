@@ -91,7 +91,7 @@ function CitationModal(props) {
             "DD MMMM YYYY"
           )}`}
         />
-        <Icon type="copy" onClick={() => copyToClipboard(apaRef, "MLA")} />
+        <Icon type="copy" onClick={() => copyToClipboard(mlaRef, "MLA")} />
 
         <h4>Vancouver</h4>
         <TextArea
@@ -113,7 +113,7 @@ function CitationModal(props) {
         />
         <Icon
           type="copy"
-          onClick={() => copyToClipboard(apaRef, "Vancouver")}
+          onClick={() => copyToClipboard(vancouverRef, "Vancouver")}
         />
 
         <h4>Chicago</h4>
@@ -130,7 +130,10 @@ function CitationModal(props) {
             datePosted
           ).format("MMM. DD, YYYY")}. ${url}`}
         />
-        <Icon type="copy" onClick={() => copyToClipboard(apaRef, "Chicago")} />
+        <Icon
+          type="copy"
+          onClick={() => copyToClipboard(chicagoRef, "Chicago")}
+        />
 
         <h4>Harvard</h4>
         <TextArea
@@ -147,7 +150,10 @@ function CitationModal(props) {
             dateAccessed
           ).format("D MMM. YYYY")}].`}
         />
-        <Icon type="copy" onClick={() => copyToClipboard(apaRef, "Harvard")} />
+        <Icon
+          type="copy"
+          onClick={() => copyToClipboard(harvardRef, "Harvard")}
+        />
       </CitationContainer>
     </Modal>
   )

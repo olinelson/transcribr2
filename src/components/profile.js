@@ -6,7 +6,7 @@ import UserDetails from "./UserDetails"
 import Layout from "./layout"
 import UploadClip from "./UploadClip"
 
-import { Drawer, Menu, Skeleton } from "antd"
+import { Drawer, Menu } from "antd"
 
 import { getUserProfileAndSet } from "../services/userManagement"
 import Clip from "./Clip"
@@ -14,14 +14,11 @@ import { sortClipsChronologically } from "../utils"
 import queryString from "query-string"
 import SideBar from "./SideBar"
 import ProfileSkeleton from "./ProfileSkeleton"
-import { ProfileContainer } from "./MyStyledComponents"
 import { openNotificationWithIcon } from "./Notifications"
 import { getUser } from "../services/auth"
 import openSocket from "socket.io-client"
 import { API_URL } from "../config"
 import ProfileMenu from "./ProfileMenu"
-
-// import { joinUserChannel, leaveUserChannel } from "../services/socket"
 
 function Profile(props) {
   const [uploadDrawOpen, setUploadDrawerOpen] = useState(false)
@@ -33,18 +30,8 @@ function Profile(props) {
     ? queryString.parse(props.location.search)
     : null
 
-  // const bearerToken = getUser()
-
   const mounted = useRef()
 
-  // function joinUserChannel(token, cb) {
-  //   socket.on("notification", notification => cb(notification))
-  //   socket.emit("joinUserChannel", token)
-  // }
-  // function leaveUserChannel(token, cb) {
-  //   // socket.on("notification", notification => cb(notification))
-  //   socket.emit("leaveUserChannel", token)
-  // }
   const bearerToken = getUser()
 
   const socket = openSocket(API_URL)
@@ -131,6 +118,7 @@ function Profile(props) {
             location={props.location}
           />
           <div style={{ gridArea: "main" }}>{viewRouter()}</div>
+
           <Drawer
             title="Upload Clip"
             placement="right"

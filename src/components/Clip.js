@@ -19,7 +19,6 @@ import {
   Progress,
   Menu,
   Dropdown,
-  Slider,
 } from "antd"
 import { ClipContainer, WordsContainer } from "./MyStyledComponents"
 import { openNotificationWithIcon } from "./Notifications"
@@ -98,11 +97,12 @@ function Clip(props) {
       console.log(notification.message)
     }
   }
-  const socket = openSocket(API_URL)
   const mounted = useRef()
-  const token = getUser()
 
   useEffect(() => {
+    const socket = openSocket(API_URL)
+    const token = getUser()
+
     function joinClipChannel(token, cb) {
       socket.on("clipChannelUpdate", data => cb(data))
       socket.emit("joinClipChannel", token, _id)

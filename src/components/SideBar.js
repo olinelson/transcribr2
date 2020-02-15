@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react"
 
-import { Menu, Icon, Drawer, Dropdown, Divider, Affix } from "antd"
+import { Menu, Icon } from "antd"
 import queryString from "query-string"
 import { navigate } from "gatsby"
 
-import { StyledMenu, StyledSideBar } from "./MyStyledComponents"
+import { StyledSideBar } from "./MyStyledComponents"
 import { sortClipsChronologically } from "../utils"
 
 const { SubMenu } = Menu
@@ -12,12 +12,6 @@ function SideBar({ clips, uploading, setUploadDrawerOpen, location }) {
   const PageLocation = location.search
     ? queryString.parse(location.search)
     : null
-
-  const getViewStyleFromWidth = num => {
-    if (num > 700) return "desktop"
-    if (num > 600) return "tablet"
-    return "phone"
-  }
 
   const [viewWidth, setViewWidth] = useState(window.innerWidth)
 
@@ -30,11 +24,9 @@ function SideBar({ clips, uploading, setUploadDrawerOpen, location }) {
     window.addEventListener("resize", handleResize)
   }, [])
 
-  // if (viewStyle === "desktop" || viewStyle === "tablet")
   return (
     <StyledSideBar offsetTop={46}>
       <Menu
-        // style={{ width: "100%", height: "auto" }}
         mode="inline"
         selectable={false}
         inlineCollapsed={viewWidth < 800 ? true : false}

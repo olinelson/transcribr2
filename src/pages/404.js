@@ -1,6 +1,6 @@
 import React from "react"
 
-import { useStaticQuery, graphql, navigate } from "gatsby"
+import { useStaticQuery, graphql, Link } from "gatsby"
 import Img from "gatsby-image"
 import Layout from "../components/layout"
 
@@ -43,7 +43,7 @@ export default function IndexPage() {
           404
         </h1>
         <p>Hmm... sorry the page you are looking for can't be found.</p>
-        <a onClick={() => navigate("/")}>Take me home</a>
+        <Link to={"/"}>Take me home</Link>
       </div>
     </Layout>
   )

@@ -1,19 +1,19 @@
 import React from "react"
-import { Link, navigate } from "gatsby"
+import { navigate } from "gatsby"
 import { isLoggedIn, logout } from "../services/auth"
 import { Menu } from "./MyStyledComponents"
 import WithLocation from "./WithLocation"
 
-import { Icon, Affix } from "antd"
+import { Icon } from "antd"
 
-import { StyledMenu, FixedMenuDiv } from "./MyStyledComponents"
+import { FixedMenuDiv } from "./MyStyledComponents"
 
 import { openNotificationWithIcon } from "./Notifications"
 
 function Navbar(props) {
   const path = props.location.pathname
 
-  if (path.includes("app")) return null
+  // if (path.includes("app")) return null
 
   return (
     <FixedMenuDiv>
