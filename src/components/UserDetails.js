@@ -9,12 +9,13 @@ import {
   Button,
   Popconfirm,
 } from "antd"
-import { updateUser, deleteUser } from "../services/userManagement"
+import { updateUser, deleteUser, changeEmail } from "../services/userManagement"
 import { openNotificationWithIcon } from "./Notifications"
 import { navigate } from "gatsby"
 
 export default function UserDetails(props) {
   const [editDrawerOpen, setEditDrawerOpen] = useState(false)
+  const [changeEmailDrawerOpen, setChangeEmailDrawerOpen] = useState(false)
   const [user, setUser] = useState(props.user)
   const [loading, setLoading] = useState(false)
 
@@ -42,8 +43,74 @@ export default function UserDetails(props) {
       </h1>
       <Descriptions layout="vertical">
         <Descriptions.Item label="UserName">{user.name}</Descriptions.Item>
-        <Descriptions.Item label="Email">{user.email}</Descriptions.Item>
+        <Descriptions.Item label="Email">
+          {user.email}{" "}
+          <Icon onClick={() => setChangeEmailDrawerOpen(true)} type="edit" />
+        </Descriptions.Item>
       </Descriptions>
+
+      <Drawer
+        onClose={() => {
+          setUser(props.user)
+          setChangeEmailDrawerOpen(false)
+        }}
+        title="Change Email"
+        visible={changeEmailDrawerOpen}
+      >
+        <Form
+          layout="vertical"
+          // onChange={e => setUser({ ...user, [e.target.name]: e.target.value })}
+          onSubmit={async e => {
+            e.preventDefault()
+            setLoading(true)
+            const unconfirmedEmail = e.target.unconfirmedEmail.value
+            const success = await changeEmail(unconfirmedEmail)
+            if (success) {
+              setUser({ ...props.user, unconfirmedEmail })
+              props.setUserProfile({
+                ...props.userProfile,
+                user: { ...user, unconfirmedEmail },
+              })
+              setEditDrawerOpen(false)
+              openNotificationWithIcon("success", "Verification email sent.")
+            } else {
+              openNotificationWithIcon("error", "There was a problem :(")
+            }
+            setLoading(false)
+          }}
+        >
+          <Form.Item label="Current Email">
+            <p>{user.email}</p>
+          </Form.Item>
+          {user.unconfirmedEmail ? (
+            <Form.Item label="Unconfirmed Email">
+              <p>{user.unconfirmedEmail}</p>
+              <small>Pending email confirmation</small>
+            </Form.Item>
+          ) : null}
+
+          <Form.Item label="New Email Address">
+            <Input
+              name="unconfirmedEmail"
+              type="email"
+              spellCheck="true"
+              placeholder="olaf@transcribrapp.com"
+              contentEditable={false}
+              defaultValue=""
+            />
+          </Form.Item>
+
+          <Button type="primary" htmlType="submit" loading={loading}>
+            Verify
+          </Button>
+          <Popconfirm
+            title="Are you sure you want to delete your account?"
+            onConfirm={() => deleteUserHandler()}
+            okText="Yes"
+            cancelText="No"
+          ></Popconfirm>
+        </Form>
+      </Drawer>
 
       <Drawer
         onClose={() => {
@@ -77,15 +144,16 @@ export default function UserDetails(props) {
               placeholder="Olaf"
             />
           </Form.Item>
-          <Form.Item label="Email Address">
+          {/* <Form.Item label="Email Address">
             <Input
               name="email"
               type="email"
               spellCheck="true"
               defaultValue={user.email}
               placeholder="olaf@transcribrapp.com"
+              contentEditable={false}
             />
-          </Form.Item>
+          </Form.Item> */}
 
           <Button type="primary" htmlType="submit" loading={loading}>
             Save

@@ -5,6 +5,9 @@ import Profile from "../components/profile"
 import Login from "../components/Login"
 import Clip from "../components/Clip"
 import SignUpForm from "../components/SignUpForm"
+import ForgotPassowordForm from "../components/ForgotPasswordForm"
+import ResetPasswordForm from "../components/ResetPasswordForm"
+import ChangeEmailForm from "../components/ChangeEmailForm"
 
 const App = () => (
   <Router>
@@ -12,6 +15,9 @@ const App = () => (
     <PrivateRoute path="/app/clip" component={Clip} />
     <Login path="/app/login" />
     <SignUpForm path="/app/signup" />
+    <ForgotPassowordForm path="/app/forgot" />
+    <ResetPasswordForm path="/app/reset_password" />
+    <ChangeEmailForm path="/app/change_email" />
   </Router>
 )
 

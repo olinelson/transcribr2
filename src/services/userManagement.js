@@ -63,6 +63,28 @@ export const updateUser = async user => {
     return false
   }
 }
+
+export const changeEmail = async unconfirmedEmail => {
+  try {
+    let res = await fetch(API_URL + "/users/change_email", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: getUser(),
+      },
+      body: JSON.stringify({ unconfirmedEmail }),
+      redirect: "follow", // manual, *follow, error
+      referrerPolicy: "no-referrer", // no-referrer, *client
+    })
+    if (!res.ok) throw new Error("something went wrong")
+
+    return true
+  } catch (error) {
+    console.log(error)
+    return false
+  }
+}
+
 export const deleteUser = async () => {
   try {
     let res = await fetch(API_URL + "/users/me", {

@@ -78,7 +78,12 @@ function Profile(props) {
   const viewRouter = () => {
     if (!PageLocation || !PageLocation.view)
       return (
-        <UserDetails style={{ gridArea: "main" }} user={userProfile.user} />
+        <UserDetails
+          style={{ gridArea: "main" }}
+          userProfile={userProfile}
+          setUserProfile={setUserProfile}
+          user={userProfile.user}
+        />
       )
 
     switch (PageLocation.view) {

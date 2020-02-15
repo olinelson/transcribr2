@@ -1,11 +1,11 @@
 import React from "react"
 import { Form, Icon, Input, Button, Checkbox } from "./MyStyledComponents"
-import { handleLogin } from "../services/auth"
+import { handleForgotPassword } from "../services/auth"
 import { openNotificationWithIcon } from "./Notifications"
 import { navigate, Link } from "gatsby"
 import Layout from "./layout"
 
-class Login extends React.Component {
+class ForgotPassword extends React.Component {
   state = {
     loading: false,
   }
@@ -14,14 +14,15 @@ class Login extends React.Component {
     this.setState({ loading: true })
 
     e.preventDefault()
+
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
-        const loggedInSuccessfully = await handleLogin(values)
-        if (loggedInSuccessfully) {
-          openNotificationWithIcon("success", "Logged In!")
-          navigate(`/app/profile`)
+        const sent = await handleForgotPassword(values)
+        if (sent) {
+          openNotificationWithIcon("success", "Password Reset Email Sent!")
+          navigate(`/`)
         } else {
-          openNotificationWithIcon("error", "Sorry, wrong email or password...")
+          openNotificationWithIcon("error", "Sorry, something went wrong")
         }
       }
       this.setState({ loading: false })
@@ -34,15 +35,16 @@ class Login extends React.Component {
       <Layout>
         <div
           style={{
-            gridColumn: "1/-1",
-            gridRow: "2",
             display: "grid",
             alignItems: "center",
             justifyItems: "center",
+            height: "100%",
+            gridColumn: "1/-1",
+            gridRow: "2",
           }}
         >
           <Form onSubmit={this.handleSubmit} className="login-form">
-            <h1>Login</h1>
+            <h1>Reset Password</h1>
             <Form.Item>
               {getFieldDecorator("email", {
                 rules: [
@@ -58,38 +60,17 @@ class Login extends React.Component {
                 />
               )}
             </Form.Item>
+
             <Form.Item>
-              {getFieldDecorator("password", {
-                rules: [
-                  { required: true, message: "Please input your Password!" },
-                ],
-              })(
-                <Input
-                  prefix={
-                    <Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />
-                  }
-                  type="password"
-                  placeholder="Password"
-                />
-              )}
-            </Form.Item>
-            <Form.Item>
-              {getFieldDecorator("remember", {
-                valuePropName: "checked",
-                initialValue: true,
-              })(<Checkbox>Remember me</Checkbox>)}
-              <Link className="login-form-forgot" to="/app/forgot">
-                Forgot password
-              </Link>
               <Button
                 type="primary"
                 htmlType="submit"
                 className="login-form-button"
                 loading={this.state.loading}
               >
-                Log in
+                Email Link
               </Button>
-              Or <Link to="/app/signup">register now!</Link>
+              Or <Link to="/app/login">Log in</Link>
             </Form.Item>
           </Form>
         </div>
@@ -98,6 +79,8 @@ class Login extends React.Component {
   }
 }
 
-const WrappedNormalLoginForm = Form.create({ name: "normal_login" })(Login)
+const ForgotPasswordForm = Form.create({ name: "ForgotPassword " })(
+  ForgotPassword
+)
 
-export default WrappedNormalLoginForm
+export default ForgotPasswordForm
