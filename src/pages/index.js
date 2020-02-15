@@ -1,8 +1,9 @@
 import React from "react"
 
-import { useStaticQuery, graphql } from "gatsby"
+import { useStaticQuery, graphql, Link, navigate } from "gatsby"
 import Img from "gatsby-image"
 import Layout from "../components/layout"
+import { Button, Divider } from "antd"
 
 export default function IndexPage() {
   const data = useStaticQuery(graphql`
@@ -21,24 +22,10 @@ export default function IndexPage() {
 
   return (
     <Layout>
-      {/* <div
-        style={{
-          display: "grid",
-          justifySelf: "center",
-          // alignSelf: "center",
-          // justifyContent: "center",
-          // width: "100vw",
-          maxWidth: "40rem",
-          textAlign: "center",
-          // gridArea: "sidebar / main",
-          // gridColumn: "1 / -1",
-        }}
-      > */}
       <div
         style={{
           gridColumn: "1/-1",
           gridRow: "2",
-          // height: "100%",
           display: "grid",
           alignSelf: "center",
           justifyContent: "center",
@@ -48,7 +35,6 @@ export default function IndexPage() {
       >
         <Img
           style={{ width: "90vw", maxWidth: "40rem", height: "auto" }}
-          // style={{ position: "static" }}
           fluid={data.file.childImageSharp.fluid}
           alt="Transcribr Logo"
         />
@@ -57,10 +43,21 @@ export default function IndexPage() {
             color: "#1890FF",
             textAlign: "center",
             fontSize: "10vw",
+            marginBottom: "none",
           }}
         >
           transcribr<span style={{ color: "orange" }}>.</span>
         </h1>
+        {/* <Link to={"/about"}>about</Link> */}
+        <div>
+          <Link style={{ color: "#1890FF" }} to={"/app/login"}>
+            Login
+          </Link>
+          <Divider type="vertical" style={{ background: "orange" }} />
+          <Link style={{ color: "#1890FF" }} to={"/app/signup"}>
+            Signup
+          </Link>
+        </div>
       </div>
     </Layout>
   )

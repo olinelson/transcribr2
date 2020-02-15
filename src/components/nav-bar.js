@@ -23,6 +23,11 @@ function Navbar(props) {
           {/* <span>Home</span> */}
         </Menu.Item>
 
+        <Menu.Item onClick={() => navigate("/about")} key="/about">
+          <Icon type="info-circle" />
+          {/* <span>Home</span> */}
+        </Menu.Item>
+
         {isLoggedIn() ? (
           <Menu.Item
             onClick={() => navigate("/app/profile")}
