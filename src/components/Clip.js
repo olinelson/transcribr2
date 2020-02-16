@@ -29,7 +29,6 @@ import EditClipDrawer from "./EditClipDrawer"
 import Word from "./Word"
 import CitationModal from "./CitationModal"
 import WordCitationModal from "./WordCitationModal"
-import { useStateWithLocalStorageJSON } from "../utils"
 
 const { Step } = Steps
 
@@ -46,15 +45,6 @@ function Clip(props) {
     deleting: false,
   })
 
-  // const [clip, setClip] = useStateWithLocalStorageJSON(_id, {
-  //   _id,
-  //   name,
-  //   loading: true,
-  //   words: [],
-  //   saving: false,
-  //   editing: false,
-  //   deleting: false,
-  // })
 
   const [citationModalOpen, setCitationModalOpen] = useState(false)
   const [, setWordCitationModalOpen] = useState(false)

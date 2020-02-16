@@ -24,7 +24,7 @@ import styled from "styled-components"
 
 function Navbar(props) {
   const path = props.location.pathname
-  const [user, setUser] = useStateWithLocalStorageJSON("user", {})
+  const [user, setUser] = useStateWithLocalStorageJSON("user", {}, window)
   const [clipDrawerOpen, setClipDrawerOpen] = useState(false)
   const [uploadDrawOpen, setUploadDrawerOpen] = useState(false)
   const [uploading, setUploading] = useState(false)

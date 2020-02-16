@@ -19,21 +19,16 @@ export const sortClipsChronologically = (a, b) => {
   return comparison
 }
 
-// export const useStateWithLocalStorage = localStorageKey => {
-//   const [value, setValue] = React.useState(
-//     localStorage.getItem(localStorageKey) || ""
-//   )
-//   React.useEffect(() => {
-//     localStorage.setItem(localStorageKey, value)
-//   }, [value])
-//   return [value, setValue]
-// }
-export const useStateWithLocalStorageJSON = (localStorageKey, defaultState) => {
+export const useStateWithLocalStorageJSON = (
+  localStorageKey,
+  defaultState,
+  window
+) => {
   const [value, setValue] = React.useState(
-    JSON.parse(window.localStorage.getItem(localStorageKey)) || defaultState
+    JSON.parse(window.localStorage.getItem(localStorageKey)) || {}
   )
   React.useEffect(() => {
-    localStorage.setItem(localStorageKey, JSON.stringify(value))
+    window.localStorage.setItem(localStorageKey, JSON.stringify(value))
   }, [value])
   return [value, setValue]
 }

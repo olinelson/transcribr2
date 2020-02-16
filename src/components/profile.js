@@ -27,7 +27,11 @@ function Profile(props) {
   const [clipDrawerOpen, setClipDrawerOpen] = useState(false)
   const [uploading, setUploading] = useState(false)
   // const [userProfile, setUserProfile] = useState({ clips: [] })
-  const [userProfile, setUserProfile] = useStateWithLocalStorageJSON("user")
+  const [userProfile, setUserProfile] = useStateWithLocalStorageJSON(
+    "user",
+    {},
+    window
+  )
 
   const PageLocation = props.location.search
     ? queryString.parse(props.location.search)

@@ -1,6 +1,5 @@
 import React from "react"
 import { Drawer, Menu } from "antd"
-import { useStateWithLocalStorageJSON } from "../utils"
 import { navigate } from "gatsby"
 import { sortClipsChronologically } from "../utils"
 import { getUser, isLoggedIn } from "../services/auth"
