@@ -8,7 +8,7 @@ export function ProfileSkeleton() {
   return (
     <>
       {/* <div> */}
-      <FixedMenuDiv>
+      {/* <FixedMenuDiv>
         <Menu theme="dark" mode="horizontal">
           <Menu.Item key="/">
             <Icon type="home" />
@@ -21,7 +21,7 @@ export function ProfileSkeleton() {
             <Icon type="logout" />
           </Menu.Item>
         </Menu>
-      </FixedMenuDiv>
+      </FixedMenuDiv> */}
 
       <StyledSideBar>
         <Menu

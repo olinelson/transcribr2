@@ -2,14 +2,24 @@ import { API_URL } from "../config"
 
 export const isBrowser = () => typeof window !== "undefined"
 
-export const getUser = () =>
+export const getToken = () =>
   isBrowser() && window.localStorage.getItem("token")
     ? window.localStorage.getItem("token")
     : null
+export const getUser = () => {
+  if (isBrowser() && window.localStorage.getItem("user")) {
+    const user = JSON.parse(window.localStorage.getItem("user"))
+    console.log(user)
+    return user
+  }
+  return null
+}
 
 const setUserAndToken = res => {
   window.localStorage.setItem("token", "Bearer " + res.token)
-  // window.localStorage.setItem("user", JSON.stringify(res.user))
+  const user = res.user
+  user.clips = res.clips
+  window.localStorage.setItem("user", JSON.stringify(res.user))
 }
 
 export const handleLogin = async ({ email, password }) => {
@@ -101,7 +111,7 @@ export const handleResetPassword = async ({ password, token }) => {
 }
 
 export const isLoggedIn = () => {
-  const token = getUser()
+  const token = getToken()
 
   return !!token
 }

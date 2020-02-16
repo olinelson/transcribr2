@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react"
 import { navigate } from "gatsby"
 import { API_URL } from "../config"
 
-import { getUser } from "../services/auth"
+import { getToken } from "../services/auth"
 import { deleteClip, getClip } from "../services/clipManagement"
 import { splitWordsIntoPages } from "../services/wordManagement"
 
@@ -29,6 +29,7 @@ import EditClipDrawer from "./EditClipDrawer"
 import Word from "./Word"
 import CitationModal from "./CitationModal"
 import WordCitationModal from "./WordCitationModal"
+import { useStateWithLocalStorageJSON } from "../utils"
 
 const { Step } = Steps
 
@@ -44,6 +45,16 @@ function Clip(props) {
     editing: false,
     deleting: false,
   })
+
+  // const [clip, setClip] = useStateWithLocalStorageJSON(_id, {
+  //   _id,
+  //   name,
+  //   loading: true,
+  //   words: [],
+  //   saving: false,
+  //   editing: false,
+  //   deleting: false,
+  // })
 
   const [citationModalOpen, setCitationModalOpen] = useState(false)
   const [, setWordCitationModalOpen] = useState(false)
@@ -101,7 +112,7 @@ function Clip(props) {
 
   useEffect(() => {
     const socket = openSocket(API_URL)
-    const token = getUser()
+    const token = getToken()
 
     function joinClipChannel(token, cb) {
       socket.on("clipChannelUpdate", data => cb(data))
@@ -164,7 +175,7 @@ function Clip(props) {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: getUser(),
+            Authorization: getToken(),
           },
           redirect: "follow", // manual, *follow, error
           referrerPolicy: "no-referrer", // no-referrer, *client
@@ -419,7 +430,7 @@ function Clip(props) {
     })
   }
 
-  if (!!clip.loading) {
+  if (!clip || !!clip.loading) {
     return (
       <div>
         <div style={{ height: "4rem" }} />

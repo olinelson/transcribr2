@@ -1,5 +1,5 @@
 import { API_URL } from "../config"
-import { getUser } from "./auth"
+import { getToken } from "./auth"
 import { navigate } from "gatsby"
 
 export const getUserProfileAndSet = async setUserProfile => {
@@ -7,7 +7,7 @@ export const getUserProfileAndSet = async setUserProfile => {
     let res = await fetch(API_URL + "/users/me", {
       headers: {
         "Content-Type": "application/json",
-        Authorization: getUser(),
+        Authorization: getToken(),
       },
       redirect: "follow", // manual, *follow, error
       referrerPolicy: "no-referrer", // no-referrer, *client
@@ -24,12 +24,12 @@ export const getUserProfileAndSet = async setUserProfile => {
   }
 }
 
-export const getUserProfile = async setUserProfile => {
+export const getUserProfile = async () => {
   try {
     let res = await fetch(API_URL + "/users/me", {
       headers: {
         "Content-Type": "application/json",
-        Authorization: getUser(),
+        Authorization: getToken(),
       },
       redirect: "follow", // manual, *follow, error
       referrerPolicy: "no-referrer", // no-referrer, *client
@@ -49,7 +49,7 @@ export const updateUser = async user => {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        Authorization: getUser(),
+        Authorization: getToken(),
       },
       body: JSON.stringify(user),
       redirect: "follow", // manual, *follow, error
@@ -70,7 +70,7 @@ export const changeEmail = async unconfirmedEmail => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: getUser(),
+        Authorization: getToken(),
       },
       body: JSON.stringify({ unconfirmedEmail }),
       redirect: "follow", // manual, *follow, error
@@ -91,7 +91,7 @@ export const deleteUser = async () => {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        Authorization: getUser(),
+        Authorization: getToken(),
       },
       redirect: "follow", // manual, *follow, error
       referrerPolicy: "no-referrer", // no-referrer, *client

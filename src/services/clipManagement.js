@@ -1,5 +1,5 @@
 import { API_URL } from "../config"
-import { getUser } from "./auth"
+import { getToken } from "./auth"
 import { openNotificationWithIcon } from "../components/Notifications"
 
 export const deleteClip = async clipId => {
@@ -11,7 +11,7 @@ export const deleteClip = async clipId => {
       // credentials: "same-origin", // include, *same-origin, omit
       headers: {
         "Content-Type": "application/json",
-        Authorization: getUser(),
+        Authorization: getToken(),
       },
       redirect: "follow", // manual, *follow, error
       referrerPolicy: "no-referrer", // no-referrer, *client
@@ -38,7 +38,7 @@ export const updateClip = async (clip, updateClipInProfile, setClip) => {
       // credentials: "same-origin", // include, *same-origin, omit
       headers: {
         "Content-Type": "application/json",
-        Authorization: getUser(),
+        Authorization: getToken(),
       },
       body: JSON.stringify({ name: clip.name, citation: clip.citation }),
       redirect: "follow", // manual, *follow, error
@@ -63,7 +63,7 @@ export const getClip = async (_id, setClip) => {
       // credentials: "same-origin", // include, *same-origin, omit
       headers: {
         "Content-Type": "application/json",
-        Authorization: getUser(),
+        Authorization: getToken(),
       },
       redirect: "follow", // manual, *follow, error
       referrerPolicy: "no-referrer", // no-referrer, *client

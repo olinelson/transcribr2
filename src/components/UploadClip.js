@@ -1,6 +1,6 @@
 import React from "react"
 import { API_URL } from "../config"
-import { getUser } from "../services/auth"
+import { getToken } from "../services/auth"
 import { Upload, Icon } from "./MyStyledComponents"
 import { message } from "antd"
 const { Dragger } = Upload
@@ -13,7 +13,7 @@ function UploadClip(props) {
     method: "POST",
     beforeUpload: () => props.setUploading(true),
     headers: {
-      Authorization: getUser(),
+      Authorization: getToken(),
     },
     onChange(info) {
       const { status } = info.file

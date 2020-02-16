@@ -1,6 +1,6 @@
 import { API_URL } from "../config"
 import { openNotificationWithIcon } from "../components/Notifications"
-import { getUser } from "../services/auth"
+import { getToken } from "../services/auth"
 
 export const splitWordsIntoPages = (_words, pageSize = 200) => {
   let words = [..._words]
@@ -18,7 +18,7 @@ export const editWord = async ({ wordData, newWordValue, clip, setClip }) => {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        Authorization: getUser(),
+        Authorization: getToken(),
       },
       body: JSON.stringify({ clipId, wordId, newWordValue }),
       redirect: "follow", // manual, *follow, error
@@ -50,7 +50,7 @@ export const insertWord = async ({ index, setClip, clip, newWord }) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: getUser(),
+        Authorization: getToken(),
       },
       body: JSON.stringify({ clipId, index, newWord }),
       redirect: "follow", // manual, *follow, error
@@ -86,7 +86,7 @@ export const deleteWord = async ({
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        Authorization: getUser(),
+        Authorization: getToken(),
       },
       body: JSON.stringify({ clipId, index }),
       redirect: "follow", // manual, *follow, error

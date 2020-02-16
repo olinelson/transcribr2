@@ -10,21 +10,24 @@ import { Drawer, Menu } from "antd"
 
 import { getUserProfileAndSet } from "../services/userManagement"
 import Clip from "./Clip"
-import { sortClipsChronologically } from "../utils"
+import {
+  sortClipsChronologically,
+  useStateWithLocalStorageJSON,
+} from "../utils"
 import queryString from "query-string"
 import SideBar from "./SideBar"
 import ProfileSkeleton from "./ProfileSkeleton"
 import { openNotificationWithIcon } from "./Notifications"
-import { getUser } from "../services/auth"
+import { getToken } from "../services/auth"
 import openSocket from "socket.io-client"
 import { API_URL } from "../config"
-import ProfileMenu from "./ProfileMenu"
 
 function Profile(props) {
   const [uploadDrawOpen, setUploadDrawerOpen] = useState(false)
   const [clipDrawerOpen, setClipDrawerOpen] = useState(false)
   const [uploading, setUploading] = useState(false)
-  const [userProfile, setUserProfile] = useState({ clips: [] })
+  // const [userProfile, setUserProfile] = useState({ clips: [] })
+  const [userProfile, setUserProfile] = useStateWithLocalStorageJSON("user")
 
   const PageLocation = props.location.search
     ? queryString.parse(props.location.search)
@@ -32,7 +35,7 @@ function Profile(props) {
 
   const mounted = useRef()
 
-  const bearerToken = getUser()
+  const bearerToken = getToken()
 
   const socket = openSocket(API_URL)
 
@@ -45,10 +48,10 @@ function Profile(props) {
     // first load
     if (!mounted.current) {
       mounted.current = true
-      joinUserChannel(getUser(), notification =>
+      joinUserChannel(getToken(), notification =>
         notificationHandler(notification)
       )
-      getUserProfileAndSet(setUserProfile)
+      // getUserProfileAndSet(setUserProfile)
     }
     // cleanup
     return function leaveUserChannel() {
@@ -82,7 +85,7 @@ function Profile(props) {
           style={{ gridArea: "main" }}
           userProfile={userProfile}
           setUserProfile={setUserProfile}
-          user={userProfile.user}
+          user={userProfile}
         />
       )
 
@@ -105,17 +108,17 @@ function Profile(props) {
 
   return (
     <Layout>
-      {!userProfile.user ? (
+      {!userProfile ? (
         <ProfileSkeleton />
       ) : (
         <>
-          <ProfileMenu
+          {/* <ProfileMenu
             setUploadDrawerOpen={setUploadDrawerOpen}
             setClipDrawerOpen={setClipDrawerOpen}
             clips={userProfile.clips}
             uploading={uploading}
             location={props.location}
-          />
+          /> */}
           <SideBar
             setUploadDrawerOpen={setUploadDrawerOpen}
             clips={userProfile.clips}

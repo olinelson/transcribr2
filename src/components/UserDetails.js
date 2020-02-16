@@ -129,6 +129,7 @@ export default function UserDetails(props) {
             const success = await updateUser(user)
             if (success) {
               setEditDrawerOpen(false)
+              props.setUserProfile({ ...props.userProfile, ...user })
               openNotificationWithIcon("success", "User Profile Updated")
             } else {
               openNotificationWithIcon("error", "There was a problem :(")
