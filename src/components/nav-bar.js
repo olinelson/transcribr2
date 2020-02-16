@@ -4,6 +4,8 @@ import { isLoggedIn, logout } from "../services/auth"
 import { Menu } from "./MyStyledComponents"
 import WithLocation from "./WithLocation"
 
+import { isBrowser } from "../services/auth"
+
 import { getToken, getUser } from "../services/auth"
 import { sortClipsChronologically } from "../utils"
 
@@ -35,7 +37,9 @@ function Navbar(props) {
 
   console.log(user)
 
-  const [viewWidth, setViewWidth] = useState(window ? window.innerWidth : 0)
+  const [viewWidth, setViewWidth] = useState(
+    isBrowser() ? window.innerWidth : 0
+  )
 
   useEffect(() => {
     function handleResize() {
