@@ -1,6 +1,8 @@
 import moment from "moment"
 import React from "react"
 
+import { isBrowser } from "./services/auth"
+
 export const formatTimeStamp = string => {
   let seconds = parseInt(string.replace("s", ""))
 
@@ -19,16 +21,15 @@ export const sortClipsChronologically = (a, b) => {
   return comparison
 }
 
-export const useStateWithLocalStorageJSON = (
-  localStorageKey,
-  defaultState,
-  window
-) => {
+export const useStateWithLocalStorageJSON = (localStorageKey, defaultState) => {
   const [value, setValue] = React.useState(
-    JSON.parse(window.localStorage.getItem(localStorageKey)) || {}
+    localStorage ? JSON.parse(localStorage.getItem(localStorageKey)) || {} : {}
   )
+
   React.useEffect(() => {
-    window.localStorage.setItem(localStorageKey, JSON.stringify(value))
+    if (isBrowser()) {
+      localStorage.setItem(localStorageKey, JSON.stringify(value))
+    }
   }, [value])
   return [value, setValue]
 }

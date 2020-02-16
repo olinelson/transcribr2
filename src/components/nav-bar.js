@@ -24,7 +24,7 @@ import styled from "styled-components"
 
 function Navbar(props) {
   const path = props.location.pathname
-  const [user, setUser] = useStateWithLocalStorageJSON("user", {}, window)
+  const [user, setUser] = useStateWithLocalStorageJSON("user", {})
   const [clipDrawerOpen, setClipDrawerOpen] = useState(false)
   const [uploadDrawOpen, setUploadDrawerOpen] = useState(false)
   const [uploading, setUploading] = useState(false)
@@ -35,7 +35,7 @@ function Navbar(props) {
 
   console.log(user)
 
-  const [viewWidth, setViewWidth] = useState(window.innerWidth)
+  const [viewWidth, setViewWidth] = useState(window ? window.innerWidth : 0)
 
   useEffect(() => {
     function handleResize() {
