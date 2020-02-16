@@ -8,6 +8,10 @@ import { getUser, isLoggedIn } from "../services/auth"
 export default function ClipDrawer(props) {
   if (!isLoggedIn()) return null
 
+  const user = getUser()
+
+  const clips = user.clips
+
   return (
     <Drawer
       destroyOnClose
@@ -29,9 +33,8 @@ export default function ClipDrawer(props) {
           flexDirection: "column",
         }}
       >
-        {getUser()
-          .clips.sort(sortClipsChronologically)
-          .map(c => (
+        {clips.length ? (
+          clips.sort(sortClipsChronologically).map(c => (
             <Menu.Item
               onClick={() => {
                 navigate(`app/profile?view=clip&id=${c._id}`)
@@ -41,7 +44,12 @@ export default function ClipDrawer(props) {
             >
               <span>{c.name}</span>
             </Menu.Item>
-          ))}
+          ))
+        ) : (
+          <Menu.Item disabled>
+            <span>no clips yet...</span>
+          </Menu.Item>
+        )}
       </Menu>
     </Drawer>
   )

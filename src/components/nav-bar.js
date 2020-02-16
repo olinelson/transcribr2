@@ -19,11 +19,19 @@ import {
   getUserProfileAndSet,
 } from "../services/userManagement"
 import ClipDrawer from "./ClipDrawer"
+import UploadClip from "./UploadClip"
+import styled from "styled-components"
 
 function Navbar(props) {
   const path = props.location.pathname
   const [user, setUser] = useStateWithLocalStorageJSON("user", {})
   const [clipDrawerOpen, setClipDrawerOpen] = useState(false)
+  const [uploadDrawOpen, setUploadDrawerOpen] = useState(false)
+  const [uploading, setUploading] = useState(false)
+
+  const addClip = clip => {
+    setUser({ ...user, clips: [...user.clips, clip] })
+  }
 
   console.log(user)
 
@@ -44,10 +52,33 @@ function Navbar(props) {
 
   // if (path.includes("app")) return null
 
+  const DynamicMenu = styled(Menu)`
+    display: flex;
+    justify-content: space-between;
+    li i {
+      margin: 1rem auto !important;
+      font-size: 1.5rem !important;
+    }
+
+    @media (min-width: 600px) {
+      display: grid;
+      grid-template-columns: auto auto auto 1fr;
+      justify-content: center;
+      justify-items: center;
+      ::before {
+        display: none;
+      }
+      li i {
+        margin: auto !important;
+        font-size: 1rem !important;
+      }
+    }
+  `
+
   return (
     <>
       <FixedMenuDiv>
-        <Menu theme="dark" mode="horizontal" selectedKeys={[path]}>
+        <DynamicMenu theme="dark" mode="horizontal" selectedKeys={[path]}>
           <Menu.Item onClick={() => navigate("/")} key="/">
             <Icon type="home" />
             {/* <span>Home</span> */}
@@ -74,22 +105,15 @@ function Navbar(props) {
             </Menu.Item>
           ) : null}
 
-          {/* {viewWidth < 600 ? (
-          <Menu.Item
-          onClick={() => setUploadDrawerOpen(true)}
-          >
-            {uploading ? (
-              <Icon type={"loading"} spin />
-            ) : (
+          {isLoggedIn() && viewWidth < 600 ? (
+            <Menu.Item onClick={() => setUploadDrawerOpen(true)}>
               <Icon type="upload" />
-            )}
-            <span>Add Clip</span>
-          </Menu.Item>
-        ) : null} */}
+            </Menu.Item>
+          ) : null}
 
           {isLoggedIn() ? (
             <Menu.Item
-              style={{ position: "absolute", right: "0" }}
+              style={{ justifySelf: "end" }}
               onClick={() => {
                 logout()
                 openNotificationWithIcon("success", "Successfully logged out.")
@@ -101,7 +125,7 @@ function Navbar(props) {
             </Menu.Item>
           ) : (
             <Menu.Item
-              style={{ position: "absolute", right: "0" }}
+              style={{ justifySelf: "end" }}
               key="/app/login"
               href="/"
               onClick={() => navigate("/app/login")}
@@ -110,47 +134,24 @@ function Navbar(props) {
               {/* Login */}
             </Menu.Item>
           )}
-        </Menu>
+        </DynamicMenu>
       </FixedMenuDiv>
 
       <ClipDrawer
         clipDrawerOpen={clipDrawerOpen}
         setClipDrawerOpen={setClipDrawerOpen}
       />
-      {/* <Drawer
-        width={"auto"}
+
+      <Drawer
+        title="Upload Clip"
         placement="right"
-        title="Clips"
-        height="auto"
-        onClose={() => setClipDrawerOpen(false)}
-        visible={clipDrawerOpen}
+        closable={true}
+        onClose={() => setUploadDrawerOpen(false)}
+        visible={uploadDrawOpen}
+        width="auto"
       >
-        <Menu
-          style={{
-            maxWidth: "85vw",
-            maxHeight: "70vh",
-            borderRight: "none",
-            // display: "flex",
-            overflow: "scroll",
-            webkitOverflowScrolling: "touch",
-            flexDirection: "column",
-          }}
-        >
-          {user.clips
-            ? user.clips.sort(sortClipsChronologically).map(c => (
-                <Menu.Item
-                  onClick={() => {
-                    navigate(`app/profile?view=clip&id=${c._id}`)
-                    setClipDrawerOpen(false)
-                  }}
-                  key={c._id}
-                >
-                  <span>{c.name}</span>
-                </Menu.Item>
-              ))
-            : null}
-        </Menu>
-      </Drawer> */}
+        <UploadClip setUploading={e => setUploading(e)} addClip={addClip} />
+      </Drawer>
     </>
   )
 }

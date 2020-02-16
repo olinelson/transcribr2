@@ -44,6 +44,10 @@ export const Layout = styled.div`
       "sidebar main  main";
   }
 
+  @media (max-width: 600px) {
+    grid-template-rows: 56px 1fr auto;
+  }
+
   @supports (padding: max(0px)) {
     // padding-left: max(12px, env(safe-area-inset-left));
     // padding-right: max(12px, env(safe-area-inset-right));

@@ -18,7 +18,7 @@ export const getUser = () => {
 const setUserAndToken = res => {
   window.localStorage.setItem("token", "Bearer " + res.token)
   const user = res.user
-  user.clips = res.clips
+  user.clips = res.clips || []
   window.localStorage.setItem("user", JSON.stringify(res.user))
 }
 
