@@ -1,5 +1,5 @@
 import React, { useRef } from "react"
-import { Modal, Icon } from "antd"
+import { Modal, Icon, Button } from "antd"
 
 import moment from "moment"
 
@@ -72,7 +72,9 @@ function CitationModal(props) {
             "YYYY, MMMM D"
           )}). ${episodeTitle} [${mediaDescription}]. ${url} `}
         />
-        <Icon type="copy" onClick={() => copyToClipboard(apaRef, "APA")} />
+        <Button onClick={() => copyToClipboard(apaRef, "APA")}>
+          <Icon type="copy" />
+        </Button>
 
         <h4>MLA</h4>
         <TextArea
@@ -91,7 +93,9 @@ function CitationModal(props) {
             "DD MMMM YYYY"
           )}`}
         />
-        <Icon type="copy" onClick={() => copyToClipboard(mlaRef, "MLA")} />
+        <Button onClick={() => copyToClipboard(mlaRef, "MLA")}>
+          <Icon type="copy" />
+        </Button>
 
         <h4>Vancouver</h4>
         <TextArea
@@ -102,7 +106,7 @@ function CitationModal(props) {
             resize: "none",
           }}
           name="Apa"
-          ref={apaRef}
+          ref={vancouverRef}
           value={`${lastName} ${
             firstName[0]
           }. ${episodeTitle}. ${showTitle} [${mediaDescription}]. ${placeOfRecording}: ${publisher}; ${moment(
@@ -111,10 +115,9 @@ function CitationModal(props) {
             "YYYY"
           )}]. Available from: ${url}.`}
         />
-        <Icon
-          type="copy"
-          onClick={() => copyToClipboard(vancouverRef, "Vancouver")}
-        />
+        <Button onClick={() => copyToClipboard(vancouverRef, "Vancouver")}>
+          <Icon type="copy" />
+        </Button>
 
         <h4>Chicago</h4>
         <TextArea
@@ -130,10 +133,9 @@ function CitationModal(props) {
             datePosted
           ).format("MMM. DD, YYYY")}. ${url}`}
         />
-        <Icon
-          type="copy"
-          onClick={() => copyToClipboard(chicagoRef, "Chicago")}
-        />
+        <Button onClick={() => copyToClipboard(chicagoRef, "Chicago")}>
+          <Icon type="copy" />
+        </Button>
 
         <h4>Harvard</h4>
         <TextArea
@@ -150,10 +152,9 @@ function CitationModal(props) {
             dateAccessed
           ).format("D MMM. YYYY")}].`}
         />
-        <Icon
-          type="copy"
-          onClick={() => copyToClipboard(harvardRef, "Harvard")}
-        />
+        <Button onClick={() => copyToClipboard(harvardRef, "Harvard")}>
+          <Icon type="copy" />
+        </Button>
       </CitationContainer>
     </Modal>
   )

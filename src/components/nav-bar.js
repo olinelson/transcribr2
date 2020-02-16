@@ -117,7 +117,7 @@ function Navbar(props) {
               onClick={() => {
                 logout()
                 openNotificationWithIcon("success", "Successfully logged out.")
-                navigate(`/app/login`)
+                navigate(`/`)
               }}
             >
               <Icon type="logout" />

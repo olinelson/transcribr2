@@ -4,6 +4,7 @@ import { useStaticQuery, graphql, Link, navigate } from "gatsby"
 import Img from "gatsby-image"
 import Layout from "../components/layout"
 import { Button, Divider } from "antd"
+import { isLoggedIn } from "../services/auth"
 
 export default function IndexPage() {
   const data = useStaticQuery(graphql`
@@ -49,15 +50,18 @@ export default function IndexPage() {
           transcribr<span style={{ color: "orange" }}>.</span>
         </h1>
         {/* <Link to={"/about"}>about</Link> */}
-        <div>
-          <Link style={{ color: "#1890FF" }} to={"/app/login"}>
-            Login
-          </Link>
-          <Divider type="vertical" style={{ background: "orange" }} />
-          <Link style={{ color: "#1890FF" }} to={"/app/signup"}>
-            Signup
-          </Link>
-        </div>
+
+        {isLoggedIn() ? null : (
+          <div>
+            <Link style={{ color: "#1890FF" }} to={"/app/login"}>
+              Login
+            </Link>
+            <Divider type="vertical" style={{ background: "orange" }} />
+            <Link style={{ color: "#1890FF" }} to={"/app/signup"}>
+              Signup
+            </Link>
+          </div>
+        )}
       </div>
     </Layout>
   )
