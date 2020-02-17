@@ -10,6 +10,8 @@ import openSocket from "socket.io-client"
 import ReactPlayer from "react-player"
 import { formatTimeStamp } from "../utils"
 
+import FileSaver, { saveAs } from "file-saver"
+
 import {
   Document,
   Packer,
@@ -345,35 +347,9 @@ function Clip(props) {
       children: children,
     })
 
-    Packer.toBuffer(doc).then(buffer => {
-      download(
-        buffer,
-        `${clip.name}.docx`,
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-      )
+    Packer.toBlob(doc).then(blob => {
+      FileSaver.saveAs(blob, `${clip.name}.docx`)
     })
-  }
-
-  // problems with safari
-  function download(data, filename, type) {
-    var file = new Blob([data], { type: type })
-    if (window.navigator.msSaveOrOpenBlob)
-      // IE10+
-      window.navigator.msSaveOrOpenBlob(file, filename)
-    else {
-      // Others
-      var a = document.createElement("a"),
-        url = URL.createObjectURL(file)
-      a.href = url
-      a.download = filename
-      a.target = "_blank"
-      document.body.appendChild(a)
-      a.click()
-      setTimeout(function() {
-        document.body.removeChild(a)
-        window.URL.revokeObjectURL(url)
-      }, 0)
-    }
   }
 
   const downloadTextFile = () => {
@@ -382,7 +358,7 @@ function Clip(props) {
     const file = new Blob([allWords], {
       type: "text/plain",
     })
-    download(file, clip.name + ".txt", "text/plain")
+    FileSaver.saveAs(file, clip.name + ".txt")
   }
 
   const maybeShowWordsParagraph = () => {
