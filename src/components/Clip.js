@@ -8,6 +8,17 @@ import { splitWordsIntoPages } from "../services/wordManagement"
 
 import openSocket from "socket.io-client"
 import ReactPlayer from "react-player"
+import { formatTimeStamp } from "../utils"
+
+import {
+  Document,
+  Packer,
+  Paragraph,
+  TextRun,
+  Header,
+  HeadingLevel,
+  Footer,
+} from "docx"
 
 // components
 import {
@@ -172,12 +183,12 @@ function Clip(props) {
             "Content-Type": "application/json",
             Authorization: getToken(),
           },
-          redirect: "follow", // manual, *follow, error
-          referrerPolicy: "no-referrer", // no-referrer, *client
+          redirect: "follow",
+          referrerPolicy: "no-referrer",
         }
       )
       if (!res.ok) throw new Error("Something went wrong")
-      res = await res.json() // parses JSON response into native JavaScript objects
+      res = await res.json()
 
       openNotificationWithIcon("success", `Transcription Started!`)
       setClip(res.clip)
@@ -206,12 +217,8 @@ function Clip(props) {
           height="100%"
           width="100%"
           style={{
-            // display: "grid",
-            // justifyContent: "center",
-            // justifyItems: "center",
             justifySelf: "center",
             width: "100%",
-            // height: "auto",
             marginTop: ".5rem",
             maxWidth: clip.isVideo ? "30rem" : "100%",
             minHeight: ".5rem",
@@ -277,8 +284,15 @@ function Clip(props) {
                     disabled={!wordData.words.length}
                     onClick={() => downloadTextFile()}
                   >
-                    <Icon type="download" />
-                    Download Transcript
+                    <Icon type="file-text" />
+                    .txt
+                  </Menu.Item>
+                  <Menu.Item
+                    disabled={!wordData.words.length}
+                    onClick={() => downloadDocXFile()}
+                  >
+                    <Icon type="file-word" />
+                    .docx
                   </Menu.Item>
                 </Menu>
               }
@@ -293,16 +307,80 @@ function Clip(props) {
     </div>
   )
 
+  const downloadDocXFile = () => {
+    const doc = new Document()
+
+    let children = splitWordsIntoPages(clip.words, 100)
+      .map(p => {
+        return [
+          new Paragraph({
+            text: formatTimeStamp(p[0].startTime),
+            heading: HeadingLevel.HEADING_4,
+          }),
+          new Paragraph({
+            text: p.map(w => w.word).join(" "),
+          }),
+        ]
+      })
+      .flat()
+
+    doc.addSection({
+      headers: {
+        first: new Header({
+          children: [
+            new Paragraph({
+              text: clip.name,
+              heading: HeadingLevel.HEADING_1,
+            }),
+          ],
+        }),
+      },
+      footers: {
+        default: new Footer({
+          children: [
+            new Paragraph(clip.name + " - Transcribed with transcribrapp.com"),
+          ],
+        }),
+      },
+      children: children,
+    })
+
+    Packer.toBuffer(doc).then(buffer => {
+      download(
+        buffer,
+        `${clip.name}.docx`,
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      )
+    })
+  }
+
+  function download(data, filename, type) {
+    var file = new Blob([data], { type: type })
+    if (window.navigator.msSaveOrOpenBlob)
+      // IE10+
+      window.navigator.msSaveOrOpenBlob(file, filename)
+    else {
+      // Others
+      var a = document.createElement("a"),
+        url = URL.createObjectURL(file)
+      a.href = url
+      a.download = filename
+      document.body.appendChild(a)
+      a.click()
+      setTimeout(function() {
+        document.body.removeChild(a)
+        window.URL.revokeObjectURL(url)
+      }, 0)
+    }
+  }
+
   const downloadTextFile = () => {
     const allWords = clip.words.map(w => w.word).join(" ")
     const element = document.createElement("a")
     const file = new Blob([allWords], {
       type: "text/plain",
     })
-    element.href = URL.createObjectURL(file)
-    element.download = `${clip.name}.txt`
-    document.body.appendChild(element) // Required for this to work in FireFox
-    element.click()
+    download(file, clip.name + ".txt", "text/plain")
   }
 
   const maybeShowWordsParagraph = () => {

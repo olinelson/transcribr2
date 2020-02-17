@@ -17,6 +17,7 @@
   "dependencies": {
     "antd": "^3.26.7",
     "debounce": "^1.2.0",
+    "docx": "^5.0.2",
     "gatsby": "^2.18.12",
     "gatsby-image": "^2.2.40",
     "gatsby-plugin-manifest": "^2.2.41",

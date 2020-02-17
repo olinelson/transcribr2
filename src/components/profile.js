@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from "react"
 import { navigate } from "gatsby"
 import WithLocation from "./WithLocation"
 import UserDetails from "./UserDetails"
-import NavBar from "../components/nav-bar"
 import Layout from "./layout"
 import UploadClip from "./UploadClip"
 
@@ -18,7 +17,7 @@ import queryString from "query-string"
 import SideBar from "./SideBar"
 import ProfileSkeleton from "./ProfileSkeleton"
 import { openNotificationWithIcon } from "./Notifications"
-import { getToken, isBrowser } from "../services/auth"
+import { getToken } from "../services/auth"
 import openSocket from "socket.io-client"
 import { API_URL } from "../config"
 
@@ -105,16 +104,10 @@ function Profile(props) {
           />
         )
       case "upload":
-        console.log("open upload")
         return (
           <UploadClip
             style={{
-              // maxWidth: "100vw",
               gridArea: "main",
-              // width: "90%",
-              // height: "90%",
-              // padding: "1rem",
-              // margin: "1rem",
             }}
             setUploading={e => setUploading(e)}
             addClip={addClip}

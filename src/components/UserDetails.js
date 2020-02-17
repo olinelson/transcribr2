@@ -42,7 +42,7 @@ export default function UserDetails(props) {
         />
       </h1>
       <Descriptions layout="vertical">
-        <Descriptions.Item label="UserName">{user.name}</Descriptions.Item>
+        <Descriptions.Item label="Name">{user.name}</Descriptions.Item>
         <Descriptions.Item label="Email">
           {user.email}{" "}
           <Icon onClick={() => setChangeEmailDrawerOpen(true)} type="edit" />
