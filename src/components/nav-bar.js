@@ -8,7 +8,7 @@ import { isBrowser } from "../services/auth"
 
 import { getToken, getUser } from "../services/auth"
 import { sortClipsChronologically } from "../utils"
-
+import queryString from "query-string"
 import { useStateWithLocalStorageJSON } from "../utils"
 
 import { Icon, Drawer } from "antd"
@@ -28,6 +28,10 @@ function Navbar(props) {
   const { uploadDrawOpen, setUploadDrawerOpen, uploading } = props
 
   const user = [props.userProfile]
+
+  const PageLocation = props.location.search
+    ? queryString.parse(props.location.search)
+    : null
 
   const path = props.location.pathname
   const [clipDrawerOpen, setClipDrawerOpen] = useState(false)
@@ -72,7 +76,13 @@ function Navbar(props) {
   return (
     <>
       <FixedMenuDiv>
-        <DynamicMenu theme="dark" mode="horizontal" selectedKeys={[path]}>
+        <DynamicMenu
+          theme="dark"
+          mode="horizontal"
+          selectedKeys={
+            PageLocation && PageLocation.view == "upload" ? ["upload"] : [path]
+          }
+        >
           <Menu.Item onClick={() => navigate("/")} key="/">
             <Icon type="home" />
             {/* <span>Home</span> */}
@@ -100,7 +110,10 @@ function Navbar(props) {
           ) : null}
 
           {isLoggedIn() && viewWidth < 600 ? (
-            <Menu.Item onClick={() => setUploadDrawerOpen(true)}>
+            <Menu.Item
+              key="upload"
+              onClick={() => navigate("/app/profile?view=upload")}
+            >
               <Icon type="upload" />
             </Menu.Item>
           ) : null}

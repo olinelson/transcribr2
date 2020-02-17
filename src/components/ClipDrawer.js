@@ -24,7 +24,7 @@ export default function ClipDrawer(props) {
       <Menu
         style={{
           maxWidth: "85vw",
-          maxHeight: "70vh",
+          // maxHeight: "70vh",
           borderRight: "none",
           // display: "flex",
           overflow: "scroll",

@@ -32,8 +32,15 @@ function UploadClip(props) {
   }
 
   return (
-    <div style={{ maxWidth: "85vw" }}>
-      <Dragger {...settings}>
+    <div
+      style={{
+        border: "1rem solid white",
+        display: "grid",
+        width: "100%",
+        height: "100%",
+      }}
+    >
+      <Dragger {...settings} style={{ padding: "1rem" }}>
         <p className="ant-upload-drag-icon">
           <Icon type="inbox" />
         </p>

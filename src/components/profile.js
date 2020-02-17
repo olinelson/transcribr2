@@ -23,6 +23,10 @@ import openSocket from "socket.io-client"
 import { API_URL } from "../config"
 
 function Profile(props) {
+  const PageLocation = props.location.search
+    ? queryString.parse(props.location.search)
+    : null
+
   const [uploadDrawOpen, setUploadDrawerOpen] = useState(false)
   const [clipDrawerOpen, setClipDrawerOpen] = useState(false)
   const [uploading, setUploading] = useState(false)
@@ -32,10 +36,6 @@ function Profile(props) {
     {},
     window
   )
-
-  const PageLocation = props.location.search
-    ? queryString.parse(props.location.search)
-    : null
 
   const mounted = useRef()
 
@@ -102,6 +102,22 @@ function Profile(props) {
             key={clip._id}
             clip={clip}
             updateClipInProfile={e => updateClipInProfile(e)}
+          />
+        )
+      case "upload":
+        console.log("open upload")
+        return (
+          <UploadClip
+            style={{
+              // maxWidth: "100vw",
+              gridArea: "main",
+              // width: "90%",
+              // height: "90%",
+              // padding: "1rem",
+              // margin: "1rem",
+            }}
+            setUploading={e => setUploading(e)}
+            addClip={addClip}
           />
         )
       default:

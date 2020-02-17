@@ -47,3 +47,10 @@ input {
 body {
   display: grid;
 }
+
+.ant-drawer-header {
+  position: sticky !important;
+  position: -webkit-sticky;
+  top: 0rem;
+  z-index: 5;
+}
