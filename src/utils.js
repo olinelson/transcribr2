@@ -24,13 +24,17 @@ export const sortClipsChronologically = (a, b) => {
 export const useStateWithLocalStorageJSON = (localStorageKey, defaultState) => {
   const [value, setValue] = React.useState(
     isBrowser()
-      ? JSON.parse(window.localStorage.getItem(localStorageKey)) || {}
-      : {}
+      ? JSON.parse(window.localStorage.getItem(localStorageKey)) || defaultState
+      : defaultState
   )
 
   React.useEffect(() => {
     if (isBrowser()) {
-      window.localStorage.setItem(localStorageKey, JSON.stringify(value))
+      try {
+        window.localStorage.setItem(localStorageKey, JSON.stringify(value))
+      } catch (error) {
+        console.log(error)
+      }
     }
   }, [value])
   return [value, setValue]

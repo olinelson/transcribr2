@@ -25,17 +25,21 @@ import UploadClip from "./UploadClip"
 import styled from "styled-components"
 
 function Navbar(props) {
+  const { uploadDrawOpen, setUploadDrawerOpen, uploading } = props
+
+  const user = [props.userProfile]
+
   const path = props.location.pathname
-  const [user, setUser] = useStateWithLocalStorageJSON("user", {})
+  // const [user, setUser] = useStateWithLocalStorageJSON("user", {})
   const [clipDrawerOpen, setClipDrawerOpen] = useState(false)
-  const [uploadDrawOpen, setUploadDrawerOpen] = useState(false)
-  const [uploading, setUploading] = useState(false)
+  // const uploadDrawOpen, setUploadDrawerOpen] = useState(false)
+  // const [uploading, setUploading] = useState(false)
 
-  const addClip = clip => {
-    setUser({ ...user, clips: [...user.clips, clip] })
-  }
+  // const addClip = clip => {
+  //   setUser({ ...user, clips: [...user.clips, clip] })
+  // }
 
-  console.log(user)
+  // console.log(user)
 
   const [viewWidth, setViewWidth] = useState(
     isBrowser() ? window.innerWidth : 0
@@ -49,10 +53,6 @@ function Navbar(props) {
 
     window.addEventListener("resize", handleResize)
   }, [])
-
-  useEffect(() => {
-    // setUser(getUser())
-  })
 
   // if (path.includes("app")) return null
 
@@ -145,17 +145,6 @@ function Navbar(props) {
         clipDrawerOpen={clipDrawerOpen}
         setClipDrawerOpen={setClipDrawerOpen}
       />
-
-      <Drawer
-        title="Upload Clip"
-        placement="right"
-        closable={true}
-        onClose={() => setUploadDrawerOpen(false)}
-        visible={uploadDrawOpen}
-        width="auto"
-      >
-        <UploadClip setUploading={e => setUploading(e)} addClip={addClip} />
-      </Drawer>
     </>
   )
 }

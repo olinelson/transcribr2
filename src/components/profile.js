@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react"
 import { navigate } from "gatsby"
 import WithLocation from "./WithLocation"
 import UserDetails from "./UserDetails"
-
+import NavBar from "../components/nav-bar"
 import Layout from "./layout"
 import UploadClip from "./UploadClip"
 
@@ -18,7 +18,7 @@ import queryString from "query-string"
 import SideBar from "./SideBar"
 import ProfileSkeleton from "./ProfileSkeleton"
 import { openNotificationWithIcon } from "./Notifications"
-import { getToken } from "../services/auth"
+import { getToken, isBrowser } from "../services/auth"
 import openSocket from "socket.io-client"
 import { API_URL } from "../config"
 
@@ -26,7 +26,7 @@ function Profile(props) {
   const [uploadDrawOpen, setUploadDrawerOpen] = useState(false)
   const [clipDrawerOpen, setClipDrawerOpen] = useState(false)
   const [uploading, setUploading] = useState(false)
-  // const [userProfile, setUserProfile] = useState({ clips: [] })
+
   const [userProfile, setUserProfile] = useStateWithLocalStorageJSON(
     "user",
     {},
@@ -55,7 +55,7 @@ function Profile(props) {
       joinUserChannel(getToken(), notification =>
         notificationHandler(notification)
       )
-      // getUserProfileAndSet(setUserProfile)
+      getUserProfileAndSet(setUserProfile)
     }
     // cleanup
     return function leaveUserChannel() {
@@ -112,6 +112,12 @@ function Profile(props) {
 
   return (
     <Layout>
+      <NavBar
+        uploadDrawOpen={uploadDrawOpen}
+        setUploadDrawerOpen={setUploadDrawerOpen}
+        uploading={uploading}
+        userProfile={userProfile}
+      />
       {!userProfile ? (
         <ProfileSkeleton />
       ) : (

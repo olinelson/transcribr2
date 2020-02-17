@@ -16,7 +16,7 @@ const layout = ({ children, location }) => {
         <meta name="viewport" content="initial-scale=1, viewport-fit=cover" />
       </Helmet>
       <Layout>
-        <NavBar />
+        {/* <NavBar /> */}
 
         {children}
       </Layout>

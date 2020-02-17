@@ -11,6 +11,7 @@ import {
   DatePicker,
   Divider,
   Collapse,
+  Checkbox,
 } from "antd"
 
 import { updateClip } from "../services/clipManagement"
@@ -54,6 +55,9 @@ const EditClipDrawer = props => {
       >
         <Form.Item label="Clip Name">
           <Input name="name" spellCheck="true" defaultValue={formData.name} />
+        </Form.Item>
+        <Form.Item label="Make Available Offline">
+          <Checkbox name="saveOffline" defaultValue={formData.saveOffline} />
         </Form.Item>
 
         <Collapse>

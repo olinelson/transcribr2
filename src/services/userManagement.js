@@ -15,10 +15,13 @@ export const getUserProfileAndSet = async setUserProfile => {
     if (!res.ok) throw new Error("Can't find user")
 
     res = await res.json() // parses JSON response into native JavaScript objects
-    return setUserProfile(res)
+    console.log("this is res", res)
+    const user = res.user
+    const clips = res.clips
+    return setUserProfile({ ...user, clips })
   } catch (error) {
-    window.localStorage.clear()
-    navigate("/app/login")
+    // window.localStorage.clear()
+    // navigate("/app/login")
     console.log(error)
     return false
   }

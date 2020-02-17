@@ -5,6 +5,7 @@ import Img from "gatsby-image"
 import Layout from "../components/layout"
 import { Button, Divider } from "antd"
 import { isLoggedIn } from "../services/auth"
+import NavBar from "../components/nav-bar"
 
 export default function IndexPage() {
   const data = useStaticQuery(graphql`
@@ -23,6 +24,7 @@ export default function IndexPage() {
 
   return (
     <Layout>
+      <NavBar />
       <div
         style={{
           gridColumn: "1/-1",
