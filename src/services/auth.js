@@ -9,7 +9,7 @@ export const getToken = () =>
 export const getUser = () => {
   if (isBrowser() && window.localStorage.getItem("user")) {
     const user = JSON.parse(window.localStorage.getItem("user"))
-    console.log(user)
+
     return user
   }
   return null

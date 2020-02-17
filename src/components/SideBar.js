@@ -17,7 +17,6 @@ function SideBar({ clips, uploading, setUploadDrawerOpen, location }) {
 
   useEffect(() => {
     function handleResize() {
-      console.log("handle resize")
       setViewWidth(window.innerWidth)
     }
 

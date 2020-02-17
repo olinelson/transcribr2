@@ -56,9 +56,10 @@ const EditClipDrawer = props => {
         <Form.Item label="Clip Name">
           <Input name="name" spellCheck="true" defaultValue={formData.name} />
         </Form.Item>
-        <Form.Item label="Make Available Offline">
+
+        {/* <Form.Item label="Make Available Offline">
           <Checkbox name="saveOffline" defaultValue={formData.saveOffline} />
-        </Form.Item>
+        </Form.Item> */}
 
         <Collapse>
           <Panel header="Citation">

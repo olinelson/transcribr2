@@ -6,9 +6,10 @@ import { Helmet } from "react-helmet"
 import { Layout, Footer } from "./MyStyledComponents"
 import moment from "moment"
 
-const layout = ({ children, location }) => {
+const layout = props => {
+  const { children, location, userProfile, setUserProfile } = props
   const path = location.pathname
-  console.log(path)
+
   return (
     <>
       <Helmet title="Transcribr" defer={false}>
@@ -16,7 +17,7 @@ const layout = ({ children, location }) => {
         <meta name="viewport" content="initial-scale=1, viewport-fit=cover" />
       </Helmet>
       <Layout>
-        {/* <NavBar /> */}
+        <NavBar {...props} />
 
         {children}
       </Layout>

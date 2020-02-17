@@ -1,12 +1,13 @@
 import React, { useState } from "react"
 
-import { Popover, Icon, Tag, Dropdown, Menu, Popconfirm } from "antd"
+import { Popover, Icon, Tag, Dropdown, Menu, Popconfirm, Button } from "antd"
 
 import { deleteWord } from "../services/wordManagement"
 
 import { formatTimeStamp } from "../utils"
 
 import styled, { keyframes } from "styled-components"
+import ButtonGroup from "antd/lib/button/button-group"
 
 const flash = keyframes`
   from {
@@ -120,29 +121,44 @@ function Word(props) {
   return (
     <>
       <Popover
+        trigger="click"
         key={word._id}
         content={
-          <div>
-            <Tag>{formatTimeStamp(word.startTime)} </Tag>
-            <Icon
-              type="play-circle"
-              onClick={() => {
-                player.current.seekTo(parseInt(word.startTime.replace("s", "")))
-                setPlayerControls({ ...playerControls, playing: true })
-              }}
-            />{" "}
-            <Dropdown overlay={wordOptions()} trigger={["click"]}>
-              <Icon type="down" />
-            </Dropdown>
-          </div>
+          <>
+            <Tag style={{ marginBottom: ".5rem" }}>
+              {formatTimeStamp(word.startTime)}{" "}
+            </Tag>
+            <div>
+              <ButtonGroup>
+                <Button
+                  onClick={() => {
+                    player.current.seekTo(
+                      parseInt(word.startTime.replace("s", ""))
+                    )
+                    setPlayerControls({ ...playerControls, playing: true })
+                  }}
+                >
+                  <Icon type="play-circle" />
+                </Button>
+
+                <Dropdown overlay={wordOptions()} trigger={["click"]}>
+                  <Button>
+                    <Icon type="more" />
+                  </Button>
+                </Dropdown>
+              </ButtonGroup>
+            </div>
+          </>
         }
       >
         <span>
           {" "}
           <WordContainer
+            style={{ cursor: "pointer" }}
             deleting={deleting}
             word={word}
             selectedWord={wordData.selectedWord}
+            onClick={() => setWordData({ ...wordData, selectedWord: word })}
           >
             {word.word}
           </WordContainer>{" "}

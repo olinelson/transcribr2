@@ -15,7 +15,6 @@ export const getUserProfileAndSet = async setUserProfile => {
     if (!res.ok) throw new Error("Can't find user")
 
     res = await res.json() // parses JSON response into native JavaScript objects
-    console.log("this is res", res)
     const user = res.user
     const clips = res.clips
     return setUserProfile({ ...user, clips })

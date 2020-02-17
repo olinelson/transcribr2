@@ -30,16 +30,7 @@ function Navbar(props) {
   const user = [props.userProfile]
 
   const path = props.location.pathname
-  // const [user, setUser] = useStateWithLocalStorageJSON("user", {})
   const [clipDrawerOpen, setClipDrawerOpen] = useState(false)
-  // const uploadDrawOpen, setUploadDrawerOpen] = useState(false)
-  // const [uploading, setUploading] = useState(false)
-
-  // const addClip = clip => {
-  //   setUser({ ...user, clips: [...user.clips, clip] })
-  // }
-
-  // console.log(user)
 
   const [viewWidth, setViewWidth] = useState(
     isBrowser() ? window.innerWidth : 0
@@ -47,7 +38,6 @@ function Navbar(props) {
 
   useEffect(() => {
     function handleResize() {
-      console.log("handle resize")
       setViewWidth(window.innerWidth)
     }
 

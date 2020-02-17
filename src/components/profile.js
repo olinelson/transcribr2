@@ -59,7 +59,6 @@ function Profile(props) {
     }
     // cleanup
     return function leaveUserChannel() {
-      console.log("leaving")
       socket.emit("leaveUserChannel", bearerToken)
     }
   }, [])
@@ -111,24 +110,16 @@ function Profile(props) {
   }
 
   return (
-    <Layout>
-      <NavBar
-        uploadDrawOpen={uploadDrawOpen}
-        setUploadDrawerOpen={setUploadDrawerOpen}
-        uploading={uploading}
-        userProfile={userProfile}
-      />
+    <Layout
+      uploadDrawOpen={uploadDrawOpen}
+      setUploadDrawerOpen={setUploadDrawerOpen}
+      uploading={uploading}
+      userProfile={userProfile}
+    >
       {!userProfile ? (
         <ProfileSkeleton />
       ) : (
         <>
-          {/* <ProfileMenu
-            setUploadDrawerOpen={setUploadDrawerOpen}
-            setClipDrawerOpen={setClipDrawerOpen}
-            clips={userProfile.clips}
-            uploading={uploading}
-            location={props.location}
-          /> */}
           <SideBar
             setUploadDrawerOpen={setUploadDrawerOpen}
             clips={userProfile.clips}

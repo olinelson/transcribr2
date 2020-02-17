@@ -37,9 +37,7 @@ class ResetPassword extends React.Component {
   }
 
   render() {
-    {
-      console.log(this.state)
-    }
+   
     const { getFieldDecorator } = this.props.form
     return (
       <Layout>
