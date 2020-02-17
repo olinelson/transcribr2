@@ -365,6 +365,7 @@ function Clip(props) {
         url = URL.createObjectURL(file)
       a.href = url
       a.download = filename
+      a.target = "_blank"
       document.body.appendChild(a)
       a.click()
       setTimeout(function() {
