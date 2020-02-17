@@ -1,2 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[5],{O3EQ:function(e,t,n){"use strict";n.r(t);var a=n("q1tI"),c=n.n(a),u=n("Bl7J"),l=(n("K7s4"),n("a/Iw"));n("EnP6");t.default=function(){var e=Object(a.useState)("nothing");return e[0],e[1],Object(l.a)(),c.a.createElement(u.a,null,c.a.createElement("h1",null,"Socket test"))}}}]);
-//# sourceMappingURL=component---src-pages-socket-test-js-55c1fffe57e905dfb1c3.js.map
