@@ -354,6 +354,7 @@ function Clip(props) {
     })
   }
 
+  // problems with safari
   function download(data, filename, type) {
     var file = new Blob([data], { type: type })
     if (window.navigator.msSaveOrOpenBlob)
