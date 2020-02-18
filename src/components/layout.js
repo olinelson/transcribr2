@@ -16,11 +16,8 @@ const layout = props => {
         <meta charSet="utf-8" />
         <meta name="viewport" content="initial-scale=1, viewport-fit=cover" />
       </Helmet>
-      <Layout>
-        <NavBar {...props} />
-
-        {children}
-      </Layout>
+      <NavBar {...props} />
+      <Layout>{children}</Layout>
       {path.includes("app") ? null : (
         <Footer
           style={{

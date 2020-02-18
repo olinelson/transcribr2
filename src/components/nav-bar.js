@@ -74,81 +74,78 @@ function Navbar(props) {
   `
 
   return (
-    <>
-      <FixedMenuDiv>
-        <DynamicMenu
-          theme="dark"
-          mode="horizontal"
-          selectedKeys={
-            PageLocation && PageLocation.view == "upload" ? ["upload"] : [path]
-          }
-        >
-          <Menu.Item onClick={() => navigate("/")} key="/">
-            <Icon type="home" />
-            {/* <span>Home</span> */}
+    <FixedMenuDiv>
+      <DynamicMenu
+        theme="dark"
+        mode="horizontal"
+        selectedKeys={
+          PageLocation && PageLocation.view == "upload" ? ["upload"] : [path]
+        }
+      >
+        <Menu.Item onClick={() => navigate("/")} key="/">
+          <Icon type="home" />
+          {/* <span>Home</span> */}
+        </Menu.Item>
+
+        <Menu.Item onClick={() => navigate("/about")} key="/about">
+          <Icon type="info-circle" />
+          {/* <span>Home</span> */}
+        </Menu.Item>
+
+        {isLoggedIn() ? (
+          <Menu.Item
+            onClick={() => navigate("/app/profile")}
+            key="/app/profile"
+          >
+            <Icon type="user" />
+            {/* <span>Profile</span> */}
           </Menu.Item>
+        ) : null}
 
-          <Menu.Item onClick={() => navigate("/about")} key="/about">
-            <Icon type="info-circle" />
-            {/* <span>Home</span> */}
+        {isLoggedIn() && viewWidth < 600 ? (
+          <Menu.Item onClick={() => setClipDrawerOpen(true)}>
+            <Icon type="audio" />
           </Menu.Item>
+        ) : null}
 
-          {isLoggedIn() ? (
-            <Menu.Item
-              onClick={() => navigate("/app/profile")}
-              key="/app/profile"
-            >
-              <Icon type="user" />
-              {/* <span>Profile</span> */}
-            </Menu.Item>
-          ) : null}
+        {isLoggedIn() && viewWidth < 600 ? (
+          <Menu.Item
+            key="upload"
+            onClick={() => navigate("/app/profile?view=upload")}
+          >
+            <Icon type="upload" />
+          </Menu.Item>
+        ) : null}
 
-          {isLoggedIn() && viewWidth < 600 ? (
-            <Menu.Item onClick={() => setClipDrawerOpen(true)}>
-              <Icon type="audio" />
-            </Menu.Item>
-          ) : null}
-
-          {isLoggedIn() && viewWidth < 600 ? (
-            <Menu.Item
-              key="upload"
-              onClick={() => navigate("/app/profile?view=upload")}
-            >
-              <Icon type="upload" />
-            </Menu.Item>
-          ) : null}
-
-          {isLoggedIn() ? (
-            <Menu.Item
-              style={{ justifySelf: "end" }}
-              onClick={() => {
-                logout()
-                openNotificationWithIcon("success", "Successfully logged out.")
-                navigate(`/`)
-              }}
-            >
-              <Icon type="logout" />
-              {/* Logout */}
-            </Menu.Item>
-          ) : (
-            <Menu.Item
-              style={{ justifySelf: "end" }}
-              key="/app/login"
-              href="/"
-              onClick={() => navigate("/app/login")}
-            >
-              <Icon type="login" />
-              {/* Login */}
-            </Menu.Item>
-          )}
-        </DynamicMenu>
-      </FixedMenuDiv>
-
+        {isLoggedIn() ? (
+          <Menu.Item
+            style={{ justifySelf: "end" }}
+            onClick={() => {
+              logout()
+              openNotificationWithIcon("success", "Successfully logged out.")
+              navigate(`/`)
+            }}
+          >
+            <Icon type="logout" />
+            {/* Logout */}
+          </Menu.Item>
+        ) : (
+          <Menu.Item
+            style={{ justifySelf: "end" }}
+            key="/app/login"
+            href="/"
+            onClick={() => navigate("/app/login")}
+          >
+            <Icon type="login" />
+            {/* Login */}
+          </Menu.Item>
+        )}
+      </DynamicMenu>
       <ClipDrawer
         clipDrawerOpen={clipDrawerOpen}
         setClipDrawerOpen={setClipDrawerOpen}
       />
-    </>
+    </FixedMenuDiv>
   )
 }
 
