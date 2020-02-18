@@ -106,7 +106,7 @@ export const FixedMenuDiv = styled.div`
   }
 `
 
-export const StyledSideBar = styled(Affix)`
+export const StyledSideBar = styled.div`
   max-width: 30vw;
   grid-area: sidebar;
   height: 100%;

@@ -23,13 +23,13 @@ export default function IndexPage() {
     <Layout>
       <div
         style={{
+          gridColumn: "1/-1",
+          gridRow: "2",
           display: "grid",
-          justifySelf: "center",
           alignSelf: "center",
           justifyContent: "center",
-          width: "100%",
-          maxWidth: "40rem",
-          textAlign: "center",
+          justifyItems: "center",
+          justifySelf: "center",
         }}
       >
         <Img fluid={data.file.childImageSharp.fluid} alt="Transcribr Logo" />
