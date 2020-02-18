@@ -84,7 +84,6 @@ function Profile(props) {
     if (!PageLocation || !PageLocation.view)
       return (
         <UserDetails
-          style={{ gridArea: "main" }}
           userProfile={userProfile}
           setUserProfile={setUserProfile}
           user={userProfile}

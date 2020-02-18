@@ -31,7 +31,7 @@ export default function UserDetails(props) {
   }
 
   return (
-    <div style={{ padding: "0 1rem" }}>
+    <div style={{ padding: "0 1rem", gridArea: "main" }}>
       {/* <DividerForTabletUp /> */}
       <h1>
         User Profile{" "}
