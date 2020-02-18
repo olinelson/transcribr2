@@ -112,9 +112,25 @@ function Profile(props) {
             addClip={addClip}
           />
         )
+      case "emailChange":
+        emailChangeDetector()
+        break
       default:
         navigate("/404")
     }
+  }
+
+  const emailChangeDetector = async () => {
+    console.log("email change")
+    let oldEmail = userProfile.email
+    await getUserProfileAndSet(setUserProfile)
+    let newEmail = userProfile.email
+
+    if (oldEmail !== newEmail)
+      openNotificationWithIcon("success", "Email updated successfully")
+    else openNotificationWithIcon("warning", "Email not updated")
+
+    navigate("/app/profile")
   }
 
   if (!userProfile)

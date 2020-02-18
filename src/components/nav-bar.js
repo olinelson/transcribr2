@@ -84,12 +84,10 @@ function Navbar(props) {
       >
         <Menu.Item onClick={() => navigate("/")} key="/">
           <Icon type="home" />
-          {/* <span>Home</span> */}
         </Menu.Item>
 
         <Menu.Item onClick={() => navigate("/about")} key="/about">
           <Icon type="info-circle" />
-          {/* <span>Home</span> */}
         </Menu.Item>
 
         {isLoggedIn() ? (
