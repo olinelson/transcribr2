@@ -117,6 +117,18 @@ function Profile(props) {
     }
   }
 
+  if (!userProfile)
+    return (
+      <Layout
+        uploadDrawOpen={uploadDrawOpen}
+        setUploadDrawerOpen={setUploadDrawerOpen}
+        uploading={uploading}
+        userProfile={userProfile}
+      >
+        <ProfileSkeleton />
+      </Layout>
+    )
+
   return (
     <Layout
       uploadDrawOpen={uploadDrawOpen}
@@ -124,63 +136,56 @@ function Profile(props) {
       uploading={uploading}
       userProfile={userProfile}
     >
-      {!userProfile ? (
-        <ProfileSkeleton />
-      ) : (
-        <>
-          <SideBar
-            setUploadDrawerOpen={setUploadDrawerOpen}
-            clips={userProfile.clips}
-            uploading={uploading}
-            location={props.location}
-          />
-          <div style={{ gridArea: "main" }}>{viewRouter()}</div>
+      <SideBar
+        setUploadDrawerOpen={setUploadDrawerOpen}
+        clips={userProfile.clips}
+        uploading={uploading}
+        location={props.location}
+      />
+      <div style={{ gridArea: "main" }}>{viewRouter()}</div>
 
-          <Drawer
-            title="Upload Clip"
-            placement="right"
-            closable={true}
-            onClose={() => setUploadDrawerOpen(false)}
-            visible={uploadDrawOpen}
-            width="auto"
-          >
-            <UploadClip setUploading={e => setUploading(e)} addClip={addClip} />
-          </Drawer>
+      <Drawer
+        title="Upload Clip"
+        placement="right"
+        closable={true}
+        onClose={() => setUploadDrawerOpen(false)}
+        visible={uploadDrawOpen}
+        width="auto"
+      >
+        <UploadClip setUploading={e => setUploading(e)} addClip={addClip} />
+      </Drawer>
 
-          <Drawer
-            width={"auto"}
-            placement="right"
-            title="Clips"
-            height="auto"
-            onClose={() => setClipDrawerOpen(false)}
-            visible={clipDrawerOpen}
-          >
-            <Menu
-              style={{
-                maxWidth: "85vw",
-                maxHeight: "70vh",
-                borderRight: "none",
-                // display: "flex",
-                overflow: "scroll",
-                webkitOverflowScrolling: "touch",
-                flexDirection: "column",
+      <Drawer
+        width={"auto"}
+        placement="right"
+        title="Clips"
+        height="auto"
+        onClose={() => setClipDrawerOpen(false)}
+        visible={clipDrawerOpen}
+      >
+        <Menu
+          style={{
+            maxWidth: "85vw",
+            maxHeight: "70vh",
+            borderRight: "none",
+            overflow: "scroll",
+            webkitOverflowScrolling: "touch",
+            flexDirection: "column",
+          }}
+        >
+          {userProfile.clips.sort(sortClipsChronologically).map(c => (
+            <Menu.Item
+              onClick={() => {
+                navigate(`app/profile?view=clip&id=${c._id}`)
+                setClipDrawerOpen(false)
               }}
+              key={c._id}
             >
-              {userProfile.clips.sort(sortClipsChronologically).map(c => (
-                <Menu.Item
-                  onClick={() => {
-                    navigate(`app/profile?view=clip&id=${c._id}`)
-                    setClipDrawerOpen(false)
-                  }}
-                  key={c._id}
-                >
-                  <span>{c.name}</span>
-                </Menu.Item>
-              ))}
-            </Menu>
-          </Drawer>
-        </>
-      )}
+              <span>{c.name}</span>
+            </Menu.Item>
+          ))}
+        </Menu>
+      </Drawer>
     </Layout>
   )
 }
