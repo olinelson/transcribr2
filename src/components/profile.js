@@ -120,7 +120,16 @@ function Profile(props) {
         )
 
       default:
-        navigate("/404")
+        return (
+          <Layout
+            uploadDrawOpen={uploadDrawOpen}
+            setUploadDrawerOpen={setUploadDrawerOpen}
+            uploading={uploading}
+            userProfile={userProfile}
+          >
+            <ProfileSkeleton />
+          </Layout>
+        )
     }
   }
 
