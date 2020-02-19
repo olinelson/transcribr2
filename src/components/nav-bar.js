@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect } from "react"
 import { navigate } from "gatsby"
 import { isLoggedIn, logout } from "../services/auth"
 import { Menu } from "./MyStyledComponents"
@@ -6,29 +6,17 @@ import WithLocation from "./WithLocation"
 
 import { isBrowser } from "../services/auth"
 
-import { getToken, getUser } from "../services/auth"
-import { sortClipsChronologically } from "../utils"
 import queryString from "query-string"
-import { useStateWithLocalStorageJSON } from "../utils"
 
-import { Icon, Drawer } from "antd"
+import { Icon } from "antd"
 
 import { FixedMenuDiv } from "./MyStyledComponents"
 
 import { openNotificationWithIcon } from "./Notifications"
-import {
-  getUserProfile,
-  getUserProfileAndSet,
-} from "../services/userManagement"
 import ClipDrawer from "./ClipDrawer"
-import UploadClip from "./UploadClip"
 import styled from "styled-components"
 
 function Navbar(props) {
-  const { uploadDrawOpen, setUploadDrawerOpen, uploading } = props
-
-  const user = [props.userProfile]
-
   const PageLocation = props.location.search
     ? queryString.parse(props.location.search)
     : null

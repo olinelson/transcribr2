@@ -30,6 +30,19 @@ export default function UserDetails(props) {
     }
   }
 
+  // const emailChangeDetector = async () => {
+  //   const res = await getUserProfile()
+  //   console.log(res)
+
+  //   if (res.user.email === PageLocation.email) {
+  //     openNotificationWithIcon("success", "Email successfully updated!")
+  //   } else {
+  //     openNotificationWithIcon("error", "Email not updated")
+  //   }
+  //   // setUserProfile({ ...userProfile, user: res.user, clips: res.clips })
+  //   // navigate("/app/profile")
+  // }
+
   return (
     <div style={{ padding: "0 1rem" }}>
       {/* <DividerForTabletUp /> */}

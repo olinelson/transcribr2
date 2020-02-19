@@ -7,7 +7,10 @@ import UploadClip from "./UploadClip"
 
 import { Drawer, Menu } from "antd"
 
-import { getUserProfileAndSet } from "../services/userManagement"
+import {
+  getUserProfileAndSet,
+  getUserProfile,
+} from "../services/userManagement"
 import Clip from "./Clip"
 import {
   sortClipsChronologically,
@@ -54,7 +57,7 @@ function Profile(props) {
       joinUserChannel(getToken(), notification =>
         notificationHandler(notification)
       )
-      getUserProfileAndSet(setUserProfile)
+      getUserProfileAndSet(userProfile, setUserProfile)
     }
     // cleanup
     return function leaveUserChannel() {
@@ -115,31 +118,11 @@ function Profile(props) {
             addClip={addClip}
           />
         )
-      case "emailChange":
-        if (userProfile.email === PageLocation.email) {
-          openNotificationWithIcon("success", "Email successfully updated!")
-        } else {
-          openNotificationWithIcon("error", "Email not updated")
-        }
-        navigate("/app/profile")
-        break
+
       default:
         navigate("/404")
     }
   }
-
-  // const emailChangeDetector = async () => {
-  //   console.log("email change")
-  //   let oldEmail = userProfile.email
-  //   await getUserProfileAndSet(setUserProfile)
-  //   let newEmail = userProfile.email
-
-  //   if (oldEmail !== newEmail)
-  //     openNotificationWithIcon("success", "Email updated successfully")
-  //   else openNotificationWithIcon("warning", "Email not updated")
-
-  //   navigate("/app/profile")
-  // }
 
   if (!userProfile)
     return (

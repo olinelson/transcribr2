@@ -1,8 +1,9 @@
 import { API_URL } from "../config"
 import { getToken } from "./auth"
 import { navigate } from "gatsby"
+import { openNotificationWithIcon } from "../components/Notifications"
 
-export const getUserProfileAndSet = async setUserProfile => {
+export const getUserProfileAndSet = async (oldUserProfile, setUserProfile) => {
   try {
     let res = await fetch(API_URL + "/users/me", {
       headers: {
@@ -17,6 +18,10 @@ export const getUserProfileAndSet = async setUserProfile => {
     res = await res.json() // parses JSON response into native JavaScript objects
     const user = res.user
     const clips = res.clips
+    if (oldUserProfile.user.email !== res.user.email) {
+      openNotificationWithIcon("success", "Email updated!")
+    }
+
     return setUserProfile({ ...user, clips })
   } catch (error) {
     // window.localStorage.clear()
