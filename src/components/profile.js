@@ -93,7 +93,10 @@ function Profile(props) {
     switch (PageLocation.view) {
       case "clip":
         let clip = userProfile.clips.find(c => c._id === PageLocation.id)
-        if (!clip) return <h1>Not found</h1>
+        if (!clip) {
+          navigate("/404")
+          return
+        }
         return (
           <Clip
             removeClipFromSideBar={() => removeClipFromSideBar(clip._id)}
@@ -113,25 +116,30 @@ function Profile(props) {
           />
         )
       case "emailChange":
-        emailChangeDetector()
+        if (userProfile.email === PageLocation.email) {
+          openNotificationWithIcon("success", "Email successfully updated!")
+        } else {
+          openNotificationWithIcon("error", "Email not updated")
+        }
+        navigate("/app/profile")
         break
       default:
         navigate("/404")
     }
   }
 
-  const emailChangeDetector = async () => {
-    console.log("email change")
-    let oldEmail = userProfile.email
-    await getUserProfileAndSet(setUserProfile)
-    let newEmail = userProfile.email
+  // const emailChangeDetector = async () => {
+  //   console.log("email change")
+  //   let oldEmail = userProfile.email
+  //   await getUserProfileAndSet(setUserProfile)
+  //   let newEmail = userProfile.email
 
-    if (oldEmail !== newEmail)
-      openNotificationWithIcon("success", "Email updated successfully")
-    else openNotificationWithIcon("warning", "Email not updated")
+  //   if (oldEmail !== newEmail)
+  //     openNotificationWithIcon("success", "Email updated successfully")
+  //   else openNotificationWithIcon("warning", "Email not updated")
 
-    navigate("/app/profile")
-  }
+  //   navigate("/app/profile")
+  // }
 
   if (!userProfile)
     return (
