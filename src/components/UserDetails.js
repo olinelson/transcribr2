@@ -14,10 +14,13 @@ import { openNotificationWithIcon } from "./Notifications"
 import { navigate } from "gatsby"
 
 export default function UserDetails(props) {
-  const [editDrawerOpen, setEditDrawerOpen] = useState(false)
-  const [changeEmailDrawerOpen, setChangeEmailDrawerOpen] = useState(false)
-  const [user, setUser] = useState(props.user)
+  const { appState, setAppState } = props
+  // const [editDrawerOpen, setEditDrawerOpen] = useState(false)
+  // const [changeEmailDrawerOpen, setChangeEmailDrawerOpen] = useState(false)
+  const [user, setUser] = useState(appState.user)
   const [loading, setLoading] = useState(false)
+
+  // const user = appState.user
 
   const deleteUserHandler = async () => {
     const success = await deleteUser()
@@ -49,7 +52,7 @@ export default function UserDetails(props) {
       <h1>
         User Profile{" "}
         <Icon
-          onClick={() => setEditDrawerOpen(true)}
+          onClick={() => setAppState({ ...appState, editUserDrawerOpen: true })}
           style={{ fontSize: "1rem" }}
           type="edit"
         />
@@ -58,39 +61,44 @@ export default function UserDetails(props) {
         <Descriptions.Item label="Name">{user.name}</Descriptions.Item>
         <Descriptions.Item label="Email">
           {user.email}{" "}
-          <Icon onClick={() => setChangeEmailDrawerOpen(true)} type="edit" />
+          <Icon
+            onClick={() =>
+              setAppState({ ...appState, editEmailDrawerOpen: true })
+            }
+            type="edit"
+          />
         </Descriptions.Item>
       </Descriptions>
 
       <Drawer
         onClose={() => {
-          setUser(props.user)
-          setChangeEmailDrawerOpen(false)
+          // setUser(props.user)
+          setAppState({ ...appState, editEmailDrawerOpen: false })
+          // setChangeEmailDrawerOpen(false)
         }}
         title="Change Email"
-        visible={changeEmailDrawerOpen}
+        visible={appState.editEmailDrawerOpen}
       >
         <Form
           layout="vertical"
-          // onChange={e => setUser({ ...user, [e.target.name]: e.target.value })}
-          onSubmit={async e => {
-            e.preventDefault()
-            setLoading(true)
-            const unconfirmedEmail = e.target.unconfirmedEmail.value
-            const success = await changeEmail(unconfirmedEmail)
-            if (success) {
-              setUser({ ...props.user, unconfirmedEmail })
-              props.setUserProfile({
-                ...props.userProfile,
-                user: { ...user, unconfirmedEmail },
-              })
-              setEditDrawerOpen(false)
-              openNotificationWithIcon("success", "Verification email sent.")
-            } else {
-              openNotificationWithIcon("error", "There was a problem :(")
-            }
-            setLoading(false)
-          }}
+          // onSubmit={async e => {
+          //   e.preventDefault()
+          //   setLoading(true)
+          //   const unconfirmedEmail = e.target.unconfirmedEmail.value
+          //   const success = await changeEmail(unconfirmedEmail)
+          //   if (success) {
+          //     setUser({ ...props.user, unconfirmedEmail })
+          //     props.setUserProfile({
+          //       ...props.userProfile,
+          //       user: { ...user, unconfirmedEmail },
+          //     })
+          //     setEditDrawerOpen(false)
+          //     openNotificationWithIcon("success", "Verification email sent.")
+          //   } else {
+          //     openNotificationWithIcon("error", "There was a problem :(")
+          //   }
+          //   setLoading(false)
+          // }}
         >
           <Form.Item label="Current Email">
             <p>{user.email}</p>
@@ -127,11 +135,12 @@ export default function UserDetails(props) {
 
       <Drawer
         onClose={() => {
-          setUser(props.user)
-          setEditDrawerOpen(false)
+          setUser(appState.user)
+          // setEditDrawerOpen(false)
+          setAppState({ ...appState, editUserDrawerOpen: false })
         }}
         title="Edit Profile"
-        visible={editDrawerOpen}
+        visible={appState.editUserDrawerOpen}
       >
         <Form
           layout="vertical"
@@ -141,8 +150,7 @@ export default function UserDetails(props) {
             setLoading(true)
             const success = await updateUser(user)
             if (success) {
-              setEditDrawerOpen(false)
-              props.setUserProfile({ ...props.userProfile, ...user })
+              setAppState({ ...appState, user, editUserDrawerOpen: false })
               openNotificationWithIcon("success", "User Profile Updated")
             } else {
               openNotificationWithIcon("error", "There was a problem :(")
@@ -158,16 +166,6 @@ export default function UserDetails(props) {
               placeholder="Olaf"
             />
           </Form.Item>
-          {/* <Form.Item label="Email Address">
-            <Input
-              name="email"
-              type="email"
-              spellCheck="true"
-              defaultValue={user.email}
-              placeholder="olaf@transcribrapp.com"
-              contentEditable={false}
-            />
-          </Form.Item> */}
 
           <Button type="primary" htmlType="submit" loading={loading}>
             Save

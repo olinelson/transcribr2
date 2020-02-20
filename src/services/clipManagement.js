@@ -1,6 +1,7 @@
 import { API_URL } from "../config"
 import { getToken } from "./auth"
 import { openNotificationWithIcon } from "../components/Notifications"
+import { splitWordsIntoPages } from "../services/wordManagement"
 
 export const deleteClip = async clipId => {
   try {
@@ -47,8 +48,21 @@ export const updateClip = async (clip, updateClipInProfile, setClip) => {
     res = await res.json() // parses JSON response into native JavaScript objects
 
     openNotificationWithIcon("success", `Changes saved`)
-    updateClipInProfile(res)
-    setClip({ ...res, saving: false, editing: false })
+    // updateClipInProfile(res)
+    setClip({
+      ...res,
+      saving: false,
+      editing: false,
+      currentPageIndex: 0,
+      selectedWord: undefined,
+      inserting: null,
+      wordPageSize: 200,
+      wordPages: splitWordsIntoPages(res.words, 200),
+      words: res.words,
+      editing: false,
+      loading: false,
+      citing: false,
+    })
   } catch (error) {
     console.log(error)
     setClip({ ...clip, saving: false })
@@ -71,7 +85,21 @@ export const getClip = async (_id, setClip) => {
     // if (!res.ok) throw new Error("Something went wrong")
     res = await res.json() // parses JSON response into native JavaScript objects
 
-    setClip(res)
+    // const wordPages = splitWordsIntoPages(res.words, 200)
+    setClip({
+      ...res,
+      saving: false,
+      editing: false,
+      currentPageIndex: 0,
+      selectedWord: undefined,
+      inserting: null,
+      wordPageSize: 200,
+      wordPages: splitWordsIntoPages(res.words, 200),
+      words: res.words,
+      editing: false,
+      loading: false,
+      citing: false,
+    })
   } catch (error) {
     console.log(error)
   }

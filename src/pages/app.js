@@ -3,7 +3,6 @@ import Layout from "../components/layout"
 import { Router } from "@reach/router"
 import { navigate } from "gatsby"
 import PrivateRoute from "../components/privateRoute"
-import Profile from "../components/profile"
 import Login from "../components/Login"
 import Clip from "../components/Clip"
 import Clips from "../components/Clips"
@@ -29,11 +28,22 @@ import UserDetails from "../components/UserDetails"
 
 // I think I should push more logic here...
 function App(props) {
-  const [userProfile, setUserProfile] = useStateWithLocalStorageJSON(
-    "user",
-    {},
-    window
-  )
+  const [appState, setAppState] = useStateWithLocalStorageJSON("appState", {
+    user: {},
+    clips: [],
+    uploadDrawerOpen: false,
+    editUserDrawerOpen: false,
+    editClipDrawerOpen: false,
+    editWordDrawerOpen: false,
+    editEmailDrawerOpen: false,
+  })
+
+  console.log(appState)
+  // const [userProfile, setUserProfile] = useStateWithLocalStorageJSON(
+  //   "user",
+  //   {},
+  //   window
+  // )
   const [uploadDrawerOpen, setUploadDrawerOpen] = useState(false)
   const [clipDrawerOpen, setClipDrawerOpen] = useState(false)
   const [uploading, setUploading] = useState(false)
@@ -58,7 +68,7 @@ function App(props) {
       joinUserChannel(getToken(), notification =>
         notificationHandler(notification)
       )
-      getUserProfileAndSet(userProfile, setUserProfile)
+      getUserProfileAndSet(appState, setAppState)
     }
     // cleanup
     return function leaveUserChannel() {
@@ -69,37 +79,34 @@ function App(props) {
   const notificationHandler = notification => {
     openNotificationWithIcon("success", notification.message)
   }
-  const addClip = clip => {
-    setUserProfile({ ...userProfile, clips: [...userProfile.clips, clip] })
-  }
+  // const addClip = clip => {
+  //   setUserProfile({ ...userProfile, clips: [...userProfile.clips, clip] })
+  // }
 
-  const removeClipFromSideBar = async clipId => {
-    let filteredClips = { ...userProfile }.clips.filter(c => c._id !== clipId)
-    setUserProfile({ ...userProfile, clips: filteredClips })
-  }
+  // const removeClipFromSideBar = async clipId => {
+  //   let filteredClips = { ...userProfile }.clips.filter(c => c._id !== clipId)
+  //   setUserProfile({ ...userProfile, clips: filteredClips })
+  // }
 
-  const updateClipInProfile = clip => {
-    let filteredClips = { ...userProfile }.clips.filter(c => c._id !== clip._id)
-    setUserProfile({ ...userProfile, clips: [...filteredClips, clip] })
-  }
+  // const updateClipInProfile = clip => {
+  //   let filteredClips = { ...userProfile }.clips.filter(c => c._id !== clip._id)
+  //   setUserProfile({ ...userProfile, clips: [...filteredClips, clip] })
+  // }
 
   return (
     <Layout
       {...props}
       location={props.location}
-      setUploadDrawerOpen={setUploadDrawerOpen}
-      uploadDrawerOpen={uploadDrawerOpen}
-      userProfile={userProfile}
-      setUserProfile={setUserProfile}
+      appState={appState}
+      setAppState={setAppState}
     >
       <div style={{ gridArea: "sidebar" }}>
         <Router primary={false}>
           <PrivateRoute
             component={SideBar}
             path="/app/*"
-            setUploadDrawerOpen={setUploadDrawerOpen}
-            userProfile={userProfile}
-            uploading={uploading}
+            appState={appState}
+            setAppState={appState}
             location={props.location}
           />
         </Router>
@@ -110,11 +117,10 @@ function App(props) {
           <PrivateRoute
             component={UserDetails}
             path="/app"
-            userProfile={userProfile}
-            setUserProfile={setUserProfile}
-            user={userProfile}
+            appState={appState}
+            setAppState={setAppState}
           />
-          <PrivateRoute
+          {/* <PrivateRoute
             path="/app/clips/:clipId"
             component={Clip}
             removeClipFromSideBar={e => removeClipFromSideBar(e)}
@@ -131,7 +137,7 @@ function App(props) {
             path="/app/clips"
             component={Clips}
             userProfile={userProfile}
-          />
+          /> */}
 
           <Login path="/app/login" />
           <SignUpForm path="/app/signup" />
@@ -141,7 +147,7 @@ function App(props) {
         </Router>
       </div>
 
-      <Drawer
+      {/* <Drawer
         title="Upload Clip"
         placement="right"
         closable={true}
@@ -150,9 +156,9 @@ function App(props) {
         width="auto"
       >
         <UploadClip setUploading={e => setUploading(e)} addClip={addClip} />
-      </Drawer>
+      </Drawer> */}
 
-      <Drawer
+      {/* <Drawer
         width={"auto"}
         placement="right"
         title="Clips"
@@ -170,8 +176,8 @@ function App(props) {
             flexDirection: "column",
           }}
         >
-          {userProfile.clips
-            ? userProfile.clips.sort(sortClipsChronologically).map(c => (
+          {appState.clips
+            ? appState.clips.sort(sortClipsChronologically).map(c => (
                 <Menu.Item
                   onClick={() => {
                     navigate(`app/profile?view=clip&id=${c._id}`)
@@ -184,7 +190,7 @@ function App(props) {
               ))
             : null}
         </Menu>
-      </Drawer>
+      </Drawer> */}
     </Layout>
   )
 }

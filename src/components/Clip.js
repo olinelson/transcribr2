@@ -50,6 +50,8 @@ function Clip(props) {
   // const { _id, name } = props.clip
   const _id = props.clipId
 
+  console.log(_id)
+
   const [clip, setClip] = useStateWithLocalStorageJSON(_id, {
     _id,
     loading: true,
@@ -57,7 +59,20 @@ function Clip(props) {
     saving: false,
     editing: false,
     deleting: false,
+    // saving: false,
+    // editing: false,
+    currentPageIndex: 0,
+    selectedWord: undefined,
+    inserting: null,
+    wordPageSize: 200,
+    wordPages: [],
+    words: [],
+    editing: false,
+    loading: false,
+    citing: false,
   })
+
+  console.log("clip", clip)
 
   const [citationModalOpen, setCitationModalOpen] = useState(false)
   const [, setWordCitationModalOpen] = useState(false)
@@ -81,17 +96,17 @@ function Clip(props) {
 
   const [searching] = useState(false)
 
-  const [wordData, setWordData] = useState({
-    currentPageIndex: 0,
-    selectedWord: undefined,
-    inserting: null,
-    wordPageSize: 200,
-    wordPages: splitWordsIntoPages(clip.words, 200),
-    words: clip.words,
-    editing: false,
-    loading: false,
-    citing: false,
-  })
+  // const [wordData, setWordData] = useState({
+  //   currentPageIndex: 0,
+  //   selectedWord: undefined,
+  //   inserting: null,
+  //   wordPageSize: 200,
+  //   wordPages: splitWordsIntoPages(clip.words, 200),
+  //   words: clip.words,
+  //   editing: false,
+  //   loading: false,
+  //   citing: false,
+  // })
 
   const [playerControls, setPlayerControls] = useState({
     playing: false,
@@ -132,18 +147,22 @@ function Clip(props) {
   }, [])
 
   useEffect(() => {
-    setClip({ ...clip, loading: true })
-    getClip(_id, setClip)
-    setWordData({
-      ...wordData,
-      wordPages: splitWordsIntoPages(clip.words, wordData.wordPageSize),
-      words: clip.words,
-      editing: false,
-      inserting: null,
-      deleting: false,
-      loading: false,
-      selectedWord: undefined,
-    })
+    if (clip._id !== _id) {
+      setClip({ ...clip, loading: true })
+      window.localStorage.removeItem(clip._id)
+      getClip(_id, setClip)
+    } else {
+      // setWordData({
+      //   ...wordData,
+      //   wordPages: splitWordsIntoPages(clip.words, wordData.wordPageSize),
+      //   words: clip.words,
+      //   editing: false,
+      //   inserting: null,
+      //   deleting: false,
+      //   loading: false,
+      //   selectedWord: undefined,
+      // })
+    }
 
     return function cleanup() {
       window.localStorage.removeItem(_id)
@@ -152,11 +171,11 @@ function Clip(props) {
   }, [_id])
 
   const wordShowSizeChangeHandler = num => {
-    setWordData({
-      ...wordData,
+    setClip({
+      ...clip,
       currentPageIndex: 0,
       wordPageSize: num,
-      wordPages: splitWordsIntoPages(wordData.words, num),
+      wordPages: splitWordsIntoPages(clip.words, num),
     })
   }
 
@@ -258,7 +277,7 @@ function Clip(props) {
 
           <Button.Group>
             <Button
-              disabled={!wordData.words.length}
+              disabled={!clip.words.length}
               onClick={() => setSearchData({ ...searchData, modalOpen: true })}
             >
               <Icon type="file-search" />
@@ -279,14 +298,14 @@ function Clip(props) {
                   </Menu.Item>
 
                   <Menu.Item
-                    disabled={!wordData.words.length}
+                    disabled={!clip.words.length}
                     onClick={() => downloadTextFile()}
                   >
                     <Icon type="file-text" />
                     .txt
                   </Menu.Item>
                   <Menu.Item
-                    disabled={!wordData.words.length}
+                    disabled={!clip.words.length}
                     onClick={() => downloadDocXFile()}
                   >
                     <Icon type="file-word" />
@@ -358,16 +377,16 @@ function Clip(props) {
   }
 
   const maybeShowWordsParagraph = () => {
-    if (wordData.wordPages.length)
+    if (clip.wordPages.length)
       return (
         <WordsContainer style={{ gridArea: "words" }}>
           <p>
-            {wordData.wordPages[wordData.currentPageIndex].map(w => (
+            {clip.wordPages[clip.currentPageIndex].map(w => (
               <Word
                 key={w._id}
                 word={w}
-                wordData={wordData}
-                setWordData={setWordData}
+                wordData={clip}
+                // setWordData={setWordData}
                 player={player}
                 playerControls={playerControls}
                 setPlayerControls={setPlayerControls}
@@ -383,7 +402,7 @@ function Clip(props) {
   }
 
   const maybeShowTranscribeButtton = () => {
-    if (!wordData.wordPages.length && !transcribeData.loading)
+    if (!clip.wordPages.length && !transcribeData.loading)
       return (
         <div style={{ gridArea: "words", justifySelf: "center" }}>
           <Button
@@ -404,7 +423,7 @@ function Clip(props) {
   }
 
   const maybeShowTranscribingLoadingState = () => {
-    if (!wordData.wordPages.length && transcribeData.loading)
+    if (!clip.wordPages.length && transcribeData.loading)
       return (
         <div
           style={{
@@ -465,19 +484,19 @@ function Clip(props) {
       )
   }
 
-  const navigateToWord = word => {
-    let wordIndex = wordData.words.indexOf(word) + 1
+  // const navigateToWord = word => {
+  //   let wordIndex = clip.words.indexOf(word) + 1
 
-    let pageNumber = Math.floor(wordIndex / wordData.wordPageSize)
+  //   let pageNumber = Math.floor(wordIndex / clip.wordPageSize)
 
-    setWordData({
-      ...wordData,
-      currentPageIndex: pageNumber,
-      selectedWord: word,
-    })
-  }
+  //   setWordData({
+  //     ...wordData,
+  //     currentPageIndex: pageNumber,
+  //     selectedWord: word,
+  //   })
+  // }
 
-  if (!clip || !!clip.loading) {
+  if (!clip || clip.loading) {
     return (
       <div>
         <div style={{ height: "4rem" }} />
@@ -510,14 +529,12 @@ function Clip(props) {
             size="small"
             showQuickJumper
             showSizeChanger
-            onChange={e =>
-              setWordData({ ...wordData, currentPageIndex: e - 1 })
-            }
-            current={wordData.currentPageIndex + 1}
+            onChange={e => setClip({ ...clip, currentPageIndex: e - 1 })}
+            current={clip.currentPageIndex + 1}
             pageSizeOptions={["200", "300", "400", "500", "600"]}
             onShowSizeChange={(e, num) => wordShowSizeChangeHandler(num)}
-            total={wordData.words.length}
-            pageSize={wordData.wordPageSize}
+            total={clip.words.length}
+            pageSize={clip.wordPageSize}
             hideOnSinglePage
           />
         </ClipContainer>
@@ -529,41 +546,41 @@ function Clip(props) {
           deleteClipHandler={deleteClipHandler}
         />
 
-        <SearchClipDrawer
+        {/* <SearchClipDrawer
           searchData={searchData}
           searching={searching}
-          navigateToWord={navigateToWord}
+          // navigateToWord={navigateToWord}
           setPlayerControls={setPlayerControls}
-          wordData={wordData}
+          // wordData={wordData}
           setSearchData={setSearchData}
           playerControls={playerControls}
           player={player}
-        />
+        /> */}
 
-        <EditWordDrawer
-          wordData={wordData}
+        {/* <EditWordDrawer
+          // wordData={wordData}
           setClip={setClip}
           clip={clip}
-          setWordData={setWordData}
-        />
+          // setWordData={setWordData}
+        /> */}
 
-        <TranscriptionModal
+        {/* <TranscriptionModal
           convertClip={convertClip}
           clip={clip}
           transcribeData={transcribeData}
           setTranscribeData={setTranscribeData}
-        />
+        /> */}
 
-        <CitationModal
+        {/* <CitationModal
           citationModalOpen={citationModalOpen}
           setCitationModalOpen={setCitationModalOpen}
           clip={clip}
-        />
-        <WordCitationModal
+        /> */}
+        {/* <WordCitationModal
           clip={clip}
-          wordData={wordData}
-          setWordData={setWordData}
-        />
+          // wordData={wordData}
+          // setWordData={setWordData}
+        /> */}
       </>
     )
   }

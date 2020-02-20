@@ -20,7 +20,9 @@ const { Panel } = Collapse
 const EditClipDrawer = props => {
   const { updateClipInProfile, deleteClipHandler } = props
   const editing = props.clip.editing
-  const [formData, setFormData] = useState(props.clip)
+  const [formData, setFormData] = useState(
+    !props.clip.citation ? { ...props.clip, citation: {} } : props.clip
+  )
 
   return (
     <Drawer

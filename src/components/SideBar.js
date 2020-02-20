@@ -9,8 +9,8 @@ import { sortClipsChronologically } from "../utils"
 import { isLoggedIn } from "../services/auth"
 
 const { SubMenu } = Menu
-function SideBar({ userProfile, uploading, setUploadDrawerOpen }) {
-  const clips = userProfile.clips || []
+function SideBar({ appState, setAppState }) {
+  const { clips, uploading } = appState
   // const PageLocation = location.search
   //   ? queryString.parse(location.search)
   //   : null
@@ -36,7 +36,9 @@ function SideBar({ userProfile, uploading, setUploadDrawerOpen }) {
         selectable={false}
         inlineCollapsed={viewWidth < 800 ? true : false}
       >
-        <Menu.Item onClick={() => setUploadDrawerOpen(true)}>
+        <Menu.Item
+          onClick={() => setAppState({ ...appState, uploadDrawerOpen: false })}
+        >
           {uploading ? <Icon type={"loading"} spin /> : <Icon type="upload" />}
           <span>Add Clip</span>
         </Menu.Item>
