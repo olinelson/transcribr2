@@ -33,11 +33,13 @@ function Profile(props) {
   const [clipDrawerOpen, setClipDrawerOpen] = useState(false)
   const [uploading, setUploading] = useState(false)
 
-  const [userProfile, setUserProfile] = useStateWithLocalStorageJSON(
-    "user",
-    {},
-    window
-  )
+  const userProfile = props.userProfile
+  const setUserProfile = props.setUserProfile
+  // const [userProfile, setUserProfile] = useStateWithLocalStorageJSON(
+  //   "user",
+  //   {},
+  //   window
+  // )
 
   const mounted = useRef()
 
