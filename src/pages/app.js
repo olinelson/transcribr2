@@ -38,7 +38,6 @@ function App(props) {
     editEmailDrawerOpen: false,
   })
 
-  console.log(appState)
   // const [userProfile, setUserProfile] = useStateWithLocalStorageJSON(
   //   "user",
   //   {},
@@ -106,7 +105,7 @@ function App(props) {
             component={SideBar}
             path="/app/*"
             appState={appState}
-            setAppState={appState}
+            setAppState={setAppState}
             location={props.location}
           />
         </Router>
@@ -120,13 +119,15 @@ function App(props) {
             appState={appState}
             setAppState={setAppState}
           />
-          {/* <PrivateRoute
+          <PrivateRoute
             path="/app/clips/:clipId"
             component={Clip}
-            removeClipFromSideBar={e => removeClipFromSideBar(e)}
-            updateClipInProfile={e => updateClipInProfile(e)}
+            appState={appState}
+            setAppState={setAppState}
+            // removeClipFromSideBar={e => removeClipFromSideBar(e)}
+            // updateClipInProfile={e => updateClipInProfile(e)}
           />
-          <PrivateRoute
+          {/* <PrivateRoute
             path="/app/upload"
             component={UploadClip}
             setUploading={e => setUploading(e)}
@@ -147,16 +148,16 @@ function App(props) {
         </Router>
       </div>
 
-      {/* <Drawer
+      <Drawer
         title="Upload Clip"
         placement="right"
         closable={true}
-        onClose={() => setUploadDrawerOpen(false)}
-        visible={uploadDrawerOpen}
+        onClose={() => setAppState({ ...appState, uploadDrawerOpen: false })}
+        visible={appState.uploadDrawerOpen}
         width="auto"
       >
-        <UploadClip setUploading={e => setUploading(e)} addClip={addClip} />
-      </Drawer> */}
+        <UploadClip appState={appState} setAppState={setAppState} />
+      </Drawer>
 
       {/* <Drawer
         width={"auto"}

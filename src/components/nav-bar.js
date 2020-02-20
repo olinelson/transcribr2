@@ -17,8 +17,6 @@ import ClipDrawer from "./Clips"
 import styled from "styled-components"
 
 function Navbar(props) {
-  console.log("navbar", props)
-
   const { setUploadDrawerOpen } = props
 
   const [viewWidth, setViewWidth] = useState(

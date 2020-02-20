@@ -28,15 +28,12 @@ export const deleteClip = async clipId => {
   }
 }
 
-export const updateClip = async (clip, updateClipInProfile, setClip) => {
+export const updateClip = async (clip, appState, setAppState, setClip) => {
   setClip({ ...clip, saving: true })
 
   try {
     let res = await fetch(API_URL + "/clips/" + clip._id, {
       method: "PATCH",
-      // mode: "cors", // no-cors, *cors, same-origin
-      // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-      // credentials: "same-origin", // include, *same-origin, omit
       headers: {
         "Content-Type": "application/json",
         Authorization: getToken(),
@@ -48,28 +45,16 @@ export const updateClip = async (clip, updateClipInProfile, setClip) => {
     res = await res.json() // parses JSON response into native JavaScript objects
 
     openNotificationWithIcon("success", `Changes saved`)
-    // updateClipInProfile(res)
-    setClip({
-      ...res,
-      saving: false,
-      editing: false,
-      currentPageIndex: 0,
-      selectedWord: undefined,
-      inserting: null,
-      wordPageSize: 200,
-      wordPages: splitWordsIntoPages(res.words, 200),
-      words: res.words,
-      editing: false,
-      loading: false,
-      citing: false,
-    })
+    let filteredClips = appState.clips.filter(c => c._id !== clip._id)
+
+    setAppState({ ...appState, clips: [...filteredClips, res] })
   } catch (error) {
     console.log(error)
     setClip({ ...clip, saving: false })
   }
 }
 
-export const getClip = async (_id, setClip) => {
+export const getClip = async (_id, clip, setClip) => {
   try {
     let res = await fetch(API_URL + "/clips/" + _id, {
       mode: "cors", // no-cors, *cors, same-origin
@@ -83,23 +68,25 @@ export const getClip = async (_id, setClip) => {
       referrerPolicy: "no-referrer", // no-referrer, *client
     })
     // if (!res.ok) throw new Error("Something went wrong")
-    res = await res.json() // parses JSON response into native JavaScript objects
-
+    res = await res.json()
+    setClip({ ...clip, ...res })
+    console.log(res) // parses JSON response into native JavaScript objects
+    return res
     // const wordPages = splitWordsIntoPages(res.words, 200)
-    setClip({
-      ...res,
-      saving: false,
-      editing: false,
-      currentPageIndex: 0,
-      selectedWord: undefined,
-      inserting: null,
-      wordPageSize: 200,
-      wordPages: splitWordsIntoPages(res.words, 200),
-      words: res.words,
-      editing: false,
-      loading: false,
-      citing: false,
-    })
+    // setClip({
+    //   ...res,
+    //   saving: false,
+    //   editing: false,
+    //   currentPageIndex: 0,
+    //   selectedWord: undefined,
+    //   inserting: null,
+    //   wordPageSize: 200,
+    //   wordPages: splitWordsIntoPages(res.words, 200),
+    //   words: res.words,
+    //   editing: false,
+    //   loading: false,
+    //   citing: false,
+    // })
   } catch (error) {
     console.log(error)
   }

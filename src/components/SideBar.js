@@ -15,7 +15,7 @@ function SideBar({ appState, setAppState }) {
   //   ? queryString.parse(location.search)
   //   : null
 
-  console.log(clips)
+  console.log("sidebar running")
 
   const [viewWidth, setViewWidth] = useState(window.innerWidth)
 
@@ -37,7 +37,7 @@ function SideBar({ appState, setAppState }) {
         inlineCollapsed={viewWidth < 800 ? true : false}
       >
         <Menu.Item
-          onClick={() => setAppState({ ...appState, uploadDrawerOpen: false })}
+          onClick={() => setAppState({ ...appState, uploadDrawerOpen: true })}
         >
           {uploading ? <Icon type={"loading"} spin /> : <Icon type="upload" />}
           <span>Add Clip</span>

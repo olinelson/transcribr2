@@ -18,7 +18,7 @@ import { updateClip } from "../services/clipManagement"
 
 const { Panel } = Collapse
 const EditClipDrawer = props => {
-  const { updateClipInProfile, deleteClipHandler } = props
+  const { appState, setAppState, deleteClipHandler } = props
   const editing = props.clip.editing
   const [formData, setFormData] = useState(
     !props.clip.citation ? { ...props.clip, citation: {} } : props.clip
@@ -52,7 +52,7 @@ const EditClipDrawer = props => {
         }}
         onSubmit={e => {
           e.preventDefault()
-          updateClip(formData, updateClipInProfile, props.setClip)
+          updateClip(formData, appState, setAppState, props.setClip)
         }}
       >
         <Form.Item label="Clip Name">

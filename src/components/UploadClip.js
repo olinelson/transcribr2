@@ -6,12 +6,14 @@ import { message } from "antd"
 const { Dragger } = Upload
 
 function UploadClip(props) {
+  const { appState, setAppState } = props
+
   const settings = {
     name: "file",
     multiple: true,
     action: API_URL + "/clips",
     method: "POST",
-    beforeUpload: () => props.setUploading(true),
+    beforeUpload: () => setAppState({ ...appState, uploading: true }),
     headers: {
       Authorization: getToken(),
     },
@@ -19,12 +21,18 @@ function UploadClip(props) {
       const { status } = info.file
 
       if (status !== "uploading") {
-        props.setUploading(false)
+        // props.setUploading(false)
+        setAppState({ ...appState, uploading: true })
       }
       if (status === "done") {
         message.success(`${info.file.name} file uploaded successfully.`)
 
-        props.addClip(info.file.response)
+        // props.addClip(info.file.response)
+        setAppState({
+          ...appState,
+          clips: [...appState.clips, info.file.response],
+          uploading: false,
+        })
       } else if (status === "error") {
         message.error(`${info.file.name} file upload failed.`)
       }

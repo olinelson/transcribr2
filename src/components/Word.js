@@ -34,13 +34,13 @@ const WordContainer = styled.span`
 
 function Word(props) {
   const {
-    clip,
     word,
-    setWordData,
-    wordData,
-    setPlayerControls,
+    appState,
+    setAppState,
     player,
     playerControls,
+    setPlayerControls,
+    clip,
   } = props
 
   const [deleting, setDeleting] = useState(false)
@@ -57,7 +57,7 @@ function Word(props) {
   const wordOptions = () => (
     <Menu>
       <Menu.Item
-        onClick={() => setWordData({ ...wordData, selectedWord: word })}
+        onClick={() => setAppState({ ...appState, selectedWord: word })}
       >
         <Popconfirm
           title="Are you sure delete this word?"
@@ -71,13 +71,17 @@ function Word(props) {
       </Menu.Item>
       <Menu.Item
         onClick={() =>
-          setWordData({ ...wordData, selectedWord: word, editing: true })
+          setAppState({
+            ...appState,
+            selectedWord: word,
+            editWordDrawerOpen: true,
+          })
         }
       >
         <Icon type="edit" />
         Edit
       </Menu.Item>
-      <Menu.Item
+      {/* <Menu.Item
         onClick={() =>
           setWordData({
             ...wordData,
@@ -89,8 +93,8 @@ function Word(props) {
       >
         <Icon type="arrow-left" />
         <Icon type="plus-circle" /> Insert Before
-      </Menu.Item>
-      <Menu.Item
+      </Menu.Item> */}
+      {/* <Menu.Item
         onClick={() =>
           setWordData({
             ...wordData,
@@ -102,8 +106,8 @@ function Word(props) {
       >
         <Icon type="arrow-right" />
         <Icon type="plus-circle" /> Insert After
-      </Menu.Item>
-      <Menu.Item
+      </Menu.Item> */}
+      {/* <Menu.Item
         onClick={() =>
           setWordData({
             ...wordData,
@@ -114,7 +118,7 @@ function Word(props) {
       >
         <Icon type="snippets" />
         Cite
-      </Menu.Item>
+      </Menu.Item> */}
     </Menu>
   )
 
@@ -157,8 +161,8 @@ function Word(props) {
             style={{ cursor: "pointer" }}
             deleting={deleting}
             word={word}
-            selectedWord={wordData.selectedWord}
-            onClick={() => setWordData({ ...wordData, selectedWord: word })}
+            selectedWord={appState.selectedWord}
+            onClick={() => setAppState({ ...appState, selectedWord: word })}
           >
             {word.word}
           </WordContainer>{" "}

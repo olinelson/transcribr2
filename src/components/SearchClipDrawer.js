@@ -9,13 +9,15 @@ const { Search } = Input
 
 function SearchClipDrawer(props) {
   const {
+    appState,
+    setAppState,
     navigateToWord,
     setPlayerControls,
-    wordData,
+    // wordData,
     playerControls,
     player,
-    searchData,
-    setSearchData,
+    // searchData,
+    // setSearchData,
   } = props
 
   const [results, setResults] = useState([])

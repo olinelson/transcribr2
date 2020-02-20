@@ -20,8 +20,6 @@ export default function UserDetails(props) {
   const [user, setUser] = useState(appState.user)
   const [loading, setLoading] = useState(false)
 
-  // const user = appState.user
-
   const deleteUserHandler = async () => {
     const success = await deleteUser()
     if (success) {
@@ -81,24 +79,27 @@ export default function UserDetails(props) {
       >
         <Form
           layout="vertical"
-          // onSubmit={async e => {
-          //   e.preventDefault()
-          //   setLoading(true)
-          //   const unconfirmedEmail = e.target.unconfirmedEmail.value
-          //   const success = await changeEmail(unconfirmedEmail)
-          //   if (success) {
-          //     setUser({ ...props.user, unconfirmedEmail })
-          //     props.setUserProfile({
-          //       ...props.userProfile,
-          //       user: { ...user, unconfirmedEmail },
-          //     })
-          //     setEditDrawerOpen(false)
-          //     openNotificationWithIcon("success", "Verification email sent.")
-          //   } else {
-          //     openNotificationWithIcon("error", "There was a problem :(")
-          //   }
-          //   setLoading(false)
-          // }}
+          onSubmit={async e => {
+            e.preventDefault()
+            setLoading(true)
+            const unconfirmedEmail = e.target.unconfirmedEmail.value
+            const success = await changeEmail(unconfirmedEmail)
+            if (success) {
+              setAppState({
+                ...appState,
+                user: {
+                  ...appState.user,
+                  unconfirmedEmail,
+                  editEmailDrawOpen: false,
+                },
+              })
+              setUser({ ...props.user, unconfirmedEmail })
+              openNotificationWithIcon("success", "Verification email sent.")
+            } else {
+              openNotificationWithIcon("error", "There was a problem :(")
+            }
+            setLoading(false)
+          }}
         >
           <Form.Item label="Current Email">
             <p>{user.email}</p>
