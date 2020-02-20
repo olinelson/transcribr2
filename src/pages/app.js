@@ -13,7 +13,7 @@ import ChangeEmailForm from "../components/ChangeEmailForm"
 
 const App = () => (
   <Router>
-    <PrivateRoute default path="/app/profile" component={Profile} />
+    <PrivateRoute path="/app/profile" component={Profile} />
     <PrivateRoute path="/app/clip" component={Clip} />
 
     <Login path="/app/login" />
