@@ -18,7 +18,7 @@ const layout = props => {
       </Helmet>
       <NavBar {...props} />
       <Layout>{children}</Layout>
-      {path.includes("app") ? null : (
+      {path !== "/" ? null : (
         <Footer
           style={{
             display: "flex",
