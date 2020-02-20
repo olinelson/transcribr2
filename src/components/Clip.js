@@ -47,11 +47,11 @@ import { useStateWithLocalStorageJSON } from "../utils"
 const { Step } = Steps
 
 function Clip(props) {
-  const { _id, name } = props.clip
+  // const { _id, name } = props.clip
+  const _id = props.clipId
 
   const [clip, setClip] = useStateWithLocalStorageJSON(_id, {
     _id,
-    name,
     loading: true,
     words: [],
     saving: false,
@@ -65,12 +65,12 @@ function Clip(props) {
   const [transcribeData, setTranscribeData] = useState({
     modalOpen: false,
     language: "",
-    loading:
-      props.clip.conversionComplete === false ||
-      props.clip.operationCompleted === false ||
-      props.clip.operationId
-        ? true
-        : false,
+    // loading:
+    //   props.clip.conversionComplete === false ||
+    //   props.clip.operationCompleted === false ||
+    //   props.clip.operationId
+    //     ? true
+    //     : false,
   })
 
   const [searchData, setSearchData] = useState({
@@ -132,28 +132,24 @@ function Clip(props) {
   }, [])
 
   useEffect(() => {
-    if (!mounted.current) {
-      mounted.current = true
-
-      getClip(_id, setClip)
-    } else {
-      setWordData({
-        ...wordData,
-        wordPages: splitWordsIntoPages(clip.words, wordData.wordPageSize),
-        words: clip.words,
-        editing: false,
-        inserting: null,
-        deleting: false,
-        loading: false,
-        selectedWord: undefined,
-      })
-    }
+    setClip({ ...clip, loading: true })
+    getClip(_id, setClip)
+    setWordData({
+      ...wordData,
+      wordPages: splitWordsIntoPages(clip.words, wordData.wordPageSize),
+      words: clip.words,
+      editing: false,
+      inserting: null,
+      deleting: false,
+      loading: false,
+      selectedWord: undefined,
+    })
 
     return function cleanup() {
-      window.localStorage.removeItem(clip._id)
+      window.localStorage.removeItem(_id)
       // if (clip.saveOffline === false) window.localStorage.removeItem(clip._id)
     }
-  }, [clip])
+  }, [_id])
 
   const wordShowSizeChangeHandler = num => {
     setWordData({

@@ -12,13 +12,7 @@ export const formatTimeStamp = string => {
 }
 
 export const sortClipsChronologically = (a, b) => {
-  let comparison = 0
-  if (a.dateCreated - b.dateCreated) {
-    comparison = 1
-  } else if (a.dateCreated < b.dateCreated) {
-    comparison = -1
-  }
-  return comparison
+  return parseInt(a.dateCreated) - parseInt(b.dateCreated)
 }
 
 export const useStateWithLocalStorageJSON = (localStorageKey, defaultState) => {

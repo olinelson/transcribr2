@@ -8,8 +8,6 @@ import moment from "moment"
 
 const layout = props => {
   const { children, location, userProfile, setUserProfile } = props
-  const path = location.pathname
-
   return (
     <>
       <Helmet title="Transcribr" defer={false}>
@@ -18,7 +16,7 @@ const layout = props => {
       </Helmet>
       <NavBar {...props} />
       <Layout>{children}</Layout>
-      {path !== "/" ? null : (
+      {/* {path !== "/" ? null : (
         <Footer
           style={{
             display: "flex",
@@ -31,9 +29,9 @@ const layout = props => {
         >
           <small>transcribr ©{moment().year()}</small>
         </Footer>
-      )}
+      )} */}
     </>
   )
 }
 
-export default WithLocation(layout)
+export default layout

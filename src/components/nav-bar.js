@@ -13,16 +13,13 @@ import { Icon } from "antd"
 import { FixedMenuDiv } from "./MyStyledComponents"
 
 import { openNotificationWithIcon } from "./Notifications"
-import ClipDrawer from "./ClipDrawer"
+import ClipDrawer from "./Clips"
 import styled from "styled-components"
 
 function Navbar(props) {
-  const PageLocation = props.location.search
-    ? queryString.parse(props.location.search)
-    : null
+  console.log("navbar", props)
 
-  const path = props.location.pathname
-  const [clipDrawerOpen, setClipDrawerOpen] = useState(false)
+  const { setUploadDrawerOpen } = props
 
   const [viewWidth, setViewWidth] = useState(
     isBrowser() ? window.innerWidth : 0
@@ -66,9 +63,7 @@ function Navbar(props) {
       <DynamicMenu
         theme="dark"
         mode="horizontal"
-        selectedKeys={
-          PageLocation && PageLocation.view == "upload" ? ["upload"] : [path]
-        }
+        selectedKeys={[props.location.pathname]}
       >
         <Menu.Item onClick={() => navigate("/")} key="/">
           <Icon type="home" />
@@ -79,26 +74,20 @@ function Navbar(props) {
         </Menu.Item>
 
         {isLoggedIn() ? (
-          <Menu.Item
-            onClick={() => navigate("/app/profile")}
-            key="/app/profile"
-          >
+          <Menu.Item onClick={() => navigate("/app")} key="/app">
             <Icon type="user" />
             {/* <span>Profile</span> */}
           </Menu.Item>
         ) : null}
 
         {isLoggedIn() && viewWidth < 600 ? (
-          <Menu.Item onClick={() => setClipDrawerOpen(true)}>
+          <Menu.Item onClick={() => navigate("/app/clips")} key="/app/clips">
             <Icon type="audio" />
           </Menu.Item>
         ) : null}
 
         {isLoggedIn() && viewWidth < 600 ? (
-          <Menu.Item
-            key="upload"
-            onClick={() => navigate("/app/profile?view=upload")}
-          >
+          <Menu.Item key="/app/upload" onClick={() => navigate("/app/upload")}>
             <Icon type="upload" />
           </Menu.Item>
         ) : null}
@@ -127,10 +116,10 @@ function Navbar(props) {
           </Menu.Item>
         )}
       </DynamicMenu>
-      <ClipDrawer
+      {/* <ClipDrawer
         clipDrawerOpen={clipDrawerOpen}
         setClipDrawerOpen={setClipDrawerOpen}
-      />
+      /> */}
     </FixedMenuDiv>
   )
 }

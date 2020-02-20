@@ -6,12 +6,16 @@ import { navigate } from "gatsby"
 
 import { StyledSideBar } from "./MyStyledComponents"
 import { sortClipsChronologically } from "../utils"
+import { isLoggedIn } from "../services/auth"
 
 const { SubMenu } = Menu
-function SideBar({ clips, uploading, setUploadDrawerOpen, location }) {
-  const PageLocation = location.search
-    ? queryString.parse(location.search)
-    : null
+function SideBar({ userProfile, uploading, setUploadDrawerOpen }) {
+  const clips = userProfile.clips || []
+  // const PageLocation = location.search
+  //   ? queryString.parse(location.search)
+  //   : null
+
+  console.log(clips)
 
   const [viewWidth, setViewWidth] = useState(window.innerWidth)
 
@@ -22,6 +26,8 @@ function SideBar({ clips, uploading, setUploadDrawerOpen, location }) {
 
     window.addEventListener("resize", handleResize)
   }, [])
+
+  if (!isLoggedIn()) return null
 
   return (
     <StyledSideBar offsetTop={46}>
@@ -40,11 +46,11 @@ function SideBar({ clips, uploading, setUploadDrawerOpen, location }) {
         mode="inline"
         style={{ height: "100%" }}
         // defaultOpenKeys={["clip"]}
-        selectedKeys={
-          PageLocation ? [PageLocation.view, PageLocation.id] : ["user"]
-        }
+        // selectedKeys={
+        //   PageLocation ? [PageLocation.view, PageLocation.id] : ["user"]
+        // }
       >
-        <Menu.Item key="user" onClick={() => navigate("app/profile")}>
+        <Menu.Item key="user" onClick={() => navigate("/app")}>
           <Icon type="user" />
           <span>User Profile</span>
         </Menu.Item>
@@ -58,14 +64,16 @@ function SideBar({ clips, uploading, setUploadDrawerOpen, location }) {
             </span>
           }
         >
-          {clips.sort(sortClipsChronologically).map(c => (
-            <Menu.Item
-              onClick={() => navigate(`app/profile?view=clip&id=${c._id}`)}
-              key={c._id}
-            >
-              <span>{c.name}</span>
-            </Menu.Item>
-          ))}
+          {clips
+            .sort((a, b) => a.dateCreated - b.dateCreated)
+            .map(c => (
+              <Menu.Item
+                onClick={() => navigate(`app/clips/${c._id}`)}
+                key={c._id}
+              >
+                <span>{c.name}</span>
+              </Menu.Item>
+            ))}
         </SubMenu>
       </Menu>
     </StyledSideBar>
