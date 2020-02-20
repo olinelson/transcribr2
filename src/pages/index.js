@@ -24,7 +24,6 @@ export default function IndexPage() {
 
   return (
     <Layout>
-      <NavBar />
       <div
         style={{
           gridColumn: "1/-1",
@@ -51,7 +50,6 @@ export default function IndexPage() {
         >
           transcribr<span style={{ color: "orange" }}>.</span>
         </h1>
-        {/* <Link to={"/about"}>about</Link> */}
 
         {isLoggedIn() ? null : (
           <div>

@@ -1,10 +1,23 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 
 import { useStaticQuery, graphql, Link } from "gatsby"
 import Img from "gatsby-image"
 import Layout from "../components/layout"
+import { Icon, Divider } from "antd"
 
 export default function IndexPage() {
+  const [showMessage, setShowMessage] = useState(false)
+
+  useEffect(() => {
+    let delay = setTimeout(() => {
+      setShowMessage(true)
+    }, 5000)
+
+    return function() {
+      clearTimeout(delay)
+    }
+  })
+
   const data = useStaticQuery(graphql`
     query {
       file(relativePath: { eq: "images/wordcloudBlue.png" }) {
@@ -32,18 +45,23 @@ export default function IndexPage() {
           justifySelf: "center",
         }}
       >
-        <Img fluid={data.file.childImageSharp.fluid} alt="Transcribr Logo" />
-        <h1
-          style={{
-            color: "#1890FF",
-            textAlign: "center",
-            fontSize: "10vw",
-          }}
-        >
-          404
-        </h1>
-        <p>Hmm... sorry the page you are looking for can't be found.</p>
-        <Link to={"/"}>Take me home</Link>
+        <Img
+          style={{ width: "90vw", maxWidth: "20rem", height: "auto" }}
+          fluid={data.file.childImageSharp.fluid}
+          alt="Transcribr Logo"
+        />
+
+        {showMessage ? (
+          <>
+            <p> Sorry the page your looking for can't be found...</p>
+
+            <Link style={{ color: "#1890FF" }} to={"/"}>
+              Go Home
+            </Link>
+          </>
+        ) : (
+          <Icon style={{ fontSize: "5vw", color: "orange" }} type="loading" />
+        )}
       </div>
     </Layout>
   )
