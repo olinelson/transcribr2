@@ -9,9 +9,11 @@ import ForgotPassowordForm from "../components/ForgotPasswordForm"
 import ResetPasswordForm from "../components/ResetPasswordForm"
 import ChangeEmailForm from "../components/ChangeEmailForm"
 
+// I think I should push more logic here...
+
 const App = () => (
   <Router>
-    <PrivateRoute path="/app/profile" component={Profile} />
+    <PrivateRoute default path="/app/profile" component={Profile} />
     <PrivateRoute path="/app/clip" component={Clip} />
 
     <Login path="/app/login" />
