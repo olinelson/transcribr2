@@ -38,7 +38,7 @@ export const editWord = async ({ newWordValue, clip, setClip }) => {
     })
     openNotificationWithIcon("success", `Changes saved`)
   } catch (error) {
-    console.log(error)
+    console.error(error)
     openNotificationWithIcon("error", `Something went wrong :(`)
     setClip({ ...clip })
   }
@@ -70,7 +70,7 @@ export const insertWord = async ({ index, setClip, clip, newWord }) => {
     })
     openNotificationWithIcon("success", `Word Created`)
   } catch (error) {
-    console.log(error)
+    console.error(error)
     setClip({ ...clip })
   }
 }
@@ -101,7 +101,7 @@ export const deleteWord = async ({
     setClip({ ...clip, words: newWords })
     openNotificationWithIcon("success", `Word Deleted`)
   } catch (error) {
-    console.log(error)
+    console.error(error)
     setClip({ ...clip })
   }
 }

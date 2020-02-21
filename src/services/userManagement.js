@@ -21,7 +21,7 @@ export const getUserProfileAndSet = async (appState, setAppState) => {
 
     return setAppState({ ...appState, clips, user })
   } catch (error) {
-    console.log(error)
+    console.error(error)
     return false
   }
 }
@@ -40,7 +40,7 @@ export const getUserProfile = async () => {
     res = await res.json() // parses JSON response into native JavaScript objects
     return res
   } catch (error) {
-    console.log(error)
+    console.error(error)
     return false
   }
 }
@@ -61,7 +61,7 @@ export const updateUser = async user => {
     res = await res.json() // parses JSON response into native JavaScript objects
     return res
   } catch (error) {
-    console.log(error)
+    console.error(error)
     return false
   }
 }
@@ -82,7 +82,7 @@ export const changeEmail = async unconfirmedEmail => {
 
     return true
   } catch (error) {
-    console.log(error)
+    console.error(error)
     return false
   }
 }
@@ -102,7 +102,7 @@ export const deleteUser = async () => {
     res = await res.json() // parses JSON response into native JavaScript objects
     return res
   } catch (error) {
-    console.log(error)
+    console.error(error)
     return false
   }
 }

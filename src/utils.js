@@ -27,7 +27,7 @@ export const useStateWithLocalStorageJSON = (localStorageKey, defaultState) => {
       try {
         window.localStorage.setItem(localStorageKey, JSON.stringify(value))
       } catch (error) {
-        console.log(error)
+        console.error(error)
       }
     }
   }, [value])

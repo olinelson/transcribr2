@@ -23,7 +23,7 @@ export const deleteClip = async clipId => {
     openNotificationWithIcon("warning", `Successfully deleted "${res.name}"`)
     return true
   } catch (error) {
-    console.log(error)
+    console.error(error)
     return false
   }
 }
@@ -49,7 +49,7 @@ export const updateClip = async (clip, appState, setAppState, setClip) => {
     setClip({ ...clip, clipSaving: false })
     setAppState({ ...appState, clips: [...filteredClips, res] })
   } catch (error) {
-    console.log(error)
+    console.error(error)
     setClip({ ...clip, saving: false, editClipDrawerOpen: false })
   }
 }
@@ -75,7 +75,7 @@ export const getClip = async (_id, clip, setClip) => {
       ...res,
       loading: false,
     })
-    console.log(res) // parses JSON response into native JavaScript objects
+
     return res
     // const wordPages = splitWordsIntoPages(res.words, 200)
     // setClip({
@@ -93,6 +93,6 @@ export const getClip = async (_id, clip, setClip) => {
     //   citing: false,
     // })
   } catch (error) {
-    console.log(error)
+    console.error(error)
   }
 }

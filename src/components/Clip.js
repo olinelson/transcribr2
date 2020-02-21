@@ -80,7 +80,6 @@ function Clip(props) {
 
   const notificationHandler = notification => {
     if (notification.name === "transcriptionUpdate") {
-      console.log("update", notification.data.clip)
       setClip({
         currentPageIndex: 0,
         currentPageSize: 200,
@@ -155,7 +154,7 @@ function Clip(props) {
         "error",
         `Something went wrong, please try again.`
       )
-      console.log(error)
+      console.error(error)
       setClip({
         ...clip,
         transcriptionLoading: false,
@@ -316,7 +315,6 @@ function Clip(props) {
   }
 
   const maybeShowWordsParagraph = () => {
-    console.log("re calculating")
     if (clip.words.length) {
       let wordPages = splitWordsIntoPages(clip.words, clip.wordPageSize)
       return (
@@ -339,7 +337,6 @@ function Clip(props) {
     }
   }
 
-  console.log(clip)
 
   const maybeShowTranscribeButtton = () => {
     if (!clip.words || !clip.words.length) {

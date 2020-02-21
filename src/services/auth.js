@@ -40,11 +40,10 @@ export const handleLogin = async ({ email, password }) => {
     })
 
     res = await res.json() // parses JSON response into native JavaScript objects
-    console.log(res)
     await setUserAndToken(res)
     return true
   } catch (error) {
-    console.log(error)
+    console.error(error)
     return false
   }
 }
@@ -66,7 +65,7 @@ export const handleSignup = async ({ name, email, password }) => {
     await setUserAndToken(res)
     return true
   } catch (error) {
-    console.log(error)
+    console.error(error)
     return false
   }
 }
@@ -88,7 +87,7 @@ export const handleForgotPassword = async ({ email }) => {
     // await setUserAndToken(res)
     return true
   } catch (error) {
-    console.log(error)
+    console.error(error)
     return false
   }
 }
@@ -110,7 +109,7 @@ export const handleResetPassword = async ({ password, token }) => {
     await setUserAndToken(res)
     return true
   } catch (error) {
-    console.log(error)
+    console.error(error)
     return false
   }
 }
