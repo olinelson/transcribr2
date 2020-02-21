@@ -80,7 +80,7 @@ export default function UserDetails(props) {
                   editEmailDrawOpen: false,
                 },
               })
-              // setUser({ ...props.user, unconfirmedEmail })
+              setUser({ ...user, unconfirmedEmail })
               openNotificationWithIcon("success", "Verification email sent.")
             } else {
               openNotificationWithIcon("error", "There was a problem :(")
