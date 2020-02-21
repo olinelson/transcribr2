@@ -395,7 +395,7 @@ function Clip(props) {
                       twoToneColor="#52c41a"
                     />
                   ) : (
-                    <Icon active type="loading" />
+                    <Icon type="loading" />
                   )
                 }
               />

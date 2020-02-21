@@ -60,7 +60,7 @@ function SideBar({ appState, setAppState }) {
           }
         >
           {clips
-            .sort((a, b) => a.dateCreated - b.dateCreated)
+            .sort((a, b) => b.dateCreated - a.dateCreated)
             .map(c => (
               <Menu.Item
                 onClick={() => navigate(`app/clips/${c._id}`)}
