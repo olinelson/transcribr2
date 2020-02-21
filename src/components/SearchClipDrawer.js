@@ -9,13 +9,13 @@ const { Search } = Input
 
 function SearchClipDrawer(props) {
   const {
-    appState,
-    setAppState,
     navigateToWord,
     setPlayerControls,
     // wordData,
     playerControls,
     player,
+    clip,
+    setClip,
     // searchData,
     // setSearchData,
   } = props
@@ -65,14 +65,14 @@ function SearchClipDrawer(props) {
       title="Search"
       mask={false}
       maskClosable={false}
-      visible={searchData.modalOpen}
-      onClose={() => setSearchData({ ...searchData, modalOpen: false })}
+      visible={clip.searchClipDrawerOpen}
+      onClose={() => setClip({ ...clip, searchClipDrawerOpen: false })}
     >
       <Search
         style={{ marginBottom: "1rem" }}
         placeholder="input search text"
-        onSearch={query => debounce(onSearch(query, wordData.words), 1000)}
-        onChange={e => debounce(onChange(e.target.value, wordData.words), 1000)}
+        onSearch={query => debounce(onSearch(query, clip.words), 1000)}
+        onChange={e => debounce(onChange(e.target.value, clip.words), 1000)}
         enterButton
         loading={loading}
       />

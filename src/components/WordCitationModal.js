@@ -9,7 +9,7 @@ import TextArea from "antd/lib/input/TextArea"
 import { formatTimeStamp } from "../utils"
 
 function WordCitationModal(props) {
-  const { wordData, setWordData, clip } = props
+  const { clip, setClip } = props
 
   const mlaRef = useRef(null)
   const apaRef = useRef(null)
@@ -30,12 +30,12 @@ function WordCitationModal(props) {
     grid-gap: 1rem;
   `
 
-  if (!wordData.selectedWord) return null
+  if (!clip.selectedWord) return null
   return (
     <Modal
-      onCancel={() => setWordData({ ...wordData, citing: false })}
+      onCancel={() => setClip({ ...clip, wordCitationModalOpen: false })}
       footer={null}
-      visible={wordData.citing}
+      visible={clip.wordCitationModalOpen}
       title="Citation"
       autoSize
       centered
@@ -56,9 +56,7 @@ function WordCitationModal(props) {
           //   (University of Oxford, 2019, 0:29)
           value={`(${clip.citation.lastName}, ${moment(
             clip.citation.datePosted
-          ).format("YYYY")}, ${formatTimeStamp(
-            wordData.selectedWord.startTime
-          )})`}
+          ).format("YYYY")}, ${formatTimeStamp(clip.selectedWord.startTime)})`}
         />
         <Icon type="copy" onClick={() => copyToClipboard(apaRef, "APA")} />
 
@@ -72,7 +70,7 @@ function WordCitationModal(props) {
           }}
           ref={mlaRef}
           value={`(${clip.citation.lastName}, ${formatTimeStamp(
-            wordData.selectedWord.startTime
+            clip.selectedWord.startTime
           )})`}
         />
         <Icon type="copy" onClick={() => copyToClipboard(apaRef, "MLA")} />

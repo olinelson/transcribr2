@@ -8,7 +8,15 @@ import { openNotificationWithIcon } from "./Notifications"
 import TextArea from "antd/lib/input/TextArea"
 
 function CitationModal(props) {
-  const { citationModalOpen, setCitationModalOpen, clip } = props
+  const { clip, setClip } = props
+
+  const mlaRef = useRef(null)
+  const apaRef = useRef(null)
+  const chicagoRef = useRef(null)
+  const harvardRef = useRef(null)
+  const vancouverRef = useRef(null)
+
+  if (!clip.citation) return null
 
   const {
     firstName = "First Name",
@@ -25,12 +33,6 @@ function CitationModal(props) {
     url = "URL",
   } = clip.citation
 
-  const mlaRef = useRef(null)
-  const apaRef = useRef(null)
-  const chicagoRef = useRef(null)
-  const harvardRef = useRef(null)
-  const vancouverRef = useRef(null)
-
   function copyToClipboard(ref, style) {
     navigator.clipboard.writeText(ref.current.state.value)
 
@@ -46,9 +48,14 @@ function CitationModal(props) {
 
   return (
     <Modal
-      onCancel={() => setCitationModalOpen(false)}
+      onCancel={() =>
+        setClip({
+          ...clip,
+          clipCitationModalOpen: false,
+        })
+      }
       footer={null}
-      visible={citationModalOpen}
+      visible={clip.clipCitationModalOpen}
       title="Citation"
       autoSize
       centered

@@ -32,20 +32,12 @@ function App(props) {
     user: {},
     clips: [],
     uploadDrawerOpen: false,
+    searchClipDrawerOpen: false,
     editUserDrawerOpen: false,
     editClipDrawerOpen: false,
     editWordDrawerOpen: false,
     editEmailDrawerOpen: false,
   })
-
-  // const [userProfile, setUserProfile] = useStateWithLocalStorageJSON(
-  //   "user",
-  //   {},
-  //   window
-  // )
-  const [uploadDrawerOpen, setUploadDrawerOpen] = useState(false)
-  const [clipDrawerOpen, setClipDrawerOpen] = useState(false)
-  const [uploading, setUploading] = useState(false)
 
   const mounted = useRef()
 

@@ -5,17 +5,12 @@ import { Select, Modal } from "antd"
 
 const { Option } = Select
 
-const TranscriptionModal = ({
-  transcribeData,
-  clip,
-  setTranscribeData,
-  convertClip,
-}) => (
+const TranscriptionModal = ({ clip, setClip, convertClip }) => (
   <Modal
     title={`Transcribe ${clip.name}`}
-    visible={transcribeData.modalOpen}
+    visible={clip.transcribeModalOpen}
     onOk={() => convertClip()}
-    onCancel={() => setTranscribeData({ ...transcribeData, modalOpen: false })}
+    onCancel={() => setClip({ ...clip, transcribeModalOpen: false })}
   >
     <div style={{ display: "flex", justifyContent: "center" }}>
       <Select
@@ -23,9 +18,7 @@ const TranscriptionModal = ({
         style={{ width: "100%" }}
         placeholder="Select a language"
         optionFilterProp="children"
-        onChange={lang =>
-          setTranscribeData({ ...transcribeData, language: lang })
-        }
+        onChange={lang => setClip({ ...clip, language: lang })}
         filterOption={(input, option) =>
           option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
         }

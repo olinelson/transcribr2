@@ -18,8 +18,7 @@ import { updateClip } from "../services/clipManagement"
 
 const { Panel } = Collapse
 const EditClipDrawer = props => {
-  const { appState, setAppState, deleteClipHandler } = props
-  const editing = props.clip.editing
+  const { appState, setAppState, deleteClipHandler, clip } = props
   const [formData, setFormData] = useState(
     !props.clip.citation ? { ...props.clip, citation: {} } : props.clip
   )
@@ -31,10 +30,9 @@ const EditClipDrawer = props => {
       placement="right"
       closable={true}
       onClose={() => {
-        // updateClip(clip, updateClipInProfile, setClip)
-        props.setClip({ ...props.clip, editing: false })
+        props.setClip({ ...props.clip, editClipDrawerOpen: false })
       }}
-      visible={editing}
+      visible={clip.editClipDrawerOpen}
     >
       <Form
         layout="vertical"
@@ -211,7 +209,7 @@ const EditClipDrawer = props => {
             </Button>
           </Popconfirm>
 
-          <Button type="primary" htmlType="submit" loading={formData.saving}>
+          <Button type="primary" htmlType="submit" loading={clip.clipSaving}>
             Save
           </Button>
         </div>

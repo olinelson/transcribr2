@@ -5,23 +5,37 @@ import { Drawer, Input, Button, Form } from "antd"
 import { editWord, insertWord } from "../services/wordManagement"
 
 function EditWordDrawer(props) {
-  const { wordData, setWordData } = props
+  const { clip, setClip } = props
+  let inserting = false
 
-  const inserting = wordData.inserting !== null
+  if (clip.selectedWord && clip.selectedWord.inserting > -1) {
+    inserting = clip.selectedWord.inserting
+  }
+
+  function findIndexOfWord(obj, arr) {
+    let i = 0
+    for (let o of arr) {
+      if (o._id === obj._id) return i
+      i++
+    }
+    return -1
+  }
 
   const insertOrEditWord = ({ e }) => {
     e.preventDefault()
-    setWordData({ ...wordData, loading: true })
+    setClip({ ...clip, clipSaving: true })
 
     let newWordValue = e.target.newWordValue.value
 
-    if (wordData.inserting !== null) {
+    if (inserting !== false) {
       let index =
-        wordData.words.indexOf(wordData.selectedWord) + wordData.inserting
+        findIndexOfWord(clip.selectedWord, clip.words) +
+        clip.selectedWord.inserting
+
       if (index < 0) index = 0
       let newWord = {
         word: newWordValue,
-        startTime: wordData.selectedWord.startTime,
+        startTime: clip.selectedWord.startTime,
       }
       return insertWord({ ...props, index, newWord })
     }
@@ -30,34 +44,29 @@ function EditWordDrawer(props) {
 
   return (
     <Drawer
-      visible={wordData.editing}
+      visible={clip.editWordDrawerOpen}
       destroyOnClose={true}
       onClose={() =>
-        setWordData({
-          ...wordData,
-          selectedWord: undefined,
-          editing: false,
+        setClip({
+          ...clip,
+          editWordDrawerOpen: false,
           inserting: null,
         })
       }
       closable={true}
-      title={inserting ? "Insert Word" : "Edit Word"}
+      title={inserting === false ? "Edit Word" : "Insert Word"}
     >
-      {wordData.editing ? (
+      {clip.selectedWord ? (
         <Form onSubmit={e => insertOrEditWord({ ...props, e })}>
           <Form.Item>
             <Input
               name="newWordValue"
               spellCheck="true"
-              defaultValue={
-                wordData.selectedWord && !inserting
-                  ? wordData.selectedWord.word
-                  : ""
-              }
+              defaultValue={clip.selectedWord.word}
             ></Input>
           </Form.Item>
           <Form.Item>
-            <Button loading={wordData.loading} type="primary" htmlType="submit">
+            <Button loading={clip.clipSaving} type="primary" htmlType="submit">
               Save
             </Button>
           </Form.Item>

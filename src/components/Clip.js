@@ -10,17 +10,9 @@ import openSocket from "socket.io-client"
 import ReactPlayer from "react-player"
 import { formatTimeStamp } from "../utils"
 
-import FileSaver, { saveAs } from "file-saver"
+import FileSaver from "file-saver"
 
-import {
-  Document,
-  Packer,
-  Paragraph,
-  TextRun,
-  Header,
-  HeadingLevel,
-  Footer,
-} from "docx"
+import { Document, Packer, Paragraph, Header, HeadingLevel, Footer } from "docx"
 
 // components
 import {
@@ -42,41 +34,41 @@ import EditClipDrawer from "./EditClipDrawer"
 import Word from "./Word"
 import CitationModal from "./CitationModal"
 import WordCitationModal from "./WordCitationModal"
-import { useStateWithLocalStorageJSON } from "../utils"
 
 const { Step } = Steps
 
 function Clip(props) {
-  // const { _id, name } = props.clip
   const _id = props.clipId
   const { appState, setAppState } = props
 
   const [clip, setClip] = useState({
-    _id,
-    loading: true,
+    // loading
+    clipLoading: true,
+    clipSaving: false,
+    searchLoading: false,
+
+    // clip
     words: [],
-    saving: false,
-    editing: false,
-    deleting: false,
-    // saving: false,
-    // editing: false,
+    _id,
     currentPageIndex: 0,
     selectedWord: undefined,
-    inserting: null,
+
     wordPageSize: 200,
     wordPages: [],
-    words: [],
-    editing: false,
-    loading: false,
-    citing: false,
-    citationModalOpen: false,
+
+    // modals/sidebars
+    clipCitationModalOpen: false,
     wordCitationModalOpen: false,
     transcribeModalOpen: false,
-    transcribeLanguage: "",
+    language: "",
     searchModalOpen: false,
+    editClipDrawerOpen: false,
+
+    // search data
     searchInput: "",
     searchResults: [],
-    searching: false,
+
+    progressPercent: 0,
   })
 
   const [playerControls, setPlayerControls] = useState({
@@ -88,7 +80,13 @@ function Clip(props) {
 
   const notificationHandler = notification => {
     if (notification.name === "transcriptionUpdate") {
-      setClip(notification.data.clip)
+      console.log("update", notification.data.clip)
+      setClip({
+        currentPageIndex: 0,
+        currentPageSize: 200,
+        ...notification.data.clip,
+        loading: false,
+      })
     } else {
       openNotificationWithIcon("success", notification.message)
     }
@@ -97,7 +95,6 @@ function Clip(props) {
       console.log(notification.message)
     }
   }
-  const mounted = useRef()
 
   useEffect(() => {
     const socket = openSocket(API_URL)
@@ -119,19 +116,8 @@ function Clip(props) {
     }
   }, [_id])
 
-  // useEffect(() => {
-  //   // if (clip._id !== _id) {
-  //   getClip(_id, clip, setClip)
-  //   // }
-
-  //   return function cleanup() {
-  //     window.localStorage.removeItem(_id)
-  //   }
-  // }, [_id])
-
   const deleteClipHandler = async () => {
-    setClip({ ...clip, editing: false, deleting: true })
-    let success = await deleteClip(clip._id)
+    setClip({ ...clip, loading: true })
     if (true) {
       let clips = appState.clips.filter(c => c._id !== clip._id)
 
@@ -141,38 +127,42 @@ function Clip(props) {
       })
       navigate("/app")
     } else {
-      // setClip({ ...clip, deleting: false })
+      setClip({ ...clip, loading: false })
     }
   }
 
-  // const convertClip = async () => {
-  //   setTranscribeData({ ...transcribeData, loading: true, modalOpen: false })
-  //   try {
-  //     let res = await fetch(
-  //       `${API_URL}/convert/clips/${clip._id}?lang=${transcribeData.language}`,
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: getToken(),
-  //         },
-  //         redirect: "follow",
-  //         referrerPolicy: "no-referrer",
-  //       }
-  //     )
-  //     if (!res.ok) throw new Error("Something went wrong")
-  //     res = await res.json()
+  const convertClip = async () => {
+    setClip({ ...clip, transcribeModalOpen: false })
+    try {
+      let res = await fetch(
+        `${API_URL}/convert/clips/${clip._id}?lang=${clip.language}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: getToken(),
+          },
+          redirect: "follow",
+          referrerPolicy: "no-referrer",
+        }
+      )
+      if (!res.ok) throw new Error("Something went wrong")
+      res = await res.json()
 
-  //     openNotificationWithIcon("success", `Transcription Started!`)
-  //     setClip(res.clip)
-  //   } catch (error) {
-  //     openNotificationWithIcon(
-  //       "error",
-  //       `Something went wrong, please try again.`
-  //     )
-  //     console.log(error)
-  //     return false
-  //   }
-  // }
+      openNotificationWithIcon("success", `Transcription Started!`)
+      setClip(res.clip)
+    } catch (error) {
+      openNotificationWithIcon(
+        "error",
+        `Something went wrong, please try again.`
+      )
+      console.log(error)
+      setClip({
+        ...clip,
+        transcriptionLoading: false,
+        transcribeModalOpen: false,
+      })
+    }
+  }
 
   const showClipAudio = () => {
     if (!clip || !clip.rawFileName) return null
@@ -216,26 +206,13 @@ function Clip(props) {
             className="ant-dropdown-link"
             style={{ cursor: "pointer", margin: 0, maxWidth: "50vw" }}
           >
-            {clip.name}{" "}
-            {clip.deleting ? (
-              <Icon type="loading" />
-            ) : (
-              <>
-                {/* <Icon
-                  style={{ fontSize: "1rem" }}
-                  onClick={() => setCitationModalOpen(true)}
-                  type="link"
-                /> */}
-              </>
-            )}
+            {clip.name}
           </h1>
 
           <Button.Group>
             <Button
               disabled={!clip.words.length}
-              onClick={() =>
-                setAppState({ ...appState, searchModalOpen: true })
-              }
+              onClick={() => setClip({ ...clip, searchClipDrawerOpen: true })}
             >
               <Icon type="file-search" />
             </Button>
@@ -244,13 +221,17 @@ function Clip(props) {
               overlay={
                 <Menu>
                   <Menu.Item
-                    onClick={() => setClip({ ...clip, editing: true })}
+                    onClick={() =>
+                      setClip({ ...clip, editClipDrawerOpen: true })
+                    }
                   >
                     <Icon type="edit" />
                     Edit
                   </Menu.Item>
                   <Menu.Item
-                    onClick={() => setAppState({ citationModalOpen: false })}
+                    onClick={() =>
+                      setClip({ ...clip, clipCitationModalOpen: true })
+                    }
                   >
                     <Icon type="snippets" />
                     Cite
@@ -328,7 +309,6 @@ function Clip(props) {
 
   const downloadTextFile = () => {
     const allWords = clip.words.map(w => w.word).join(" ")
-    const element = document.createElement("a")
     const file = new Blob([allWords], {
       type: "text/plain",
     })
@@ -346,12 +326,11 @@ function Clip(props) {
               <Word
                 key={w._id}
                 word={w}
-                appState={appState}
-                setAppState={setAppState}
                 player={player}
                 playerControls={playerControls}
                 setPlayerControls={setPlayerControls}
                 clip={clip}
+                setClip={setClip}
               />
             ))}
           </p>
@@ -360,100 +339,104 @@ function Clip(props) {
     }
   }
 
-  // const maybeShowTranscribeButtton = () => {
-  //   if (!clip.wordPages.length && !transcribeData.loading)
-  //     return (
-  //       <div style={{ gridArea: "words", justifySelf: "center" }}>
-  //         <Button
-  //           type="primary"
-  //           loading={transcribeData.loading}
-  //           onClick={() =>
-  //             setTranscribeData({
-  //               ...transcribeData,
-  //               modalOpen: true,
-  //             })
-  //           }
-  //         >
-  //           <Icon type="message" />
-  //           Transcribe
-  //         </Button>
-  //       </div>
-  //     )
-  // }
+  console.log(clip)
 
-  // const maybeShowTranscribingLoadingState = () => {
-  //   if (!clip.wordPages.length && transcribeData.loading)
-  //     return (
-  //       <div
-  //         style={{
-  //           display: "grid",
-  //           gridArea: "words",
-  //           height: "100%",
+  const maybeShowTranscribeButtton = () => {
+    if (!clip.words || !clip.words.length) {
+      if (!clip.conversionJobId) {
+        return (
+          <div style={{ gridArea: "words", justifySelf: "center" }}>
+            <Button
+              type="primary"
+              loading={clip.transcriptionLoading}
+              onClick={() =>
+                setClip({
+                  ...clip,
+                  transcribeModalOpen: true,
+                })
+              }
+            >
+              <Icon type="message" />
+              Transcribe
+            </Button>
+          </div>
+        )
+      }
+    }
+  }
 
-  //           justifyItems: "center",
-  //           alignItems: "center",
-  //           alignContent: "center",
-  //           gridTemplateRows: "auto auto auto auto",
-  //           borderRadius: "6px",
-  //           backgroundColor: "#fafafa",
-  //           padding: "1rem",
-  //         }}
-  //       >
-  //         <>
-  //           <Steps style={{ padding: "1rem" }}>
-  //             <Step
-  //               status={clip.conversionComplete ? "finish" : "process"}
-  //               title="Converting"
-  //               icon={
-  //                 clip.conversionComplete ? (
-  //                   <Icon
-  //                     type="check-circle"
-  //                     theme="twoTone"
-  //                     twoToneColor="#52c41a"
-  //                   />
-  //                 ) : (
-  //                   <Icon active type="loading" />
-  //                 )
-  //               }
-  //             />
-  //             <Step
-  //               status={clip.operationId ? "process" : "wait"}
-  //               title="Transcribing"
-  //               icon={
-  //                 clip.conversionComplete ? (
-  //                   <Icon active type="loading" />
-  //                 ) : (
-  //                   <Icon type="message" />
-  //                 )
-  //               }
-  //             />
+  const maybeShowTranscribingLoadingState = () => {
+    if (!clip.words.length && clip.conversionJobId)
+      return (
+        <div
+          style={{
+            display: "grid",
+            gridArea: "words",
+            height: "100%",
 
-  //             <Step title="Done" icon={<Icon type="smile-o" />} />
-  //           </Steps>
-  //           {clip.operationId ? (
-  //             <Progress
-  //               // strokeWidth={100}
-  //               style={{ padding: ".25rem", marginRight: "-8px" }}
-  //               percent={clip.progressPercent || 1}
-  //               status="active"
-  //             />
-  //           ) : null}
-  //         </>
-  //       </div>
-  //     )
-  // }
+            justifyItems: "center",
+            alignItems: "center",
+            alignContent: "center",
+            gridTemplateRows: "auto auto auto auto",
+            borderRadius: "6px",
+            backgroundColor: "#fafafa",
+            padding: "1rem",
+          }}
+        >
+          <>
+            <Steps style={{ padding: "1rem" }}>
+              <Step
+                status={clip.conversionComplete ? "finish" : "process"}
+                title="Converting"
+                icon={
+                  clip.conversionComplete ? (
+                    <Icon
+                      type="check-circle"
+                      theme="twoTone"
+                      twoToneColor="#52c41a"
+                    />
+                  ) : (
+                    <Icon active type="loading" />
+                  )
+                }
+              />
+              <Step
+                status={clip.operationId ? "process" : "wait"}
+                title="Transcribing"
+                icon={
+                  clip.conversionComplete ? (
+                    <Icon active type="loading" />
+                  ) : (
+                    <Icon type="message" />
+                  )
+                }
+              />
 
-  // const navigateToWord = word => {
-  //   let wordIndex = clip.words.indexOf(word) + 1
+              <Step title="Done" icon={<Icon type="smile-o" />} />
+            </Steps>
+            {clip.operationId ? (
+              <Progress
+                style={{ padding: ".25rem", marginRight: "-8px" }}
+                percent={clip.progressPercent || 1}
+                status="active"
+              />
+            ) : null}
+          </>
+        </div>
+      )
+  }
 
-  //   let pageNumber = Math.floor(wordIndex / clip.wordPageSize)
+  const navigateToWord = word => {
+    let wordIndex = clip.words.indexOf(word) + 1
 
-  //   setWordData({
-  //     ...wordData,
-  //     currentPageIndex: pageNumber,
-  //     selectedWord: word,
-  //   })
-  // }
+    let pageNumber = Math.floor(wordIndex / clip.wordPageSize)
+
+    setClip({
+      ...clip,
+      currentPageIndex: pageNumber,
+      selectedWord: word,
+    })
+  }
 
   if (!clip || clip.loading) {
     return (
@@ -472,9 +455,9 @@ function Clip(props) {
 
           {maybeShowWordsParagraph()}
 
-          {/* {maybeShowTranscribeButtton()} */}
+          {maybeShowTranscribeButtton()}
 
-          {/* {maybeShowTranscribingLoadingState()} */}
+          {maybeShowTranscribingLoadingState()}
 
           <Pagination
             style={{
@@ -495,7 +478,7 @@ function Clip(props) {
               setClip({ ...clip, wordPageSize: num })
             }
             total={clip.words.length}
-            pageSize={clip.wordPageSize}
+            pageSize={clip.wordPageSize || 200}
             hideOnSinglePage
           />
         </ClipContainer>
@@ -508,40 +491,24 @@ function Clip(props) {
         />
 
         <SearchClipDrawer
-          // searchData={searchData}
-          // searching={searching}
-          // navigateToWord={navigateToWord}
+          navigateToWord={navigateToWord}
           setPlayerControls={setPlayerControls}
-          // wordData={wordData}
-          // setSearchData={setSearchData}
+          clip={clip}
+          setClip={setClip}
           playerControls={playerControls}
           player={player}
         />
 
-        {/* <EditWordDrawer
-          // wordData={wordData}
-          setClip={setClip}
-          clip={clip}
-          // setWordData={setWordData}
-        /> */}
+        <EditWordDrawer setClip={setClip} clip={clip} />
 
-        {/* <TranscriptionModal
+        <TranscriptionModal
           convertClip={convertClip}
           clip={clip}
-          transcribeData={transcribeData}
-          setTranscribeData={setTranscribeData}
-        /> */}
+          setClip={setClip}
+        />
 
-        {/* <CitationModal
-          citationModalOpen={citationModalOpen}
-          setCitationModalOpen={setCitationModalOpen}
-          clip={clip}
-        /> */}
-        {/* <WordCitationModal
-          clip={clip}
-          // wordData={wordData}
-          // setWordData={setWordData}
-        /> */}
+        <CitationModal setClip={setClip} clip={clip} />
+        <WordCitationModal clip={clip} setClip={setClip} />
       </>
     )
   }

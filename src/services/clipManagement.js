@@ -29,7 +29,7 @@ export const deleteClip = async clipId => {
 }
 
 export const updateClip = async (clip, appState, setAppState, setClip) => {
-  setClip({ ...clip, saving: true })
+  setClip({ ...clip, clipSaving: true })
 
   try {
     let res = await fetch(API_URL + "/clips/" + clip._id, {
@@ -46,11 +46,11 @@ export const updateClip = async (clip, appState, setAppState, setClip) => {
 
     openNotificationWithIcon("success", `Changes saved`)
     let filteredClips = appState.clips.filter(c => c._id !== clip._id)
-
+    setClip({ ...clip, clipSaving: false })
     setAppState({ ...appState, clips: [...filteredClips, res] })
   } catch (error) {
     console.log(error)
-    setClip({ ...clip, saving: false })
+    setClip({ ...clip, saving: false, editClipDrawerOpen: false })
   }
 }
 
@@ -69,7 +69,12 @@ export const getClip = async (_id, clip, setClip) => {
     })
     // if (!res.ok) throw new Error("Something went wrong")
     res = await res.json()
-    setClip({ ...clip, ...res })
+    setClip({
+      currentPageIndex: 0,
+      currentPageSize: 200,
+      ...res,
+      loading: false,
+    })
     console.log(res) // parses JSON response into native JavaScript objects
     return res
     // const wordPages = splitWordsIntoPages(res.words, 200)

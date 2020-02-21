@@ -35,12 +35,11 @@ const WordContainer = styled.span`
 function Word(props) {
   const {
     word,
-    appState,
-    setAppState,
     player,
     playerControls,
     setPlayerControls,
     clip,
+    setClip,
   } = props
 
   const [deleting, setDeleting] = useState(false)
@@ -56,9 +55,7 @@ function Word(props) {
 
   const wordOptions = () => (
     <Menu>
-      <Menu.Item
-        onClick={() => setAppState({ ...appState, selectedWord: word })}
-      >
+      <Menu.Item onClick={() => setClip({ ...clip, selectedWord: word })}>
         <Popconfirm
           title="Are you sure delete this word?"
           onConfirm={e => deleteWordHandler(e)}
@@ -71,8 +68,8 @@ function Word(props) {
       </Menu.Item>
       <Menu.Item
         onClick={() =>
-          setAppState({
-            ...appState,
+          setClip({
+            ...clip,
             selectedWord: word,
             editWordDrawerOpen: true,
           })
@@ -81,44 +78,42 @@ function Word(props) {
         <Icon type="edit" />
         Edit
       </Menu.Item>
-      {/* <Menu.Item
+      <Menu.Item
         onClick={() =>
-          setWordData({
-            ...wordData,
-            selectedWord: word,
-            editing: true,
-            inserting: 0,
+          setClip({
+            ...clip,
+            selectedWord: { ...word, inserting: 0 },
+            editWordDrawerOpen: true,
           })
         }
       >
         <Icon type="arrow-left" />
         <Icon type="plus-circle" /> Insert Before
-      </Menu.Item> */}
-      {/* <Menu.Item
+      </Menu.Item>
+      <Menu.Item
         onClick={() =>
-          setWordData({
-            ...wordData,
-            selectedWord: word,
-            editing: true,
-            inserting: 1,
+          setClip({
+            ...clip,
+            selectedWord: { ...word, inserting: 1 },
+            editWordDrawerOpen: true,
           })
         }
       >
         <Icon type="arrow-right" />
         <Icon type="plus-circle" /> Insert After
-      </Menu.Item> */}
-      {/* <Menu.Item
+      </Menu.Item>
+      <Menu.Item
         onClick={() =>
-          setWordData({
-            ...wordData,
+          setClip({
+            ...clip,
             selectedWord: word,
-            citing: true,
+            wordCitationModalOpen: true,
           })
         }
       >
         <Icon type="snippets" />
         Cite
-      </Menu.Item> */}
+      </Menu.Item>
     </Menu>
   )
 
@@ -161,8 +156,8 @@ function Word(props) {
             style={{ cursor: "pointer" }}
             deleting={deleting}
             word={word}
-            selectedWord={appState.selectedWord}
-            onClick={() => setAppState({ ...appState, selectedWord: word })}
+            selectedWord={clip.selectedWord}
+            onClick={() => setClip({ ...clip, selectedWord: word })}
           >
             {word.word}
           </WordContainer>{" "}

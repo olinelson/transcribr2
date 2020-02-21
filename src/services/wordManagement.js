@@ -10,9 +10,9 @@ export const splitWordsIntoPages = (_words, pageSize = 200) => {
   return wordPages
 }
 
-export const editWord = async ({ wordData, newWordValue, clip, setClip }) => {
+export const editWord = async ({ newWordValue, clip, setClip }) => {
   let clipId = clip._id
-  let wordId = wordData.selectedWord._id
+  let wordId = clip.selectedWord._id
   try {
     let res = await fetch(API_URL + "/words", {
       method: "PATCH",
@@ -28,12 +28,13 @@ export const editWord = async ({ wordData, newWordValue, clip, setClip }) => {
     res = await res.json() // parses JSON response into native JavaScript objects
 
     let newWords = [...clip.words]
-    let index = newWords.indexOf(wordData.selectedWord)
+    let index = newWords.indexOf(clip.selectedWord)
     newWords.splice(index, 1, res)
 
     setClip({
       ...clip,
       words: newWords,
+      editWordDrawerOpen: false,
     })
     openNotificationWithIcon("success", `Changes saved`)
   } catch (error) {
@@ -97,7 +98,6 @@ export const deleteWord = async ({
     let newWords = [...clip.words]
     newWords.splice(index, 1)
 
-    updateClipInProfile({ ...clip, words: newWords })
     setClip({ ...clip, words: newWords })
     openNotificationWithIcon("success", `Word Deleted`)
   } catch (error) {
