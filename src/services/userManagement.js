@@ -18,6 +18,11 @@ export const getUserProfileAndSet = async (appState, setAppState) => {
     res = await res.json() // parses JSON response into native JavaScript objects
     const user = res.user
     const clips = res.clips
+    let oldEmail = appState.user.email
+    let newEmail = res.user.email
+    if (oldEmail.length && oldEmail !== newEmail) {
+      openNotificationWithIcon("success", "Email updated!")
+    }
 
     return setAppState({ ...appState, clips, user })
   } catch (error) {

@@ -113,7 +113,7 @@ function App(props) {
 
           <ForgotPassowordForm path="/app/forgot" />
           <ResetPasswordForm path="/app/reset_password" />
-          <ChangeEmailForm path="/app/change_email" />
+          {/* <ChangeEmailForm path="/app/change_email" /> */}
         </Router>
       </div>
 
