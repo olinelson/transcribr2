@@ -19,8 +19,8 @@ class SignUp extends React.Component {
       if (!err) {
         const signedUp = await handleSignup(values)
         if (signedUp) {
-          openNotificationWithIcon("success", "Logged In!")
-          navigate(`/app/profile`)
+          openNotificationWithIcon("success", "Welcome to Transcribr!")
+          navigate(`/app`)
         } else {
           openNotificationWithIcon(
             "error",
@@ -107,7 +107,7 @@ class SignUp extends React.Component {
               >
                 Sign Up
               </Button>
-              Or <Link to="/app/login">Log in</Link>
+              Or <Link to="/login">Log in</Link>
             </Form.Item>
           </Form>
         </div>

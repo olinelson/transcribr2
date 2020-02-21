@@ -70,7 +70,7 @@ class ForgotPassword extends React.Component {
               >
                 Email Link
               </Button>
-              Or <Link to="/app/login">Log in</Link>
+              Or <Link to="/login">Log in</Link>
             </Form.Item>
           </Form>
         </div>

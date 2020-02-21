@@ -105,9 +105,9 @@ function Navbar(props) {
         ) : (
           <Menu.Item
             style={{ justifySelf: "end" }}
-            key="/app/login"
+            key="/login"
             href="/"
-            onClick={() => navigate("/app/login")}
+            onClick={() => navigate("/login")}
           >
             <Icon type="login" />
             {/* Login */}

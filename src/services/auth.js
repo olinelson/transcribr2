@@ -6,11 +6,12 @@ export const getToken = () =>
   isBrowser() && window.localStorage.getItem("token")
     ? window.localStorage.getItem("token")
     : null
-export const getUser = () => {
-  if (isBrowser() && window.localStorage.getItem("user")) {
-    const user = JSON.parse(window.localStorage.getItem("user"))
 
-    return user
+export const getUser = () => {
+  if (isBrowser() && window.localStorage.getItem("appState")) {
+    const appState = JSON.parse(window.localStorage.getItem("appState"))
+
+    return appState.user
   }
   return null
 }
@@ -21,7 +22,7 @@ const setUserAndToken = res => {
 
   window.localStorage.setItem(
     "appState",
-    JSON.stringify({ user: res.user, clips: [] })
+    JSON.stringify({ user: res.user, clips: res.clips })
   )
 }
 
@@ -39,6 +40,7 @@ export const handleLogin = async ({ email, password }) => {
     })
 
     res = await res.json() // parses JSON response into native JavaScript objects
+    console.log(res)
     await setUserAndToken(res)
     return true
   } catch (error) {

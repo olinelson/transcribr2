@@ -3,7 +3,7 @@ import Layout from "../components/layout"
 import { Router } from "@reach/router"
 import { navigate } from "gatsby"
 import PrivateRoute from "../components/privateRoute"
-import Login from "../components/Login"
+// import Login from "../components/Login"
 import Clip from "../components/Clip"
 import Clips from "../components/Clips"
 import SignUpForm from "../components/SignUpForm"
@@ -119,21 +119,19 @@ function App(props) {
             // removeClipFromSideBar={e => removeClipFromSideBar(e)}
             // updateClipInProfile={e => updateClipInProfile(e)}
           />
-          {/* <PrivateRoute
+          <PrivateRoute
             path="/app/upload"
             component={UploadClip}
-            setUploading={e => setUploading(e)}
-            addClip={addClip}
+            appState={appState}
+            setAppState={setAppState}
           />
 
           <PrivateRoute
             path="/app/clips"
             component={Clips}
-            userProfile={userProfile}
-          /> */}
+            appState={appState}
+          />
 
-          <Login path="/app/login" />
-          <SignUpForm path="/app/signup" />
           <ForgotPassowordForm path="/app/forgot" />
           <ResetPasswordForm path="/app/reset_password" />
           <ChangeEmailForm path="/app/change_email" />

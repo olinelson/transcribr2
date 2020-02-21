@@ -53,11 +53,11 @@ export default function IndexPage() {
 
         {isLoggedIn() ? null : (
           <div>
-            <Link style={{ color: "#1890FF" }} to={"/app/login"}>
+            <Link style={{ color: "#1890FF" }} to={"/login"}>
               Login
             </Link>
             <Divider type="vertical" style={{ background: "orange" }} />
-            <Link style={{ color: "#1890FF" }} to={"/app/signup"}>
+            <Link style={{ color: "#1890FF" }} to={"/signup"}>
               Signup
             </Link>
           </div>

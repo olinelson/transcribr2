@@ -27,7 +27,7 @@ class ResetPassword extends React.Component {
 
         if (sent) {
           openNotificationWithIcon("success", "Password reset, logging you  in")
-          navigate(`/app/profile`)
+          navigate(`/app`)
         } else {
           openNotificationWithIcon("error", "Sorry, something went wrong")
         }
@@ -37,7 +37,6 @@ class ResetPassword extends React.Component {
   }
 
   render() {
-   
     const { getFieldDecorator } = this.props.form
     return (
       <Layout>
@@ -78,7 +77,7 @@ class ResetPassword extends React.Component {
               >
                 Reset
               </Button>
-              Or <Link to="/app/login">Log in</Link>
+              Or <Link to="/login">Log in</Link>
             </Form.Item>
           </Form>
         </div>

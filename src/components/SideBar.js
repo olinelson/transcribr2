@@ -42,7 +42,7 @@ function SideBar({ appState, setAppState }) {
         inlineCollapsed={viewWidth < 800 ? true : false}
         mode="inline"
         style={{ height: "100%" }}
-        defaultOpenKeys={["clip"]}
+        // defaultOpenKeys={["clip"]}
         selectedKeys={window ? [window.location.pathname] : ["/app"]}
       >
         <Menu.Item key="/app" onClick={() => navigate("/app")}>

@@ -1,5 +1,5 @@
 import React from "react"
-import { Drawer, Menu } from "antd"
+import { Drawer, List, Button } from "antd"
 import { navigate } from "gatsby"
 import { sortClipsChronologically } from "../utils"
 import { getUser, isLoggedIn } from "../services/auth"
@@ -9,37 +9,36 @@ export default function Clips(props) {
 
   // const user = getUser()
 
-  const clips = props.userProfile.clips
+  const clips = props.appState.clips
 
   return (
-    <Menu
-      style={{
-        maxWidth: "85vw",
-        // maxHeight: "70vh",
-        borderRight: "none",
-        // display: "flex",
-        overflow: "scroll",
-        WebkitOverflowScrolling: "touch",
-        flexDirection: "column",
-      }}
+    <List
+      size="large"
+      itemLayout="horizontal"
+      header={<h1 style={{ marginLeft: "1rem" }}>Clips</h1>}
     >
       {clips.length ? (
         clips.sort(sortClipsChronologically).map(c => (
-          <Menu.Item
-            onClick={() => {
-              navigate(`app/profile?view=clip&id=${c._id}`)
-              props.setClipDrawerOpen(false)
-            }}
-            key={c._id}
-          >
-            <span>{c.name}</span>
-          </Menu.Item>
+          <List.Item>
+            <List.Item.Meta
+              title={
+                <Button
+                  type="link"
+                  onClick={() => {
+                    navigate(`app/clips/${c._id}`)
+                  }}
+                >
+                  {c.name}
+                </Button>
+              }
+            />
+          </List.Item>
         ))
       ) : (
-        <Menu.Item disabled>
+        <List.Item disabled>
           <span>no clips yet...</span>
-        </Menu.Item>
+        </List.Item>
       )}
-    </Menu>
+    </List>
   )
 }
