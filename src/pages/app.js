@@ -1,12 +1,10 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useRef } from "react"
 import Layout from "../components/layout"
 import { Router } from "@reach/router"
-import { navigate } from "gatsby"
 import PrivateRoute from "../components/privateRoute"
 // import Login from "../components/Login"
 import Clip from "../components/Clip"
 import Clips from "../components/Clips"
-import SignUpForm from "../components/SignUpForm"
 import ForgotPassowordForm from "../components/ForgotPasswordForm"
 import ResetPasswordForm from "../components/ResetPasswordForm"
 import ChangeEmailForm from "../components/ChangeEmailForm"
@@ -17,16 +15,12 @@ import openSocket from "socket.io-client"
 import { API_URL } from "../config"
 import WithLocation from "../components/WithLocation"
 import { isLoggedIn } from "../services/auth"
-import { Drawer, Menu } from "antd"
+import { Drawer } from "antd"
 import UploadClip from "../components/UploadClip"
-import {
-  sortClipsChronologically,
-  useStateWithLocalStorageJSON,
-} from "../utils"
+import { useStateWithLocalStorageJSON } from "../utils"
 import SideBar from "../components/SideBar"
 import UserDetails from "../components/UserDetails"
 
-// I think I should push more logic here...
 function App(props) {
   const [appState, setAppState] = useStateWithLocalStorageJSON("appState", {
     user: {},
@@ -70,19 +64,6 @@ function App(props) {
   const notificationHandler = notification => {
     openNotificationWithIcon("success", notification.message)
   }
-  // const addClip = clip => {
-  //   setUserProfile({ ...userProfile, clips: [...userProfile.clips, clip] })
-  // }
-
-  // const removeClipFromSideBar = async clipId => {
-  //   let filteredClips = { ...userProfile }.clips.filter(c => c._id !== clipId)
-  //   setUserProfile({ ...userProfile, clips: filteredClips })
-  // }
-
-  // const updateClipInProfile = clip => {
-  //   let filteredClips = { ...userProfile }.clips.filter(c => c._id !== clip._id)
-  //   setUserProfile({ ...userProfile, clips: [...filteredClips, clip] })
-  // }
 
   return (
     <Layout
@@ -116,8 +97,6 @@ function App(props) {
             component={Clip}
             appState={appState}
             setAppState={setAppState}
-            // removeClipFromSideBar={e => removeClipFromSideBar(e)}
-            // updateClipInProfile={e => updateClipInProfile(e)}
           />
           <PrivateRoute
             path="/app/upload"
@@ -148,40 +127,6 @@ function App(props) {
       >
         <UploadClip appState={appState} setAppState={setAppState} />
       </Drawer>
-
-      {/* <Drawer
-        width={"auto"}
-        placement="right"
-        title="Clips"
-        height="auto"
-        onClose={() => setClipDrawerOpen(false)}
-        visible={clipDrawerOpen}
-      >
-        <Menu
-          style={{
-            maxWidth: "85vw",
-            maxHeight: "70vh",
-            borderRight: "none",
-            overflow: "scroll",
-            webkitOverflowScrolling: "touch",
-            flexDirection: "column",
-          }}
-        >
-          {appState.clips
-            ? appState.clips.sort(sortClipsChronologically).map(c => (
-                <Menu.Item
-                  onClick={() => {
-                    navigate(`app/profile?view=clip&id=${c._id}`)
-                    setClipDrawerOpen(false)
-                  }}
-                  key={c._id}
-                >
-                  <span>{c.name}</span>
-                </Menu.Item>
-              ))
-            : null}
-        </Menu>
-      </Drawer> */}
     </Layout>
   )
 }

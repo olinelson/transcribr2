@@ -117,7 +117,8 @@ function Clip(props) {
 
   const deleteClipHandler = async () => {
     setClip({ ...clip, loading: true })
-    if (true) {
+    const success = await deleteClip(clip._id)
+    if (success) {
       let clips = appState.clips.filter(c => c._id !== clip._id)
 
       setAppState({
@@ -336,7 +337,6 @@ function Clip(props) {
       )
     }
   }
-
 
   const maybeShowTranscribeButtton = () => {
     if (!clip.words || !clip.words.length) {
