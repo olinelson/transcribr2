@@ -3,22 +3,13 @@ import React from "react"
 import { Drawer, Input, Button, Form } from "antd"
 
 import { editWord, insertWord } from "../services/wordManagement"
-
+import { findIndexOfWord } from "../utils"
 function EditWordDrawer(props) {
   const { clip, setClip } = props
   let inserting = false
 
   if (clip.selectedWord && clip.selectedWord.inserting > -1) {
     inserting = clip.selectedWord.inserting
-  }
-
-  function findIndexOfWord(obj, arr) {
-    let i = 0
-    for (let o of arr) {
-      if (o._id === obj._id) return i
-      i++
-    }
-    return -1
   }
 
   const insertOrEditWord = ({ e }) => {

@@ -8,7 +8,7 @@ import { splitWordsIntoPages } from "../services/wordManagement"
 
 import openSocket from "socket.io-client"
 import ReactPlayer from "react-player"
-import { formatTimeStamp } from "../utils"
+import { formatTimeStamp, findIndexOfWord } from "../utils"
 
 import FileSaver from "file-saver"
 
@@ -318,10 +318,12 @@ function Clip(props) {
   const maybeShowWordsParagraph = () => {
     if (clip.words.length) {
       let wordPages = splitWordsIntoPages(clip.words, clip.wordPageSize)
+      let currentPageIndex = clip.currentPageIndex || 0
+
       return (
         <WordsContainer style={{ gridArea: "words" }}>
           <p>
-            {wordPages[clip.currentPageIndex].map(w => (
+            {wordPages[currentPageIndex].map(w => (
               <Word
                 key={w._id}
                 word={w}
@@ -424,10 +426,9 @@ function Clip(props) {
   }
 
   const navigateToWord = word => {
-    let wordIndex = clip.words.indexOf(word) + 1
-
-    let pageNumber = Math.floor(wordIndex / clip.wordPageSize)
-
+    let wordIndex = findIndexOfWord(word, clip.words)
+    let wordPageSize = clip.wordPageSize || 200
+    let pageNumber = Math.floor(wordIndex / wordPageSize)
     setClip({
       ...clip,
       currentPageIndex: pageNumber,

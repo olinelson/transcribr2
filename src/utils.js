@@ -33,3 +33,12 @@ export const useStateWithLocalStorageJSON = (localStorageKey, defaultState) => {
   }, [value])
   return [value, setValue]
 }
+
+export function findIndexOfWord(obj, arr) {
+  let i = 0
+  for (let o of arr) {
+    if (o._id === obj._id) return i
+    i++
+  }
+  return -1
+}

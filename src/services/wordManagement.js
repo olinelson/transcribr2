@@ -1,6 +1,7 @@
 import { API_URL } from "../config"
 import { openNotificationWithIcon } from "../components/Notifications"
 import { getToken } from "../services/auth"
+import { findIndexOfWord } from "../utils"
 
 export const splitWordsIntoPages = (_words, pageSize = 200) => {
   let words = [..._words]
@@ -28,7 +29,7 @@ export const editWord = async ({ newWordValue, clip, setClip }) => {
     res = await res.json() // parses JSON response into native JavaScript objects
 
     let newWords = [...clip.words]
-    let index = newWords.indexOf(clip.selectedWord)
+    let index = findIndexOfWord(clip.selectedWord, clip.words)
     newWords.splice(index, 1, res)
 
     setClip({

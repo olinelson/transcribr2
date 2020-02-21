@@ -4,7 +4,7 @@ import { Popover, Icon, Tag, Dropdown, Menu, Popconfirm, Button } from "antd"
 
 import { deleteWord } from "../services/wordManagement"
 
-import { formatTimeStamp } from "../utils"
+import { formatTimeStamp, findIndexOfWord } from "../utils"
 
 import styled, { keyframes } from "styled-components"
 import ButtonGroup from "antd/lib/button/button-group"
@@ -49,7 +49,7 @@ function Word(props) {
     setDeleting(true)
     deleteWord({
       ...props,
-      index: clip.words.indexOf(word),
+      index: findIndexOfWord(word, clip.words),
     })
   }
 
