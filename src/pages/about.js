@@ -2,7 +2,6 @@ import React from "react"
 import { Icon, Tag, Button } from "antd"
 import { useStaticQuery, graphql, navigate } from "gatsby"
 import Img from "gatsby-image"
-import Layout from "../components/layout"
 import styled from "styled-components"
 import NavBar from "../components/nav-bar"
 
@@ -24,13 +23,13 @@ export default function About() {
   const Banner = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
-    // font-size: 4rem;
     justify-items: center;
     justify-content: center;
     align-items: center;
     grid-gap: 1rem;
     min-height: 40vh;
     max-width: 50rem;
+    margin: 1rem;
     h1 {
       font-size: 3rem;
       margin-bottom: 0;
@@ -38,7 +37,7 @@ export default function About() {
   `
 
   return (
-    <>
+    <div>
       <NavBar />
 
       <div
@@ -201,6 +200,6 @@ export default function About() {
           <Icon type="snippets" style={{ fontSize: "8rem", color: "orange" }} />
         </Banner>
       </div>
-    </>
+    </div>
   )
 }
