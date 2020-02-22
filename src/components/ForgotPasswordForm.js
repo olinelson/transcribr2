@@ -32,49 +32,32 @@ class ForgotPassword extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form
     return (
-      <Layout>
-        <div
-          style={{
-            display: "grid",
-            alignItems: "center",
-            justifyItems: "center",
-            height: "100%",
-            gridColumn: "1/-1",
-            gridRow: "2",
-          }}
-        >
-          <Form onSubmit={this.handleSubmit} className="login-form">
-            <h1>Reset Password</h1>
-            <Form.Item>
-              {getFieldDecorator("email", {
-                rules: [
-                  { required: true, message: "Please input your email!" },
-                ],
-              })(
-                <Input
-                  type="email"
-                  prefix={
-                    <Icon type="mail" style={{ color: "rgba(0,0,0,.25)" }} />
-                  }
-                  placeholder="Email"
-                />
-              )}
-            </Form.Item>
+      <Form onSubmit={this.handleSubmit} className="login-form">
+        <h1>Reset Password</h1>
+        <Form.Item>
+          {getFieldDecorator("email", {
+            rules: [{ required: true, message: "Please input your email!" }],
+          })(
+            <Input
+              type="email"
+              prefix={<Icon type="mail" style={{ color: "rgba(0,0,0,.25)" }} />}
+              placeholder="Email"
+            />
+          )}
+        </Form.Item>
 
-            <Form.Item>
-              <Button
-                type="primary"
-                htmlType="submit"
-                className="login-form-button"
-                loading={this.state.loading}
-              >
-                Email Link
-              </Button>
-              Or <Link to="/login">Log in</Link>
-            </Form.Item>
-          </Form>
-        </div>
-      </Layout>
+        <Form.Item>
+          <Button
+            type="primary"
+            htmlType="submit"
+            className="login-form-button"
+            loading={this.state.loading}
+          >
+            Email Link
+          </Button>
+          Or <Link to="/login">Log in</Link>
+        </Form.Item>
+      </Form>
     )
   }
 }

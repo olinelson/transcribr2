@@ -1,6 +1,5 @@
 import { API_URL } from "../config"
 import { getToken } from "./auth"
-import { navigate } from "gatsby"
 import { openNotificationWithIcon } from "../components/Notifications"
 
 export const getUserProfileAndSet = async (appState, setAppState) => {

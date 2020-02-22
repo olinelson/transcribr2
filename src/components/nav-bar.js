@@ -4,11 +4,13 @@ import { isLoggedIn, logout } from "../services/auth"
 import { Menu } from "./MyStyledComponents"
 import WithLocation from "./WithLocation"
 
+import { API_URL } from "../config"
+
 import { isBrowser } from "../services/auth"
 
 import queryString from "query-string"
 
-import { Icon } from "antd"
+import { Icon, Alert } from "antd"
 
 import { FixedMenuDiv } from "./MyStyledComponents"
 

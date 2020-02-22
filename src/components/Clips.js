@@ -1,14 +1,9 @@
 import React from "react"
-import { Drawer, List, Button } from "antd"
+import { List, Button } from "antd"
 import { navigate } from "gatsby"
 import { sortClipsChronologically } from "../utils"
-import { getUser, isLoggedIn } from "../services/auth"
 
 export default function Clips(props) {
-  // if (!isLoggedIn()) return null
-
-  // const user = getUser()
-
   const clips = props.appState.clips
 
   return (

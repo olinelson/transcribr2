@@ -60,7 +60,7 @@ class Login extends React.Component {
             valuePropName: "checked",
             initialValue: true,
           })(<Checkbox>Remember me</Checkbox>)}
-          <Link className="login-form-forgot" to="/app/forgot">
+          <Link className="login-form-forgot" to="/forgot">
             Forgot password
           </Link>
           <Button

@@ -2,12 +2,10 @@ import React, { useEffect, useRef } from "react"
 import Layout from "../components/layout"
 import { Router } from "@reach/router"
 import PrivateRoute from "../components/privateRoute"
-// import Login from "../components/Login"
+
 import Clip from "../components/Clip"
 import Clips from "../components/Clips"
-import ForgotPassowordForm from "../components/ForgotPasswordForm"
-import ResetPasswordForm from "../components/ResetPasswordForm"
-import ChangeEmailForm from "../components/ChangeEmailForm"
+
 import { openNotificationWithIcon } from "../components/Notifications"
 import { getUserProfileAndSet } from "../services/userManagement"
 import { getToken } from "../services/auth"
@@ -110,10 +108,6 @@ function App(props) {
             component={Clips}
             appState={appState}
           />
-
-          <ForgotPassowordForm path="/app/forgot" />
-          <ResetPasswordForm path="/app/reset_password" />
-          {/* <ChangeEmailForm path="/app/change_email" /> */}
         </Router>
       </div>
 

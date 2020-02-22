@@ -18,7 +18,6 @@ export const getUser = () => {
 
 const setUserAndToken = res => {
   window.localStorage.setItem("token", "Bearer " + res.token)
-  const user = res.user
 
   window.localStorage.setItem(
     "appState",
