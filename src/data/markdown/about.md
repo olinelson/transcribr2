@@ -2,6 +2,12 @@
 title: "about"
 ---
 
-#About
+#A way to transcribe all you video and audio files
 
-This is the about page how exciting...
+#Upload
+
+#Transcribe
+
+#Search
+
+#Cite
