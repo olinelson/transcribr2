@@ -4,6 +4,7 @@ import { useStaticQuery, graphql, navigate } from "gatsby"
 import Img from "gatsby-image"
 import Layout from "../components/layout"
 import styled from "styled-components"
+import NavBar from "../components/nav-bar"
 
 export default function About() {
   const data = useStaticQuery(graphql`
@@ -38,25 +39,13 @@ export default function About() {
 
   return (
     <>
-      {/* <div
-        style={{
-          gridColumn: "1/-1",
-          gridRow: "2",
-          padding: "1rem",
-        }}
-        dangerouslySetInnerHTML={{
-          __html: data.allMarkdownRemark.edges[0].node.html,
-        }}
-      ></div> */}
+      <NavBar />
 
       <div
         style={{
           minHeight: "80vh",
-          // width: "100vw",
           background: "#001529",
           display: "grid",
-
-          // gridGap: "1rem",
         }}
       >
         <div
@@ -92,141 +81,126 @@ export default function About() {
         </div>
       </div>
 
-      <Layout>
-        <div
-          style={{
-            marginTop: "-1rem",
-            gridColumn: "1/-1",
-            gridRow: "2",
-            display: "grid",
-            alignSelf: "center",
-            justifyContent: "center",
-            justifyItems: "center",
-            justifySelf: "center",
-            width: "100%",
-            // maxWidth: "50rem",
-            gridGap: "4rem",
-          }}
-        >
-          <Banner>
-            <Icon
-              // theme="twoTone"
-              // twoToneColor="#52c41a"
-              type="cloud-upload"
-              style={{ fontSize: "10rem", color: "#1890FF" }}
-            />
-            <div style={{ width: "100%" }}>
-              <h1>Upload</h1>
-              <p>Instantly upload almost any kind of audio or video file.</p>
-              <p>
-                <Tag color="blue">AAC</Tag>
-                <Tag color="blue">AC3</Tag>
-                <Tag color="blue">AIF</Tag>
-                <Tag color="blue">AIFC</Tag>
-                <Tag color="blue">AIFF</Tag>
-                <Tag color="blue">AMR</Tag>
-                <Tag color="blue">AU</Tag>
-                <Tag color="blue">CAF</Tag>
-                <Tag color="blue">FLAC</Tag>
-                <Tag color="blue">M4A</Tag>
-                <Tag color="blue">M4B</Tag>
-                <Tag color="blue">MP3</Tag>
-                <Tag color="blue">OGA</Tag>
-                <Tag color="blue">SFARK</Tag>
-                <Tag color="blue">VOC</Tag>
-                <Tag color="blue">WAV</Tag>
-                <Tag color="blue">WEBA</Tag>
-                <Tag color="blue">WMA</Tag>
+      <div
+        style={{
+          gridColumn: "1/-1",
+          gridRow: "2",
+          display: "grid",
+          alignSelf: "center",
+          justifyContent: "center",
+          justifyItems: "center",
+          justifySelf: "center",
+          width: "100%",
+          gridGap: "4rem",
+        }}
+      >
+        <Banner>
+          <Icon
+            type="cloud-upload"
+            style={{ fontSize: "10rem", color: "#1890FF" }}
+          />
+          <div style={{ width: "100%" }}>
+            <h1>Upload</h1>
+            <p>Instantly upload almost any kind of audio or video file.</p>
+            <p>
+              <Tag color="blue">AAC</Tag>
+              <Tag color="blue">AC3</Tag>
+              <Tag color="blue">AIF</Tag>
+              <Tag color="blue">AIFC</Tag>
+              <Tag color="blue">AIFF</Tag>
+              <Tag color="blue">AMR</Tag>
+              <Tag color="blue">AU</Tag>
+              <Tag color="blue">CAF</Tag>
+              <Tag color="blue">FLAC</Tag>
+              <Tag color="blue">M4A</Tag>
+              <Tag color="blue">M4B</Tag>
+              <Tag color="blue">MP3</Tag>
+              <Tag color="blue">OGA</Tag>
+              <Tag color="blue">SFARK</Tag>
+              <Tag color="blue">VOC</Tag>
+              <Tag color="blue">WAV</Tag>
+              <Tag color="blue">WEBA</Tag>
+              <Tag color="blue">WMA</Tag>
 
-                {/* VIDEO */}
+              {/* VIDEO */}
 
-                <Tag color="orange">3G2</Tag>
-                <Tag color="orange">3GP</Tag>
-                <Tag color="orange">3GPP</Tag>
-                <Tag color="orange">AVI</Tag>
-                <Tag color="orange">CAVS</Tag>
-                <Tag color="orange">DV</Tag>
-                <Tag color="orange">DVR</Tag>
-                <Tag color="orange">FLV</Tag>
-                <Tag color="orange">M2TS</Tag>
-                <Tag color="orange">M4V</Tag>
-                <Tag color="orange">MKV</Tag>
-                <Tag color="orange">MOD</Tag>
-                <Tag color="orange">MOV</Tag>
-                <Tag color="orange">MP4</Tag>
-                <Tag color="orange">MPEG</Tag>
-                <Tag color="orange">MPG</Tag>
-                <Tag color="orange">MTS</Tag>
-                <Tag color="orange">MXF</Tag>
-                <Tag color="orange">OGG</Tag>
-                <Tag color="orange">RM</Tag>
-                <Tag color="orange">RMVB</Tag>
-                <Tag color="orange">SWF</Tag>
-                <Tag color="orange">TS</Tag>
-                <Tag color="orange">VOB</Tag>
-                <Tag color="orange">WEBM</Tag>
-                <Tag color="orange">MWV</Tag>
-                <Tag color="orange">WTV</Tag>
-              </p>
-            </div>
-          </Banner>
+              <Tag color="orange">3G2</Tag>
+              <Tag color="orange">3GP</Tag>
+              <Tag color="orange">3GPP</Tag>
+              <Tag color="orange">AVI</Tag>
+              <Tag color="orange">CAVS</Tag>
+              <Tag color="orange">DV</Tag>
+              <Tag color="orange">DVR</Tag>
+              <Tag color="orange">FLV</Tag>
+              <Tag color="orange">M2TS</Tag>
+              <Tag color="orange">M4V</Tag>
+              <Tag color="orange">MKV</Tag>
+              <Tag color="orange">MOD</Tag>
+              <Tag color="orange">MOV</Tag>
+              <Tag color="orange">MP4</Tag>
+              <Tag color="orange">MPEG</Tag>
+              <Tag color="orange">MPG</Tag>
+              <Tag color="orange">MTS</Tag>
+              <Tag color="orange">MXF</Tag>
+              <Tag color="orange">OGG</Tag>
+              <Tag color="orange">RM</Tag>
+              <Tag color="orange">RMVB</Tag>
+              <Tag color="orange">SWF</Tag>
+              <Tag color="orange">TS</Tag>
+              <Tag color="orange">VOB</Tag>
+              <Tag color="orange">WEBM</Tag>
+              <Tag color="orange">MWV</Tag>
+              <Tag color="orange">WTV</Tag>
+            </p>
+          </div>
+        </Banner>
 
-          <Banner>
-            <div style={{ width: "100%" }}>
-              <h1>Transcribe</h1>
-              <p>
-                Create a transcript from your video or audio file. Edit it here
-                or export it as a .txt or .word file.
-              </p>
-              <p>
-                <Tag color="blue">
-                  <Icon type="file-text" /> .txt
-                </Tag>
+        <Banner>
+          <div style={{ width: "100%" }}>
+            <h1>Transcribe</h1>
+            <p>
+              Create a transcript from your video or audio file. Edit it here or
+              export it as a .txt or .word file.
+            </p>
+            <p>
+              <Tag color="blue">
+                <Icon type="file-text" /> .txt
+              </Tag>
 
-                <Tag color="blue">
-                  <Icon type="file-word" /> .docx
-                </Tag>
-              </p>
-            </div>
-            <Icon
-              type="message"
-              style={{ fontSize: "8rem", color: "orange" }}
-            />
-          </Banner>
+              <Tag color="blue">
+                <Icon type="file-word" /> .docx
+              </Tag>
+            </p>
+          </div>
+          <Icon type="message" style={{ fontSize: "8rem", color: "orange" }} />
+        </Banner>
 
-          <Banner>
-            <Icon
-              type="search"
-              style={{ fontSize: "8rem", color: "#1890FF" }}
-            />
-            <div style={{ width: "100%" }}>
-              <h1>Search</h1>
-              <p>
-                Review an 3 hour long podcast in less than 5 minutes. Find
-                relevant keywords and find them instantly in the transcript.
-              </p>
-            </div>
-          </Banner>
+        <Banner>
+          <Icon type="search" style={{ fontSize: "8rem", color: "#1890FF" }} />
+          <div style={{ width: "100%" }}>
+            <h1>Search</h1>
+            <p>
+              Review an 3 hour long podcast in less than 5 minutes. Find
+              relevant keywords and find them instantly in the transcript.
+            </p>
+          </div>
+        </Banner>
 
-          <Banner>
-            <div style={{ width: "100%" }}>
-              <h1>Cite</h1>
-              <p>Create citations with your desired format</p>
-              <p>
-                <Tag color="blue">APA</Tag>
-                <Tag color="blue">MLA</Tag>
-                <Tag color="blue">Chicago</Tag>
-                <Tag color="blue">Vancouver</Tag>
-                <Tag color="blue">Harvard</Tag>
-              </p>
-            </div>
-            <Icon
-              type="snippets"
-              style={{ fontSize: "8rem", color: "orange" }}
-            />
-          </Banner>
-        </div>
-      </Layout>
+        <Banner>
+          <div style={{ width: "100%" }}>
+            <h1>Cite</h1>
+            <p>Create citations with your desired format</p>
+            <p>
+              <Tag color="blue">APA</Tag>
+              <Tag color="blue">MLA</Tag>
+              <Tag color="blue">Chicago</Tag>
+              <Tag color="blue">Vancouver</Tag>
+              <Tag color="blue">Harvard</Tag>
+            </p>
+          </div>
+          <Icon type="snippets" style={{ fontSize: "8rem", color: "orange" }} />
+        </Banner>
+      </div>
     </>
   )
 }
