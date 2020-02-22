@@ -5,6 +5,22 @@ import Img from "gatsby-image"
 import styled from "styled-components"
 import NavBar from "../components/nav-bar"
 
+const Banner = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+  justify-content: center;
+  align-items: center;
+  grid-gap: 1rem;
+  min-height: 40vh;
+  max-width: 50rem;
+  margin: 1rem;
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 0;
+  }
+`
+
 export default function About() {
   const data = useStaticQuery(graphql`
     query {
@@ -19,22 +35,6 @@ export default function About() {
       }
     }
   `)
-
-  const Banner = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    justify-items: center;
-    justify-content: center;
-    align-items: center;
-    grid-gap: 1rem;
-    min-height: 40vh;
-    max-width: 50rem;
-    margin: 1rem;
-    h1 {
-      font-size: 3rem;
-      margin-bottom: 0;
-    }
-  `
 
   return (
     <div>
