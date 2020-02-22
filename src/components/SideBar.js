@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react"
 
 import { Menu, Icon } from "antd"
-import queryString from "query-string"
 import { navigate } from "gatsby"
 
 import { StyledSideBar } from "./MyStyledComponents"
-import { sortClipsChronologically } from "../utils"
 import { isLoggedIn } from "../services/auth"
 
 const { SubMenu } = Menu

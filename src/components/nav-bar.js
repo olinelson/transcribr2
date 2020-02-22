@@ -3,24 +3,16 @@ import { navigate } from "gatsby"
 import { isLoggedIn, logout } from "../services/auth"
 import { Menu } from "./MyStyledComponents"
 import WithLocation from "./WithLocation"
-
-import { API_URL } from "../config"
-
 import { isBrowser } from "../services/auth"
 
-import queryString from "query-string"
-
-import { Icon, Alert } from "antd"
+import { Icon } from "antd"
 
 import { FixedMenuDiv } from "./MyStyledComponents"
 
 import { openNotificationWithIcon } from "./Notifications"
-import ClipDrawer from "./Clips"
 import styled from "styled-components"
 
 function Navbar(props) {
-  const { setUploadDrawerOpen } = props
-
   const [viewWidth, setViewWidth] = useState(
     isBrowser() ? window.innerWidth : 0
   )
@@ -32,8 +24,6 @@ function Navbar(props) {
 
     window.addEventListener("resize", handleResize)
   }, [])
-
-  // if (path.includes("app")) return null
 
   const DynamicMenu = styled(Menu)`
     display: flex;

@@ -7,22 +7,6 @@ const { SubMenu } = Menu
 export function ProfileSkeleton() {
   return (
     <>
-      {/* <div> */}
-      {/* <FixedMenuDiv>
-        <Menu theme="dark" mode="horizontal">
-          <Menu.Item key="/">
-            <Icon type="home" />
-          </Menu.Item>
-          <Menu.Item disabled key="/app/profile">
-            <Icon type="user" />
-          </Menu.Item>
-
-          <Menu.Item disabled style={{ position: "absolute", right: "0" }}>
-            <Icon type="logout" />
-          </Menu.Item>
-        </Menu>
-      </FixedMenuDiv> */}
-
       <StyledSideBar>
         <Menu
           inlineCollapsed={window.innerWidth < 800 ? true : false}

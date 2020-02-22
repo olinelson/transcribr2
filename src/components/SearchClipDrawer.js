@@ -11,23 +11,14 @@ function SearchClipDrawer(props) {
   const {
     navigateToWord,
     setPlayerControls,
-    // wordData,
     playerControls,
     player,
     clip,
     setClip,
-    // searchData,
-    // setSearchData,
   } = props
 
   const [results, setResults] = useState([])
   const [loading, setLoading] = useState(false)
-
-  // Array.prototype.asyncFilter = async function(f) {
-  //   var array = this
-  //   var booleans = await Promise.all(array.map(f))
-  //   return array.filter((x, i) => booleans[i])
-  // }
 
   const filterWords = (query, words) => {
     return words.filter(w => w.word.toLowerCase().includes(query.toLowerCase()))

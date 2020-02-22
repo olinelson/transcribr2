@@ -81,9 +81,6 @@ export const handleForgotPassword = async ({ email }) => {
       body: JSON.stringify({ email }), // body data type must match "Content-Type" header
     })
     if (!res.ok) return false
-    // res = await res.json() // parses JSON response into native JavaScript objects
-
-    // await setUserAndToken(res)
     return true
   } catch (error) {
     console.error(error)

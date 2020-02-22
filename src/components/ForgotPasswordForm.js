@@ -1,9 +1,8 @@
 import React from "react"
-import { Form, Icon, Input, Button, Checkbox } from "./MyStyledComponents"
+import { Form, Icon, Input, Button } from "./MyStyledComponents"
 import { handleForgotPassword } from "../services/auth"
 import { openNotificationWithIcon } from "./Notifications"
 import { navigate, Link } from "gatsby"
-import Layout from "./layout"
 
 class ForgotPassword extends React.Component {
   state = {

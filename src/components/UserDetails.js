@@ -57,9 +57,7 @@ export default function UserDetails(props) {
 
       <Drawer
         onClose={() => {
-          // setUser(props.user)
           setAppState({ ...appState, editEmailDrawerOpen: false })
-          // setChangeEmailDrawerOpen(false)
         }}
         title="Change Email"
         visible={appState.editEmailDrawerOpen}

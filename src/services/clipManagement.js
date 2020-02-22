@@ -62,7 +62,6 @@ export const getClip = async (_id, clip, setClip) => {
       redirect: "follow", // manual, *follow, error
       referrerPolicy: "no-referrer", // no-referrer, *client
     })
-    // if (!res.ok) throw new Error("Something went wrong")
     res = await res.json()
     setClip({
       currentPageIndex: 0,
@@ -72,21 +71,6 @@ export const getClip = async (_id, clip, setClip) => {
     })
 
     return res
-    // const wordPages = splitWordsIntoPages(res.words, 200)
-    // setClip({
-    //   ...res,
-    //   saving: false,
-    //   editing: false,
-    //   currentPageIndex: 0,
-    //   selectedWord: undefined,
-    //   inserting: null,
-    //   wordPageSize: 200,
-    //   wordPages: splitWordsIntoPages(res.words, 200),
-    //   words: res.words,
-    //   editing: false,
-    //   loading: false,
-    //   citing: false,
-    // })
   } catch (error) {
     console.error(error)
   }

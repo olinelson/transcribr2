@@ -3,7 +3,6 @@ import { Form, Icon, Input, Button, Checkbox } from "./MyStyledComponents"
 import { handleLogin } from "../services/auth"
 import { openNotificationWithIcon } from "./Notifications"
 import { navigate, Link } from "gatsby"
-import Layout from "./layout"
 
 class Login extends React.Component {
   state = {
