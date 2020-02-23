@@ -1,18 +1,18 @@
-import React, { useState, useRef, useEffect } from "react"
-import { navigate } from "gatsby"
-import { API_URL } from "../config"
+import React, { useState, useRef, useEffect } from 'react'
+import { navigate } from 'gatsby'
+import { API_URL } from '../config'
 
-import { getToken } from "../services/auth"
-import { deleteClip, getClip } from "../services/clipManagement"
-import { splitWordsIntoPages } from "../services/wordManagement"
+import { getToken } from '../services/auth'
+import { deleteClip, getClip } from '../services/clipManagement'
+import { splitWordsIntoPages } from '../services/wordManagement'
 
-import openSocket from "socket.io-client"
-import ReactPlayer from "react-player"
-import { formatTimeStamp, findIndexOfWord } from "../utils"
+import openSocket from 'socket.io-client'
+import ReactPlayer from 'react-player'
+import { formatTimeStamp, findIndexOfWord } from '../utils'
 
-import FileSaver from "file-saver"
+import FileSaver from 'file-saver'
 
-import { Document, Packer, Paragraph, Header, HeadingLevel, Footer } from "docx"
+import { Document, Packer, Paragraph, Header, HeadingLevel, Footer } from 'docx'
 
 // components
 import {
@@ -23,21 +23,21 @@ import {
   Skeleton,
   Progress,
   Menu,
-  Dropdown,
-} from "antd"
-import { ClipContainer, WordsContainer } from "./MyStyledComponents"
-import { openNotificationWithIcon } from "./Notifications"
-import SearchClipDrawer from "./SearchClipDrawer"
-import EditWordDrawer from "./EditWordDrawer"
-import TranscriptionModal from "./TranscriptionModal"
-import EditClipDrawer from "./EditClipDrawer"
-import Word from "./Word"
-import CitationModal from "./CitationModal"
-import WordCitationModal from "./WordCitationModal"
+  Dropdown
+} from 'antd'
+import { ClipContainer, WordsContainer } from './MyStyledComponents'
+import { openNotificationWithIcon } from './Notifications'
+import SearchClipDrawer from './SearchClipDrawer'
+import EditWordDrawer from './EditWordDrawer'
+import TranscriptionModal from './TranscriptionModal'
+import EditClipDrawer from './EditClipDrawer'
+import Word from './Word'
+import CitationModal from './CitationModal'
+import WordCitationModal from './WordCitationModal'
 
 const { Step } = Steps
 
-function Clip(props) {
+function Clip (props) {
   const _id = props.clipId
   const { appState, setAppState } = props
 
@@ -60,37 +60,37 @@ function Clip(props) {
     clipCitationModalOpen: false,
     wordCitationModalOpen: false,
     transcribeModalOpen: false,
-    language: "",
+    language: '',
     searchModalOpen: false,
     editClipDrawerOpen: false,
 
     // search data
-    searchInput: "",
+    searchInput: '',
     searchResults: [],
 
-    progressPercent: 0,
+    progressPercent: 0
   })
 
   const [playerControls, setPlayerControls] = useState({
     playing: false,
     progress: 0,
-    duration: 0,
+    duration: 0
   })
   const player = useRef(null)
 
   const notificationHandler = notification => {
-    if (notification.name === "transcriptionUpdate") {
+    if (notification.name === 'transcriptionUpdate') {
       setClip({
         currentPageIndex: 0,
         currentPageSize: 200,
         ...notification.data.clip,
-        loading: false,
+        loading: false
       })
     } else {
-      openNotificationWithIcon("success", notification.message)
+      openNotificationWithIcon('success', notification.message)
     }
 
-    if (notification.name === "joinedClipChannel") {
+    if (notification.name === 'joinedClipChannel') {
       console.log(notification.message)
     }
   }
@@ -99,9 +99,9 @@ function Clip(props) {
     const socket = openSocket(API_URL)
     const token = getToken()
 
-    function joinClipChannel(token, cb) {
-      socket.on("clipChannelUpdate", data => cb(data))
-      socket.emit("joinClipChannel", token, _id)
+    function joinClipChannel (token, cb) {
+      socket.on('clipChannelUpdate', data => cb(data))
+      socket.emit('joinClipChannel', token, _id)
     }
     setClip({ ...clip, loading: true })
     getClip(_id, clip, setClip)
@@ -110,8 +110,8 @@ function Clip(props) {
       notificationHandler(notification)
     })
 
-    return function leaveClipChannel(token) {
-      socket.emit("leaveClipChannel", token, _id)
+    return function leaveClipChannel (token) {
+      socket.emit('leaveClipChannel', token, _id)
     }
   }, [_id])
 
@@ -119,13 +119,13 @@ function Clip(props) {
     setClip({ ...clip, loading: true })
     const success = await deleteClip(clip._id)
     if (success) {
-      let clips = appState.clips.filter(c => c._id !== clip._id)
+      const clips = appState.clips.filter(c => c._id !== clip._id)
 
       setAppState({
         ...appState,
-        clips,
+        clips
       })
-      navigate("/app")
+      navigate('/app')
     } else {
       setClip({ ...clip, loading: false })
     }
@@ -138,28 +138,28 @@ function Clip(props) {
         `${API_URL}/convert/clips/${clip._id}?lang=${clip.language}`,
         {
           headers: {
-            "Content-Type": "application/json",
-            Authorization: getToken(),
+            'Content-Type': 'application/json',
+            Authorization: getToken()
           },
-          redirect: "follow",
-          referrerPolicy: "no-referrer",
+          redirect: 'follow',
+          referrerPolicy: 'no-referrer'
         }
       )
-      if (!res.ok) throw new Error("Something went wrong")
+      if (!res.ok) throw new Error('Something went wrong')
       res = await res.json()
 
-      openNotificationWithIcon("success", `Transcription Started!`)
+      openNotificationWithIcon('success', 'Transcription Started!')
       setClip(res.clip)
     } catch (error) {
       openNotificationWithIcon(
-        "error",
-        `Something went wrong, please try again.`
+        'error',
+        'Something went wrong, please try again.'
       )
       console.error(error)
       setClip({
         ...clip,
         transcriptionLoading: false,
-        transcribeModalOpen: false,
+        transcribeModalOpen: false
       })
     }
   }
@@ -175,16 +175,16 @@ function Clip(props) {
           playing={playerControls.playing}
           controls
           playsinline
-          pip={true}
-          height="100%"
-          width="100%"
+          pip
+          height='100%'
+          width='100%'
           style={{
-            justifySelf: "center",
-            width: "100%",
-            marginTop: ".5rem",
-            maxWidth: clip.isVideo ? "30rem" : "100%",
-            minHeight: ".5rem",
-            gridArea: "clip",
+            justifySelf: 'center',
+            width: '100%',
+            marginTop: '.5rem',
+            maxWidth: clip.isVideo ? '30rem' : '100%',
+            minHeight: '.5rem',
+            gridArea: 'clip'
           }}
         />
       </>
@@ -192,19 +192,19 @@ function Clip(props) {
   }
 
   const clipOptionsBar = () => (
-    <div style={{ gridArea: "toolbar" }}>
+    <div style={{ gridArea: 'toolbar' }}>
       {clip ? (
         <div
           style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            flexWrap: "wrap",
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            flexWrap: 'wrap'
           }}
         >
           <h1
-            className="ant-dropdown-link"
-            style={{ cursor: "pointer", margin: 0, maxWidth: "50vw" }}
+            className='ant-dropdown-link'
+            style={{ cursor: 'pointer', margin: 0, maxWidth: '50vw' }}
           >
             {clip.name}
           </h1>
@@ -214,26 +214,24 @@ function Clip(props) {
               disabled={!clip.words.length}
               onClick={() => setClip({ ...clip, searchClipDrawerOpen: true })}
             >
-              <Icon type="file-search" />
+              <Icon type='file-search' />
             </Button>
             <Dropdown
-              trigger={["click"]}
+              trigger={['click']}
               overlay={
                 <Menu>
                   <Menu.Item
                     onClick={() =>
-                      setClip({ ...clip, editClipDrawerOpen: true })
-                    }
+                      setClip({ ...clip, editClipDrawerOpen: true })}
                   >
-                    <Icon type="edit" />
+                    <Icon type='edit' />
                     Edit
                   </Menu.Item>
                   <Menu.Item
                     onClick={() =>
-                      setClip({ ...clip, clipCitationModalOpen: true })
-                    }
+                      setClip({ ...clip, clipCitationModalOpen: true })}
                   >
-                    <Icon type="snippets" />
+                    <Icon type='snippets' />
                     Cite
                   </Menu.Item>
 
@@ -241,21 +239,21 @@ function Clip(props) {
                     disabled={!clip.words.length}
                     onClick={() => downloadTextFile()}
                   >
-                    <Icon type="file-text" />
+                    <Icon type='file-text' />
                     .txt
                   </Menu.Item>
                   <Menu.Item
                     disabled={!clip.words.length}
                     onClick={() => downloadDocXFile()}
                   >
-                    <Icon type="file-word" />
+                    <Icon type='file-word' />
                     .docx
                   </Menu.Item>
                 </Menu>
               }
             >
               <Button>
-                <Icon type="more" />
+                <Icon type='more' />
               </Button>
             </Dropdown>
           </Button.Group>
@@ -267,16 +265,16 @@ function Clip(props) {
   const downloadDocXFile = () => {
     const doc = new Document()
 
-    let children = splitWordsIntoPages(clip.words, 100)
+    const children = splitWordsIntoPages(clip.words, 100)
       .map(p => {
         return [
           new Paragraph({
             text: formatTimeStamp(p[0].startTime),
-            heading: HeadingLevel.HEADING_4,
+            heading: HeadingLevel.HEADING_4
           }),
           new Paragraph({
-            text: p.map(w => w.word).join(" "),
-          }),
+            text: p.map(w => w.word).join(' ')
+          })
         ]
       })
       .flat()
@@ -287,19 +285,19 @@ function Clip(props) {
           children: [
             new Paragraph({
               text: clip.name,
-              heading: HeadingLevel.HEADING_1,
-            }),
-          ],
-        }),
+              heading: HeadingLevel.HEADING_1
+            })
+          ]
+        })
       },
       footers: {
         default: new Footer({
           children: [
-            new Paragraph(clip.name + " - Transcribed with transcribrapp.com"),
-          ],
-        }),
+            new Paragraph(clip.name + ' - Transcribed with transcribrapp.com')
+          ]
+        })
       },
-      children: children,
+      children: children
     })
 
     Packer.toBlob(doc).then(blob => {
@@ -308,20 +306,20 @@ function Clip(props) {
   }
 
   const downloadTextFile = () => {
-    const allWords = clip.words.map(w => w.word).join(" ")
+    const allWords = clip.words.map(w => w.word).join(' ')
     const file = new Blob([allWords], {
-      type: "text/plain",
+      type: 'text/plain'
     })
-    FileSaver.saveAs(file, clip.name + ".txt")
+    FileSaver.saveAs(file, clip.name + '.txt')
   }
 
   const maybeShowWordsParagraph = () => {
     if (clip.words.length) {
-      let wordPages = splitWordsIntoPages(clip.words, clip.wordPageSize)
-      let currentPageIndex = clip.currentPageIndex || 0
+      const wordPages = splitWordsIntoPages(clip.words, clip.wordPageSize)
+      const currentPageIndex = clip.currentPageIndex || 0
 
       return (
-        <WordsContainer style={{ gridArea: "words" }}>
+        <WordsContainer style={{ gridArea: 'words' }}>
           <p>
             {wordPages[currentPageIndex].map(w => (
               <Word
@@ -344,18 +342,17 @@ function Clip(props) {
     if (!clip.words || !clip.words.length) {
       if (!clip.conversionJobId) {
         return (
-          <div style={{ gridArea: "words", justifySelf: "center" }}>
+          <div style={{ gridArea: 'words', justifySelf: 'center' }}>
             <Button
-              type="primary"
+              type='primary'
               loading={clip.transcriptionLoading}
               onClick={() =>
                 setClip({
                   ...clip,
-                  transcribeModalOpen: true,
-                })
-              }
+                  transcribeModalOpen: true
+                })}
             >
-              <Icon type="message" />
+              <Icon type='message' />
               Transcribe
             </Button>
           </div>
@@ -365,81 +362,82 @@ function Clip(props) {
   }
 
   const maybeShowTranscribingLoadingState = () => {
-    if (!clip.words.length && clip.conversionJobId)
+    if (!clip.words.length && clip.conversionJobId) {
       return (
         <div
           style={{
-            display: "grid",
-            gridArea: "words",
-            height: "100%",
+            display: 'grid',
+            gridArea: 'words',
+            height: '100%',
 
-            justifyItems: "center",
-            alignItems: "center",
-            alignContent: "center",
-            gridTemplateRows: "auto auto auto auto",
-            borderRadius: "6px",
-            backgroundColor: "#fafafa",
-            padding: "1rem",
+            justifyItems: 'center',
+            alignItems: 'center',
+            alignContent: 'center',
+            gridTemplateRows: 'auto auto auto auto',
+            borderRadius: '6px',
+            backgroundColor: '#fafafa',
+            padding: '1rem'
           }}
         >
           <>
-            <Steps style={{ padding: "1rem" }}>
+            <Steps style={{ padding: '1rem' }}>
               <Step
-                status={clip.conversionComplete ? "finish" : "process"}
-                title="Converting"
+                status={clip.conversionComplete ? 'finish' : 'process'}
+                title='Converting'
                 icon={
                   clip.conversionComplete ? (
                     <Icon
-                      type="check-circle"
-                      theme="twoTone"
-                      twoToneColor="#52c41a"
+                      type='check-circle'
+                      theme='twoTone'
+                      twoToneColor='#52c41a'
                     />
                   ) : (
-                    <Icon type="loading" />
-                  )
+                    <Icon type='loading' />
+                )
                 }
               />
               <Step
-                status={clip.operationId ? "process" : "wait"}
-                title="Transcribing"
+                status={clip.operationId ? 'process' : 'wait'}
+                title='Transcribing'
                 icon={
                   clip.conversionComplete ? (
-                    <Icon active type="loading" />
+                    <Icon active type='loading' />
                   ) : (
-                    <Icon type="message" />
-                  )
+                    <Icon type='message' />
+                )
                 }
               />
 
-              <Step title="Done" icon={<Icon type="smile-o" />} />
+              <Step title='Done' icon={<Icon type='smile-o' />} />
             </Steps>
             {clip.operationId ? (
               <Progress
-                style={{ padding: ".25rem", marginRight: "-8px" }}
+                style={{ padding: '.25rem', marginRight: '-8px' }}
                 percent={clip.progressPercent || 1}
-                status="active"
+                status='active'
               />
             ) : null}
           </>
         </div>
       )
+    }
   }
 
   const navigateToWord = word => {
-    let wordIndex = findIndexOfWord(word, clip.words)
-    let wordPageSize = clip.wordPageSize || 200
-    let pageNumber = Math.floor(wordIndex / wordPageSize)
+    const wordIndex = findIndexOfWord(word, clip.words)
+    const wordPageSize = clip.wordPageSize || 200
+    const pageNumber = Math.floor(wordIndex / wordPageSize)
     setClip({
       ...clip,
       currentPageIndex: pageNumber,
-      selectedWord: word,
+      selectedWord: word
     })
   }
 
   if (!clip || clip.loading) {
     return (
       <div>
-        <div style={{ height: "4rem" }} />
+        <div style={{ height: '4rem' }} />
         <Skeleton active />
       </div>
     )
@@ -459,22 +457,21 @@ function Clip(props) {
 
           <Pagination
             style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignSelf: "center",
-              gridArea: "pagination",
-              margin: "1rem 0",
-              flexWrap: "wrap",
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignSelf: 'center',
+              gridArea: 'pagination',
+              margin: '1rem 0',
+              flexWrap: 'wrap'
             }}
-            size="small"
+            size='small'
             showQuickJumper
             showSizeChanger
             onChange={e => setClip({ ...clip, currentPageIndex: e - 1 })}
             current={clip.currentPageIndex + 1}
-            pageSizeOptions={["200", "300", "400", "500", "600"]}
+            pageSizeOptions={['200', '300', '400', '500', '600']}
             onShowSizeChange={(e, num) =>
-              setClip({ ...clip, wordPageSize: num })
-            }
+              setClip({ ...clip, wordPageSize: num })}
             total={clip.words.length}
             pageSize={clip.wordPageSize || 200}
             hideOnSinglePage

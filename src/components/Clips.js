@@ -1,16 +1,16 @@
-import React from "react"
-import { List, Button } from "antd"
-import { navigate } from "gatsby"
-import { sortClipsChronologically } from "../utils"
+import React from 'react'
+import { List, Button } from 'antd'
+import { navigate } from 'gatsby'
+import { sortClipsChronologically } from '../utils'
 
-export default function Clips(props) {
+export default function Clips (props) {
   const clips = props.appState.clips
 
   return (
     <List
-      size="large"
-      itemLayout="horizontal"
-      header={<h1 style={{ marginLeft: "1rem" }}>Clips</h1>}
+      size='large'
+      itemLayout='horizontal'
+      header={<h1 style={{ marginLeft: '1rem' }}>Clips</h1>}
     >
       {clips.length ? (
         clips.sort(sortClipsChronologically).map(c => (
@@ -18,7 +18,7 @@ export default function Clips(props) {
             <List.Item.Meta
               title={
                 <Button
-                  type="link"
+                  type='link'
                   onClick={() => {
                     navigate(`app/clips/${c._id}`)
                   }}

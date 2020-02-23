@@ -1,15 +1,15 @@
-import { API_URL } from "../config"
+import { API_URL } from '../config'
 
-export const isBrowser = () => typeof window !== "undefined"
+export const isBrowser = () => typeof window !== 'undefined'
 
 export const getToken = () =>
-  isBrowser() && window.localStorage.getItem("token")
-    ? window.localStorage.getItem("token")
+  isBrowser() && window.localStorage.getItem('token')
+    ? window.localStorage.getItem('token')
     : null
 
 export const getUser = () => {
-  if (isBrowser() && window.localStorage.getItem("appState")) {
-    const appState = JSON.parse(window.localStorage.getItem("appState"))
+  if (isBrowser() && window.localStorage.getItem('appState')) {
+    const appState = JSON.parse(window.localStorage.getItem('appState'))
 
     return appState.user
   }
@@ -17,25 +17,25 @@ export const getUser = () => {
 }
 
 const setUserAndToken = res => {
-  window.localStorage.setItem("token", "Bearer " + res.token)
+  window.localStorage.setItem('token', 'Bearer ' + res.token)
 
   window.localStorage.setItem(
-    "appState",
+    'appState',
     JSON.stringify({ user: res.user, clips: res.clips })
   )
 }
 
 export const handleLogin = async ({ email, password }) => {
   try {
-    let res = await fetch(API_URL + "/users/login", {
-      method: "POST", // *GET, POST, PUT, DELETE, etc.
-      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+    let res = await fetch(API_URL + '/users/login', {
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
+      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json'
       },
-      redirect: "follow", // manual, *follow, error
-      referrerPolicy: "no-referrer", // no-referrer, *client
-      body: JSON.stringify({ email, password }), // body data type must match "Content-Type" header
+      redirect: 'follow', // manual, *follow, error
+      referrerPolicy: 'no-referrer', // no-referrer, *client
+      body: JSON.stringify({ email, password }) // body data type must match "Content-Type" header
     })
 
     res = await res.json() // parses JSON response into native JavaScript objects
@@ -48,15 +48,15 @@ export const handleLogin = async ({ email, password }) => {
 }
 export const handleSignup = async ({ name, email, password }) => {
   try {
-    let res = await fetch(API_URL + "/users", {
-      method: "POST", // *GET, POST, PUT, DELETE, etc.
-      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+    let res = await fetch(API_URL + '/users', {
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
+      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json'
       },
-      redirect: "follow", // manual, *follow, error
-      referrerPolicy: "no-referrer", // no-referrer, *client
-      body: JSON.stringify({ name, email, password }), // body data type must match "Content-Type" header
+      redirect: 'follow', // manual, *follow, error
+      referrerPolicy: 'no-referrer', // no-referrer, *client
+      body: JSON.stringify({ name, email, password }) // body data type must match "Content-Type" header
     })
     if (!res.ok) return false
     res = await res.json() // parses JSON response into native JavaScript objects
@@ -70,15 +70,15 @@ export const handleSignup = async ({ name, email, password }) => {
 }
 export const handleForgotPassword = async ({ email }) => {
   try {
-    let res = await fetch(API_URL + "/users/forgot", {
-      method: "POST", // *GET, POST, PUT, DELETE, etc.
-      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+    const res = await fetch(API_URL + '/users/forgot', {
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
+      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json'
       },
-      redirect: "follow", // manual, *follow, error
-      referrerPolicy: "no-referrer", // no-referrer, *client
-      body: JSON.stringify({ email }), // body data type must match "Content-Type" header
+      redirect: 'follow', // manual, *follow, error
+      referrerPolicy: 'no-referrer', // no-referrer, *client
+      body: JSON.stringify({ email }) // body data type must match "Content-Type" header
     })
     if (!res.ok) return false
     return true
@@ -89,15 +89,15 @@ export const handleForgotPassword = async ({ email }) => {
 }
 export const handleResetPassword = async ({ password, token }) => {
   try {
-    let res = await fetch(API_URL + "/users/reset_password", {
-      method: "POST", // *GET, POST, PUT, DELETE, etc.
-      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+    let res = await fetch(API_URL + '/users/reset_password', {
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
+      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json'
       },
-      redirect: "follow", // manual, *follow, error
-      referrerPolicy: "no-referrer", // no-referrer, *client
-      body: JSON.stringify({ token, password }), // body data type must match "Content-Type" header
+      redirect: 'follow', // manual, *follow, error
+      referrerPolicy: 'no-referrer', // no-referrer, *client
+      body: JSON.stringify({ token, password }) // body data type must match "Content-Type" header
     })
     if (!res.ok) return false
     res = await res.json() // parses JSON response into native JavaScript objects

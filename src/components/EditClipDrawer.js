@@ -1,5 +1,5 @@
-import React, { useState } from "react"
-import moment from "moment"
+import React, { useState } from 'react'
+import moment from 'moment'
 
 import {
   Drawer,
@@ -11,10 +11,10 @@ import {
   DatePicker,
   Divider,
   Collapse,
-  Checkbox,
-} from "antd"
+  Checkbox
+} from 'antd'
 
-import { updateClip } from "../services/clipManagement"
+import { updateClip } from '../services/clipManagement'
 
 const { Panel } = Collapse
 const EditClipDrawer = props => {
@@ -25,125 +25,123 @@ const EditClipDrawer = props => {
 
   return (
     <Drawer
-      width="400"
-      title="Edit Clip"
-      placement="right"
-      closable={true}
+      width='400'
+      title='Edit Clip'
+      placement='right'
+      closable
       onClose={() => {
         props.setClip({ ...props.clip, editClipDrawerOpen: false })
       }}
       visible={clip.editClipDrawerOpen}
     >
       <Form
-        layout="vertical"
+        layout='vertical'
         onChange={e => {
-          if (e.target.name === "name")
-            setFormData({ ...formData, [e.target.name]: e.target.value })
-          else
+          if (e.target.name === 'name') { setFormData({ ...formData, [e.target.name]: e.target.value }) } else {
             setFormData({
               ...formData,
               citation: {
                 ...formData.citation,
-                [e.target.name]: e.target.value,
-              },
+                [e.target.name]: e.target.value
+              }
             })
+          }
         }}
         onSubmit={e => {
           e.preventDefault()
           updateClip(formData, appState, setAppState, props.setClip)
         }}
       >
-        <Form.Item label="Clip Name">
-          <Input name="name" spellCheck="true" defaultValue={formData.name} />
+        <Form.Item label='Clip Name'>
+          <Input name='name' spellCheck='true' defaultValue={formData.name} />
         </Form.Item>
 
         <Collapse>
-          <Panel header="Citation">
-            <Form.Item label="First Name">
+          <Panel header='Citation'>
+            <Form.Item label='First Name'>
               <Input
-                name="firstName"
-                spellCheck="true"
+                name='firstName'
+                spellCheck='true'
                 defaultValue={formData.citation.firstName}
-                placeholder="Dave"
+                placeholder='Dave'
               />
             </Form.Item>
-            <Form.Item label="Middle Initial">
+            <Form.Item label='Middle Initial'>
               <Input
-                name="middleInitial"
-                spellCheck="true"
+                name='middleInitial'
+                spellCheck='true'
                 defaultValue={formData.citation.middleInitial}
-                placeholder="D"
+                placeholder='D'
               />
             </Form.Item>
 
-            <Form.Item label="Last Name">
+            <Form.Item label='Last Name'>
               <Input
-                name="lastName"
-                spellCheck="true"
+                name='lastName'
+                spellCheck='true'
                 defaultValue={formData.citation.lastName}
-                placeholder="Varialle"
+                placeholder='Varialle'
               />
             </Form.Item>
-            <Form.Item label="Contributor Title">
+            <Form.Item label='Contributor Title'>
               <Input
-                name="contributorTitle"
-                spellCheck="true"
+                name='contributorTitle'
+                spellCheck='true'
                 defaultValue={formData.citation.contributorTitle}
-                placeholder="host"
+                placeholder='host'
               />
             </Form.Item>
 
             <Divider />
 
-            <Form.Item label="Media Description">
+            <Form.Item label='Media Description'>
               <Input
-                name="mediaDescription"
-                spellCheck="true"
+                name='mediaDescription'
+                spellCheck='true'
                 defaultValue={formData.citation.mediaDescription}
-                placeholder="Audio Podcast"
+                placeholder='Audio Podcast'
               />
             </Form.Item>
 
-            <Form.Item label="Show/Podcast Title">
+            <Form.Item label='Show/Podcast Title'>
               <Input
-                name="showTitle"
-                spellCheck="true"
+                name='showTitle'
+                spellCheck='true'
                 defaultValue={formData.citation.showTitle}
                 placeholder="I'd Hit That"
               />
             </Form.Item>
-            <Form.Item label="Episode Title">
+            <Form.Item label='Episode Title'>
               <Input
-                name="episodeTitle"
-                spellCheck="true"
+                name='episodeTitle'
+                spellCheck='true'
                 defaultValue={formData.citation.episodeTitle}
-                placeholder="102 - Dan Weiss"
+                placeholder='102 - Dan Weiss'
               />
             </Form.Item>
-            <Form.Item label="Publisher">
+            <Form.Item label='Publisher'>
               <Input
-                name="publisher"
-                spellCheck="true"
+                name='publisher'
+                spellCheck='true'
                 defaultValue={formData.citation.publisher}
-                placeholder="Podomatic.net"
+                placeholder='Podomatic.net'
               />
             </Form.Item>
 
             <Divider />
 
-            <Form.Item label="Date Posted">
+            <Form.Item label='Date Posted'>
               <DatePicker
                 allowClear={false}
                 defaultValue={moment(formData.citation.datePosted)}
                 onChange={e =>
                   setFormData({
                     ...formData,
-                    citation: { ...formData.citation, datePosted: e.valueOf() },
-                  })
-                }
+                    citation: { ...formData.citation, datePosted: e.valueOf() }
+                  })}
               />
             </Form.Item>
-            <Form.Item label="Date Accessed">
+            <Form.Item label='Date Accessed'>
               <DatePicker
                 allowClear={false}
                 defaultValue={moment(formData.citation.accessed)}
@@ -152,26 +150,25 @@ const EditClipDrawer = props => {
                     ...formData,
                     citation: {
                       ...formData.citation,
-                      dateAccessed: e.valueOf(),
-                    },
-                  })
-                }
+                      dateAccessed: e.valueOf()
+                    }
+                  })}
               />
             </Form.Item>
-            <Form.Item label="Place Of Recording">
+            <Form.Item label='Place Of Recording'>
               <Input
-                name="placeOfRecording"
-                spellCheck="true"
+                name='placeOfRecording'
+                spellCheck='true'
                 defaultValue={formData.citation.placeOfRecording}
-                placeholder="Los Angeles, USA"
+                placeholder='Los Angeles, USA'
               />
             </Form.Item>
-            <Form.Item label="Url">
+            <Form.Item label='Url'>
               <Input
-                name="url"
-                spellCheck="true"
+                name='url'
+                spellCheck='true'
                 defaultValue={formData.citation.url}
-                placeholder="https://www.podomatic.com/podcasts/idhitthatpodcast/episodes/2017-10-22T09_39_47-07_00"
+                placeholder='https://www.podomatic.com/podcasts/idhitthatpodcast/episodes/2017-10-22T09_39_47-07_00'
               />
             </Form.Item>
 
@@ -181,10 +178,10 @@ const EditClipDrawer = props => {
 
         <div
           style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3,1fr)",
-            gridGap: "1rem",
-            marginTop: "1rem",
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3,1fr)',
+            gridGap: '1rem',
+            marginTop: '1rem'
           }}
         >
           <Button
@@ -194,18 +191,18 @@ const EditClipDrawer = props => {
           </Button>
 
           <Popconfirm
-            title="Are you sure you want to delete this clip?"
+            title='Are you sure you want to delete this clip?'
             onConfirm={() => deleteClipHandler(formData._id)}
-            okText="Yes"
-            cancelText="No"
+            okText='Yes'
+            cancelText='No'
           >
-            <Button type="danger">
-              <Icon type="delete" />
+            <Button type='danger'>
+              <Icon type='delete' />
               Delete
             </Button>
           </Popconfirm>
 
-          <Button type="primary" htmlType="submit" loading={clip.clipSaving}>
+          <Button type='primary' htmlType='submit' loading={clip.clipSaving}>
             Save
           </Button>
         </div>

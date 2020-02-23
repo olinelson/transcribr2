@@ -1,14 +1,14 @@
-import moment from "moment"
-import React from "react"
+import moment from 'moment'
+import React from 'react'
 
-import { isBrowser } from "./services/auth"
+import { isBrowser } from './services/auth'
 
 export const formatTimeStamp = string => {
-  let seconds = parseInt(string.replace("s", ""))
+  const seconds = parseInt(string.replace('s', ''))
 
   return moment
-    .utc(moment.duration(seconds, "seconds").asMilliseconds())
-    .format("H:m:s")
+    .utc(moment.duration(seconds, 'seconds').asMilliseconds())
+    .format('H:m:s')
 }
 
 export const sortClipsChronologically = (a, b) => {
@@ -34,9 +34,9 @@ export const useStateWithLocalStorageJSON = (localStorageKey, defaultState) => {
   return [value, setValue]
 }
 
-export function findIndexOfWord(obj, arr) {
+export function findIndexOfWord (obj, arr) {
   let i = 0
-  for (let o of arr) {
+  for (const o of arr) {
     if (o._id === obj._id) return i
     i++
   }

@@ -1,26 +1,26 @@
-import React, { useEffect, useRef } from "react"
-import Layout from "../components/layout"
-import { Router } from "@reach/router"
-import PrivateRoute from "../components/privateRoute"
+import React, { useEffect, useRef } from 'react'
+import Layout from '../components/layout'
+import { Router } from '@reach/router'
+import PrivateRoute from '../components/privateRoute'
 
-import Clip from "../components/Clip"
-import Clips from "../components/Clips"
+import Clip from '../components/Clip'
+import Clips from '../components/Clips'
 
-import { openNotificationWithIcon } from "../components/Notifications"
-import { getUserProfileAndSet } from "../services/userManagement"
-import { getToken } from "../services/auth"
-import openSocket from "socket.io-client"
-import { API_URL } from "../config"
-import WithLocation from "../components/WithLocation"
-import { isLoggedIn } from "../services/auth"
-import { Drawer } from "antd"
-import UploadClip from "../components/UploadClip"
-import { useStateWithLocalStorageJSON } from "../utils"
-import SideBar from "../components/SideBar"
-import UserDetails from "../components/UserDetails"
+import { openNotificationWithIcon } from '../components/Notifications'
+import { getUserProfileAndSet } from '../services/userManagement'
+import { getToken, isLoggedIn } from '../services/auth'
+import openSocket from 'socket.io-client'
+import { API_URL } from '../config'
+import WithLocation from '../components/WithLocation'
 
-function App(props) {
-  const [appState, setAppState] = useStateWithLocalStorageJSON("appState", {
+import { Drawer } from 'antd'
+import UploadClip from '../components/UploadClip'
+import { useStateWithLocalStorageJSON } from '../utils'
+import SideBar from '../components/SideBar'
+import UserDetails from '../components/UserDetails'
+
+function App (props) {
+  const [appState, setAppState] = useStateWithLocalStorageJSON('appState', {
     user: {},
     clips: [],
     uploadDrawerOpen: false,
@@ -28,7 +28,7 @@ function App(props) {
     editUserDrawerOpen: false,
     editClipDrawerOpen: false,
     editWordDrawerOpen: false,
-    editEmailDrawerOpen: false,
+    editEmailDrawerOpen: false
   })
 
   const mounted = useRef()
@@ -38,10 +38,10 @@ function App(props) {
   const socket = openSocket(API_URL)
 
   useEffect(() => {
-    function joinUserChannel(bearerToken, cb) {
+    function joinUserChannel (bearerToken, cb) {
       if (isLoggedIn()) {
-        socket.on("notification", notification => cb(notification))
-        socket.emit("joinUserChannel", bearerToken)
+        socket.on('notification', notification => cb(notification))
+        socket.emit('joinUserChannel', bearerToken)
       }
     }
 
@@ -54,13 +54,13 @@ function App(props) {
       getUserProfileAndSet(appState, setAppState)
     }
     // cleanup
-    return function leaveUserChannel() {
-      socket.emit("leaveUserChannel", bearerToken)
+    return function leaveUserChannel () {
+      socket.emit('leaveUserChannel', bearerToken)
     }
   }, [])
 
   const notificationHandler = notification => {
-    openNotificationWithIcon("success", notification.message)
+    openNotificationWithIcon('success', notification.message)
   }
 
   return (
@@ -70,11 +70,11 @@ function App(props) {
       appState={appState}
       setAppState={setAppState}
     >
-      <div style={{ gridArea: "sidebar" }}>
+      <div style={{ gridArea: 'sidebar' }}>
         <Router primary={false}>
           <PrivateRoute
             component={SideBar}
-            path="/app/*"
+            path='/app/*'
             appState={appState}
             setAppState={setAppState}
             location={props.location}
@@ -82,29 +82,29 @@ function App(props) {
         </Router>
       </div>
 
-      <div style={{ gridArea: "main" }}>
+      <div style={{ gridArea: 'main' }}>
         <Router>
           <PrivateRoute
             component={UserDetails}
-            path="/app"
+            path='/app'
             appState={appState}
             setAppState={setAppState}
           />
           <PrivateRoute
-            path="/app/clips/:clipId"
+            path='/app/clips/:clipId'
             component={Clip}
             appState={appState}
             setAppState={setAppState}
           />
           <PrivateRoute
-            path="/app/upload"
+            path='/app/upload'
             component={UploadClip}
             appState={appState}
             setAppState={setAppState}
           />
 
           <PrivateRoute
-            path="/app/clips"
+            path='/app/clips'
             component={Clips}
             appState={appState}
           />
@@ -112,12 +112,12 @@ function App(props) {
       </div>
 
       <Drawer
-        title="Upload Clip"
-        placement="right"
-        closable={true}
+        title='Upload Clip'
+        placement='right'
+        closable
         onClose={() => setAppState({ ...appState, uploadDrawerOpen: false })}
         visible={appState.uploadDrawerOpen}
-        width="auto"
+        width='auto'
       >
         <UploadClip appState={appState} setAppState={setAppState} />
       </Drawer>

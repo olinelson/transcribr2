@@ -1,10 +1,10 @@
-import React from "react"
+import React from 'react'
 
-import { Drawer, Input, Button, Form } from "antd"
+import { Drawer, Input, Button, Form } from 'antd'
 
-import { editWord, insertWord } from "../services/wordManagement"
-import { findIndexOfWord } from "../utils"
-function EditWordDrawer(props) {
+import { editWord, insertWord } from '../services/wordManagement'
+import { findIndexOfWord } from '../utils'
+function EditWordDrawer (props) {
   const { clip, setClip } = props
   let inserting = false
 
@@ -16,7 +16,7 @@ function EditWordDrawer(props) {
     e.preventDefault()
     setClip({ ...clip, clipSaving: true })
 
-    let newWordValue = e.target.newWordValue.value
+    const newWordValue = e.target.newWordValue.value
 
     if (inserting !== false) {
       let index =
@@ -24,9 +24,9 @@ function EditWordDrawer(props) {
         clip.selectedWord.inserting
 
       if (index < 0) index = 0
-      let newWord = {
+      const newWord = {
         word: newWordValue,
-        startTime: clip.selectedWord.startTime,
+        startTime: clip.selectedWord.startTime
       }
       return insertWord({ ...props, index, newWord })
     }
@@ -36,28 +36,27 @@ function EditWordDrawer(props) {
   return (
     <Drawer
       visible={clip.editWordDrawerOpen}
-      destroyOnClose={true}
+      destroyOnClose
       onClose={() =>
         setClip({
           ...clip,
           editWordDrawerOpen: false,
-          inserting: null,
-        })
-      }
-      closable={true}
-      title={inserting === false ? "Edit Word" : "Insert Word"}
+          inserting: null
+        })}
+      closable
+      title={inserting === false ? 'Edit Word' : 'Insert Word'}
     >
       {clip.selectedWord ? (
         <Form onSubmit={e => insertOrEditWord({ ...props, e })}>
           <Form.Item>
             <Input
-              name="newWordValue"
-              spellCheck="true"
+              name='newWordValue'
+              spellCheck='true'
               defaultValue={clip.selectedWord.word}
-            ></Input>
+            />
           </Form.Item>
           <Form.Item>
-            <Button loading={clip.clipSaving} type="primary" htmlType="submit">
+            <Button loading={clip.clipSaving} type='primary' htmlType='submit'>
               Save
             </Button>
           </Form.Item>

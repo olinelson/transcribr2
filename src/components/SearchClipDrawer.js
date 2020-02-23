@@ -1,20 +1,20 @@
-import React, { useState } from "react"
-import { debounce } from "debounce"
+import React, { useState } from 'react'
+import { debounce } from 'debounce'
 
-import { Icon, Drawer, Input, List, Button } from "antd"
+import { Icon, Drawer, Input, List, Button } from 'antd'
 
-import { formatTimeStamp } from "../utils"
+import { formatTimeStamp } from '../utils'
 
 const { Search } = Input
 
-function SearchClipDrawer(props) {
+function SearchClipDrawer (props) {
   const {
     navigateToWord,
     setPlayerControls,
     playerControls,
     player,
     clip,
-    setClip,
+    setClip
   } = props
 
   const [results, setResults] = useState([])
@@ -53,15 +53,15 @@ function SearchClipDrawer(props) {
 
   return (
     <Drawer
-      title="Search"
+      title='Search'
       mask={false}
       maskClosable={false}
       visible={clip.searchClipDrawerOpen}
       onClose={() => setClip({ ...clip, searchClipDrawerOpen: false })}
     >
       <Search
-        style={{ marginBottom: "1rem" }}
-        placeholder="input search text"
+        style={{ marginBottom: '1rem' }}
+        placeholder='input search text'
         onSearch={query => debounce(onSearch(query, clip.words), 1000)}
         onChange={e => debounce(onChange(e.target.value, clip.words), 1000)}
         enterButton
@@ -70,39 +70,39 @@ function SearchClipDrawer(props) {
 
       <List
         style={{
-          height: "80vh",
-          overflow: "scroll",
+          height: '80vh',
+          overflow: 'scroll'
         }}
-        itemLayout="horizontal"
+        itemLayout='horizontal'
         dataSource={results}
         loadMore
         renderItem={word => (
           <List.Item
             actions={[
               <Button
-                size="small"
-                type="primary"
+                size='small'
+                type='primary'
                 ghost
                 onClick={() => navigateToWord(word)}
               >
-                <Icon type="eye" />
+                <Icon type='eye' />
               </Button>,
               <Button
                 onClick={() => {
                   player.current.seekTo(
-                    parseInt(word.startTime.replace("s", ""))
+                    parseInt(word.startTime.replace('s', ''))
                   )
                   setPlayerControls({
                     ...playerControls,
-                    playing: true,
+                    playing: true
                   })
                 }}
-                size="small"
-                type="primary"
+                size='small'
+                type='primary'
                 ghost
               >
-                <Icon type="play-circle" />
-              </Button>,
+                <Icon type='play-circle' />
+              </Button>
             ]}
           >
             <List.Item.Meta
@@ -111,9 +111,9 @@ function SearchClipDrawer(props) {
                 <span>
                   <Icon
                     onClick={() => navigateToWord(word)}
-                    type="clock-circle"
-                  />{" "}
-                  {formatTimeStamp(word.startTime)}{" "}
+                    type='clock-circle'
+                  />{' '}
+                  {formatTimeStamp(word.startTime)}{' '}
                 </span>
               }
             />

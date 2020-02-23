@@ -1,13 +1,13 @@
-import React, { useRef } from "react"
-import { Modal, Icon, Button } from "antd"
+import React, { useRef } from 'react'
+import { Modal, Icon, Button } from 'antd'
 
-import moment from "moment"
+import moment from 'moment'
 
-import styled from "styled-components"
-import { openNotificationWithIcon } from "./Notifications"
-import TextArea from "antd/lib/input/TextArea"
+import styled from 'styled-components'
+import { openNotificationWithIcon } from './Notifications'
+import TextArea from 'antd/lib/input/TextArea'
 
-function CitationModal(props) {
+function CitationModal (props) {
   const { clip, setClip } = props
 
   const mlaRef = useRef(null)
@@ -19,24 +19,24 @@ function CitationModal(props) {
   if (!clip.citation) return null
 
   const {
-    firstName = "First Name",
-    middleInitial = "Middle Initial",
-    contributorTitle = "Contributor Title",
-    lastName = "Last Name",
-    mediaDescription = "Media Description",
-    showTitle = "Show Title",
-    episodeTitle = "Episode Title",
-    publisher = "Publisher",
+    firstName = 'First Name',
+    middleInitial = 'Middle Initial',
+    contributorTitle = 'Contributor Title',
+    lastName = 'Last Name',
+    mediaDescription = 'Media Description',
+    showTitle = 'Show Title',
+    episodeTitle = 'Episode Title',
+    publisher = 'Publisher',
     datePosted = moment().unix(),
     dateAccessed = moment().unix(),
-    placeOfRecording = "Place Of Recording",
-    url = "URL",
+    placeOfRecording = 'Place Of Recording',
+    url = 'URL'
   } = clip.citation
 
-  function copyToClipboard(ref, style) {
+  function copyToClipboard (ref, style) {
     navigator.clipboard.writeText(ref.current.state.value)
 
-    openNotificationWithIcon("success", `Copied ${style} citation.`)
+    openNotificationWithIcon('success', `Copied ${style} citation.`)
   }
 
   const CitationContainer = styled.div`
@@ -51,116 +51,115 @@ function CitationModal(props) {
       onCancel={() =>
         setClip({
           ...clip,
-          clipCitationModalOpen: false,
-        })
-      }
+          clipCitationModalOpen: false
+        })}
       footer={null}
       visible={clip.clipCitationModalOpen}
-      title="Citation"
+      title='Citation'
       autoSize
       centered
     >
       <CitationContainer>
         <h4>APA</h4>
         <TextArea
-          className="ant-input"
+          className='ant-input'
           autoSize
           readOnly
           style={{
-            resize: "none",
+            resize: 'none'
           }}
-          name="Apa"
+          name='Apa'
           ref={apaRef}
           value={`${lastName}, ${
             firstName[0]
           }. ${middleInitial} (${contributorTitle}). (${moment(
             datePosted
           ).format(
-            "YYYY, MMMM D"
+            'YYYY, MMMM D'
           )}). ${episodeTitle} [${mediaDescription}]. ${url} `}
         />
-        <Button onClick={() => copyToClipboard(apaRef, "APA")}>
-          <Icon type="copy" />
+        <Button onClick={() => copyToClipboard(apaRef, 'APA')}>
+          <Icon type='copy' />
         </Button>
 
         <h4>MLA</h4>
         <TextArea
-          className="ant-input"
+          className='ant-input'
           autoSize
           readOnly
           style={{
-            resize: "none",
+            resize: 'none'
           }}
           ref={mlaRef}
           value={`${lastName}, ${
             firstName[0]
           } ${middleInitial}. "${episodeTitle}". ${mediaDescription}. ${showTitle}. ${publisher}, ${moment(
             datePosted
-          ).format("DD MMMM YYYY")}. Web. ${moment(dateAccessed).format(
-            "DD MMMM YYYY"
+          ).format('DD MMMM YYYY')}. Web. ${moment(dateAccessed).format(
+            'DD MMMM YYYY'
           )}`}
         />
-        <Button onClick={() => copyToClipboard(mlaRef, "MLA")}>
-          <Icon type="copy" />
+        <Button onClick={() => copyToClipboard(mlaRef, 'MLA')}>
+          <Icon type='copy' />
         </Button>
 
         <h4>Vancouver</h4>
         <TextArea
-          className="ant-input"
+          className='ant-input'
           autoSize
           readOnly
           style={{
-            resize: "none",
+            resize: 'none'
           }}
-          name="Apa"
+          name='Apa'
           ref={vancouverRef}
           value={`${lastName} ${
             firstName[0]
           }. ${episodeTitle}. ${showTitle} [${mediaDescription}]. ${placeOfRecording}: ${publisher}; ${moment(
             datePosted
-          ).format("YYYY")} [cited ${moment(dateAccessed).format(
-            "YYYY"
+          ).format('YYYY')} [cited ${moment(dateAccessed).format(
+            'YYYY'
           )}]. Available from: ${url}.`}
         />
-        <Button onClick={() => copyToClipboard(vancouverRef, "Vancouver")}>
-          <Icon type="copy" />
+        <Button onClick={() => copyToClipboard(vancouverRef, 'Vancouver')}>
+          <Icon type='copy' />
         </Button>
 
         <h4>Chicago</h4>
         <TextArea
-          className="ant-input"
+          className='ant-input'
           autoSize
           readOnly
           style={{
-            resize: "none",
+            resize: 'none'
           }}
-          name="Apa"
+          name='Apa'
           ref={chicagoRef}
           value={`${lastName}, ${firstName}. "${episodeTitle}". ${showTitle}. ${mediaDescription}, ${moment(
             datePosted
-          ).format("MMM. DD, YYYY")}. ${url}`}
+          ).format('MMM. DD, YYYY')}. ${url}`}
         />
-        <Button onClick={() => copyToClipboard(chicagoRef, "Chicago")}>
-          <Icon type="copy" />
+        <Button onClick={() => copyToClipboard(chicagoRef, 'Chicago')}>
+          <Icon type='copy' />
         </Button>
 
         <h4>Harvard</h4>
         <TextArea
-          className="ant-input"
+          className='ant-input'
           autoSize
           readOnly
           style={{
-            resize: "none",
+            resize: 'none'
           }}
           ref={harvardRef}
           value={`${lastName}, ${firstName[0]}.  (${moment(datePosted).format(
-            "YYYY"
+            'YYYY'
           )}). ${showTitle}. [${mediaDescription}] ${episodeTitle}. Available at: ${url} [Accessed ${moment(
             dateAccessed
-          ).format("D MMM. YYYY")}].`}
+          ).format('D MMM. YYYY')}].`}
         />
-        <Button onClick={() => copyToClipboard(harvardRef, "Harvard")}>
-          <Icon type="copy" />
+        <Button onClick={() => copyToClipboard(harvardRef, 'Harvard')}>
+          <Icon type='copy' />
         </Button>
       </CitationContainer>
     </Modal>

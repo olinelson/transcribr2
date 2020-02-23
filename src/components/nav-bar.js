@@ -1,28 +1,25 @@
-import React, { useState, useEffect } from "react"
-import { navigate } from "gatsby"
-import { isLoggedIn, logout } from "../services/auth"
-import { Menu } from "./MyStyledComponents"
-import WithLocation from "./WithLocation"
-import { isBrowser } from "../services/auth"
+import React, { useState, useEffect } from 'react'
+import { navigate } from 'gatsby'
+import { isLoggedIn, logout, isBrowser } from '../services/auth'
+import { Menu, FixedMenuDiv } from './MyStyledComponents'
+import WithLocation from './WithLocation'
 
-import { Icon } from "antd"
+import { Icon } from 'antd'
 
-import { FixedMenuDiv } from "./MyStyledComponents"
+import { openNotificationWithIcon } from './Notifications'
+import styled from 'styled-components'
 
-import { openNotificationWithIcon } from "./Notifications"
-import styled from "styled-components"
-
-function Navbar(props) {
+function Navbar (props) {
   const [viewWidth, setViewWidth] = useState(
     isBrowser() ? window.innerWidth : 0
   )
 
   useEffect(() => {
-    function handleResize() {
+    function handleResize () {
       setViewWidth(window.innerWidth)
     }
 
-    window.addEventListener("resize", handleResize)
+    window.addEventListener('resize', handleResize)
   }, [])
 
   const DynamicMenu = styled(Menu)`
@@ -51,57 +48,57 @@ function Navbar(props) {
   return (
     <FixedMenuDiv>
       <DynamicMenu
-        theme="dark"
-        mode="horizontal"
+        theme='dark'
+        mode='horizontal'
         selectedKeys={[props.location.pathname]}
       >
-        <Menu.Item onClick={() => navigate("/")} key="/">
-          <Icon type="home" />
+        <Menu.Item onClick={() => navigate('/')} key='/'>
+          <Icon type='home' />
         </Menu.Item>
 
-        <Menu.Item onClick={() => navigate("/about")} key="/about">
-          <Icon type="info-circle" />
+        <Menu.Item onClick={() => navigate('/about')} key='/about'>
+          <Icon type='info-circle' />
         </Menu.Item>
 
         {isLoggedIn() ? (
-          <Menu.Item onClick={() => navigate("/app")} key="/app">
-            <Icon type="user" />
+          <Menu.Item onClick={() => navigate('/app')} key='/app'>
+            <Icon type='user' />
             {/* <span>Profile</span> */}
           </Menu.Item>
         ) : null}
 
         {isLoggedIn() && viewWidth < 600 ? (
-          <Menu.Item onClick={() => navigate("/app/clips")} key="/app/clips">
-            <Icon type="audio" />
+          <Menu.Item onClick={() => navigate('/app/clips')} key='/app/clips'>
+            <Icon type='audio' />
           </Menu.Item>
         ) : null}
 
         {isLoggedIn() && viewWidth < 600 ? (
-          <Menu.Item key="/app/upload" onClick={() => navigate("/app/upload")}>
-            <Icon type="upload" />
+          <Menu.Item key='/app/upload' onClick={() => navigate('/app/upload')}>
+            <Icon type='upload' />
           </Menu.Item>
         ) : null}
 
         {isLoggedIn() ? (
           <Menu.Item
-            style={{ justifySelf: "end" }}
+            style={{ justifySelf: 'end' }}
             onClick={() => {
               logout()
-              openNotificationWithIcon("success", "Successfully logged out.")
-              navigate(`/`)
+              openNotificationWithIcon('success', 'Successfully logged out.')
+              navigate('/')
             }}
           >
-            <Icon type="logout" />
+            <Icon type='logout' />
             {/* Logout */}
           </Menu.Item>
         ) : (
           <Menu.Item
-            style={{ justifySelf: "end" }}
-            key="/login"
-            href="/"
-            onClick={() => navigate("/login")}
+            style={{ justifySelf: 'end' }}
+            key='/login'
+            href='/'
+            onClick={() => navigate('/login')}
           >
-            <Icon type="login" />
+            <Icon type='login' />
             {/* Login */}
           </Menu.Item>
         )}

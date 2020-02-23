@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from 'styled-components'
 
 import {
   Affix,
@@ -12,8 +12,8 @@ import {
   Menu as _Menu,
   Avatar as _Avatar,
   Divider as _Divider,
-  Upload as _Upload,
-} from "antd"
+  Upload as _Upload
+} from 'antd'
 
 export const Form = styled(_Form)``
 export const Icon = styled(_Icon)``

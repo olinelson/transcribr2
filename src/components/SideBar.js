@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect } from 'react'
 
-import { Menu, Icon } from "antd"
-import { navigate } from "gatsby"
+import { Menu, Icon } from 'antd'
+import { navigate } from 'gatsby'
 
-import { StyledSideBar } from "./MyStyledComponents"
-import { isLoggedIn } from "../services/auth"
+import { StyledSideBar } from './MyStyledComponents'
+import { isLoggedIn } from '../services/auth'
 
 const { SubMenu } = Menu
-function SideBar({ appState, setAppState }) {
+function SideBar ({ appState, setAppState }) {
   const { clips, uploading } = appState
 
   const [viewWidth, setViewWidth] = useState(window.innerWidth)
 
   useEffect(() => {
-    function handleResize() {
+    function handleResize () {
       setViewWidth(window.innerWidth)
     }
 
-    window.addEventListener("resize", handleResize)
+    window.addEventListener('resize', handleResize)
   }, [])
 
   if (!isLoggedIn()) return null
@@ -25,34 +25,34 @@ function SideBar({ appState, setAppState }) {
   return (
     <StyledSideBar offsetTop={46}>
       <Menu
-        mode="inline"
+        mode='inline'
         selectable={false}
-        inlineCollapsed={viewWidth < 800 ? true : false}
+        inlineCollapsed={viewWidth < 800}
       >
         <Menu.Item
           onClick={() => setAppState({ ...appState, uploadDrawerOpen: true })}
         >
-          {uploading ? <Icon type={"loading"} spin /> : <Icon type="upload" />}
+          {uploading ? <Icon type='loading' spin /> : <Icon type='upload' />}
           <span>Add Clip</span>
         </Menu.Item>
       </Menu>
       <Menu
-        inlineCollapsed={viewWidth < 800 ? true : false}
-        mode="inline"
-        style={{ height: "100%" }}
+        inlineCollapsed={viewWidth < 800}
+        mode='inline'
+        style={{ height: '100%' }}
         // defaultOpenKeys={["clip"]}
-        selectedKeys={window ? [window.location.pathname] : ["/app"]}
+        selectedKeys={window ? [window.location.pathname] : ['/app']}
       >
-        <Menu.Item key="/app" onClick={() => navigate("/app")}>
-          <Icon type="user" />
+        <Menu.Item key='/app' onClick={() => navigate('/app')}>
+          <Icon type='user' />
           <span>User Profile</span>
         </Menu.Item>
 
         <SubMenu
-          key="clip"
+          key='clip'
           title={
             <span>
-              <Icon type="audio" />
+              <Icon type='audio' />
               <span>Clips</span>
             </span>
           }

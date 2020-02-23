@@ -1,65 +1,65 @@
-import { API_URL } from "../config"
-import { openNotificationWithIcon } from "../components/Notifications"
-import { getToken } from "../services/auth"
-import { findIndexOfWord } from "../utils"
+import { API_URL } from '../config'
+import { openNotificationWithIcon } from '../components/Notifications'
+import { getToken } from '../services/auth'
+import { findIndexOfWord } from '../utils'
 
 export const splitWordsIntoPages = (_words, pageSize = 200) => {
-  let words = [..._words]
-  let wordPages = []
+  const words = [..._words]
+  const wordPages = []
 
   while (words.length) wordPages.push(words.splice(0, pageSize))
   return wordPages
 }
 
 export const editWord = async ({ newWordValue, clip, setClip }) => {
-  let clipId = clip._id
-  let wordId = clip.selectedWord._id
+  const clipId = clip._id
+  const wordId = clip.selectedWord._id
   try {
-    let res = await fetch(API_URL + "/words", {
-      method: "PATCH",
+    let res = await fetch(API_URL + '/words', {
+      method: 'PATCH',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: getToken(),
+        'Content-Type': 'application/json',
+        Authorization: getToken()
       },
       body: JSON.stringify({ clipId, wordId, newWordValue }),
-      redirect: "follow", // manual, *follow, error
-      referrerPolicy: "no-referrer", // no-referrer, *client
+      redirect: 'follow', // manual, *follow, error
+      referrerPolicy: 'no-referrer' // no-referrer, *client
     })
 
     res = await res.json() // parses JSON response into native JavaScript objects
 
-    let newWords = [...clip.words]
-    let index = findIndexOfWord(clip.selectedWord, clip.words)
+    const newWords = [...clip.words]
+    const index = findIndexOfWord(clip.selectedWord, clip.words)
     newWords.splice(index, 1, res)
 
     setClip({
       ...clip,
       words: newWords,
-      editWordDrawerOpen: false,
+      editWordDrawerOpen: false
     })
-    openNotificationWithIcon("success", `Changes saved`)
+    openNotificationWithIcon('success', 'Changes saved')
   } catch (error) {
     console.error(error)
-    openNotificationWithIcon("error", `Something went wrong :(`)
+    openNotificationWithIcon('error', 'Something went wrong :(')
     setClip({ ...clip })
   }
 }
 
 export const insertWord = async ({ index, setClip, clip, newWord }) => {
-  let clipId = clip._id
+  const clipId = clip._id
   try {
-    let res = await fetch(API_URL + "/words", {
-      method: "POST",
+    let res = await fetch(API_URL + '/words', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: getToken(),
+        'Content-Type': 'application/json',
+        Authorization: getToken()
       },
       body: JSON.stringify({ clipId, index, newWord }),
-      redirect: "follow", // manual, *follow, error
-      referrerPolicy: "no-referrer", // no-referrer, *client
+      redirect: 'follow', // manual, *follow, error
+      referrerPolicy: 'no-referrer' // no-referrer, *client
     })
     res = await res.json() // parses JSON response into native JavaScript objects
-    let newWords = [...clip.words]
+    const newWords = [...clip.words]
     newWords.splice(index, 0, res)
 
     setClip({
@@ -67,9 +67,9 @@ export const insertWord = async ({ index, setClip, clip, newWord }) => {
       words: newWords,
       editing: false,
       inserting: null,
-      loading: false,
+      loading: false
     })
-    openNotificationWithIcon("success", `Word Created`)
+    openNotificationWithIcon('success', 'Word Created')
   } catch (error) {
     console.error(error)
     setClip({ ...clip })
@@ -80,27 +80,27 @@ export const deleteWord = async ({
   clip,
   setClip,
   updateClipInProfile,
-  index,
+  index
 }) => {
-  let clipId = clip._id
+  const clipId = clip._id
   try {
-    let res = await fetch(API_URL + "/words", {
-      method: "DELETE",
+    const res = await fetch(API_URL + '/words', {
+      method: 'DELETE',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: getToken(),
+        'Content-Type': 'application/json',
+        Authorization: getToken()
       },
       body: JSON.stringify({ clipId, index }),
-      redirect: "follow", // manual, *follow, error
-      referrerPolicy: "no-referrer", // no-referrer, *client
+      redirect: 'follow', // manual, *follow, error
+      referrerPolicy: 'no-referrer' // no-referrer, *client
     })
-    if (!res.ok) throw new Error("problem deleting word...")
+    if (!res.ok) throw new Error('problem deleting word...')
 
-    let newWords = [...clip.words]
+    const newWords = [...clip.words]
     newWords.splice(index, 1)
 
     setClip({ ...clip, words: newWords })
-    openNotificationWithIcon("success", `Word Deleted`)
+    openNotificationWithIcon('success', 'Word Deleted')
   } catch (error) {
     console.error(error)
     setClip({ ...clip })

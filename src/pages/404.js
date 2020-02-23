@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect } from 'react'
 
-import { useStaticQuery, graphql, Link } from "gatsby"
-import Img from "gatsby-image"
-import Layout from "../components/layout"
-import { Icon, Divider } from "antd"
+import { useStaticQuery, graphql, Link } from 'gatsby'
+import Img from 'gatsby-image'
+import Layout from '../components/layout'
+import { Icon, Divider } from 'antd'
 
-export default function IndexPage() {
+export default function IndexPage () {
   const [showMessage, setShowMessage] = useState(false)
 
   useEffect(() => {
-    let delay = setTimeout(() => {
+    const delay = setTimeout(() => {
       setShowMessage(true)
     }, 5000)
 
-    return function() {
+    return function () {
       clearTimeout(delay)
     }
   })
@@ -36,31 +36,31 @@ export default function IndexPage() {
     <Layout>
       <div
         style={{
-          gridColumn: "1/-1",
-          gridRow: "2",
-          display: "grid",
-          alignSelf: "center",
-          justifyContent: "center",
-          justifyItems: "center",
-          justifySelf: "center",
+          gridColumn: '1/-1',
+          gridRow: '2',
+          display: 'grid',
+          alignSelf: 'center',
+          justifyContent: 'center',
+          justifyItems: 'center',
+          justifySelf: 'center'
         }}
       >
         <Img
-          style={{ width: "90vw", maxWidth: "20rem", height: "auto" }}
+          style={{ width: '90vw', maxWidth: '20rem', height: 'auto' }}
           fluid={data.file.childImageSharp.fluid}
-          alt="Transcribr Logo"
+          alt='Transcribr Logo'
         />
 
         {showMessage ? (
           <>
             <p> Sorry the page your looking for can't be found...</p>
 
-            <Link style={{ color: "#1890FF" }} to={"/"}>
+            <Link style={{ color: '#1890FF' }} to='/'>
               Go Home
             </Link>
           </>
         ) : (
-          <Icon style={{ fontSize: "5vw", color: "orange" }} type="loading" />
+          <Icon style={{ fontSize: '5vw', color: 'orange' }} type='loading' />
         )}
       </div>
     </Layout>

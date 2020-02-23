@@ -1,13 +1,13 @@
-import React, { useState } from "react"
+import React, { useState } from 'react'
 
-import { Popover, Icon, Tag, Dropdown, Menu, Popconfirm, Button } from "antd"
+import { Popover, Icon, Tag, Dropdown, Menu, Popconfirm, Button } from 'antd'
 
-import { deleteWord } from "../services/wordManagement"
+import { deleteWord } from '../services/wordManagement'
 
-import { formatTimeStamp, findIndexOfWord } from "../utils"
+import { formatTimeStamp, findIndexOfWord } from '../utils'
 
-import styled, { keyframes } from "styled-components"
-import ButtonGroup from "antd/lib/button/button-group"
+import styled, { keyframes } from 'styled-components'
+import ButtonGroup from 'antd/lib/button/button-group'
 
 const flash = keyframes`
   from {
@@ -22,24 +22,24 @@ const flash = keyframes`
 const WordContainer = styled.span`
   background: ${props =>
     props.selectedWord && props.selectedWord._id === props.word._id
-      ? "#E6F7FF"
-      : "none"};
+      ? '#E6F7FF'
+      : 'none'};
   border-bottom: ${props =>
     props.selectedWord && props.selectedWord._id === props.word._id
-      ? "2px solid #1890FF;"
-      : "none"};
+      ? '2px solid #1890FF;'
+      : 'none'};
   animation: ${flash} 0.5s alternate infinite linear;
-  animation: ${props => (!props.deleting ? "none" : null)};
+  animation: ${props => (!props.deleting ? 'none' : null)};
 `
 
-function Word(props) {
+function Word (props) {
   const {
     word,
     player,
     playerControls,
     setPlayerControls,
     clip,
-    setClip,
+    setClip
   } = props
 
   const [deleting, setDeleting] = useState(false)
@@ -49,7 +49,7 @@ function Word(props) {
     setDeleting(true)
     deleteWord({
       ...props,
-      index: findIndexOfWord(word, clip.words),
+      index: findIndexOfWord(word, clip.words)
     })
   }
 
@@ -57,12 +57,12 @@ function Word(props) {
     <Menu>
       <Menu.Item onClick={() => setClip({ ...clip, selectedWord: word })}>
         <Popconfirm
-          title="Are you sure delete this word?"
+          title='Are you sure delete this word?'
           onConfirm={e => deleteWordHandler(e)}
-          okText="Yes"
-          cancelText="No"
+          okText='Yes'
+          cancelText='No'
         >
-          <Icon type="delete" />
+          <Icon type='delete' />
           Delete
         </Popconfirm>
       </Menu.Item>
@@ -71,11 +71,10 @@ function Word(props) {
           setClip({
             ...clip,
             selectedWord: word,
-            editWordDrawerOpen: true,
-          })
-        }
+            editWordDrawerOpen: true
+          })}
       >
-        <Icon type="edit" />
+        <Icon type='edit' />
         Edit
       </Menu.Item>
       <Menu.Item
@@ -83,35 +82,32 @@ function Word(props) {
           setClip({
             ...clip,
             selectedWord: { ...word, inserting: 0 },
-            editWordDrawerOpen: true,
-          })
-        }
+            editWordDrawerOpen: true
+          })}
       >
-        <Icon type="arrow-left" />
-        <Icon type="plus-circle" /> Insert Before
+        <Icon type='arrow-left' />
+        <Icon type='plus-circle' /> Insert Before
       </Menu.Item>
       <Menu.Item
         onClick={() =>
           setClip({
             ...clip,
             selectedWord: { ...word, inserting: 1 },
-            editWordDrawerOpen: true,
-          })
-        }
+            editWordDrawerOpen: true
+          })}
       >
-        <Icon type="arrow-right" />
-        <Icon type="plus-circle" /> Insert After
+        <Icon type='arrow-right' />
+        <Icon type='plus-circle' /> Insert After
       </Menu.Item>
       <Menu.Item
         onClick={() =>
           setClip({
             ...clip,
             selectedWord: word,
-            wordCitationModalOpen: true,
-          })
-        }
+            wordCitationModalOpen: true
+          })}
       >
-        <Icon type="snippets" />
+        <Icon type='snippets' />
         Cite
       </Menu.Item>
     </Menu>
@@ -120,29 +116,29 @@ function Word(props) {
   return (
     <>
       <Popover
-        trigger="click"
+        trigger='click'
         key={word._id}
         content={
           <>
-            <Tag style={{ marginBottom: ".5rem" }}>
-              {formatTimeStamp(word.startTime)}{" "}
+            <Tag style={{ marginBottom: '.5rem' }}>
+              {formatTimeStamp(word.startTime)}{' '}
             </Tag>
             <div>
               <ButtonGroup>
                 <Button
                   onClick={() => {
                     player.current.seekTo(
-                      parseInt(word.startTime.replace("s", ""))
+                      parseInt(word.startTime.replace('s', ''))
                     )
                     setPlayerControls({ ...playerControls, playing: true })
                   }}
                 >
-                  <Icon type="play-circle" />
+                  <Icon type='play-circle' />
                 </Button>
 
-                <Dropdown overlay={wordOptions()} trigger={["click"]}>
+                <Dropdown overlay={wordOptions()} trigger={['click']}>
                   <Button>
-                    <Icon type="more" />
+                    <Icon type='more' />
                   </Button>
                 </Dropdown>
               </ButtonGroup>
@@ -151,16 +147,16 @@ function Word(props) {
         }
       >
         <span>
-          {" "}
+          {' '}
           <WordContainer
-            style={{ cursor: "pointer" }}
+            style={{ cursor: 'pointer' }}
             deleting={deleting}
             word={word}
             selectedWord={clip.selectedWord}
             onClick={() => setClip({ ...clip, selectedWord: word })}
           >
             {word.word}
-          </WordContainer>{" "}
+          </WordContainer>{' '}
         </span>
       </Popover>
     </>

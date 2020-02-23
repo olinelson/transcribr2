@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState } from 'react'
 
 import {
   Descriptions,
@@ -7,13 +7,13 @@ import {
   Form,
   Input,
   Button,
-  Popconfirm,
-} from "antd"
-import { updateUser, deleteUser, changeEmail } from "../services/userManagement"
-import { openNotificationWithIcon } from "./Notifications"
-import { navigate } from "gatsby"
+  Popconfirm
+} from 'antd'
+import { updateUser, deleteUser, changeEmail } from '../services/userManagement'
+import { openNotificationWithIcon } from './Notifications'
+import { navigate } from 'gatsby'
 
-export default function UserDetails(props) {
+export default function UserDetails (props) {
   const { appState, setAppState } = props
   // const [editDrawerOpen, setEditDrawerOpen] = useState(false)
   // const [changeEmailDrawerOpen, setChangeEmailDrawerOpen] = useState(false)
@@ -23,34 +23,33 @@ export default function UserDetails(props) {
   const deleteUserHandler = async () => {
     const success = await deleteUser()
     if (success) {
-      navigate("/")
+      navigate('/')
       window.localStorage.clear()
-      openNotificationWithIcon("warning", "User Profile Permanently Deleted.")
+      openNotificationWithIcon('warning', 'User Profile Permanently Deleted.')
     } else {
-      openNotificationWithIcon("error", "Something went wrong :(")
+      openNotificationWithIcon('error', 'Something went wrong :(')
     }
   }
 
   return (
-    <div style={{ padding: "0 1rem" }}>
+    <div style={{ padding: '0 1rem' }}>
       {/* <DividerForTabletUp /> */}
       <h1>
-        User Profile{" "}
+        User Profile{' '}
         <Icon
           onClick={() => setAppState({ ...appState, editUserDrawerOpen: true })}
-          style={{ fontSize: "1rem" }}
-          type="edit"
+          style={{ fontSize: '1rem' }}
+          type='edit'
         />
       </h1>
-      <Descriptions layout="vertical">
-        <Descriptions.Item label="Name">{user.name}</Descriptions.Item>
-        <Descriptions.Item label="Email">
-          {user.email}{" "}
+      <Descriptions layout='vertical'>
+        <Descriptions.Item label='Name'>{user.name}</Descriptions.Item>
+        <Descriptions.Item label='Email'>
+          {user.email}{' '}
           <Icon
             onClick={() =>
-              setAppState({ ...appState, editEmailDrawerOpen: true })
-            }
-            type="edit"
+              setAppState({ ...appState, editEmailDrawerOpen: true })}
+            type='edit'
           />
         </Descriptions.Item>
       </Descriptions>
@@ -59,11 +58,11 @@ export default function UserDetails(props) {
         onClose={() => {
           setAppState({ ...appState, editEmailDrawerOpen: false })
         }}
-        title="Change Email"
+        title='Change Email'
         visible={appState.editEmailDrawerOpen}
       >
         <Form
-          layout="vertical"
+          layout='vertical'
           onSubmit={async e => {
             e.preventDefault()
             setLoading(true)
@@ -75,47 +74,47 @@ export default function UserDetails(props) {
                 user: {
                   ...appState.user,
                   unconfirmedEmail,
-                  editEmailDrawOpen: false,
-                },
+                  editEmailDrawOpen: false
+                }
               })
               setUser({ ...user, unconfirmedEmail })
-              openNotificationWithIcon("success", "Verification email sent.")
+              openNotificationWithIcon('success', 'Verification email sent.')
             } else {
-              openNotificationWithIcon("error", "There was a problem :(")
+              openNotificationWithIcon('error', 'There was a problem :(')
             }
             setLoading(false)
           }}
         >
-          <Form.Item label="Current Email">
+          <Form.Item label='Current Email'>
             <p>{user.email}</p>
           </Form.Item>
           {user.unconfirmedEmail ? (
-            <Form.Item label="Unconfirmed Email">
+            <Form.Item label='Unconfirmed Email'>
               <p>{user.unconfirmedEmail}</p>
               <small>Pending email confirmation</small>
             </Form.Item>
           ) : null}
 
-          <Form.Item label="New Email Address">
+          <Form.Item label='New Email Address'>
             <Input
-              name="unconfirmedEmail"
-              type="email"
-              spellCheck="true"
-              placeholder="olaf@transcribrapp.com"
+              name='unconfirmedEmail'
+              type='email'
+              spellCheck='true'
+              placeholder='olaf@transcribrapp.com'
               contentEditable={false}
-              defaultValue=""
+              defaultValue=''
             />
           </Form.Item>
 
-          <Button type="primary" htmlType="submit" loading={loading}>
+          <Button type='primary' htmlType='submit' loading={loading}>
             Verify
           </Button>
           <Popconfirm
-            title="Are you sure you want to delete your account?"
+            title='Are you sure you want to delete your account?'
             onConfirm={() => deleteUserHandler()}
-            okText="Yes"
-            cancelText="No"
-          ></Popconfirm>
+            okText='Yes'
+            cancelText='No'
+          />
         </Form>
       </Drawer>
 
@@ -125,11 +124,11 @@ export default function UserDetails(props) {
           // setEditDrawerOpen(false)
           setAppState({ ...appState, editUserDrawerOpen: false })
         }}
-        title="Edit Profile"
+        title='Edit Profile'
         visible={appState.editUserDrawerOpen}
       >
         <Form
-          layout="vertical"
+          layout='vertical'
           onChange={e => setUser({ ...user, [e.target.name]: e.target.value })}
           onSubmit={async e => {
             e.preventDefault()
@@ -137,32 +136,32 @@ export default function UserDetails(props) {
             const success = await updateUser(user)
             if (success) {
               setAppState({ ...appState, user, editUserDrawerOpen: false })
-              openNotificationWithIcon("success", "User Profile Updated")
+              openNotificationWithIcon('success', 'User Profile Updated')
             } else {
-              openNotificationWithIcon("error", "There was a problem :(")
+              openNotificationWithIcon('error', 'There was a problem :(')
             }
             setLoading(false)
           }}
         >
-          <Form.Item label="Name">
+          <Form.Item label='Name'>
             <Input
-              name="name"
-              spellCheck="true"
+              name='name'
+              spellCheck='true'
               defaultValue={user.name}
-              placeholder="Olaf"
+              placeholder='Olaf'
             />
           </Form.Item>
 
-          <Button type="primary" htmlType="submit" loading={loading}>
+          <Button type='primary' htmlType='submit' loading={loading}>
             Save
           </Button>
           <Popconfirm
-            title="Are you sure you want to delete your account?"
+            title='Are you sure you want to delete your account?'
             onConfirm={() => deleteUserHandler()}
-            okText="Yes"
-            cancelText="No"
+            okText='Yes'
+            cancelText='No'
           >
-            <Button type="danger">Delete Account</Button>
+            <Button type='danger'>Delete Account</Button>
           </Popconfirm>
         </Form>
       </Drawer>

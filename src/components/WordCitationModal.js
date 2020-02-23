@@ -1,14 +1,14 @@
-import React, { useRef } from "react"
-import { Modal, Icon } from "antd"
+import React, { useRef } from 'react'
+import { Modal, Icon } from 'antd'
 
-import moment from "moment"
+import moment from 'moment'
 
-import styled from "styled-components"
-import { openNotificationWithIcon } from "./Notifications"
-import TextArea from "antd/lib/input/TextArea"
-import { formatTimeStamp } from "../utils"
+import styled from 'styled-components'
+import { openNotificationWithIcon } from './Notifications'
+import TextArea from 'antd/lib/input/TextArea'
+import { formatTimeStamp } from '../utils'
 
-function WordCitationModal(props) {
+function WordCitationModal (props) {
   const { clip, setClip } = props
 
   const mlaRef = useRef(null)
@@ -17,10 +17,10 @@ function WordCitationModal(props) {
   // const harvardRef = useRef(null)
   // const vancouverRef = useRef(null)
 
-  function copyToClipboard(ref, style) {
+  function copyToClipboard (ref, style) {
     navigator.clipboard.writeText(ref.current.state.value)
 
-    openNotificationWithIcon("success", `Copied ${style} citation!`)
+    openNotificationWithIcon('success', `Copied ${style} citation!`)
   }
 
   const CitationContainer = styled.div`
@@ -36,7 +36,7 @@ function WordCitationModal(props) {
       onCancel={() => setClip({ ...clip, wordCitationModalOpen: false })}
       footer={null}
       visible={clip.wordCitationModalOpen}
-      title="Citation"
+      title='Citation'
       autoSize
       centered
     >
@@ -45,35 +45,35 @@ function WordCitationModal(props) {
 
         <h4>APA</h4>
         <TextArea
-          className="ant-input"
+          className='ant-input'
           autoSize
           readOnly
           style={{
-            resize: "none",
+            resize: 'none'
           }}
-          name="Apa"
+          name='Apa'
           ref={apaRef}
           //   (University of Oxford, 2019, 0:29)
           value={`(${clip.citation.lastName}, ${moment(
             clip.citation.datePosted
-          ).format("YYYY")}, ${formatTimeStamp(clip.selectedWord.startTime)})`}
+          ).format('YYYY')}, ${formatTimeStamp(clip.selectedWord.startTime)})`}
         />
-        <Icon type="copy" onClick={() => copyToClipboard(apaRef, "APA")} />
+        <Icon type='copy' onClick={() => copyToClipboard(apaRef, 'APA')} />
 
         <h4>MLA</h4>
         <TextArea
-          className="ant-input"
+          className='ant-input'
           autoSize
           readOnly
           style={{
-            resize: "none",
+            resize: 'none'
           }}
           ref={mlaRef}
           value={`(${clip.citation.lastName}, ${formatTimeStamp(
             clip.selectedWord.startTime
           )})`}
         />
-        <Icon type="copy" onClick={() => copyToClipboard(apaRef, "MLA")} />
+        <Icon type='copy' onClick={() => copyToClipboard(apaRef, 'MLA')} />
       </CitationContainer>
     </Modal>
   )
