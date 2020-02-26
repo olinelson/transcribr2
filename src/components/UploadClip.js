@@ -35,12 +35,15 @@ function UploadClip (props) {
     name: 'file',
     multiple: false,
     method: 'PUT',
-    transformFile: async file => {
-      const sanitizedName = sanitize(Date.now() + file.name).replace(/ /g, '')
 
-      const signedUrl = await getSignedUrl(sanitizedName, file.type)
-      const cleanFile = new { ...file, name: sanitizedName, signedUrl }()
-      return cleanFile
+    transformFile: async file => {
+      // const sanitizedName = sanitize(Date.now() + file.name).replace(/ /g, '')
+
+      const signedUrl = await getSignedUrl(file.name, file.type)
+      // file.name = sanitizedName
+      file.signedUrl = signedUrl
+      // const cleanFile = new { ...file, name: sanitizedName, signedUrl }()
+      return file
     },
 
     customRequest: async data => {
@@ -49,10 +52,24 @@ function UploadClip (props) {
       const xhr = new XMLHttpRequest()
 
       xhr.open('PUT', file.signedUrl, true)
-      xhr.onload = () => {
+
+      xhr.onprogress = (e) => {
+        console.log('on progress', e)
+      }
+
+      xhr.onload = (e) => {
+        console.log('hello', e)
+
         const status = xhr.status
         if (status === 200) {
-          alert('File is uploaded')
+          message.success(`${file.name} file uploaded successfully.`)
+
+          // props.addClip(info.file.response)
+          setAppState({
+            ...appState,
+            // clips: [...appState.clips, info.file.response],
+            uploading: false
+          })
         } else {
           alert('Something went wrong!')
         }
@@ -63,7 +80,7 @@ function UploadClip (props) {
       }
 
       xhr.setRequestHeader('Content-Type', file.type)
-      xhr.setRequestHeader('Access-Control-Allow-Origin', '*')
+      // xhr.setRequestHeader('Access-Control-Allow-Origin', '*')
       xhr.send(file)
     },
     onChange (info) {
