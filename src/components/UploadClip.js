@@ -55,8 +55,8 @@ function UploadClip (props) {
         })
       })
       res = await res.json() // parses JSON response into native JavaScript objects
-
-      return `https://${appState.user._id}.storage.googleapis.com/${filename}?upload_id=${res.uploadId}`
+      return res.signedUrl
+      // return `https://${appState.user._id}.storage.googleapis.com/${filename}?upload_id=${res.uploadId}`
     } catch (error) {
       console.error(error)
     }
