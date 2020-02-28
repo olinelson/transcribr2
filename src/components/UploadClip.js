@@ -11,7 +11,6 @@ function UploadClip (props) {
   const { appState, setAppState } = props
 
   const createClip = async (file) => {
-    console.log(file)
     try {
       const res = await fetch(API_URL + '/clips', {
         method: 'POST',
@@ -37,9 +36,6 @@ function UploadClip (props) {
   const sanitizeFileName = (filename) => Date.now() + sanitize(filename.replace(/ /g, ''))
 
   const getSignedUrl = async (filename, fileType, fileSize) => {
-    console.log(fileType)
-    // filename = sanitizeFileName(filename)
-
     try {
       let res = await fetch(API_URL + '/clips/authorize_upload', {
         method: 'POST',
@@ -67,8 +63,9 @@ function UploadClip (props) {
     multiple: false,
     name: 'newFile',
     onRemove (file) {
-      console.log('on remove', file, xhr)
-      xhr.abort()
+      if (xhr) {
+        xhr.abort()
+      }
     },
     transformFile (file) {
       const prettyName = file.name
@@ -82,14 +79,11 @@ function UploadClip (props) {
     },
     customRequest: async (args) => {
       const { file, onProgress, onSuccess, onError } = args
-      console.log('this is args', args)
       const action = await getSignedUrl(file.name, file.type, file.size)
-      // console.log(signedUrl)
       xhr = new XMLHttpRequest()
       xhr.open('PUT', action, true)
 
       xhr.onload = (e) => {
-        console.log('this is onload', e)
         const status = xhr.status
         if (status === 200) {
           onSuccess()
@@ -99,7 +93,6 @@ function UploadClip (props) {
         }
       }
       xhr.upload.onprogress = (e) => {
-        console.log('progress')
         const { total, loaded } = e
         const percent = loaded / total * 100
         onProgress({ percent })
