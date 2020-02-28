@@ -3,6 +3,7 @@ import { API_URL } from '../config'
 import { getToken } from '../services/auth'
 import { Upload, Icon } from './MyStyledComponents'
 import { message } from 'antd'
+import { openNotificationWithIcon } from './Notifications'
 import sanitize from 'sanitize-filename'
 const { Dragger } = Upload
 
@@ -65,31 +66,23 @@ function UploadClip (props) {
   }
 
   const settings = {
-    // name: 'file',
     multiple: true,
-    method: 'PUT',
-    action: (file) => getSignedUrl(file.name, file.type, file.size),
 
     customRequest: async (args) => {
-      const { file, onProgress, action } = args
-      console.log('this is args', args)
-      // const action = await getSignedUrl(file.name, file.type, file.size)
+      const { file, onProgress, onSuccess, onError } = args
+      console.log('this is args', file)
+      const action = await getSignedUrl(file.name, file.type, file.size)
       // console.log(signedUrl)
       const xhr = new XMLHttpRequest()
       xhr.open('PUT', action, true)
 
-      xhr.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-          console.log(this.responseText)
-        }
-      }
-
-      xhr.onload = () => {
+      xhr.onload = (e) => {
+        console.log('this is onload', e)
         const status = xhr.status
         if (status === 200) {
-          alert('File is uploaded')
+          onSuccess()
         } else {
-          alert('Something went wrong!')
+          onError()
         }
       }
       xhr.upload.onprogress = (e) => {
@@ -100,35 +93,12 @@ function UploadClip (props) {
       }
 
       xhr.onerror = (e) => {
-        alert('Something went wrong', e)
+        onError()
       }
       xhr.setRequestHeader('Content-Type', file.type)
       xhr.send(file)
-    },
-    onChange (info) {
-      console.log('this is on change', info)
-      const { status } = info.file
-
-      if (status !== 'uploading') {
-        // props.setUploading(false)
-        setAppState({ ...appState, uploading: true })
-      }
-      if (status === 'done') {
-        message.success(`${info.file.name} file uploaded successfully.`)
-        // createClip(info.file)
-
-        // console.log(sanitizeFileName(info.file.name))
-
-        // props.addClip(info.file.response)
-        // setAppState({
-        //   ...appState,
-        //   clips: [...appState.clips, info.file.response],
-        //   uploading: false
-        // })
-      } else if (status === 'error') {
-        message.error(`${info.file.name} file upload failed.`)
-      }
     }
+
   }
 
   return (
