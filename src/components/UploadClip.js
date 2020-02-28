@@ -109,7 +109,6 @@ function UploadClip (props) {
         onError()
       }
       xhr.setRequestHeader('Content-Type', file.type)
-      xhr.setRequestHeader('Access-Control-Allow-Origin', 'https://transcribrapp.com')
       xhr.send(file)
     }
 
