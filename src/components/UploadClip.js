@@ -57,16 +57,11 @@ function UploadClip (props) {
       console.error(error)
     }
   }
-  let xhr
 
   const settings = {
-    multiple: false,
+    multiple: true,
     name: 'newFile',
-    onRemove (file) {
-      if (xhr) {
-        xhr.abort()
-      }
-    },
+
     transformFile (file) {
       const prettyName = file.name
 
@@ -80,7 +75,7 @@ function UploadClip (props) {
     customRequest: async (args) => {
       const { file, onProgress, onSuccess, onError } = args
       const action = await getSignedUrl(file.name, file.type, file.size)
-      xhr = new XMLHttpRequest()
+      const xhr = new XMLHttpRequest()
       xhr.open('PUT', action, true)
 
       xhr.onload = (e) => {
