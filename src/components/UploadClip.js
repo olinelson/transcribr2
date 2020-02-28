@@ -13,35 +13,32 @@ function UploadClip (props) {
   const createClip = async (file) => {
     console.log(file)
     try {
-      let res = await fetch(API_URL + '/clips', {
+      const res = await fetch(API_URL + '/clips', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: getToken()
         },
         body: JSON.stringify({
-          name: file.name,
-          rawFileName: sanitizeFileName(file.name),
+          name: file.prettyName,
+          rawFileName: file.name,
           fileType: file.type
         })
       })
-      res = await res.json() // parses JSON response into native JavaScript objects
-      console.log(res)
-      // openNotificationWithIcon('success', 'Changes saved')
-      // const filteredClips = appState.clips.filter(c => c._id !== clip._id)
-      // setClip({ ...clip, clipSaving: false })
-      // setAppState({ ...appState, clips: [...appState.clips, res.clip] })
+      const clip = await res.json() // parses JSON response into native JavaScript objects
+      openNotificationWithIcon('success', `${clip.name} created!`)
+      setAppState({ ...appState, clips: [...appState.clips, clip] })
     } catch (error) {
-      console.error(error)
+      openNotificationWithIcon('error', 'Coudn\'t create clip, please try again')
       // setClip({ ...clip, saving: false, editClipDrawerOpen: false })
     }
   }
 
-  const sanitizeFileName = (filename) => sanitize(filename.replace(/ /g, ''))
+  const sanitizeFileName = (filename) => Date.now() + sanitize(filename.replace(/ /g, ''))
 
   const getSignedUrl = async (filename, fileType, fileSize) => {
     console.log(fileType)
-    filename = sanitizeFileName(filename)
+    // filename = sanitizeFileName(filename)
 
     try {
       let res = await fetch(API_URL + '/clips/authorize_upload', {
@@ -64,16 +61,31 @@ function UploadClip (props) {
       console.error(error)
     }
   }
+  let xhr
 
   const settings = {
-    multiple: true,
+    multiple: false,
+    name: 'newFile',
+    onRemove (file) {
+      console.log('on remove', file, xhr)
+      xhr.abort()
+    },
+    transformFile (file) {
+      const prettyName = file.name
 
+      const name = sanitizeFileName(file.name) // Concat with file extension.
+      file.name.substring(file.name.lastIndexOf('.'))
+      // Instantiate copy of file, giving it new name.
+      file = new File([file], name, { type: file.type })
+      file.prettyName = prettyName
+      return file
+    },
     customRequest: async (args) => {
       const { file, onProgress, onSuccess, onError } = args
-      console.log('this is args', file)
+      console.log('this is args', args)
       const action = await getSignedUrl(file.name, file.type, file.size)
       // console.log(signedUrl)
-      const xhr = new XMLHttpRequest()
+      xhr = new XMLHttpRequest()
       xhr.open('PUT', action, true)
 
       xhr.onload = (e) => {
@@ -81,12 +93,13 @@ function UploadClip (props) {
         const status = xhr.status
         if (status === 200) {
           onSuccess()
+          createClip(file)
         } else {
           onError()
         }
       }
       xhr.upload.onprogress = (e) => {
-        console.log('on progress', e)
+        console.log('progress')
         const { total, loaded } = e
         const percent = loaded / total * 100
         onProgress({ percent })
