@@ -179,7 +179,7 @@ export default function About () {
           <div style={{ width: '100%' }}>
             <h1>Search</h1>
             <p>
-              Review an 3 hour long podcast in less than 5 minutes. Find
+              Review a 3 hour long podcast in less than 5 minutes. Find
               relevant keywords and find them instantly in the transcript.
             </p>
           </div>
