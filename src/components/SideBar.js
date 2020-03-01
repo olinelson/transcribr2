@@ -22,6 +22,8 @@ function SideBar ({ appState, setAppState }) {
 
   if (!isLoggedIn()) return null
 
+  if (viewWidth <= 600) return null
+
   return (
     <StyledSideBar offsetTop={46}>
       <Menu

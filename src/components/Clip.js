@@ -211,7 +211,7 @@ function Clip (props) {
 
           <Button.Group>
             <Button
-              disabled={!clip.words.length}
+              disabled={!clip.words.length || true}
               onClick={() => setClip({ ...clip, searchClipDrawerOpen: true })}
             >
               <Icon type='file-search' />
@@ -393,7 +393,7 @@ function Clip (props) {
                     />
                   ) : (
                     <Icon type='loading' />
-                )
+                  )
                 }
               />
               <Step
@@ -404,7 +404,7 @@ function Clip (props) {
                     <Icon active type='loading' />
                   ) : (
                     <Icon type='message' />
-                )
+                  )
                 }
               />
 
