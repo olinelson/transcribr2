@@ -8,7 +8,7 @@ import { isLoggedIn } from '../services/auth'
 
 const { SubMenu } = Menu
 function SideBar ({ appState, setAppState }) {
-  const { clips, uploading } = appState
+  const { clips, uploading, youtubeUploading } = appState
 
   const [viewWidth, setViewWidth] = useState(window.innerWidth)
 
@@ -34,6 +34,12 @@ function SideBar ({ appState, setAppState }) {
         >
           {uploading ? <Icon type='loading' spin /> : <Icon type='upload' />}
           <span>Add Clip</span>
+        </Menu.Item>
+        <Menu.Item
+          onClick={() => setAppState({ ...appState, uploadYoutubeDrawerOpen: true })}
+        >
+          {youtubeUploading ? <Icon type='loading' spin /> : <Icon type='youtube' />}
+          <span>Add Youtube</span>
         </Menu.Item>
       </Menu>
       <Menu

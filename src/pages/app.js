@@ -18,6 +18,8 @@ import UploadClip from '../components/UploadClip'
 import { useStateWithLocalStorageJSON } from '../utils'
 import SideBar from '../components/SideBar'
 import UserDetails from '../components/UserDetails'
+import UploadYoutube from '../components/UploadYoutube'
+import YoutubeForm from '../components/YoutubeForm'
 
 function App (props) {
   const [appState, setAppState] = useStateWithLocalStorageJSON('appState', {
@@ -120,6 +122,18 @@ function App (props) {
         width='auto'
       >
         <UploadClip appState={appState} setAppState={setAppState} />
+      </Drawer>
+
+      <Drawer
+        title='Upload Youtube'
+        placement='right'
+        closable
+        onClose={() => setAppState({ ...appState, uploadYoutubeDrawerOpen: false })}
+        visible={appState.uploadYoutubeDrawerOpen}
+        width='auto'
+
+      >
+        <YoutubeForm appState={appState} setAppState={setAppState} />
       </Drawer>
     </Layout>
   )
