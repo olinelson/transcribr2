@@ -210,8 +210,9 @@ function Clip (props) {
           </h1>
 
           <Button.Group>
+
             <Button
-              disabled={!clip.words.length || true}
+              disabled={!clip.words.length}
               onClick={() => setClip({ ...clip, searchClipDrawerOpen: true })}
             >
               <Icon type='file-search' />
