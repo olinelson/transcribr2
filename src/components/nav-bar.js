@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { navigate } from 'gatsby'
 import { isLoggedIn, logout, isBrowser } from '../services/auth'
-import { Menu, FixedMenuDiv } from './MyStyledComponents'
+import { Menu, FixedMenuDiv, DynamicMenu } from './MyStyledComponents'
 import WithLocation from './WithLocation'
 
 import { Icon } from 'antd'
 
 import { openNotificationWithIcon } from './Notifications'
-import styled from 'styled-components'
 
 function Navbar (props) {
   const [viewWidth, setViewWidth] = useState(
@@ -21,29 +20,6 @@ function Navbar (props) {
 
     window.addEventListener('resize', handleResize)
   }, [])
-
-  const DynamicMenu = styled(Menu)`
-    display: flex;
-    justify-content: space-between;
-    li i {
-      margin: 1rem auto !important;
-      font-size: 1.5rem !important;
-    }
-
-    @media (min-width: 600px) {
-      display: grid;
-      grid-template-columns: auto auto auto 1fr;
-      justify-content: center;
-      justify-items: center;
-      ::before {
-        display: none;
-      }
-      li i {
-        margin: auto !important;
-        font-size: 1rem !important;
-      }
-    }
-  `
 
   return (
     <FixedMenuDiv>
@@ -103,10 +79,6 @@ function Navbar (props) {
           </Menu.Item>
         )}
       </DynamicMenu>
-      {/* <ClipDrawer
-        clipDrawerOpen={clipDrawerOpen}
-        setClipDrawerOpen={setClipDrawerOpen}
-      /> */}
     </FixedMenuDiv>
   )
 }

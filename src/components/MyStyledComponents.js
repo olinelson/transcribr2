@@ -49,8 +49,8 @@ export const Layout = styled.div`
   }
 
   @supports (padding: max(0px)) {
-    // padding-left: max(12px, env(safe-area-inset-left));
-    // padding-right: max(12px, env(safe-area-inset-right));
+    padding-left: max(12px, env(safe-area-inset-left));
+    padding-right: max(12px, env(safe-area-inset-right));
     padding-bottom: max(12px, env(safe-area-inset-bottom));
   }
 `
@@ -95,7 +95,6 @@ export const WordsContainer = styled.div`
   height: 100%;
   overflow: scroll;
 `
-export const StyledMenu = styled(Menu)``
 export const FixedMenuDiv = styled.div`
   position: fixed;
   top: 0;
@@ -110,7 +109,30 @@ export const StyledSideBar = styled.div`
   max-width: 30vw;
   grid-area: sidebar;
   height: 100%;
-  // @media (max-width: 600px) {
-  //   display: none ;
-  // }
+  @media (max-width: 600px) {
+    display: none ;
+  }
 `
+
+export const DynamicMenu = styled(_Menu)`
+    display: flex;
+    justify-content: space-between;
+    li i {
+      margin: 1rem auto !important;
+      font-size: 1.5rem !important;
+    }
+
+    @media (min-width: 600px) {
+      display: grid;
+      grid-template-columns: auto auto auto 1fr;
+      justify-content: center;
+      justify-items: center;
+      ::before {
+        display: none;
+      }
+      li i {
+        margin: auto !important;
+        font-size: 1rem !important;
+      }
+    }
+  `

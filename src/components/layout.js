@@ -32,7 +32,7 @@ const layout = props => {
     <>
       <Helmet title='Transcribr' defer={false}>
         <meta charSet='utf-8' />
-        <meta name='viewport' content='initial-scale=1, viewport-fit=cover' />
+        <meta name='viewport' content='initial-scale=1,width=device-width, viewport-fit=cover' />
       </Helmet>
       {showEnvironmentAlert()}
       <NavBar {...props} />
