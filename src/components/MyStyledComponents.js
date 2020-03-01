@@ -108,6 +108,7 @@ export const FixedMenuDiv = styled.div`
 export const StyledSideBar = styled.div`
   max-width: 30vw;
   grid-area: sidebar;
+
   height: 100%;
   @media (max-width: 600px) {
     display: none ;

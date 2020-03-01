@@ -4,7 +4,7 @@ import { isLoggedIn, logout, isBrowser } from '../services/auth'
 import { Menu, FixedMenuDiv, DynamicMenu } from './MyStyledComponents'
 import WithLocation from './WithLocation'
 
-import { Icon } from 'antd'
+import { Icon, Popconfirm } from 'antd'
 
 import { openNotificationWithIcon } from './Notifications'
 
@@ -49,22 +49,25 @@ function Navbar (props) {
           </Menu.Item>
         ) : null}
 
-        {isLoggedIn() && viewWidth < 600 ? (
-          <Menu.Item key='/app/upload' onClick={() => navigate('/app/upload')}>
-            <Icon type='upload' />
-          </Menu.Item>
-        ) : null}
-
         {isLoggedIn() ? (
           <Menu.Item
             style={{ justifySelf: 'end' }}
-            onClick={() => {
-              logout()
-              openNotificationWithIcon('success', 'Successfully logged out.')
-              navigate('/')
-            }}
+
           >
-            <Icon type='logout' />
+            <Popconfirm
+              title='Are you sure you want to log out?'
+              onConfirm={() => {
+                logout()
+                openNotificationWithIcon('success', 'Successfully logged out.')
+                navigate('/')
+              }}
+              placement='bottomRight'
+              okText='Yes'
+              cancelText='No'
+            >
+              <Icon type='logout' />
+            </Popconfirm>
+
             {/* Logout */}
           </Menu.Item>
         ) : (

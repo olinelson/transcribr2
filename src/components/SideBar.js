@@ -24,6 +24,42 @@ function SideBar ({ appState, setAppState }) {
 
   if (viewWidth <= 600) return null
 
+  if (viewWidth < 800) {
+    return (
+      <StyledSideBar offsetTop={46}>
+        <Menu
+          style={{ height: '100%' }}
+          mode='inline'
+          selectable={false}
+          inlineCollapsed={viewWidth < 800}
+        >
+          <Menu.Item
+            onClick={() => setAppState({ ...appState, uploadDrawerOpen: true })}
+          >
+            {uploading ? <Icon type='loading' spin /> : <Icon type='upload' />}
+            <span>Add Clip</span>
+          </Menu.Item>
+          <Menu.Item
+            onClick={() => setAppState({ ...appState, uploadYoutubeDrawerOpen: true })}
+          >
+            {youtubeUploading ? <Icon type='loading' spin /> : <Icon type='youtube' />}
+            <span>Add Youtube</span>
+          </Menu.Item>
+
+          <Menu.Item key='/app' onClick={() => navigate('/app')}>
+            <Icon type='user' />
+            <span>User Profile</span>
+          </Menu.Item>
+          <Menu.Item key='/app/clips' onClick={() => navigate('/app/clips')}>
+            <Icon type='audio' />
+            <span>Clips</span>
+          </Menu.Item>
+        </Menu>
+      </StyledSideBar>
+
+    )
+  }
+
   return (
     <StyledSideBar offsetTop={46}>
       <Menu
@@ -44,6 +80,7 @@ function SideBar ({ appState, setAppState }) {
           <span>Add Youtube</span>
         </Menu.Item>
       </Menu>
+
       <Menu
         inlineCollapsed={viewWidth < 800}
         mode='inline'
@@ -76,6 +113,7 @@ function SideBar ({ appState, setAppState }) {
               </Menu.Item>
             ))}
         </SubMenu>
+
       </Menu>
     </StyledSideBar>
   )

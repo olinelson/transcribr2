@@ -72,7 +72,7 @@ function App (props) {
       appState={appState}
       setAppState={setAppState}
     >
-      <div style={{ gridArea: 'sidebar' }}>
+      <div style={{ gridArea: 'sidebar', display: 'flex' }}>
         <Router primary={false}>
           <PrivateRoute
             component={SideBar}
@@ -109,6 +109,7 @@ function App (props) {
             path='/app/clips'
             component={Clips}
             appState={appState}
+            setAppState={setAppState}
           />
         </Router>
       </div>
