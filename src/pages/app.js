@@ -11,7 +11,6 @@ import { getUserProfileAndSet } from '../services/userManagement'
 import { getToken, isLoggedIn } from '../services/auth'
 import openSocket from 'socket.io-client'
 import { API_URL } from '../config'
-import WithLocation from '../components/WithLocation'
 
 import { Drawer } from 'antd'
 import UploadClip from '../components/UploadClip'
@@ -78,12 +77,7 @@ function App (props) {
   }
 
   return (
-    <Layout
-      {...props}
-      location={props.location}
-      appState={appState}
-      setAppState={setAppState}
-    >
+    <Layout>
       <div style={{ gridArea: 'sidebar', display: 'flex' }}>
         <Router basepath='/app' primary={false}>
           <PrivateRoute
@@ -152,4 +146,4 @@ function App (props) {
   )
 }
 
-export default WithLocation(App)
+export default App
