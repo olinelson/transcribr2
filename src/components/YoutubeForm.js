@@ -17,7 +17,7 @@ class YoutubeForm extends React.Component {
             if (!err) {
                 try {
                     this.setState({ loading: true })
-                    openNotificationWithIcon('success', "Youtube download started!")
+                    // openNotificationWithIcon('success', "Youtube download started!")
                     this.props.setAppState({ ...this.props.appState, youtubeUploading: true, uploadYoutubeDrawerOpen:  false })
                     const res = await fetch(API_URL + '/youtube', {
                         method: 'POST',
@@ -30,11 +30,7 @@ class YoutubeForm extends React.Component {
                         })
                     })
                     if (!res.ok) throw new Error('Invalid url')
-                    const clip = await res.json()
-
-                     // parses JSON response into native JavaScript objects
-                    openNotificationWithIcon('success', `${clip.name} created!`)
-                    this.props.setAppState({ ...this.props.appState, clips: [...this.props.appState.clips, clip], youtubeUploading: false})
+                    openNotificationWithIcon('success', "Youtube download started!")
                 } catch (error) {
                     openNotificationWithIcon('error', 'Coudn\'t create clip, please try again')
                     this.setState({loading: false})

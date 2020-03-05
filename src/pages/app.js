@@ -18,7 +18,6 @@ import UploadClip from '../components/UploadClip'
 import { useStateWithLocalStorageJSON } from '../utils'
 import SideBar from '../components/SideBar'
 import UserDetails from '../components/UserDetails'
-import UploadYoutube from '../components/UploadYoutube'
 import YoutubeForm from '../components/YoutubeForm'
 
 function App (props) {
@@ -62,7 +61,20 @@ function App (props) {
   }, [])
 
   const notificationHandler = notification => {
-    openNotificationWithIcon('success', notification.message)
+    switch (notification.name) {
+      case 'youtubeUploadFailed':
+        openNotificationWithIcon('error', notification.message)
+        setAppState({ ...appState, youtubeUploading: false })
+        break
+      case 'youtubeUploadComplete':
+        // console.log({ notification })
+        openNotificationWithIcon('success', notification.message)
+        setAppState({ ...appState, clips: [...appState.clips, notification.data.clip], youtubeUploading: false })
+        break
+
+      default:
+        openNotificationWithIcon('success', notification.message)
+    }
   }
 
   return (

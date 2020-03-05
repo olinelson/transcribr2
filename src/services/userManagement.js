@@ -1,6 +1,7 @@
 import { API_URL } from '../config'
 import { getToken } from './auth'
 import { openNotificationWithIcon } from '../components/Notifications'
+import { navigate } from 'gatsby'
 
 export const getUserProfileAndSet = async (appState, setAppState) => {
   try {
@@ -28,6 +29,7 @@ export const getUserProfileAndSet = async (appState, setAppState) => {
   } catch (error) {
     console.error(error)
     window.localStorage.clear()
+    navigate('/login')
     return false
   }
 }
