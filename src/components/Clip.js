@@ -182,7 +182,8 @@ function Clip (props) {
             justifySelf: 'center',
             width: '100%',
             marginTop: '.5rem',
-            maxWidth: clip.isVideo ? '30rem' : '100%',
+            // maxWidth: clip.isVideo ? '30rem' : '100%',
+            // maxHeight: '40vh',
             minHeight: '.5rem',
             gridArea: 'clip'
           }}
@@ -394,7 +395,7 @@ function Clip (props) {
                     />
                   ) : (
                     <Icon type='loading' />
-                )
+                  )
                 }
               />
               <Step
@@ -405,7 +406,7 @@ function Clip (props) {
                     <Icon active type='loading' />
                   ) : (
                     <Icon type='message' />
-                )
+                  )
                 }
               />
 
