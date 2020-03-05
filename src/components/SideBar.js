@@ -20,8 +20,6 @@ function SideBar ({ appState, setAppState }) {
     window.addEventListener('resize', handleResize)
   }, [])
 
-  if (!isLoggedIn()) return null
-
   if (viewWidth <= 600) return null
 
   if (viewWidth < 800) {
