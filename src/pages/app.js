@@ -69,7 +69,7 @@ function App (props) {
       case 'youtubeUploadComplete':
         // console.log({ notification })
         openNotificationWithIcon('success', notification.message)
-        setAppState({ ...appState, clips: [...appState.clips, notification.data.clip], youtubeUploading: false })
+        setAppState({ ...appState, clips: [notification.data.clip, ...appState.clips], youtubeUploading: false })
         break
 
       default:
