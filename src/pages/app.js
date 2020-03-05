@@ -85,10 +85,10 @@ function App (props) {
       setAppState={setAppState}
     >
       <div style={{ gridArea: 'sidebar', display: 'flex' }}>
-        <Router primary={false}>
+        <Router basepath='/app' primary={false}>
           <PrivateRoute
             component={SideBar}
-            path='/app/*'
+            path='/*'
             appState={appState}
             setAppState={setAppState}
             location={props.location}
@@ -97,28 +97,28 @@ function App (props) {
       </div>
 
       <div style={{ gridArea: 'main' }}>
-        <Router>
+        <Router basepath='/app'>
           <PrivateRoute
             component={UserDetails}
-            path='/app'
+            path='/'
             appState={appState}
             setAppState={setAppState}
           />
           <PrivateRoute
-            path='/app/clips/:clipId'
+            path='/clips/:clipId'
             component={Clip}
             appState={appState}
             setAppState={setAppState}
           />
           <PrivateRoute
-            path='/app/upload'
+            path='/upload'
             component={UploadClip}
             appState={appState}
             setAppState={setAppState}
           />
 
           <PrivateRoute
-            path='/app/clips'
+            path='/clips'
             component={Clips}
             appState={appState}
             setAppState={setAppState}
