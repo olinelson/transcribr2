@@ -134,8 +134,11 @@ function Clip (props) {
   const convertClip = async () => {
     setClip({ ...clip, transcribeModalOpen: false })
     try {
+      const seconds = player.current.getDuration()
+      const minutes = Math.round(seconds / 60)
+
       let res = await fetch(
-        `${API_URL}/convert/clips/${clip._id}?lang=${clip.language}`,
+        `${API_URL}/convert/clips/${clip._id}?lang=${clip.language}&duration=${minutes}`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -502,6 +505,7 @@ function Clip (props) {
           convertClip={convertClip}
           clip={clip}
           setClip={setClip}
+          player={player}
         />
 
         <CitationModal setClip={setClip} clip={clip} />
