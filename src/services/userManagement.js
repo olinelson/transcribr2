@@ -114,3 +114,63 @@ export const deleteUser = async () => {
     return false
   }
 }
+
+export const attachPaymentMethodToCustomer = async paymentMethod => {
+  try {
+    const res = await fetch(API_URL + '/users/me/attach_payment_method', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: getToken()
+      },
+      body: JSON.stringify(paymentMethod),
+      redirect: 'follow', // manual, *follow, error
+      referrerPolicy: 'no-referrer' // no-referrer, *client
+    })
+    if (!res.ok) throw new Error('something went wrong')
+
+    return true
+  } catch (error) {
+    console.error(error)
+    return false
+  }
+}
+export const getUserPaymentMethods = async () => {
+  try {
+    const res = await fetch(API_URL + '/users/me/payment_methods', {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: getToken()
+      },
+      redirect: 'follow', // manual, *follow, error
+      referrerPolicy: 'no-referrer' // no-referrer, *client
+    })
+    if (!res.ok) throw new Error('something went wrong')
+    const paymentMethods = await res.json()
+
+    return paymentMethods
+  } catch (error) {
+    console.error(error)
+    return false
+  }
+}
+export const deletePaymentMethod = async (paymentMethodId) => {
+  try {
+    const res = await fetch(API_URL + `/users/me/payment_methods/${paymentMethodId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: getToken()
+      },
+      redirect: 'follow', // manual, *follow, error
+      referrerPolicy: 'no-referrer' // no-referrer, *client
+    })
+    if (!res.ok) throw new Error('something went wrong')
+
+
+    return true
+  } catch (error) {
+    console.error(error)
+    return false
+  }
+}

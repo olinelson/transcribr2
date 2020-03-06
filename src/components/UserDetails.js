@@ -7,11 +7,20 @@ import {
   Form,
   Input,
   Button,
-  Popconfirm
+  Popconfirm,
+  Divider
 } from 'antd'
 import { updateUser, deleteUser, changeEmail } from '../services/userManagement'
 import { openNotificationWithIcon } from './Notifications'
 import { navigate } from 'gatsby'
+import AddPaymentForm from './AddPaymentForm'
+
+import PaymentMethodsList from './PaymentMethodsList'
+
+import { Elements } from '@stripe/react-stripe-js'
+import { loadStripe } from '@stripe/stripe-js'
+
+const stripePromise = loadStripe('pk_test_9MNFVyvIUuMqQgdozJBdDxjO005OlKPNVa')
 
 export default function UserDetails (props) {
   const { appState, setAppState } = props
@@ -35,15 +44,16 @@ export default function UserDetails (props) {
     <div style={{ padding: '0 1rem' }}>
       {/* <DividerForTabletUp /> */}
       <h1>
-        User Profile{' '}
-        <Icon
+        User Profile
+
+      </h1>
+      <Descriptions layout='vertical'>
+        <Descriptions.Item label='Name'>{user.name}{' '}<Icon
           onClick={() => setAppState({ ...appState, editUserDrawerOpen: true })}
           style={{ fontSize: '1rem' }}
           type='edit'
         />
-      </h1>
-      <Descriptions layout='vertical'>
-        <Descriptions.Item label='Name'>{user.name}</Descriptions.Item>
+        </Descriptions.Item>
         <Descriptions.Item label='Email'>
           {user.email}{' '}
           <Icon
@@ -53,6 +63,12 @@ export default function UserDetails (props) {
           />
         </Descriptions.Item>
       </Descriptions>
+
+      <PaymentMethodsList appState={appState} setAppState={setAppState} />
+
+      {/* <Elements stripe={stripePromise}>
+        <AddPaymentForm appState={appState} />
+      </Elements> */}
 
       <Drawer
         onClose={() => {

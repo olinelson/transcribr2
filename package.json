@@ -16,6 +16,8 @@
     "test": "standard"
   },
   "dependencies": {
+    "@stripe/react-stripe-js": "^1.0.3",
+    "@stripe/stripe-js": "^1.0.2",
     "antd": "^3.26.7",
     "debounce": "^1.2.0",
     "docx": "^5.0.2",
