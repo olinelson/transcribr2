@@ -26,8 +26,6 @@ export default function PaymentMethodsList () {
     getPaymentMethods()
   }, [])
 
-  console.log(cards)
-
   const StyledListItem = styled(List.Item)`
     display: grid;
 grid-template-columns: auto 1fr auto;
@@ -85,15 +83,15 @@ align-items: start;
             {cards.length <= 1
               ? <Popover content='To delete a card, first add a new one.' trigger='hover'>
                 <Button type='link' icon='delete' disabled />
-              </Popover>
+                </Popover>
               : <Popconfirm
                 title='Are you sure delete this card?'
                 onConfirm={() => deletePaymentMethodHandler(c.id)}
                 okText='Yes'
                 cancelText='No'
-                >
+              >
                 <Icon type='delete' />
-                </Popconfirm>}
+              </Popconfirm>}
 
           </StyledListItem>
         )}

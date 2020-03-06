@@ -9,7 +9,6 @@ const AddPaymentForm = ({ getPaymentMethods, setAddCardModalVisible }) => {
   const elements = useElements()
 
   const handleSubmit = async (event) => {
-    console.log('hanlde submit', event)
     // Block native form submission.
     event.preventDefault()
 
