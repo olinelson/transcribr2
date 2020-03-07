@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import {
   Descriptions,
@@ -36,6 +36,10 @@ export default function UserDetails (props) {
     }
   }
 
+  if (appState.user.email !== user.email) {
+    setUser(appState.user)
+  }
+
   return (
     <div style={{ padding: '0 1rem' }}>
       {/* <DividerForTabletUp /> */}
@@ -48,7 +52,7 @@ export default function UserDetails (props) {
           onClick={() => setAppState({ ...appState, editUserDrawerOpen: true })}
           style={{ fontSize: '1rem' }}
           type='edit'
-        />
+                                                        />
         </Descriptions.Item>
         <Descriptions.Item label='Email'>
           {user.email}{' '}
