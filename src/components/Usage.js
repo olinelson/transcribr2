@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { getUsage } from '../services/userManagement'
 import { Progress, Statistic, Card } from 'antd'
 import styled from 'styled-components'
+import { useStateWithLocalStorageJSON } from '../utils'
 
 export default function Usage () {
-  const [usage, setUsage] = useState([])
+  const [usage, setUsage] = useStateWithLocalStorageJSON('usage', [])
 
   const getUserUsage = async () => {
     const usage = await getUsage()
@@ -31,7 +32,7 @@ export default function Usage () {
 
       const paidUsage = totalUsage - 180 < 0 ? 0 : totalUsage - 180
 
-      const estimatedCost = paidUsage > 0 ? Math.round(5 + paidUsage * 0.30).toFixed(2) : '0.00'
+      const estimatedCost = paidUsage > 0 ? 5 + (paidUsage * 0.03) : '0.00'
 
       return (
         <>
@@ -42,5 +43,5 @@ export default function Usage () {
       )
     })}
 
-  </StyledCard>
+         </StyledCard>
 }

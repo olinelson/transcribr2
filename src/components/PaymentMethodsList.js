@@ -8,11 +8,12 @@ import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
 import AddPaymentForm from './AddPaymentForm'
 import { openNotificationWithIcon } from './Notifications'
+import { useStateWithLocalStorageJSON } from '../utils'
 
 const stripePromise = loadStripe('pk_test_9MNFVyvIUuMqQgdozJBdDxjO005OlKPNVa')
 
 export default function PaymentMethodsList () {
-  const [cards, setCards] = useState([])
+  const [cards, setCards] = useStateWithLocalStorageJSON('cards', [])
   const [loading, setLoading] = useState(true)
   const [addCardModalVisible, setAddCardModalVisible] = useState(false)
 
@@ -83,15 +84,15 @@ align-items: start;
             {cards.length <= 1
               ? <Popover content='To delete a card, first add a new one.' trigger='hover'>
                 <Button type='link' icon='delete' disabled />
-              </Popover>
+                </Popover>
               : <Popconfirm
                 title='Are you sure delete this card?'
                 onConfirm={() => deletePaymentMethodHandler(c.id)}
                 okText='Yes'
                 cancelText='No'
-                >
+              >
                 <Icon type='delete' />
-                </Popconfirm>}
+              </Popconfirm>}
 
           </StyledListItem>
         )}
