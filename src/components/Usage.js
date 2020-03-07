@@ -8,10 +8,8 @@ export default function Usage () {
 
   const getUserUsage = async () => {
     const usage = await getUsage()
-    setUsage(usage)
+    if (usage) setUsage(usage)
   }
-
-  console.log(usage)
 
   useEffect(() => {
     getUserUsage()
@@ -44,5 +42,5 @@ export default function Usage () {
       )
     })}
 
-         </StyledCard>
+  </StyledCard>
 }
