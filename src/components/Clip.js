@@ -131,41 +131,70 @@ function Clip (props) {
     }
   }
 
-  const convertClip = async () => {
-    setClip({ ...clip, transcribeModalOpen: false })
-    try {
-      const seconds = player.current.getDuration()
-      const minutes = Math.round(seconds / 60)
+  // const convertClipHandler = async () => {
+  //   const seconds = player.current.getDuration()
+  //   const minutes = Math.round(seconds / 60)
+  //   convertClip(clip, minutes, setClip)
+  // }
 
-      let res = await fetch(
-        `${API_URL}/convert/clips/${clip._id}?lang=${clip.language}&duration=${minutes}`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: getToken()
-          },
-          redirect: 'follow',
-          referrerPolicy: 'no-referrer'
-        }
-      )
-      if (!res.ok) throw new Error('Something went wrong')
-      res = await res.json()
+  // const convertClip = async () => {
+  //   setClip({ ...clip, transcribeModalOpen: false })
+  //   try {
+  //     const seconds = player.current.getDuration()
+  //     const minutes = Math.round(seconds / 60)
 
-      openNotificationWithIcon('success', 'Transcription Started!')
-      setClip(res.clip)
-    } catch (error) {
-      openNotificationWithIcon(
-        'error',
-        'Something went wrong, please try again.'
-      )
-      console.error(error)
-      setClip({
-        ...clip,
-        transcriptionLoading: false,
-        transcribeModalOpen: false
-      })
-    }
-  }
+  //     let res = await fetch(
+  //       `${API_URL}/convert/clips/${clip._id}?lang=${clip.language}&duration=${minutes}`,
+  //       {
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //           Authorization: getToken()
+  //         },
+  //         redirect: 'follow',
+  //         referrerPolicy: 'no-referrer'
+  //       }
+  //     )
+  //     switch (res.status) {
+  //       case 201:
+  //         res = await res.json()
+
+  //         openNotificationWithIcon('success', 'Transcription Started!')
+  //         setClip(res.clip)
+  //         break
+
+  //       case 402:
+  //         openNotificationWithIcon('warning', 'Not enough free minutes remaining. Add your card details to continue!')
+  //         setClip({
+  //           ...clip,
+  //           transcriptionLoading: false,
+  //           transcribeModalOpen: false
+  //         })
+  //         break
+
+  //       default:
+  //         openNotificationWithIcon(
+  //           'error',
+  //           'Something went wrong, please try again.'
+  //         )
+  //         setClip({
+  //           ...clip,
+  //           transcriptionLoading: false,
+  //           transcribeModalOpen: false
+  //         })
+  //     }
+  //   } catch (error) {
+  //     openNotificationWithIcon(
+  //       'error',
+  //       'Something went wrong, please try again.'
+  //     )
+  //     console.error(error)
+  //     setClip({
+  //       ...clip,
+  //       transcriptionLoading: false,
+  //       transcribeModalOpen: false
+  //     })
+  //   }
+  // }
 
   const showClipAudio = () => {
     if (!clip || !clip.rawFileName) return null
@@ -398,7 +427,7 @@ function Clip (props) {
                     />
                   ) : (
                     <Icon type='loading' />
-                  )
+                )
                 }
               />
               <Step
@@ -409,7 +438,7 @@ function Clip (props) {
                     <Icon active type='loading' />
                   ) : (
                     <Icon type='message' />
-                  )
+                )
                 }
               />
 
@@ -502,7 +531,7 @@ function Clip (props) {
         <EditWordDrawer setClip={setClip} clip={clip} />
 
         <TranscriptionModal
-          convertClip={convertClip}
+          // convertClip={convertClip}
           clip={clip}
           setClip={setClip}
           player={player}

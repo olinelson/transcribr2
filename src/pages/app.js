@@ -28,7 +28,8 @@ function App (props) {
     editUserDrawerOpen: false,
     editClipDrawerOpen: false,
     editWordDrawerOpen: false,
-    editEmailDrawerOpen: false
+    editEmailDrawerOpen: false,
+    youtubeUploading: false
   })
 
   const mounted = useRef()

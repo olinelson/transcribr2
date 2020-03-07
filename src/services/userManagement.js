@@ -167,7 +167,6 @@ export const deletePaymentMethod = async (paymentMethodId) => {
     })
     if (!res.ok) throw new Error('something went wrong')
 
-
     return true
   } catch (error) {
     console.error(error)

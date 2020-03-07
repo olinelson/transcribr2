@@ -29,7 +29,6 @@ function UploadClip (props) {
       setAppState({ ...appState, clips: [...appState.clips, clip] })
     } catch (error) {
       openNotificationWithIcon('error', 'Coudn\'t create clip, please try again')
-      // setClip({ ...clip, saving: false, editClipDrawerOpen: false })
     }
   }
 
@@ -52,7 +51,6 @@ function UploadClip (props) {
       })
       res = await res.json() // parses JSON response into native JavaScript objects
       return res.signedUrl
-      // return `https://${appState.user._id}.storage.googleapis.com/${filename}?upload_id=${res.uploadId}`
     } catch (error) {
       console.error(error)
     }

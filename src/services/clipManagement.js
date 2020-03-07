@@ -75,3 +75,80 @@ export const getClip = async (_id, clip, setClip) => {
     console.error(error)
   }
 }
+export const convertClip = async (clip, minutes, setClip) => {
+  setClip({ ...clip, transcribeModalOpen: false })
+  try {
+    let res = await fetch(
+      `${API_URL}/convert/clips/${clip._id}?lang=${clip.language}&duration=${minutes}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: getToken()
+        },
+        redirect: 'follow',
+        referrerPolicy: 'no-referrer'
+      }
+    )
+    switch (res.status) {
+      case 201:
+        res = await res.json()
+
+        openNotificationWithIcon('success', 'Transcription Started!')
+        setClip(res.clip)
+        break
+
+      case 402:
+        openNotificationWithIcon('warning', 'Not enough free minutes remaining. Add your card details to continue!')
+        setClip({
+          ...clip,
+          transcriptionLoading: false,
+          transcribeModalOpen: false
+        })
+        break
+
+      default:
+        openNotificationWithIcon(
+          'error',
+          'Something went wrong, please try again.'
+        )
+        setClip({
+          ...clip,
+          transcriptionLoading: false,
+          transcribeModalOpen: false
+        })
+    }
+  } catch (error) {
+    openNotificationWithIcon(
+      'error',
+      'Something went wrong, please try again.'
+    )
+    console.error(error)
+    setClip({
+      ...clip,
+      transcriptionLoading: false,
+      transcribeModalOpen: false
+    })
+  }
+}
+
+export const uploadYoutube = async ({ appState, setAppState, url, setLoading }) => {
+  try {
+    setAppState({ ...appState, youtubeUploading: true })
+    const res = await fetch(API_URL + '/youtube', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: getToken()
+      },
+      body: JSON.stringify({
+        url
+      })
+    })
+    if (!res.ok) throw new Error(res.error)
+    openNotificationWithIcon('success', 'Youtube download started!')
+    setAppState({ ...appState, uploadYoutubeDrawerOpen: false, youtubeUploading: true })
+  } catch (error) {
+    openNotificationWithIcon('error', 'Coudn\'t create clip, please try again')
+    setAppState({ ...appState, uploadYoutubeDrawerOpen: true, youtubeUploading: false })
+  }
+}
