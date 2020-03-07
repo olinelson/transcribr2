@@ -56,7 +56,7 @@ function UploadClip (props) {
   }
 
   const settings = {
-    multiple: true,
+    multiple: false,
     accept: `
     .aac,.ac3,.aif,.aifc,.aiff,.amr,.au,.caf,.flac,.m4a,.m4b,.mp3,.moga,.sf2,.voc,.wav,.weba,.wma
     .3g2,.3gp,.3gpp,.avi,.cavs,.dv,.dvr,.flv,.m2ts,.m4v,.mkv,.mod,.mov,.mp4,.mpeg,.mpg,.mts,.mxf,.ogg,.rm,.rmvb,.swf,.ts,.rob,.webm,.wmv,.mtv
