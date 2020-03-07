@@ -1,9 +1,5 @@
-import React, { useState } from 'react'
-import { Form, Icon, Input, Button, Checkbox } from './MyStyledComponents'
-import { handleLogin, getToken } from '../services/auth'
-import { openNotificationWithIcon } from './Notifications'
-import { navigate, Link } from 'gatsby'
-import { API_URL } from '../config'
+import React from 'react'
+import { Form, Icon, Input, Button } from './MyStyledComponents'
 
 import { uploadYoutube } from '../services/clipManagement'
 

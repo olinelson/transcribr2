@@ -2,7 +2,6 @@ import React from 'react'
 import { API_URL } from '../config'
 import { getToken } from '../services/auth'
 import { Upload, Icon } from './MyStyledComponents'
-import { message } from 'antd'
 import { openNotificationWithIcon } from './Notifications'
 import sanitize from 'sanitize-filename'
 const { Dragger } = Upload

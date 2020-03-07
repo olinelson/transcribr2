@@ -10,8 +10,7 @@ import {
   Icon,
   DatePicker,
   Divider,
-  Collapse,
-  Checkbox
+  Collapse
 } from 'antd'
 
 import { updateClip } from '../services/clipManagement'

@@ -4,7 +4,6 @@ import { Menu, Icon } from 'antd'
 import { navigate } from 'gatsby'
 
 import { StyledSideBar } from './MyStyledComponents'
-import { isLoggedIn } from '../services/auth'
 
 const { SubMenu } = Menu
 function SideBar ({ appState, setAppState }) {

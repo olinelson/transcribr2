@@ -1,6 +1,6 @@
 import React from 'react'
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
-import { attachPaymentMethodToCustomer, getUserPaymentMethods } from '../services/userManagement'
+import { attachPaymentMethodToCustomer } from '../services/userManagement'
 import { openNotificationWithIcon } from './Notifications'
 import { Form, Button } from 'antd'
 import styled from 'styled-components'
@@ -9,7 +9,6 @@ const AddPaymentForm = ({ getPaymentMethods, setAddCardModalVisible }) => {
   const elements = useElements()
 
   const handleSubmit = async (event) => {
-    // Block native form submission.
     event.preventDefault()
 
     if (!stripe || !elements) {

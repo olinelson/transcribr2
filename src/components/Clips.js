@@ -1,5 +1,5 @@
 import React from 'react'
-import { List, Button, Icon } from 'antd'
+import { List, Button } from 'antd'
 import { navigate } from 'gatsby'
 import { sortClipsChronologically } from '../utils'
 import ButtonGroup from 'antd/lib/button/button-group'

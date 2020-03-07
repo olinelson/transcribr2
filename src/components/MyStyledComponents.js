@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 
 import {
-  Affix,
   Form as _Form,
   Icon as _Icon,
   Input as _Input,

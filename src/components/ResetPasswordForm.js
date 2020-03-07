@@ -1,5 +1,5 @@
 import React from "react"
-import { Form, Icon, Input, Button, Checkbox } from "./MyStyledComponents"
+import { Form, Icon, Input, Button } from "./MyStyledComponents"
 import { handleResetPassword } from "../services/auth"
 import { openNotificationWithIcon } from "./Notifications"
 import { navigate, Link } from "gatsby"

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { getUserPaymentMethods, deletePaymentMethod } from '../services/userManagement'
-import { Card, List, Typography, Icon, Modal, Popconfirm, Popover, Button } from 'antd'
+import { List, Icon, Modal, Popconfirm, Popover, Button } from 'antd'
 
 import styled from 'styled-components'
 
@@ -83,15 +83,15 @@ align-items: start;
             {cards.length <= 1
               ? <Popover content='To delete a card, first add a new one.' trigger='hover'>
                 <Button type='link' icon='delete' disabled />
-                </Popover>
+              </Popover>
               : <Popconfirm
                 title='Are you sure delete this card?'
                 onConfirm={() => deletePaymentMethodHandler(c.id)}
                 okText='Yes'
                 cancelText='No'
-              >
+                >
                 <Icon type='delete' />
-              </Popconfirm>}
+                </Popconfirm>}
 
           </StyledListItem>
         )}

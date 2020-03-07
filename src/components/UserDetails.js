@@ -7,20 +7,14 @@ import {
   Form,
   Input,
   Button,
-  Popconfirm,
-  Divider
+  Popconfirm
+
 } from 'antd'
 import { updateUser, deleteUser, changeEmail } from '../services/userManagement'
 import { openNotificationWithIcon } from './Notifications'
 import { navigate } from 'gatsby'
-import AddPaymentForm from './AddPaymentForm'
 
 import PaymentMethodsList from './PaymentMethodsList'
-
-import { Elements } from '@stripe/react-stripe-js'
-import { loadStripe } from '@stripe/stripe-js'
-
-const stripePromise = loadStripe('pk_test_9MNFVyvIUuMqQgdozJBdDxjO005OlKPNVa')
 
 export default function UserDetails (props) {
   const { appState, setAppState } = props
@@ -52,7 +46,7 @@ export default function UserDetails (props) {
           onClick={() => setAppState({ ...appState, editUserDrawerOpen: true })}
           style={{ fontSize: '1rem' }}
           type='edit'
-        />
+                                                        />
         </Descriptions.Item>
         <Descriptions.Item label='Email'>
           {user.email}{' '}
