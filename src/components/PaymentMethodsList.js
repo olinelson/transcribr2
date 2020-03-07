@@ -10,8 +10,8 @@ import AddPaymentForm from './AddPaymentForm'
 import { openNotificationWithIcon } from './Notifications'
 import { useStateWithLocalStorageJSON } from '../utils'
 
-// publishable stripe key
 const stripePromise = loadStripe('pk_live_cXMZDMoPxJaKGOa5MEXk09PU007Ke5wshF')
+// const stripePromise = loadStripe('pk_test_9MNFVyvIUuMqQgdozJBdDxjO005OlKPNVa')
 
 export default function PaymentMethodsList () {
   const [cards, setCards] = useStateWithLocalStorageJSON('cards', [])
@@ -20,7 +20,9 @@ export default function PaymentMethodsList () {
 
   const getPaymentMethods = async () => {
     const paymentMethods = await getUserPaymentMethods()
-    setCards(paymentMethods.data)
+    if (paymentMethods) {
+      setCards(paymentMethods.data)
+    }
     setLoading(false)
   }
 
@@ -85,15 +87,15 @@ align-items: start;
             {cards.length <= 1
               ? <Popover content='To delete a card, first add a new one.' trigger='hover'>
                 <Button type='link' icon='delete' disabled />
-                </Popover>
+              </Popover>
               : <Popconfirm
                 title='Are you sure delete this card?'
                 onConfirm={() => deletePaymentMethodHandler(c.id)}
                 okText='Yes'
                 cancelText='No'
-              >
+                >
                 <Icon type='delete' />
-              </Popconfirm>}
+                </Popconfirm>}
 
           </StyledListItem>
         )}

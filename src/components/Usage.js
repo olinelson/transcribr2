@@ -9,6 +9,7 @@ export default function Usage () {
 
   const getUserUsage = async () => {
     const usage = await getUsage()
+    console.log(usage)
     if (usage) setUsage(usage)
   }
 
@@ -22,6 +23,18 @@ export default function Usage () {
     // margin:  .5rem 0 1rem 0;
 
   `
+
+  if (!usage.length) {
+    return (
+      <StyledCard>
+
+        <Statistic title='Free Minutes Used' value={0} suffix='/180' />
+        <Statistic title='Paid Min Used' value={0} />
+        <Statistic title='Est. Cost' value={0} prefix='$' />
+
+      </StyledCard>
+    )
+  }
 
   return <StyledCard>
 
@@ -43,5 +56,5 @@ export default function Usage () {
       )
     })}
 
-         </StyledCard>
+  </StyledCard>
 }
