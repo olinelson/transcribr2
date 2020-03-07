@@ -173,3 +173,21 @@ export const deletePaymentMethod = async (paymentMethodId) => {
     return false
   }
 }
+export const getUsage = async () => {
+  try {
+    const res = await fetch(API_URL + '/users/me/usage', {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: getToken()
+      },
+      redirect: 'follow', // manual, *follow, error
+      referrerPolicy: 'no-referrer' // no-referrer, *client
+    })
+    if (!res.ok) throw new Error('something went wrong')
+    const usage = await res.json()
+    return usage.data
+  } catch (error) {
+    console.error(error)
+    return false
+  }
+}

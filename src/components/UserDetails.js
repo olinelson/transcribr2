@@ -7,7 +7,8 @@ import {
   Form,
   Input,
   Button,
-  Popconfirm
+  Popconfirm,
+  Divider
 
 } from 'antd'
 import { updateUser, deleteUser, changeEmail } from '../services/userManagement'
@@ -15,6 +16,7 @@ import { openNotificationWithIcon } from './Notifications'
 import { navigate } from 'gatsby'
 
 import PaymentMethodsList from './PaymentMethodsList'
+import Usage from './Usage'
 
 export default function UserDetails (props) {
   const { appState, setAppState } = props
@@ -46,7 +48,7 @@ export default function UserDetails (props) {
           onClick={() => setAppState({ ...appState, editUserDrawerOpen: true })}
           style={{ fontSize: '1rem' }}
           type='edit'
-                                                        />
+        />
         </Descriptions.Item>
         <Descriptions.Item label='Email'>
           {user.email}{' '}
@@ -57,6 +59,12 @@ export default function UserDetails (props) {
           />
         </Descriptions.Item>
       </Descriptions>
+
+      <Divider />
+
+      <Usage />
+
+      <Divider />
 
       <PaymentMethodsList appState={appState} setAppState={setAppState} />
 
