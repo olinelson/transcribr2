@@ -3,9 +3,10 @@ import { getUsage } from '../services/userManagement'
 import { Progress, Statistic, Card } from 'antd'
 import styled from 'styled-components'
 import { useStorageState } from 'react-storage-hooks'
+import { isBrowser } from '../services/auth'
 
 export default function Usage () {
-  const [usage, setUsage] = useStorageState(window ? localStorage : null, 'usage', [])
+  const [usage, setUsage] = useStorageState(isBrowser() ? localStorage : null, 'usage', [])
 
   const getUserUsage = async () => {
     const usage = await getUsage()
@@ -55,5 +56,5 @@ export default function Usage () {
       )
     })}
 
-  </>
+         </>
 }

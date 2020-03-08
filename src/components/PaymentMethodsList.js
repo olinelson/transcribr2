@@ -9,12 +9,13 @@ import { loadStripe } from '@stripe/stripe-js'
 import AddPaymentForm from './AddPaymentForm'
 import { openNotificationWithIcon } from './Notifications'
 import { useStorageState } from 'react-storage-hooks'
+import { isBrowser } from '../services/auth'
 
 const stripePromise = loadStripe('pk_live_cXMZDMoPxJaKGOa5MEXk09PU007Ke5wshF')
 // const stripePromise = loadStripe('pk_test_9MNFVyvIUuMqQgdozJBdDxjO005OlKPNVa')
 
 export default function PaymentMethodsList () {
-  const [cards, setCards] = useStorageState(window ? localStorage : null, 'cards', [])
+  const [cards, setCards] = useStorageState(isBrowser() ? localStorage : null, 'cards', [])
   const [loading, setLoading] = useState(true)
   const [addCardModalVisible, setAddCardModalVisible] = useState(false)
 
@@ -87,15 +88,15 @@ align-items: start;
             {cards.length <= 1
               ? <Popover content='To delete a card, first add a new one.' trigger='hover'>
                 <Button type='link' icon='delete' disabled />
-              </Popover>
+                </Popover>
               : <Popconfirm
                 title='Are you sure delete this card?'
                 onConfirm={() => deletePaymentMethodHandler(c.id)}
                 okText='Yes'
                 cancelText='No'
-                >
+              >
                 <Icon type='delete' />
-                </Popconfirm>}
+              </Popconfirm>}
 
           </StyledListItem>
         )}

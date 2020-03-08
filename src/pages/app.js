@@ -8,7 +8,7 @@ import Clips from '../components/Clips'
 
 import { openNotificationWithIcon } from '../components/Notifications'
 import { getUserProfileAndSet } from '../services/userManagement'
-import { getToken, isLoggedIn } from '../services/auth'
+import { getToken, isLoggedIn, isBrowser } from '../services/auth'
 import openSocket from 'socket.io-client'
 import { API_URL } from '../config'
 
@@ -20,7 +20,7 @@ import YoutubeForm from '../components/YoutubeForm'
 import { useStorageState } from 'react-storage-hooks'
 
 function App (props) {
-  const [appState, setAppState] = useStorageState(window ? localStorage : null, 'appState', {
+  const [appState, setAppState] = useStorageState(isBrowser() ? localStorage : null, 'appState', {
     user: {},
     clips: [],
     uploadDrawerOpen: false,
