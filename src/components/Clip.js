@@ -67,7 +67,7 @@ function Clip (props) {
     wordCitationModalOpen: false,
     transcribeModalOpen: false,
     language: '',
-    searchModalOpen: false,
+    searchClipDrawerOpen: false,
     editClipDrawerOpen: false,
 
     // search data
@@ -410,16 +410,27 @@ function Clip (props) {
     const wordIndex = findIndexOfWord(word, clip.words)
     const wordPageSize = clip.wordPageSize || 200
     const pageNumber = Math.floor(wordIndex / wordPageSize)
-    setClip({
-      ...clip,
-      currentPageIndex: pageNumber,
-      selectedWord: word
-    })
+    console.log('window widht', window.innerWidth)
+
+    if (window.innerWidth < 800) {
+      setClip({
+        ...clip,
+        currentPageIndex: pageNumber,
+        selectedWord: word,
+        searchClipDrawerOpen: false
+      })
+    } else {
+      setClip({
+        ...clip,
+        currentPageIndex: pageNumber,
+        selectedWord: word
+
+      })
+    }
 
     scroller.scrollTo(word._id, {
       duration: 500,
       smooth: true,
-      // containerId: 'ContainerElementID',
       offset: -100 // Scrolls to element + 50 pixels down the page
     })
   }
@@ -482,6 +493,7 @@ function Clip (props) {
           setClip={setClip}
           playerControls={playerControls}
           player={player}
+
         />
 
         <EditWordDrawer setClip={setClip} clip={clip} />
