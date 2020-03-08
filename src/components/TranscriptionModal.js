@@ -9,7 +9,7 @@ const { Option } = Select
 const TranscriptionModal = ({ clip, setClip, player }) => {
   const convertClipHandler = async () => {
     const seconds = player.current.getDuration()
-    const minutes = Math.round(seconds / 60)
+    const minutes = Math.ceil(seconds / 60)
     convertClip(clip, minutes, setClip)
   }
 
