@@ -9,7 +9,6 @@ export default function Usage () {
 
   const getUserUsage = async () => {
     const usage = await getUsage()
-    console.log(usage)
     if (usage) setUsage(usage)
   }
 
@@ -56,5 +55,5 @@ export default function Usage () {
       )
     })}
 
-  </StyledCard>
+         </StyledCard>
 }

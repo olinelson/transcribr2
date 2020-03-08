@@ -92,7 +92,6 @@ function Clip (props) {
     }
 
     if (notification.name === 'joinedClipChannel') {
-      // console.log(notification.message)
     }
   }
 
@@ -363,7 +362,7 @@ function Clip (props) {
                     />
                   ) : (
                     <Icon type='loading' />
-                  )
+                )
                 }
               />
               <Step
@@ -374,7 +373,7 @@ function Clip (props) {
                     <Icon active type='loading' />
                   ) : (
                     <Icon type='message' />
-                  )
+                )
                 }
               />
 
