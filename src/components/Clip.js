@@ -175,7 +175,7 @@ function Clip (props) {
             style={{ cursor: 'pointer', margin: 0, maxWidth: '50vw', wordWrap: 'break-word' }}
           >
             {/* {clip.name} */}
-            {clip.name.length > 30 ? clip.name.substring(0, 27) + '...' : clip.name}
+            {clip.name && clip.name.length > 30 ? clip.name.substring(0, 27) + '...' : clip.name}
           </h1>
 
           <Button.Group>
@@ -363,7 +363,7 @@ function Clip (props) {
                     />
                   ) : (
                     <Icon type='loading' />
-                  )
+                )
                 }
               />
               <Step
@@ -374,7 +374,7 @@ function Clip (props) {
                     <Icon active type='loading' />
                   ) : (
                     <Icon type='message' />
-                  )
+                )
                 }
               />
 
