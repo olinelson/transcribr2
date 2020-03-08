@@ -115,7 +115,8 @@ function UploadClip (props) {
         border: '1rem solid white',
         display: 'grid',
         width: '100%',
-        height: '100%'
+        height: '100%',
+        maxWidth: '100vw'
       }}
     >
       <Dragger {...settings} style={{ padding: '1rem' }}>

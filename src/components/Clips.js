@@ -26,19 +26,14 @@ export default function Clips (props) {
 
       {clips.length ? (
         clips.sort(sortClipsChronologically).map(c => (
-          <List.Item key={c._id}>
-            <List.Item.Meta
-              title={
-                <Button
-                  type='link'
-                  onClick={() => {
-                    navigate(`app/clips/${c._id}`)
-                  }}
-                >
-                  {c.name}
-                </Button>
-              }
-            />
+          <List.Item
+            key={c._id} onClick={() => {
+              navigate(`app/clips/${c._id}`)
+            }}
+          >
+
+            {c.name.length > 47 ? c.name.substring(0, 45) + '...' : c.name}
+
           </List.Item>
         ))
       ) : (

@@ -54,3 +54,6 @@ body {
   top: 0rem;
   z-index: 5;
 }
+.ant-upload-list-item-info{
+  max-width: 80vw;
+}
