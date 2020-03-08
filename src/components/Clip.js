@@ -23,7 +23,8 @@ import {
   Skeleton,
   Progress,
   Menu,
-  Dropdown
+  Dropdown,
+  Divider
 } from 'antd'
 import { ClipContainer, WordsContainer } from './MyStyledComponents'
 import { openNotificationWithIcon } from './Notifications'
@@ -164,20 +165,18 @@ function Clip (props) {
       {clip ? (
         <div
           style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            flexWrap: 'wrap'
+            display: 'grid',
+            gridTemplateColumns: '1fr',
+            alignItems: 'end'
           }}
         >
-          <h1
-            className='ant-dropdown-link'
-            style={{ cursor: 'pointer', margin: 0, maxWidth: '50vw', wordWrap: 'break-word' }}
+          <h2
+            style={{ cursor: 'pointer', margin: 0, maxWidth: '85vw', wordWrap: 'break-word' }}
           >
             {clip.name}
-          </h1>
+          </h2>
 
-          <Button.Group>
+          <Button.Group style={{ justifySelf: 'end' }}>
 
             <Button
               disabled={!clip.words.length}
@@ -226,6 +225,8 @@ function Clip (props) {
               </Button>
             </Dropdown>
           </Button.Group>
+
+          <Divider />
         </div>
       ) : null}
     </div>
@@ -362,7 +363,7 @@ function Clip (props) {
                     />
                   ) : (
                     <Icon type='loading' />
-                )
+                  )
                 }
               />
               <Step
@@ -373,7 +374,7 @@ function Clip (props) {
                     <Icon active type='loading' />
                   ) : (
                     <Icon type='message' />
-                )
+                  )
                 }
               />
 
