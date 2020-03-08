@@ -174,8 +174,7 @@ function Clip (props) {
             className='ant-dropdown-link'
             style={{ cursor: 'pointer', margin: 0, maxWidth: '50vw', wordWrap: 'break-word' }}
           >
-            {/* {clip.name} */}
-            {clip.name && clip.name.length > 30 ? clip.name.substring(0, 27) + '...' : clip.name}
+            {clip.name}
           </h1>
 
           <Button.Group>
