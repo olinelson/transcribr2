@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { useStorageState } from 'react-storage-hooks'
 
 export default function Usage () {
-  const [usage, setUsage] = useStorageState(localStorage, 'usage', [])
+  const [usage, setUsage] = useStorageState(window.localStorage, 'usage', [])
 
   const getUserUsage = async () => {
     const usage = await getUsage()
@@ -55,5 +55,5 @@ export default function Usage () {
       )
     })}
 
-  </>
+         </>
 }
