@@ -14,13 +14,13 @@ import { API_URL } from '../config'
 
 import { Drawer } from 'antd'
 import UploadClip from '../components/UploadClip'
-import { useStateWithLocalStorageJSON } from '../utils'
 import SideBar from '../components/SideBar'
 import UserDetails from '../components/UserDetails'
 import YoutubeForm from '../components/YoutubeForm'
+import { useStorageState } from 'react-storage-hooks'
 
 function App (props) {
-  const [appState, setAppState] = useStateWithLocalStorageJSON('appState', {
+  const [appState, setAppState] = useStorageState(localStorage, 'appState', {
     user: {},
     clips: [],
     uploadDrawerOpen: false,
@@ -68,7 +68,8 @@ function App (props) {
         break
       case 'youtubeUploadComplete':
         openNotificationWithIcon('success', notification.message)
-        setAppState({ ...appState, clips: [notification.data.clip, ...appState.clips], youtubeUploading: false })
+        getUserProfileAndSet(appState, setAppState)
+        // setAppState({ ...appState, clips: [...appState.clips, notification.data.clip], youtubeUploading: false })
         break
 
       default:

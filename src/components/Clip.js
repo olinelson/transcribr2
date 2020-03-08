@@ -14,6 +14,10 @@ import FileSaver from 'file-saver'
 
 import { Document, Packer, Paragraph, Header, HeadingLevel, Footer } from 'docx'
 
+import * as Scroll from 'react-scroll'
+import { Link, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
+import styled from 'styled-components'
+
 // components
 import {
   Icon,
@@ -35,6 +39,7 @@ import EditClipDrawer from './EditClipDrawer'
 import Word from './Word'
 import CitationModal from './CitationModal'
 import WordCitationModal from './WordCitationModal'
+import SpanElement from './SpanElement'
 
 const { Step } = Steps
 
@@ -282,6 +287,10 @@ function Clip (props) {
     FileSaver.saveAs(file, clip.name + '.txt')
   }
 
+  const StyledElement = styled(Element)`
+    display: flex;
+  `
+
   const maybeShowWordsParagraph = () => {
     if (clip.words.length) {
       const wordPages = splitWordsIntoPages(clip.words, clip.wordPageSize)
@@ -291,15 +300,20 @@ function Clip (props) {
         <WordsContainer style={{ gridArea: 'words' }}>
           <p>
             {wordPages[currentPageIndex].map(w => (
-              <Word
-                key={w._id}
-                word={w}
-                player={player}
-                playerControls={playerControls}
-                setPlayerControls={setPlayerControls}
-                clip={clip}
-                setClip={setClip}
-              />
+              <SpanElement
+                name={w._id}
+                key={'span' + w._id}
+              >
+                <Word
+                  key={w._id}
+                  word={w}
+                  player={player}
+                  playerControls={playerControls}
+                  setPlayerControls={setPlayerControls}
+                  clip={clip}
+                  setClip={setClip}
+                />
+              </SpanElement>
             ))}
           </p>
         </WordsContainer>
@@ -400,6 +414,13 @@ function Clip (props) {
       ...clip,
       currentPageIndex: pageNumber,
       selectedWord: word
+    })
+
+    scroller.scrollTo(word._id, {
+      duration: 500,
+      smooth: true,
+      // containerId: 'ContainerElementID',
+      offset: -100 // Scrolls to element + 50 pixels down the page
     })
   }
 

@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { getUsage } from '../services/userManagement'
 import { Progress, Statistic, Card } from 'antd'
 import styled from 'styled-components'
-import { useStateWithLocalStorageJSON } from '../utils'
+import { useStorageState } from 'react-storage-hooks'
 
 export default function Usage () {
-  const [usage, setUsage] = useStateWithLocalStorageJSON('usage', [])
+  const [usage, setUsage] = useStorageState(localStorage, 'usage', [])
 
   const getUserUsage = async () => {
     const usage = await getUsage()
@@ -35,7 +35,7 @@ export default function Usage () {
     )
   }
 
-  return <StyledCard>
+  return <>
 
     {usage.map(u => {
       const totalUsage = u.total_usage
@@ -47,13 +47,13 @@ export default function Usage () {
       const estimatedCost = paidUsage > 0 ? 5 + (paidUsage * 0.03) : '0.00'
 
       return (
-        <>
+        <StyledCard key={u.id}>
           <Statistic title='Free Minutes Used' value={freeUsage} suffix='/180' />
           <Statistic title='Paid Min Used' value={paidUsage} />
           <Statistic title='Est. Cost' value={estimatedCost} prefix='$' />
-        </>
+        </StyledCard>
       )
     })}
 
-         </StyledCard>
+  </>
 }

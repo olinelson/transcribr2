@@ -37,6 +37,8 @@
     "react-dom": "^16.12.0",
     "react-helmet": "^5.2.1",
     "react-player": "^1.14.2",
+    "react-scroll": "^1.7.16",
+    "react-storage-hooks": "^4.0.0",
     "sanitize-filename": "^1.6.3",
     "styled-components": "^5.0.0"
   },

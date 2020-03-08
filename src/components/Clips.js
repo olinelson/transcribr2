@@ -25,7 +25,7 @@ export default function Clips (props) {
     >
 
       {clips.length ? (
-        clips.sort(sortClipsChronologically).map(c => (
+        [...clips].sort((a, b) => b.dateCreated - a.dateCreated).map(c => (
           <List.Item
             key={c._id} onClick={() => {
               navigate(`app/clips/${c._id}`)

@@ -8,13 +8,13 @@ import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
 import AddPaymentForm from './AddPaymentForm'
 import { openNotificationWithIcon } from './Notifications'
-import { useStateWithLocalStorageJSON } from '../utils'
+import { useStorageState } from 'react-storage-hooks'
 
 const stripePromise = loadStripe('pk_live_cXMZDMoPxJaKGOa5MEXk09PU007Ke5wshF')
 // const stripePromise = loadStripe('pk_test_9MNFVyvIUuMqQgdozJBdDxjO005OlKPNVa')
 
 export default function PaymentMethodsList () {
-  const [cards, setCards] = useStateWithLocalStorageJSON('cards', [])
+  const [cards, setCards] = useStorageState(localStorage, 'cards', [])
   const [loading, setLoading] = useState(true)
   const [addCardModalVisible, setAddCardModalVisible] = useState(false)
 

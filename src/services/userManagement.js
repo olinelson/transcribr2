@@ -25,7 +25,19 @@ export const getUserProfileAndSet = async (appState, setAppState) => {
       openNotificationWithIcon('success', 'Email updated!')
     }
 
-    return setAppState({ ...appState, clips, user })
+    return setAppState({
+      ...appState,
+      clips,
+      user,
+      // uploadDrawerOpen: false,
+      // searchClipDrawerOpen: false,
+      // editUserDrawerOpen: false,
+      // editClipDrawerOpen: false,
+      // editWordDrawerOpen: false,
+      // editEmailDrawerOpen: false,
+      youtubeUploading: false,
+      uploadYoutubeDrawerOpen: false
+    })
   } catch (error) {
     console.error(error)
     window.localStorage.clear()
