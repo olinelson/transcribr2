@@ -376,7 +376,7 @@ function Clip (props) {
                     />
                   ) : (
                     <Icon type='loading' />
-                )
+                  )
                 }
               />
               <Step
@@ -387,7 +387,7 @@ function Clip (props) {
                     <Icon active type='loading' />
                   ) : (
                     <Icon type='message' />
-                )
+                  )
                 }
               />
 
@@ -410,7 +410,6 @@ function Clip (props) {
     const wordIndex = findIndexOfWord(word, clip.words)
     const wordPageSize = clip.wordPageSize || 200
     const pageNumber = Math.floor(wordIndex / wordPageSize)
-    console.log('window widht', window.innerWidth)
 
     if (window.innerWidth < 800) {
       setClip({
