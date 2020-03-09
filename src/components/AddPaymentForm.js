@@ -112,10 +112,8 @@ const CheckoutForm = ({ setAddCardModalVisible, getPaymentMethods }) => {
       type: 'card',
       card: elements.getElement(CardElement)
     })
-    console.log(payload)
 
     const attached = await attachPaymentMethodToCustomer(payload.paymentMethod)
-    console.log({ attached })
     // const attached = null
     if (!attached) payload.error = new Error('Couldn\'t add payment method to customer')
 
