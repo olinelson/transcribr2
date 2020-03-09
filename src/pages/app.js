@@ -61,6 +61,7 @@ function App (props) {
         setAppState({ ...appState, offline: true })
       })
       window.removeEventListener('onpagehide', function (event) {
+        console.log('onpagehide')
         message.warning('Connection lost')
         socket.emit('leaveUserChannel', bearerToken)
         setAppState({ ...appState, offline: true })
@@ -74,6 +75,7 @@ function App (props) {
         getUserProfileAndSet(appState, setAppState)
       })
       window.removeEventListener('onpageshow', function (event) {
+        console.log('onpageshow')
         message.success('Back online!')
         joinUserChannel(getToken(), notification =>
           notificationHandler(notification)
