@@ -44,6 +44,26 @@ function App (props) {
   let socket = openSocket(API_URL)
 
   useEffect(() => {
+    function notificationHandler (notification) {
+      switch (notification.name) {
+        case 'youtubeUploadFailed':
+          openNotificationWithIcon('error', notification.message)
+          setAppState({ ...appState, youtubeUploading: false })
+          break
+        case 'youtubeUploadComplete':
+          openNotificationWithIcon('success', notification.message)
+          getUserProfileAndSet(appState, setAppState)
+          // setAppState({ ...appState, clips: [...appState.clips, notification.data.clip], youtubeUploading: false })
+          break
+        case 'setTime':
+          setTime(notification.data)
+          break
+
+        default:
+          openNotificationWithIcon('success', notification.message)
+      }
+    }
+
     function joinUserChannel (bearerToken, cb) {
       if (isLoggedIn()) {
         socket.on('notification', notification => cb(notification))
@@ -69,14 +89,6 @@ function App (props) {
       getUserProfileAndSet(appState, setAppState)
     }
 
-    function handlePageHide () {
-      console.log('page hide handle')
-      message.warning('Connection lost')
-      socket.emit('leaveUserChannel', bearerToken)
-      socket.disconnect()
-      setAppState({ ...appState, offline: true })
-    }
-
     function cleanup () {
       // socket.emit('leaveUserChannel', bearerToken)
       socket.disconnect()
@@ -84,6 +96,8 @@ function App (props) {
       window.removeEventListener('offline', handleOffline)
 
       window.removeEventListener('online', handleOnline)
+      window.removeEventListener('pagehide', handleOffline)
+      window.removeEventListener('pageshow', handleOnline)
     }
 
     // first load
@@ -97,32 +111,12 @@ function App (props) {
       window.addEventListener('offline', handleOffline)
       window.addEventListener('online', handleOnline)
 
-      window.addEventListener('onpagehide', handleOffline)
-      window.addEventListener('onpageshow', handleOnline)
+      window.addEventListener('pagehide', handleOffline)
+      window.addEventListener('pageshow', handleOnline)
     }
     // cleanup
     return cleanup
   }, [])
-
-  const notificationHandler = notification => {
-    switch (notification.name) {
-      case 'youtubeUploadFailed':
-        openNotificationWithIcon('error', notification.message)
-        setAppState({ ...appState, youtubeUploading: false })
-        break
-      case 'youtubeUploadComplete':
-        openNotificationWithIcon('success', notification.message)
-        getUserProfileAndSet(appState, setAppState)
-        // setAppState({ ...appState, clips: [...appState.clips, notification.data.clip], youtubeUploading: false })
-        break
-      case 'setTime':
-        setTime(notification.data)
-        break
-
-      default:
-        openNotificationWithIcon('success', notification.message)
-    }
-  }
 
   return (
     <Layout appState={appState}>
