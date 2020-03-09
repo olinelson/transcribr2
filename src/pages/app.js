@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Layout from '../components/layout'
 import { Router } from '@reach/router'
 import PrivateRoute from '../components/privateRoute'
@@ -19,6 +19,7 @@ import UserDetails from '../components/UserDetails'
 import YoutubeForm from '../components/YoutubeForm'
 import { useStorageState } from 'react-storage-hooks'
 import { navigate } from 'gatsby'
+import moment from 'moment'
 
 function App (props) {
   const [appState, setAppState] = useStorageState(isBrowser() ? localStorage : null, 'appState', {
@@ -34,54 +35,55 @@ function App (props) {
     offline: false
   })
 
+  const [time, setTime] = useState(Date.now())
+
   const mounted = useRef()
 
   const bearerToken = getToken()
 
-  const socket = openSocket(API_URL)
+  let socket = openSocket(API_URL)
 
   useEffect(() => {
     function joinUserChannel (bearerToken, cb) {
       if (isLoggedIn()) {
         socket.on('notification', notification => cb(notification))
         socket.emit('joinUserChannel', bearerToken)
-        // socket.on('connect', (e) => console.log(e, 'connect'))
-        // socket.on('disconnect', (e) => console.log(e, 'disconnect'))
-        // socket.on('connect_failed', (e) => console.log(e, 'connect-failed'))
-        // socket.io.on('connect_error', (e) => console.log(e, 'connect-error'))
+        socket.on('connect', (e) => console.log(e, 'connect'))
+        socket.on('disconnect', (e) => console.log(e, 'disconnect'))
+        socket.on('connect_failed', (e) => console.log(e, 'connect-failed'))
+        socket.io.on('connect_error', (e) => console.log(e, 'connect-error'))
       }
     }
 
-    function cleanup () {
+    function handleOffline () {
+      message.warning('Connection lost')
+      socket.disconnect()
+      setAppState({ ...appState, offline: true })
+    }
+    function handleOnline () {
+      message.success('Back online!')
+      socket = openSocket(API_URL)
+      joinUserChannel(getToken(), notification =>
+        notificationHandler(notification)
+      )
+      getUserProfileAndSet(appState, setAppState)
+    }
+
+    function handlePageHide () {
+      console.log('page hide handle')
+      message.warning('Connection lost')
       socket.emit('leaveUserChannel', bearerToken)
+      socket.disconnect()
+      setAppState({ ...appState, offline: true })
+    }
 
-      window.removeEventListener('offline', function (event) {
-        message.warning('Connection lost')
-        socket.emit('leaveUserChannel', bearerToken)
-        setAppState({ ...appState, offline: true })
-      })
-      // window.removeEventListener('onpagehide', function (event) {
-      //   console.log('onpagehide')
-      //   message.warning('Connection lost')
-      //   socket.emit('leaveUserChannel', bearerToken)
-      //   setAppState({ ...appState, offline: true })
-      // })
+    function cleanup () {
+      // socket.emit('leaveUserChannel', bearerToken)
+      socket.disconnect()
 
-      window.removeEventListener('online', function (event) {
-        message.success('Back online!')
-        joinUserChannel(getToken(), notification =>
-          notificationHandler(notification)
-        )
-        getUserProfileAndSet(appState, setAppState)
-      })
-      // window.removeEventListener('onpageshow', function (event) {
-      //   console.log('onpageshow')
-      //   message.success('Back online!')
-      //   joinUserChannel(getToken(), notification =>
-      //     notificationHandler(notification)
-      //   )
-      //   getUserProfileAndSet(appState, setAppState)
-      // })
+      window.removeEventListener('offline', handleOffline)
+
+      window.removeEventListener('online', handleOnline)
     }
 
     // first load
@@ -92,34 +94,14 @@ function App (props) {
       )
       getUserProfileAndSet(appState, setAppState)
 
-      window.addEventListener('offline', function (event) {
-        message.warning('Connection lost')
-        socket.emit('leaveUserChannel', bearerToken)
-        setAppState({ ...appState, offline: true })
-      })
-      window.addEventListener('onpagehide', function (event) {
-        message.warning('Connection lost')
-        socket.emit('leaveUserChannel', bearerToken)
-        setAppState({ ...appState, offline: true })
-      })
+      window.addEventListener('offline', handleOffline)
+      window.addEventListener('online', handleOnline)
 
-      window.addEventListener('online', function (event) {
-        message.success('Back online!')
-        joinUserChannel(getToken(), notification =>
-          notificationHandler(notification)
-        )
-        getUserProfileAndSet(appState, setAppState)
-      })
-      window.addEventListener('onpageshow', function (event) {
-        message.success('Back online!')
-        joinUserChannel(getToken(), notification =>
-          notificationHandler(notification)
-        )
-        getUserProfileAndSet(appState, setAppState)
-      })
+      window.addEventListener('onpagehide', handleOffline)
+      window.addEventListener('onpageshow', handleOnline)
     }
     // cleanup
-    return cleanup()
+    return cleanup
   }, [])
 
   const notificationHandler = notification => {
@@ -132,6 +114,9 @@ function App (props) {
         openNotificationWithIcon('success', notification.message)
         getUserProfileAndSet(appState, setAppState)
         // setAppState({ ...appState, clips: [...appState.clips, notification.data.clip], youtubeUploading: false })
+        break
+      case 'setTime':
+        setTime(notification.data)
         break
 
       default:
@@ -206,6 +191,14 @@ function App (props) {
       >
         <YoutubeForm appState={appState} setAppState={setAppState} />
       </Drawer>
+
+      <Alert
+        style={{ zIndex: 1000, position: 'fixed', bottom: '0', left: '0' }}
+        message={moment(time).format('h:mm:ss a')}
+        banner
+        type='success'
+        showIcon={false}
+      />
 
     </Layout>
   )
