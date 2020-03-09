@@ -2,22 +2,26 @@ import React, { useEffect, useState } from 'react'
 import { getUserPaymentMethods, deletePaymentMethod } from '../services/userManagement'
 import { List, Icon, Modal, Popconfirm, Popover, Button } from 'antd'
 
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 
 import { Elements } from '@stripe/react-stripe-js'
-import { loadStripe } from '@stripe/stripe-js'
+
 import AddPaymentForm from './AddPaymentForm'
 import { openNotificationWithIcon } from './Notifications'
 import { useStorageState } from 'react-storage-hooks'
 import { isBrowser } from '../services/auth'
 
-const stripePromise = loadStripe('pk_live_cXMZDMoPxJaKGOa5MEXk09PU007Ke5wshF')
+import { loadStripe } from '@stripe/stripe-js'
+import { STRIPE_PUBLIC_KEY } from '../config'
+
 // const stripePromise = loadStripe('pk_test_9MNFVyvIUuMqQgdozJBdDxjO005OlKPNVa')
 
 export default function PaymentMethodsList () {
+  const stripePromise = loadStripe(STRIPE_PUBLIC_KEY)
   const [cards, setCards] = useStorageState(isBrowser() ? localStorage : null, 'cards', [])
   const [loading, setLoading] = useState(true)
   const [addCardModalVisible, setAddCardModalVisible] = useState(false)
+  const [selectedPaymentMethodId, setSelectedPaymentMethodId] = useState('')
 
   const getPaymentMethods = async () => {
     const paymentMethods = await getUserPaymentMethods()
@@ -31,10 +35,30 @@ export default function PaymentMethodsList () {
     getPaymentMethods()
   }, [])
 
+  const flash = keyframes`
+  from {
+    opacity: 0.5;
+  }
+
+  to {
+    opacity: .7;
+  }
+`
+
   const StyledListItem = styled(List.Item)`
     display: grid;
 grid-template-columns: auto 1fr auto;
 align-items: start;
+ background: ${props =>
+      props._id === selectedPaymentMethodId
+        ? '#E6F7FF'
+        : 'none'};
+  border-bottom: ${props =>
+    props._id === selectedPaymentMethodId
+        ? '2px solid #1890FF;'
+        : 'none'};
+  animation: ${flash} 0.5s alternate infinite linear;
+  animation: ${props => (props._id !== selectedPaymentMethodId ? 'none' : null)};
 
   `
   const StyledListItemContainer = styled.div`
@@ -49,6 +73,7 @@ align-items: start;
   `
 
   const deletePaymentMethodHandler = async (paymentMethodId) => {
+    setSelectedPaymentMethodId(paymentMethodId)
     const deleted = await deletePaymentMethod(paymentMethodId)
     if (!deleted) {
       openNotificationWithIcon('error', 'Coudn\'t delete payment method.')
@@ -75,7 +100,7 @@ align-items: start;
         loading={loading}
         renderItem={c => (
 
-          <StyledListItem>
+          <StyledListItem _id={c.id}>
             <Icon style={{ fontSize: '3.75rem', margin: '0 .5rem' }} type='credit-card' />
 
             <StyledListItemContainer>
@@ -88,15 +113,15 @@ align-items: start;
             {cards.length <= 1
               ? <Popover content='To delete a card, first add a new one.' trigger='hover'>
                 <Button type='link' icon='delete' disabled />
-                </Popover>
+              </Popover>
               : <Popconfirm
                 title='Are you sure delete this card?'
                 onConfirm={() => deletePaymentMethodHandler(c.id)}
                 okText='Yes'
                 cancelText='No'
-              >
+                >
                 <Icon type='delete' />
-              </Popconfirm>}
+                </Popconfirm>}
 
           </StyledListItem>
         )}

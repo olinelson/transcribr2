@@ -139,6 +139,7 @@ export const attachPaymentMethodToCustomer = async paymentMethod => {
       redirect: 'follow', // manual, *follow, error
       referrerPolicy: 'no-referrer' // no-referrer, *client
     })
+    console.log({ res })
     if (!res.ok) throw new Error('something went wrong')
 
     return true
