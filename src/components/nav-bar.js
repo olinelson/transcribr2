@@ -22,7 +22,7 @@ function Navbar (props) {
   }, [])
 
   return (
-    <FixedMenuDiv offline={props.appState.offline}>
+    <FixedMenuDiv offline={props.appState && props.appState.offline ? props.appState.offline : false}>
       <DynamicMenu
         theme='dark'
         mode='horizontal'
