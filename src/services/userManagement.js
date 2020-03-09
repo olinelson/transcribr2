@@ -40,8 +40,8 @@ export const getUserProfileAndSet = async (appState, setAppState) => {
     })
   } catch (error) {
     console.error(error)
-    window.localStorage.clear()
-    navigate('/login')
+    // window.localStorage.clear()
+    // navigate('/login')
     return false
   }
 }
