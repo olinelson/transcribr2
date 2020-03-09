@@ -100,6 +100,7 @@ export const FixedMenuDiv = styled.div`
   left: 0;
   width: 100vw;
   z-index: 100;
+  border-top: ${props => props.offline ? '4px solid orange' : 'none'}
 
   }
 `

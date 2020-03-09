@@ -4,7 +4,7 @@ import { isLoggedIn, logout, isBrowser } from '../services/auth'
 import { Menu, FixedMenuDiv, DynamicMenu } from './MyStyledComponents'
 import WithLocation from './WithLocation'
 
-import { Icon, Popconfirm } from 'antd'
+import { Icon, Popconfirm, Alert } from 'antd'
 
 import { openNotificationWithIcon } from './Notifications'
 
@@ -22,7 +22,7 @@ function Navbar (props) {
   }, [])
 
   return (
-    <FixedMenuDiv>
+    <FixedMenuDiv offline={props.appState.offline}>
       <DynamicMenu
         theme='dark'
         mode='horizontal'

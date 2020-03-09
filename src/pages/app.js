@@ -12,7 +12,7 @@ import { getToken, isLoggedIn, isBrowser } from '../services/auth'
 import openSocket from 'socket.io-client'
 import { API_URL } from '../config'
 
-import { Drawer } from 'antd'
+import { Drawer, Alert, message } from 'antd'
 import UploadClip from '../components/UploadClip'
 import SideBar from '../components/SideBar'
 import UserDetails from '../components/UserDetails'
@@ -29,7 +29,8 @@ function App (props) {
     editClipDrawerOpen: false,
     editWordDrawerOpen: false,
     editEmailDrawerOpen: false,
-    youtubeUploading: false
+    youtubeUploading: false,
+    offline: false
   })
 
   const mounted = useRef()
@@ -41,8 +42,13 @@ function App (props) {
   useEffect(() => {
     function joinUserChannel (bearerToken, cb) {
       if (isLoggedIn()) {
+        console.log('joining user channel')
         socket.on('notification', notification => cb(notification))
         socket.emit('joinUserChannel', bearerToken)
+        socket.on('connect', (e) => console.log(e, 'connect'))
+        socket.on('disconnect', (e) => console.log(e, 'disconnect'))
+        socket.on('connect_failed', (e) => console.log(e, 'connect-failed'))
+        socket.io.on('connect_error', (e) => console.log(e, 'connect-error'))
       }
     }
 
@@ -53,6 +59,20 @@ function App (props) {
         notificationHandler(notification)
       )
       getUserProfileAndSet(appState, setAppState)
+
+      window.addEventListener('offline', function (event) {
+        message.warning('Connection lost')
+        socket.emit('leaveUserChannel', bearerToken)
+        setAppState({ ...appState, offline: true })
+      })
+
+      window.addEventListener('online', function (event) {
+        message.success('Back online!')
+        joinUserChannel(getToken(), notification =>
+          notificationHandler(notification)
+        )
+        getUserProfileAndSet(appState, setAppState)
+      })
     }
     // cleanup
     return function leaveUserChannel () {
@@ -78,7 +98,8 @@ function App (props) {
   }
 
   return (
-    <Layout>
+    <Layout appState={appState}>
+
       <div style={{ gridArea: 'sidebar', display: 'flex' }}>
         <Router basepath='/app' primary={false}>
           <PrivateRoute
@@ -143,6 +164,7 @@ function App (props) {
       >
         <YoutubeForm appState={appState} setAppState={setAppState} />
       </Drawer>
+
     </Layout>
   )
 }
