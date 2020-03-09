@@ -59,9 +59,7 @@ function App (props) {
 
       window.removeEventListener('online', handleOnline)
 
-      window.removeEventListener('onpageshow', handleOnline)
-
-      window.removeEventListener('onpagehide', handleOffline)
+      window.removeEventListener('beforeunload', handleBeforeUnload)
     }
 
     const handleOnline = () => {
@@ -92,9 +90,7 @@ function App (props) {
 
       window.addEventListener('online', handleOnline)
 
-      window.addEventListener('onpageshow', handleOnline)
-
-      window.addEventListener('onpagehide', handleOffline)
+      window.addEventListener('beforeunload', handleBeforeUnload)
     }
     // cleanup
     return cleanup()
