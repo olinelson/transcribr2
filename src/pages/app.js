@@ -60,12 +60,12 @@ function App (props) {
         socket.emit('leaveUserChannel', bearerToken)
         setAppState({ ...appState, offline: true })
       })
-      window.removeEventListener('onpagehide', function (event) {
-        console.log('onpagehide')
-        message.warning('Connection lost')
-        socket.emit('leaveUserChannel', bearerToken)
-        setAppState({ ...appState, offline: true })
-      })
+      // window.removeEventListener('onpagehide', function (event) {
+      //   console.log('onpagehide')
+      //   message.warning('Connection lost')
+      //   socket.emit('leaveUserChannel', bearerToken)
+      //   setAppState({ ...appState, offline: true })
+      // })
 
       window.removeEventListener('online', function (event) {
         message.success('Back online!')
@@ -74,14 +74,14 @@ function App (props) {
         )
         getUserProfileAndSet(appState, setAppState)
       })
-      window.removeEventListener('onpageshow', function (event) {
-        console.log('onpageshow')
-        message.success('Back online!')
-        joinUserChannel(getToken(), notification =>
-          notificationHandler(notification)
-        )
-        getUserProfileAndSet(appState, setAppState)
-      })
+      // window.removeEventListener('onpageshow', function (event) {
+      //   console.log('onpageshow')
+      //   message.success('Back online!')
+      //   joinUserChannel(getToken(), notification =>
+      //     notificationHandler(notification)
+      //   )
+      //   getUserProfileAndSet(appState, setAppState)
+      // })
     }
 
     // first load
