@@ -42,13 +42,12 @@ function App (props) {
   useEffect(() => {
     function joinUserChannel (bearerToken, cb) {
       if (isLoggedIn()) {
-        console.log('joining user channel')
         socket.on('notification', notification => cb(notification))
         socket.emit('joinUserChannel', bearerToken)
-        socket.on('connect', (e) => console.log(e, 'connect'))
-        socket.on('disconnect', (e) => console.log(e, 'disconnect'))
-        socket.on('connect_failed', (e) => console.log(e, 'connect-failed'))
-        socket.io.on('connect_error', (e) => console.log(e, 'connect-error'))
+        // socket.on('connect', (e) => console.log(e, 'connect'))
+        // socket.on('disconnect', (e) => console.log(e, 'disconnect'))
+        // socket.on('connect_failed', (e) => console.log(e, 'connect-failed'))
+        // socket.io.on('connect_error', (e) => console.log(e, 'connect-error'))
       }
     }
 
