@@ -51,6 +51,19 @@ function App (props) {
       }
     }
 
+    const handleOnline = () => {
+      message.success('Back online!')
+      joinUserChannel(getToken(), notification =>
+        notificationHandler(notification)
+      )
+      getUserProfileAndSet(appState, setAppState)
+    }
+    const handleOffline = () => {
+      message.warning('Connection lost')
+      socket.emit('leaveUserChannel', bearerToken)
+      setAppState({ ...appState, offline: true })
+    }
+
     // first load
     if (!mounted.current) {
       mounted.current = true
@@ -59,23 +72,17 @@ function App (props) {
       )
       getUserProfileAndSet(appState, setAppState)
 
-      window.addEventListener('offline', function (event) {
-        message.warning('Connection lost')
-        socket.emit('leaveUserChannel', bearerToken)
-        setAppState({ ...appState, offline: true })
-      })
+      window.addEventListener('offline', handleOffline)
 
-      window.addEventListener('online', function (event) {
-        message.success('Back online!')
-        joinUserChannel(getToken(), notification =>
-          notificationHandler(notification)
-        )
-        getUserProfileAndSet(appState, setAppState)
-      })
+      window.addEventListener('online', handleOnline)
     }
     // cleanup
     return function leaveUserChannel () {
       socket.emit('leaveUserChannel', bearerToken)
+
+      window.removeEventListener('offline', handleOffline)
+
+      window.removeEventListener('online', handleOnline)
     }
   }, [])
 

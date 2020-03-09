@@ -36,7 +36,8 @@ export const getUserProfileAndSet = async (appState, setAppState) => {
       // editWordDrawerOpen: false,
       // editEmailDrawerOpen: false,
       youtubeUploading: false,
-      uploadYoutubeDrawerOpen: false
+      uploadYoutubeDrawerOpen: false,
+      offline: false
     })
   } catch (error) {
     console.error(error)
