@@ -55,27 +55,31 @@ function App (props) {
     function cleanup () {
       socket.emit('leaveUserChannel', bearerToken)
 
-      window.removeEventListener('offline', handleOffline)
+      window.removeEventListener('offline', function (event) {
+        message.warning('Connection lost')
+        socket.emit('leaveUserChannel', bearerToken)
+        setAppState({ ...appState, offline: true })
+      })
+      window.removeEventListener('onpagehide', function (event) {
+        message.warning('Connection lost')
+        socket.emit('leaveUserChannel', bearerToken)
+        setAppState({ ...appState, offline: true })
+      })
 
-      window.removeEventListener('online', handleOnline)
-
-      window.removeEventListener('beforeunload', handleBeforeUnload)
-    }
-
-    const handleOnline = () => {
-      message.success('Back online!')
-      joinUserChannel(getToken(), notification =>
-        notificationHandler(notification)
-      )
-      getUserProfileAndSet(appState, setAppState)
-    }
-    const handleOffline = () => {
-      message.warning('Connection lost')
-      socket.emit('leaveUserChannel', bearerToken)
-      setAppState({ ...appState, offline: true })
-    }
-    const handleBeforeUnload = () => {
-      navigate('/')
+      window.removeEventListener('online', function (event) {
+        message.success('Back online!')
+        joinUserChannel(getToken(), notification =>
+          notificationHandler(notification)
+        )
+        getUserProfileAndSet(appState, setAppState)
+      })
+      window.removeEventListener('onpageshow', function (event) {
+        message.success('Back online!')
+        joinUserChannel(getToken(), notification =>
+          notificationHandler(notification)
+        )
+        getUserProfileAndSet(appState, setAppState)
+      })
     }
 
     // first load
@@ -86,11 +90,31 @@ function App (props) {
       )
       getUserProfileAndSet(appState, setAppState)
 
-      window.addEventListener('offline', handleOffline)
+      window.addEventListener('offline', function (event) {
+        message.warning('Connection lost')
+        socket.emit('leaveUserChannel', bearerToken)
+        setAppState({ ...appState, offline: true })
+      })
+      window.addEventListener('onpagehide', function (event) {
+        message.warning('Connection lost')
+        socket.emit('leaveUserChannel', bearerToken)
+        setAppState({ ...appState, offline: true })
+      })
 
-      window.addEventListener('online', handleOnline)
-
-      window.addEventListener('beforeunload', handleBeforeUnload)
+      window.addEventListener('online', function (event) {
+        message.success('Back online!')
+        joinUserChannel(getToken(), notification =>
+          notificationHandler(notification)
+        )
+        getUserProfileAndSet(appState, setAppState)
+      })
+      window.addEventListener('onpageshow', function (event) {
+        message.success('Back online!')
+        joinUserChannel(getToken(), notification =>
+          notificationHandler(notification)
+        )
+        getUserProfileAndSet(appState, setAppState)
+      })
     }
     // cleanup
     return cleanup()
