@@ -18,6 +18,7 @@ import SideBar from '../components/SideBar'
 import UserDetails from '../components/UserDetails'
 import YoutubeForm from '../components/YoutubeForm'
 import { useStorageState } from 'react-storage-hooks'
+import { navigate } from 'gatsby'
 
 function App (props) {
   const [appState, setAppState] = useStorageState(isBrowser() ? localStorage : null, 'appState', {
@@ -51,6 +52,16 @@ function App (props) {
       }
     }
 
+    function cleanup () {
+      socket.emit('leaveUserChannel', bearerToken)
+
+      window.removeEventListener('offline', handleOffline)
+
+      window.removeEventListener('online', handleOnline)
+
+      window.removeEventListener('beforeunload', handleBeforeUnload)
+    }
+
     const handleOnline = () => {
       message.success('Back online!')
       joinUserChannel(getToken(), notification =>
@@ -62,6 +73,9 @@ function App (props) {
       message.warning('Connection lost')
       socket.emit('leaveUserChannel', bearerToken)
       setAppState({ ...appState, offline: true })
+    }
+    const handleBeforeUnload = () => {
+      navigate('/')
     }
 
     // first load
@@ -75,15 +89,11 @@ function App (props) {
       window.addEventListener('offline', handleOffline)
 
       window.addEventListener('online', handleOnline)
+
+      window.addEventListener('beforeunload', handleBeforeUnload)
     }
     // cleanup
-    return function leaveUserChannel () {
-      socket.emit('leaveUserChannel', bearerToken)
-
-      window.removeEventListener('offline', handleOffline)
-
-      window.removeEventListener('online', handleOnline)
-    }
+    return cleanup()
   }, [])
 
   const notificationHandler = notification => {
