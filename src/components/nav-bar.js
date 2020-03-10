@@ -41,9 +41,11 @@ function Navbar (props) {
           {/* <span>Profile</span> */}
         </Menu.Item>
 
-        <Menu.Item onClick={() => navigate('/app/clips')} key='/app/clips'>
-          <Icon type='audio' />
-        </Menu.Item>
+        {viewWidth < 600
+          ? <Menu.Item onClick={() => navigate('/app/clips')} key='/app/clips'>
+            <Icon type='audio' />
+          </Menu.Item>
+          : null}
 
       </DynamicMenu>
     </FixedMenuDiv>
