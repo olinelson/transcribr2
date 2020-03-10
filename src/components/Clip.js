@@ -114,7 +114,7 @@ function Clip (props) {
       socket.emit('leaveClipChannel', token, _id)
     }
     function handleOnline () {
-      console.log('back online clip!')
+      console.log('clip online!')
       socket = openSocket(API_URL)
       joinClipChannel(token, notification => {
         notificationHandler(notification)
@@ -402,7 +402,7 @@ function Clip (props) {
                     />
                   ) : (
                     <Icon type='loading' />
-                )
+                  )
                 }
               />
               <Step
@@ -413,7 +413,7 @@ function Clip (props) {
                     <Icon active type='loading' />
                   ) : (
                     <Icon type='message' />
-                )
+                  )
                 }
               />
 
