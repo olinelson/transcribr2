@@ -114,6 +114,12 @@ export const FixedMenuDiv = styled.div`
     bottom: 0;
     left:0;
     bottom: right;
+
+     @supports (padding: max(0px)) {
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
+  }
+
+
   }
 
   }
