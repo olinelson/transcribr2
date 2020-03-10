@@ -1,4 +1,5 @@
 import { API_URL } from '../config'
+import { navigate } from 'gatsby'
 
 export const isBrowser = () => typeof window !== 'undefined'
 
@@ -118,4 +119,5 @@ export const isLoggedIn = () => {
 
 export const logout = callback => {
   window.localStorage.clear()
+  navigate('/')
 }

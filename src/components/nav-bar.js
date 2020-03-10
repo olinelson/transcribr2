@@ -36,51 +36,15 @@ function Navbar (props) {
           <Icon type='info-circle' />
         </Menu.Item>
 
-        {isLoggedIn() ? (
-          <Menu.Item onClick={() => navigate('/app')} key='/app'>
-            <Icon type='user' />
-            {/* <span>Profile</span> */}
-          </Menu.Item>
-        ) : null}
+        <Menu.Item onClick={() => navigate('/app')} key='/app'>
+          <Icon type='user' />
+          {/* <span>Profile</span> */}
+        </Menu.Item>
 
-        {isLoggedIn() && viewWidth < 600 ? (
-          <Menu.Item onClick={() => navigate('/app/clips')} key='/app/clips'>
-            <Icon type='audio' />
-          </Menu.Item>
-        ) : null}
+        <Menu.Item onClick={() => navigate('/app/clips')} key='/app/clips'>
+          <Icon type='audio' />
+        </Menu.Item>
 
-        {isLoggedIn() ? (
-          <Menu.Item
-            style={{ justifySelf: 'end' }}
-
-          >
-            <Popconfirm
-              title='Are you sure you want to log out?'
-              onConfirm={() => {
-                logout()
-                openNotificationWithIcon('success', 'Successfully logged out.')
-                navigate('/')
-              }}
-              placement='bottomRight'
-              okText='Yes'
-              cancelText='No'
-            >
-              <Icon type='logout' />
-            </Popconfirm>
-
-            {/* Logout */}
-          </Menu.Item>
-        ) : (
-          <Menu.Item
-            style={{ justifySelf: 'end' }}
-            key='/login'
-            href='/'
-            onClick={() => navigate('/login')}
-          >
-            <Icon type='login' />
-            {/* Login */}
-          </Menu.Item>
-        )}
       </DynamicMenu>
     </FixedMenuDiv>
   )

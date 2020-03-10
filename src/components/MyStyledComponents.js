@@ -115,11 +115,13 @@ export const FixedMenuDiv = styled.div`
     left:0;
     bottom: right;
 
-     @supports (padding: max(0px)) {
-    padding-bottom: max(12px, env(safe-area-inset-bottom));
+    
+
+
   }
-
-
+   @supports (padding: max(0px)) {
+     background: #001529;
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
   }
 
   }
@@ -135,15 +137,15 @@ export const StyledSideBar = styled.div`
 
 export const DynamicMenu = styled(_Menu)`
     display: flex;
-    justify-content: space-between;
     li i {
       margin: 1rem auto !important;
       font-size: 1.5rem !important;
     }
+    justify-content: space-between;
 
     @media (min-width: 600px) {
       display: grid;
-      grid-template-columns: auto auto auto 1fr;
+      grid-template-columns: auto auto auto auto 1fr ;
       justify-content: center;
       justify-items: center;
       ::before {

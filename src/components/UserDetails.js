@@ -17,6 +17,7 @@ import { navigate } from 'gatsby'
 
 import PaymentMethodsList from './PaymentMethodsList'
 import Usage from './Usage'
+import { logout } from '../services/auth'
 
 export default function UserDetails (props) {
   const { appState, setAppState } = props
@@ -41,7 +42,7 @@ export default function UserDetails (props) {
   }
 
   return (
-    <div style={{ padding: '0 1rem' }}>
+    <div style={{ padding: '0 1rem', display: 'grid' }}>
       {/* <DividerForTabletUp /> */}
       <h1>
         User Profile
@@ -52,7 +53,7 @@ export default function UserDetails (props) {
           onClick={() => setAppState({ ...appState, editUserDrawerOpen: true })}
           style={{ fontSize: '1rem' }}
           type='edit'
-                                                        />
+        />
         </Descriptions.Item>
         <Descriptions.Item label='Email'>
           {user.email}{' '}
@@ -72,9 +73,17 @@ export default function UserDetails (props) {
 
       <PaymentMethodsList appState={appState} setAppState={setAppState} />
 
-      {/* <Elements stripe={stripePromise}>
-        <AddPaymentForm appState={appState} />
-      </Elements> */}
+      <Divider />
+
+      <Popconfirm
+
+        title='Are you sure you want to log out?'
+        onConfirm={() => logout()}
+        okText='Yes'
+        cancelText='No'
+      >
+        <Button style={{ justifySelf: 'center' }} type='danger'>Log out</Button>
+      </Popconfirm>
 
       <Drawer
         onClose={() => {
