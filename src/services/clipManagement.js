@@ -146,7 +146,7 @@ export const uploadYoutube = async ({ appState, setAppState, url, setLoading }) 
     })
     if (!res.ok) throw new Error(res.error)
     openNotificationWithIcon('success', 'Youtube download started!')
-    // setAppState({ ...appState, uploadYoutubeDrawerOpen: false, youtubeUploading: true })
+    setAppState({ ...appState, uploadYoutubeDrawerOpen: false, youtubeUploading: true })
   } catch (error) {
     openNotificationWithIcon('error', 'Coudn\'t create clip, please try again')
     setAppState({ ...appState, uploadYoutubeDrawerOpen: true, youtubeUploading: false })
