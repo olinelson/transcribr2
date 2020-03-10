@@ -29,14 +29,7 @@ export const getUserProfileAndSet = async (appState, setAppState) => {
       ...appState,
       clips,
       user,
-      // uploadDrawerOpen: false,
-      // searchClipDrawerOpen: false,
-      // editUserDrawerOpen: false,
-      // editClipDrawerOpen: false,
-      // editWordDrawerOpen: false,
-      // editEmailDrawerOpen: false,
       youtubeUploading: false,
-      uploadYoutubeDrawerOpen: false,
       offline: false
     })
   } catch (error) {
