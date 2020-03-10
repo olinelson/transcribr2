@@ -25,7 +25,7 @@ export const Layout = styled.div`
   display: grid;
   overflow-x: hidden;
   min-height: 100vh;
-  // overflow: hidden;
+  overflow: hidden;
   grid-template-columns: 1fr 3fr 1fr;
   grid-template-rows: 46px 1fr auto;
   grid-gap: 1rem;
@@ -35,6 +35,7 @@ export const Layout = styled.div`
   grid-template-areas:
     ". . ."
     "sidebar main  .";
+
   @media (max-width: 800px) {
     grid-template-columns: auto 1fr;
     grid-gap: 0;
@@ -49,7 +50,7 @@ export const Layout = styled.div`
      grid-template-areas:
       
       "sidebar main  main"
-      ". . ."
+      // ". . ."
       ;
     grid-template-rows:  1fr 46px;
   }
