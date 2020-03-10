@@ -57,7 +57,7 @@ export const Layout = styled.div`
   @supports (padding: max(0px)) {
     padding-left: max(12px, env(safe-area-inset-left));
     padding-right: max(12px, env(safe-area-inset-right));
-    padding-bottom: max(12px, env(safe-area-inset-bottom));
+    border-bottom: max(12px, env(safe-area-inset-bottom)) solid #001529;
   }
 `
 export const Header = styled.div``
