@@ -25,7 +25,7 @@ export const Layout = styled.div`
   display: grid;
   overflow-x: hidden;
   min-height: 100vh;
-  overflow: hidden;
+  // overflow: hidden;
   grid-template-columns: 1fr 3fr 1fr;
   grid-template-rows: 46px 1fr auto;
   grid-gap: 1rem;
@@ -39,8 +39,10 @@ export const Layout = styled.div`
     grid-template-columns: auto 1fr;
     grid-gap: 0;
     grid-template-areas:
+      
+      "sidebar main  main"
       ". . ."
-      "sidebar main  main";
+      ;
   }
 
   @media (max-width: 600px) {
@@ -100,7 +102,14 @@ export const FixedMenuDiv = styled.div`
   left: 0;
   width: 100vw;
   z-index: 100;
-  border-top: ${props => props.offline ? '4px solid orange' : 'none'}
+  border-top: ${props => props.offline ? '4px solid orange' : 'none'};
+  @media (max-width: 600px) {
+     position: fixed;
+    top: auto;
+    bottom: 0;
+    left:0;
+    bottom: right;
+  }
 
   }
 `
