@@ -24,7 +24,7 @@ const TranscriptionModal = ({ clip, setClip, player }) => {
         <Select
           showSearch
           style={{ width: '100%' }}
-          placeholder='Select a language'
+          placeholder='What language/accent is being spoken?'
           optionFilterProp='children'
           onChange={lang => setClip({ ...clip, language: lang })}
           filterOption={(input, option) =>

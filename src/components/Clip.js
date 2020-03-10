@@ -101,13 +101,28 @@ function Clip (props) {
   }
 
   useEffect(() => {
-    const socket = openSocket(API_URL)
+    let socket = openSocket(API_URL)
     const token = getToken()
 
     function joinClipChannel (token, cb) {
       socket.on('clipChannelUpdate', data => cb(data))
       socket.emit('joinClipChannel', token, _id)
     }
+
+    function handleOffline () {
+      console.log('clip offline')
+      socket.emit('leaveClipChannel', token, _id)
+    }
+    function handleOnline () {
+      console.log('back online clip!')
+      socket = openSocket(API_URL)
+      joinClipChannel(token, notification => {
+        notificationHandler(notification)
+      })
+      setClip({ ...clip, loading: true })
+      getClip(_id, clip, setClip)
+    }
+
     setClip({ ...clip, loading: true })
     getClip(_id, clip, setClip)
 
@@ -115,7 +130,18 @@ function Clip (props) {
       notificationHandler(notification)
     })
 
-    return function leaveClipChannel (token) {
+    window.addEventListener('offline', handleOffline)
+    window.addEventListener('online', handleOnline)
+
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState === 'visible') {
+        handleOnline()
+      } else {
+        handleOffline()
+      }
+    })
+
+    return function cleanup (token) {
       socket.emit('leaveClipChannel', token, _id)
     }
   }, [_id])
@@ -376,7 +402,7 @@ function Clip (props) {
                     />
                   ) : (
                     <Icon type='loading' />
-                  )
+                )
                 }
               />
               <Step
@@ -387,7 +413,7 @@ function Clip (props) {
                     <Icon active type='loading' />
                   ) : (
                     <Icon type='message' />
-                  )
+                )
                 }
               />
 

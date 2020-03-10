@@ -80,6 +80,11 @@ function App (props) {
       socket.disconnect()
       setAppState({ ...appState, offline: true })
     }
+    function invisibleHandleOffline () {
+      // message.warning('Connection lost')
+      socket.disconnect()
+      // setAppState({ ...appState, offline: true })
+    }
     function handleOnline () {
       message.success('Back online!')
       socket = openSocket(API_URL)
@@ -100,7 +105,7 @@ function App (props) {
         if (document.visibilityState === 'visible') {
           handleOnline()
         } else {
-          handleOffline()
+          invisibleHandleOffline()
         }
       })
     }
@@ -120,7 +125,7 @@ function App (props) {
         if (document.visibilityState === 'visible') {
           handleOnline()
         } else {
-          handleOffline()
+          invisibleHandleOffline()
         }
       })
     }
