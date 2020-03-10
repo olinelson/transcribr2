@@ -115,14 +115,14 @@ export const FixedMenuDiv = styled.div`
     left:0;
     bottom: right;
 
-    
-
-
-  }
-   @supports (padding: max(0px)) {
+     @supports (padding: max(0px)) {
      background: #001529;
     padding-bottom: max(12px, env(safe-area-inset-bottom));
   }
+
+
+  }
+  
 
   }
 `
