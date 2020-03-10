@@ -39,14 +39,19 @@ export const Layout = styled.div`
     grid-template-columns: auto 1fr;
     grid-gap: 0;
     grid-template-areas:
-      
-      "sidebar main  main"
       ". . ."
+      "sidebar main  main"
+      
       ;
   }
 
   @media (max-width: 600px) {
-    grid-template-rows: 56px 1fr auto;
+     grid-template-areas:
+      
+      "sidebar main  main"
+      ". . ."
+      ;
+    grid-template-rows:  1fr 46px;
   }
 
   @supports (padding: max(0px)) {
