@@ -94,10 +94,15 @@ function App (props) {
       socket.disconnect()
 
       window.removeEventListener('offline', handleOffline)
-
       window.removeEventListener('online', handleOnline)
-      window.removeEventListener('pagehide', handleOffline)
-      window.removeEventListener('pageshow', handleOnline)
+
+      document.removeEventListener('visibilitychange', function () {
+        if (document.visibilityState === 'visible') {
+          handleOnline()
+        } else {
+          handleOffline()
+        }
+      })
     }
 
     // first load
@@ -111,8 +116,13 @@ function App (props) {
       window.addEventListener('offline', handleOffline)
       window.addEventListener('online', handleOnline)
 
-      window.addEventListener('pagehide', handleOffline)
-      window.addEventListener('pageshow', handleOnline)
+      document.addEventListener('visibilitychange', function () {
+        if (document.visibilityState === 'visible') {
+          handleOnline()
+        } else {
+          handleOffline()
+        }
+      })
     }
     // cleanup
     return cleanup
@@ -186,13 +196,13 @@ function App (props) {
         <YoutubeForm appState={appState} setAppState={setAppState} />
       </Drawer>
 
-      <Alert
+      {/* <Alert
         style={{ zIndex: 1000, position: 'fixed', bottom: '0', left: '0' }}
         message={moment(time).format('h:mm:ss a')}
         banner
         type='success'
         showIcon={false}
-      />
+      /> */}
 
     </Layout>
   )
