@@ -91,11 +91,11 @@ function App (props) {
     }
     function handleVisibilityChange () {
       if (document.visibilityState === 'visible') {
-        console.log('joining user channel')
+        // console.log('joining user channel')
         message.success('Back online!')
         socket.emit('joinUserChannel', bearerToken)
       } else {
-        console.log('leaving user channel')
+        // console.log('leaving user channel')
         socket.emit('leaveUserChannel', bearerToken)
       }
     }
