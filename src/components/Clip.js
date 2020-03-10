@@ -101,7 +101,7 @@ function Clip (props) {
   }
 
   useEffect(() => {
-    let socket = openSocket(API_URL)
+    const socket = openSocket(API_URL)
     const token = getToken()
 
     function joinClipChannel (token, cb) {
@@ -115,11 +115,9 @@ function Clip (props) {
     }
     function handleOnline () {
       console.log('clip online!')
-      socket = openSocket(API_URL)
       joinClipChannel(token, notification => {
         notificationHandler(notification)
       })
-      setClip({ ...clip, loading: true })
       getClip(_id, clip, setClip)
     }
 
@@ -404,7 +402,7 @@ function Clip (props) {
                     />
                   ) : (
                     <Icon type='loading' />
-                )
+                  )
                 }
               />
               <Step
@@ -415,7 +413,7 @@ function Clip (props) {
                     <Icon active type='loading' />
                   ) : (
                     <Icon type='message' />
-                )
+                  )
                 }
               />
 
