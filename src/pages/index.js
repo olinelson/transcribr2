@@ -25,8 +25,9 @@ export default function IndexPage () {
     <Layout>
       <div
         style={{
-          gridColumn: '1/-1',
-          gridRow: '2',
+          gridArea: 'main',
+          // gridColumn: '1/-1',
+          // gridRow: '2',
           display: 'grid',
           alignSelf: 'center',
           justifyContent: 'center',
