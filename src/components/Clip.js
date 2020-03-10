@@ -123,6 +123,14 @@ function Clip (props) {
       getClip(_id, clip, setClip)
     }
 
+    function handleVisibilityChange () {
+      if (document.visibilityState === 'visible') {
+        handleOnline()
+      } else {
+        handleOffline()
+      }
+    }
+
     setClip({ ...clip, loading: true })
     getClip(_id, clip, setClip)
 
@@ -133,13 +141,7 @@ function Clip (props) {
     window.addEventListener('offline', handleOffline)
     window.addEventListener('online', handleOnline)
 
-    document.addEventListener('visibilitychange', function () {
-      if (document.visibilityState === 'visible') {
-        handleOnline()
-      } else {
-        handleOffline()
-      }
-    })
+    document.addEventListener('visibilitychange', handleVisibilityChange)
 
     return function cleanup (token) {
       socket.emit('leaveClipChannel', token, _id)
@@ -402,7 +404,7 @@ function Clip (props) {
                     />
                   ) : (
                     <Icon type='loading' />
-                  )
+                )
                 }
               />
               <Step
@@ -413,7 +415,7 @@ function Clip (props) {
                     <Icon active type='loading' />
                   ) : (
                     <Icon type='message' />
-                  )
+                )
                 }
               />
 

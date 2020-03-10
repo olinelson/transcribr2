@@ -80,11 +80,7 @@ function App (props) {
       socket.disconnect()
       setAppState({ ...appState, offline: true })
     }
-    function invisibleHandleOffline () {
-      // message.warning('Connection lost')
-      socket.disconnect()
-      // setAppState({ ...appState, offline: true })
-    }
+
     function handleOnline () {
       message.success('Back online!')
       socket = openSocket(API_URL)
@@ -93,21 +89,15 @@ function App (props) {
       )
       getUserProfileAndSet(appState, setAppState)
     }
-
-    function cleanup () {
-      // socket.emit('leaveUserChannel', bearerToken)
-      socket.disconnect()
-
-      window.removeEventListener('offline', handleOffline)
-      window.removeEventListener('online', handleOnline)
-
-      document.removeEventListener('visibilitychange', function () {
-        if (document.visibilityState === 'visible') {
-          handleOnline()
-        } else {
-          invisibleHandleOffline()
-        }
-      })
+    function handleVisibilityChange () {
+      if (document.visibilityState === 'visible') {
+        console.log('joining user channel')
+        message.success('Back online!')
+        socket.emit('joinUserChannel', bearerToken)
+      } else {
+        console.log('leaving user channel')
+        socket.emit('leaveUserChannel', bearerToken)
+      }
     }
 
     // first load
@@ -121,16 +111,17 @@ function App (props) {
       window.addEventListener('offline', handleOffline)
       window.addEventListener('online', handleOnline)
 
-      document.addEventListener('visibilitychange', function () {
-        if (document.visibilityState === 'visible') {
-          handleOnline()
-        } else {
-          invisibleHandleOffline()
-        }
-      })
+      document.addEventListener('visibilitychange', handleVisibilityChange)
     }
     // cleanup
-    return cleanup
+    return function cleanup () {
+      socket.emit('leaveUserChannel', bearerToken)
+
+      window.removeEventListener('offline', handleOffline)
+      window.removeEventListener('online', handleOnline)
+
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+    }
   }, [])
 
   return (
