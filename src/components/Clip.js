@@ -118,7 +118,10 @@ function Clip (props) {
       joinClipChannel(token, notification => {
         notificationHandler(notification)
       })
-      // getClip(_id, clip, setClip)
+      // if transcription in progress check for updates...
+      if (!clip.words.length && clip.conversionJobId) {
+        getClip(_id, clip, setClip)
+      }
     }
 
     function handleVisibilityChange () {
