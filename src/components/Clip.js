@@ -120,8 +120,8 @@ function Clip (props) {
       joinClipChannel(token, notification => {
         notificationHandler(notification)
       })
-      // if transcription in progress check for updates...
-      if (!clip.words.length || clip.words.length < 1) {
+      if (!clip.words.length && clip.conversionJobId) {
+        console.log('getting clip', clip)
         getClip(_id, clip, setClip)
       }
     }
@@ -131,7 +131,10 @@ function Clip (props) {
         joinClipChannel(token, notification => {
           notificationHandler(notification)
         })
-        getClip(_id, clip, setClip)
+        if (!clip.words.length && clip.conversionJobId) {
+          console.log('getting clip', clip)
+          getClip(_id, clip, setClip)
+        }
       } else {
         socket.emit('leaveClipChannel', token, _id)
       }
@@ -421,7 +424,7 @@ function Clip (props) {
                     />
                   ) : (
                     <Icon type='loading' />
-                )
+                  )
                 }
               />
               <Step
@@ -432,7 +435,7 @@ function Clip (props) {
                     <Icon active type='loading' />
                   ) : (
                     <Icon type='message' />
-                )
+                  )
                 }
               />
 
