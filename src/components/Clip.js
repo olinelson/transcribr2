@@ -121,9 +121,9 @@ function Clip (props) {
         notificationHandler(notification)
       })
       // if transcription in progress check for updates...
-      // if (!clip.words.length && clip.conversionJobId) {
-      getClip(_id, clip, setClip)
-      // }
+      if (!clip.words.length || clip.words.length < 1) {
+        getClip(_id, clip, setClip)
+      }
     }
 
     function handleVisibilityChange () {
@@ -421,7 +421,7 @@ function Clip (props) {
                     />
                   ) : (
                     <Icon type='loading' />
-                  )
+                )
                 }
               />
               <Step
@@ -432,7 +432,7 @@ function Clip (props) {
                     <Icon active type='loading' />
                   ) : (
                     <Icon type='message' />
-                  )
+                )
                 }
               />
 
