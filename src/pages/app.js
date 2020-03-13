@@ -91,10 +91,7 @@ function App (props) {
     }
     function handleVisibilityChange () {
       if (document.visibilityState === 'visible') {
-        // console.log('joining user channel')
-        message.success('Back online!')
         socket.emit('joinUserChannel', bearerToken)
-        console.log('getting user profile and setting')
         getUserProfileAndSet(appState, setAppState)
       } else {
         // console.log('leaving user channel')

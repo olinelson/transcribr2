@@ -101,7 +101,7 @@ function Clip (props) {
   }
 
   useEffect(() => {
-    const socket = openSocket(API_URL)
+    let socket = openSocket(API_URL)
     const token = getToken()
 
     function joinClipChannel (token, cb) {
@@ -111,26 +111,42 @@ function Clip (props) {
 
     function handleOffline () {
       console.log('clip offline')
-      socket.emit('leaveClipChannel', token, _id)
+      // socket.emit('leaveClipChannel', token, _id)
+      socket.disconnect()
     }
     function handleOnline () {
       console.log('clip online!')
+      socket = openSocket(API_URL)
       joinClipChannel(token, notification => {
         notificationHandler(notification)
       })
       // if transcription in progress check for updates...
-      if (!clip.words.length && clip.conversionJobId) {
-        getClip(_id, clip, setClip)
-      }
+      // if (!clip.words.length && clip.conversionJobId) {
+      getClip(_id, clip, setClip)
+      // }
     }
 
     function handleVisibilityChange () {
       if (document.visibilityState === 'visible') {
-        handleOnline()
+        joinClipChannel(token, notification => {
+          notificationHandler(notification)
+        })
+        getClip(_id, clip, setClip)
       } else {
-        handleOffline()
+        socket.emit('leaveClipChannel', token, _id)
       }
     }
+
+    // function handleVisibilityChange () {
+    //   if (document.visibilityState === 'visible') {
+    //     // console.log('joining user channel')
+    //     // message.success('Back online!')
+    //     socket.emit('joinUserChannel', token)
+    //     getClip(_id, clip, setClip)
+    //   } else {
+    //     socket.emit('leaveClipChannel', token, _id)
+    //   }
+    // }
 
     setClip({ ...clip, loading: true })
     getClip(_id, clip, setClip)
@@ -405,7 +421,7 @@ function Clip (props) {
                     />
                   ) : (
                     <Icon type='loading' />
-                )
+                  )
                 }
               />
               <Step
@@ -416,7 +432,7 @@ function Clip (props) {
                     <Icon active type='loading' />
                   ) : (
                     <Icon type='message' />
-                )
+                  )
                 }
               />
 
