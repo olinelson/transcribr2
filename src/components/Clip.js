@@ -132,7 +132,7 @@ function Clip (props) {
           notificationHandler(notification)
         })
         console.log('visibility change', { clip })
-        if (!clip.words.length && clip.conversionJobId) {
+        if ((!clip.words.length || clip.words.legnth < 1) && clip.conversionJobId) {
           console.log('getting clip', clip)
           getClip(_id, clip, setClip)
         }
@@ -425,7 +425,7 @@ function Clip (props) {
                     />
                   ) : (
                     <Icon type='loading' />
-                )
+                  )
                 }
               />
               <Step
@@ -436,7 +436,7 @@ function Clip (props) {
                     <Icon active type='loading' />
                   ) : (
                     <Icon type='message' />
-                )
+                  )
                 }
               />
 
