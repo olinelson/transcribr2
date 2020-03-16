@@ -131,6 +131,7 @@ function Clip (props) {
         joinClipChannel(token, notification => {
           notificationHandler(notification)
         })
+        console.log('visibility change', { clip })
         if (!clip.words.length && clip.conversionJobId) {
           console.log('getting clip', clip)
           getClip(_id, clip, setClip)
@@ -424,7 +425,7 @@ function Clip (props) {
                     />
                   ) : (
                     <Icon type='loading' />
-                  )
+                )
                 }
               />
               <Step
@@ -435,7 +436,7 @@ function Clip (props) {
                     <Icon active type='loading' />
                   ) : (
                     <Icon type='message' />
-                  )
+                )
                 }
               />
 
