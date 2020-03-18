@@ -13,8 +13,7 @@ export default function signup () {
     <Layout>
       <div
         style={{
-          gridColumn: '1/-1',
-          gridRow: '2',
+          gridArea: 'main',
           display: 'grid',
           alignItems: 'center',
           justifyItems: 'center'
