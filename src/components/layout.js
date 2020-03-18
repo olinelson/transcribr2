@@ -2,7 +2,7 @@ import React from 'react'
 import 'antd/dist/antd.css'
 import NavBar from './nav-bar'
 import { Helmet } from 'react-helmet'
-import { Layout } from './MyStyledComponents'
+import { Layout as MyLayout } from './MyStyledComponents'
 import { Alert } from 'antd'
 import { API_URL } from '../config'
 
@@ -46,7 +46,7 @@ const layout = props => {
       {showEnvironmentAlert()}
 
       <NavBar {...props} />
-      <Layout>{children}</Layout>
+      <MyLayout>{children}</MyLayout>
     </>
   )
 }

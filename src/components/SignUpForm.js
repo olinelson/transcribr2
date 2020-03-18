@@ -35,17 +35,7 @@ class SignUp extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form
     return (
-      <Layout>
-        <div
-          style={{
-            display: "grid",
-            alignItems: "center",
-            justifyItems: "center",
-            height: "100%",
-            gridColumn: "1/-1",
-            gridRow: "2",
-          }}
-        >
+    
           <Form onSubmit={this.handleSubmit} className="login-form">
             <h1>Sign Up</h1>
             <Form.Item>
@@ -110,8 +100,7 @@ class SignUp extends React.Component {
               Or <Link to="/login">Log in</Link>
             </Form.Item>
           </Form>
-        </div>
-      </Layout>
+      
     )
   }
 }
