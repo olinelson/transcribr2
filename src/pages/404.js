@@ -17,11 +17,12 @@ export default function IndexPage () {
 
   return (
     <Layout>
-      <div style={{ fontSize: '5vw', position: 'absolute', top: '50%', width: '100vw', textAlign: 'center' }}>
 
-        {showMessage ? <Icon type='question' /> : <Icon type='loading' />}
+      {showMessage
+        ? <Icon type='question' style={{ gridArea: 'main', alignSelf: 'center', fontSize: '2rem' }} />
 
-      </div>
+        : <Icon type='loading' style={{ gridArea: 'main', alignSelf: 'center', fontSize: '2rem' }} />}
+
     </Layout>
   )
 }
