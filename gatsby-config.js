@@ -9,7 +9,7 @@ module.exports = {
       options: {
         // Add any options here
       }
-    }
+    },
     {
       resolve: 'gatsby-source-filesystem',
       options: {
