@@ -34,7 +34,6 @@ function CitationModal (props) {
   } = clip.citation
 
   function copyToClipboard (ref, style) {
-    console.log(ref.current.innerHTML)
     navigator.clipboard.writeText(ref.current.innerHTML)
 
     openNotificationWithIcon('success', `Copied ${style} citation.`)

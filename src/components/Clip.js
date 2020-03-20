@@ -124,7 +124,6 @@ function Clip (props) {
         notificationHandler(notification)
       })
       if (!clip.words.length && clip.conversionJobId) {
-        console.log('getting clip', clip)
         getClip(_id, clip, setClip)
       }
     }
@@ -169,8 +168,6 @@ function Clip (props) {
 
     return function cleanup (token) {
       socket.emit('leaveClipChannel', token, _id)
-      console.log('cleanup')
-      console.log(controller)
       controller.abort()
     }
   }, [_id])
