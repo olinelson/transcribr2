@@ -143,17 +143,6 @@ function Clip (props) {
       }
     }
 
-    // function handleVisibilityChange () {
-    //   if (document.visibilityState === 'visible') {
-    //     // console.log('joining user channel')
-    //     // message.success('Back online!')
-    //     socket.emit('joinUserChannel', token)
-    //     getClip(_id, clip, setClip)
-    //   } else {
-    //     socket.emit('leaveClipChannel', token, _id)
-    //   }
-    // }
-
     setClip({ ...clip, loading: true })
     getClip(_id, clip, setClip, signal)
 
@@ -169,6 +158,7 @@ function Clip (props) {
     return function cleanup (token) {
       socket.emit('leaveClipChannel', token, _id)
       controller.abort()
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
     }
   }, [_id])
 
@@ -206,8 +196,6 @@ function Clip (props) {
             justifySelf: 'center',
             width: '100%',
             marginTop: '.5rem',
-            // maxWidth: clip.isVideo ? '30rem' : '100%',
-            // maxHeight: '40vh',
             minHeight: '.5rem',
             gridArea: 'clip'
           }}
