@@ -3,7 +3,6 @@ import { Icon, Tag, Button } from 'antd'
 import { useStaticQuery, graphql, navigate } from 'gatsby'
 import Img from 'gatsby-image'
 import styled from 'styled-components'
-import NavBar from '../components/nav-bar'
 import Layout from '../components/layout'
 
 const Banner = styled.div`

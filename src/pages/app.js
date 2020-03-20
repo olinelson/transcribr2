@@ -18,8 +18,6 @@ import SideBar from '../components/SideBar'
 import UserDetails from '../components/UserDetails'
 import YoutubeForm from '../components/YoutubeForm'
 import { useStorageState } from 'react-storage-hooks'
-import { navigate } from 'gatsby'
-import moment from 'moment'
 
 function App (props) {
   const [appState, setAppState] = useStorageState(isBrowser() ? localStorage : null, 'appState', {
