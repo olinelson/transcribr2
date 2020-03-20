@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { debounce } from 'debounce'
 
 import { Icon, Drawer, Input, List, Button } from 'antd'
+import styled from 'styled-components'
 
 import { formatTimeStamp } from '../utils'
 
@@ -23,6 +24,13 @@ function SearchClipDrawer (props) {
   const filterWords = (query, words) => {
     return words.filter(w => w.word.toLowerCase().includes(query.toLowerCase()))
   }
+
+  const WordTitle = styled.span`
+ background: ${props =>
+      props.selectedWord && props.selectedWord._id === props.word._id
+        ? '#E6F7FF'
+        : 'none'};
+  `
 
   const onSearch = (query, words) => {
     setLoading(true)
@@ -78,8 +86,10 @@ function SearchClipDrawer (props) {
         loadMore
         renderItem={word => (
           <List.Item
+
             actions={[
               <Button
+                key={word._id + 'navigateButton'}
                 size='small'
                 type='primary'
                 ghost
@@ -88,6 +98,7 @@ function SearchClipDrawer (props) {
                 <Icon type='eye' />
               </Button>,
               <Button
+                key={word._id + 'playButton'}
                 onClick={() => {
                   player.current.seekTo(
                     parseInt(word.startTime.replace('s', ''))
@@ -106,7 +117,9 @@ function SearchClipDrawer (props) {
             ]}
           >
             <List.Item.Meta
-              title={word.word}
+              // style={{ background: 'rgba(24,144,255,0.5)' }}
+              title={<WordTitle className='ant-list-item-meta-title' selectedWord={clip.selectedWord} word={word}>{word.word}</WordTitle>}
+
               description={
                 <span>
                   <Icon

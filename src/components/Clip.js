@@ -416,7 +416,7 @@ function Clip (props) {
                     />
                   ) : (
                     <Icon type='loading' />
-                )
+                  )
                 }
               />
               <Step
@@ -427,7 +427,7 @@ function Clip (props) {
                     <Icon active type='loading' />
                   ) : (
                     <Icon type='message' />
-                )
+                  )
                 }
               />
 
@@ -462,16 +462,17 @@ function Clip (props) {
       setClip({
         ...clip,
         currentPageIndex: pageNumber,
-        selectedWord: word
-
+        selectedWord: word,
+        searchClipDrawerOpen: true
       })
     }
 
-    scroller.scrollTo(word._id, {
+    // to accomodate for page change
+    setTimeout(() => scroller.scrollTo(word._id, {
       duration: 500,
       smooth: true,
       offset: -100 // Scrolls to element + 50 pixels down the page
-    })
+    }), 5)
   }
 
   if (!clip || clip.loading) {
