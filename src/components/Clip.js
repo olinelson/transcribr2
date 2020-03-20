@@ -104,6 +104,9 @@ function Clip (props) {
     let socket = openSocket(API_URL)
     const token = getToken()
 
+    const controller = new AbortController()
+    const signal = controller.signal
+
     function joinClipChannel (token, cb) {
       socket.on('clipChannelUpdate', data => cb(data))
       socket.emit('joinClipChannel', token, _id)
@@ -153,7 +156,7 @@ function Clip (props) {
     // }
 
     setClip({ ...clip, loading: true })
-    getClip(_id, clip, setClip)
+    getClip(_id, clip, setClip, signal)
 
     joinClipChannel(token, notification => {
       notificationHandler(notification)
@@ -166,6 +169,9 @@ function Clip (props) {
 
     return function cleanup (token) {
       socket.emit('leaveClipChannel', token, _id)
+      console.log('cleanup')
+      console.log(controller)
+      controller.abort()
     }
   }, [_id])
 
@@ -425,7 +431,7 @@ function Clip (props) {
                     />
                   ) : (
                     <Icon type='loading' />
-                  )
+                )
                 }
               />
               <Step
@@ -436,7 +442,7 @@ function Clip (props) {
                     <Icon active type='loading' />
                   ) : (
                     <Icon type='message' />
-                  )
+                )
                 }
               />
 
