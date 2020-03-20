@@ -416,7 +416,7 @@ function Clip (props) {
                     />
                   ) : (
                     <Icon type='loading' />
-                  )
+                )
                 }
               />
               <Step
@@ -427,7 +427,7 @@ function Clip (props) {
                     <Icon active type='loading' />
                   ) : (
                     <Icon type='message' />
-                  )
+                )
                 }
               />
 
@@ -512,7 +512,7 @@ function Clip (props) {
             current={clip.currentPageIndex + 1}
             pageSizeOptions={['200', '300', '400', '500', '600']}
             onShowSizeChange={(e, num) =>
-              setClip({ ...clip, wordPageSize: num })}
+              setClip({ ...clip, wordPageSize: num, currentPageIndex: 0 })}
             total={clip.words.length}
             pageSize={clip.wordPageSize || 200}
             hideOnSinglePage
