@@ -14,8 +14,7 @@ import FileSaver from 'file-saver'
 
 import { Document, Packer, Paragraph, Header, HeadingLevel, Footer } from 'docx'
 
-import * as Scroll from 'react-scroll'
-import { Link, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
+import { ElementanimateScroll as scroller } from 'react-scroll'
 import styled from 'styled-components'
 
 // components
@@ -87,9 +86,10 @@ function Clip (props) {
   const notificationHandler = notification => {
     if (notification.name === 'transcriptionUpdate') {
       setClip({
+        ...notification.data.clip,
+        ...clip,
         currentPageIndex: 0,
         currentPageSize: 200,
-        ...notification.data.clip,
         loading: false
       })
     } else {
@@ -117,6 +117,7 @@ function Clip (props) {
       // socket.emit('leaveClipChannel', token, _id)
       socket.disconnect()
     }
+
     function handleOnline () {
       console.log('clip online!')
       socket = openSocket(API_URL)
@@ -416,7 +417,7 @@ function Clip (props) {
                     />
                   ) : (
                     <Icon type='loading' />
-                )
+                  )
                 }
               />
               <Step
@@ -427,7 +428,7 @@ function Clip (props) {
                     <Icon active type='loading' />
                   ) : (
                     <Icon type='message' />
-                )
+                  )
                 }
               />
 
@@ -539,7 +540,6 @@ function Clip (props) {
         <EditWordDrawer setClip={setClip} clip={clip} />
 
         <TranscriptionModal
-          // convertClip={convertClip}
           clip={clip}
           setClip={setClip}
           player={player}

@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import { loadStripe } from '@stripe/stripe-js'
-import { CardElement, Elements, useElements, useStripe } from '@stripe/react-stripe-js'
+import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
 import { attachPaymentMethodToCustomer } from '../services/userManagement'
-import { Form, Input, Alert, Button, Icon } from 'antd'
+import { Form, Alert, Button } from 'antd'
 import { openNotificationWithIcon } from './Notifications'
 
 const CardField = ({ onChange }) => (
@@ -11,32 +10,32 @@ const CardField = ({ onChange }) => (
   </div>
 )
 
-const Field = ({
-  label,
-  id,
-  type,
-  placeholder,
-  required,
-  autoComplete,
-  value,
-  onChange
-}) => (
-  <div className='FormRow'>
-    <label htmlFor={id} className='FormRowLabel'>
-      {label}
-    </label>
-    <input
-      className='FormRowInput'
-      id={id}
-      type={type}
-      placeholder={placeholder}
-      required={required}
-      autoComplete={autoComplete}
-      value={value}
-      onChange={onChange}
-    />
-  </div>
-)
+// const Field = ({
+//   label,
+//   id,
+//   type,
+//   placeholder,
+//   required,
+//   autoComplete,
+//   value,
+//   onChange
+// }) => (
+//   <div className='FormRow'>
+//     <label htmlFor={id} className='FormRowLabel'>
+//       {label}
+//     </label>
+//     <input
+//       className='FormRowInput'
+//       id={id}
+//       type={type}
+//       placeholder={placeholder}
+//       required={required}
+//       autoComplete={autoComplete}
+//       value={value}
+//       onChange={onChange}
+//     />
+//   </div>
+// )
 
 const SubmitButton = ({ processing, error, children, disabled }) => (
   <Button
@@ -161,7 +160,7 @@ const CheckoutForm = ({ setAddCardModalVisible, getPaymentMethods }) => {
       {error
         ? <Form.Item>
           <Alert message={error.message} type='error' showIcon />
-          </Form.Item>
+        </Form.Item>
 
         : null}
 
