@@ -7,6 +7,13 @@ import styled from 'styled-components'
 import { openNotificationWithIcon } from './Notifications'
 import TextArea from 'antd/lib/input/TextArea'
 
+const CitationContainer = styled.div`
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    grid-gap: 1rem;
+  `
+
 function CitationModal (props) {
   const { clip, setClip } = props
 
@@ -67,13 +74,6 @@ function CitationModal (props) {
 
     openNotificationWithIcon('success', `Copied ${style} citation.`)
   }
-
-  const CitationContainer = styled.div`
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    align-items: center;
-    grid-gap: 1rem;
-  `
 
   return (
     <Modal

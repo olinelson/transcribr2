@@ -8,6 +8,13 @@ import { openNotificationWithIcon } from './Notifications'
 import TextArea from 'antd/lib/input/TextArea'
 import { formatTimeStamp } from '../utils'
 
+const CitationContainer = styled.div`
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    grid-gap: 1rem;
+  `
+
 function WordCitationModal (props) {
   const { clip, setClip } = props
 
@@ -22,13 +29,6 @@ function WordCitationModal (props) {
 
     openNotificationWithIcon('success', `Copied ${style} citation!`)
   }
-
-  const CitationContainer = styled.div`
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    align-items: center;
-    grid-gap: 1rem;
-  `
 
   if (!clip.selectedWord) return null
   return (

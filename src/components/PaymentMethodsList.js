@@ -14,7 +14,26 @@ import { isBrowser } from '../services/auth'
 import { loadStripe } from '@stripe/stripe-js'
 import { STRIPE_PUBLIC_KEY } from '../config'
 
-// const stripePromise = loadStripe('pk_test_9MNFVyvIUuMqQgdozJBdDxjO005OlKPNVa')
+const flash = keyframes`
+  from {
+    opacity: 0.5;
+  }
+
+  to {
+    opacity: .7;
+  }
+`
+
+const StyledListItemContainer = styled.div`
+    display: grid
+  `
+
+const StyledListHeader = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+  `
 
 export default function PaymentMethodsList () {
   const stripePromise = loadStripe(STRIPE_PUBLIC_KEY)
@@ -22,6 +41,22 @@ export default function PaymentMethodsList () {
   const [loading, setLoading] = useState(true)
   const [addCardModalVisible, setAddCardModalVisible] = useState(false)
   const [selectedPaymentMethodId, setSelectedPaymentMethodId] = useState('')
+
+  const StyledListItem = styled(List.Item)`
+    display: grid;
+grid-template-columns: auto 1fr auto;
+align-items: start;
+ background: ${props =>
+      props._id === selectedPaymentMethodId
+        ? '#E6F7FF'
+        : 'none'};
+  border-bottom: ${props =>
+      props._id === selectedPaymentMethodId
+        ? '2px solid #1890FF;'
+        : 'none'};
+  animation: ${flash} 0.5s alternate infinite linear;
+  animation: ${props => (props._id !== selectedPaymentMethodId ? 'none' : null)};
+  `
 
   const getPaymentMethods = async () => {
     const paymentMethods = await getUserPaymentMethods()
@@ -34,43 +69,6 @@ export default function PaymentMethodsList () {
   useEffect(() => {
     getPaymentMethods()
   }, [])
-
-  const flash = keyframes`
-  from {
-    opacity: 0.5;
-  }
-
-  to {
-    opacity: .7;
-  }
-`
-
-  const StyledListItem = styled(List.Item)`
-    display: grid;
-grid-template-columns: auto 1fr auto;
-align-items: start;
- background: ${props =>
-      props._id === selectedPaymentMethodId
-        ? '#E6F7FF'
-        : 'none'};
-  border-bottom: ${props =>
-    props._id === selectedPaymentMethodId
-        ? '2px solid #1890FF;'
-        : 'none'};
-  animation: ${flash} 0.5s alternate infinite linear;
-  animation: ${props => (props._id !== selectedPaymentMethodId ? 'none' : null)};
-
-  `
-  const StyledListItemContainer = styled.div`
-    display: grid
-  `
-
-  const StyledListHeader = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    
-  `
 
   const deletePaymentMethodHandler = async (paymentMethodId) => {
     setSelectedPaymentMethodId(paymentMethodId)

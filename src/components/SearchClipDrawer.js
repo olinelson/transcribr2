@@ -8,6 +8,13 @@ import { formatTimeStamp } from '../utils'
 
 const { Search } = Input
 
+const WordTitle = styled.span`
+ background: ${props =>
+    props.selectedWord && props.selectedWord._id === props.word._id
+      ? '#E6F7FF'
+      : 'none'};
+  `
+
 function SearchClipDrawer (props) {
   const {
     navigateToWord,
@@ -24,13 +31,6 @@ function SearchClipDrawer (props) {
   const filterWords = (query, words) => {
     return words.filter(w => w.word.toLowerCase().includes(query.toLowerCase()))
   }
-
-  const WordTitle = styled.span`
- background: ${props =>
-      props.selectedWord && props.selectedWord._id === props.word._id
-        ? '#E6F7FF'
-        : 'none'};
-  `
 
   const onSearch = (query, words) => {
     setLoading(true)

@@ -5,6 +5,13 @@ import styled from 'styled-components'
 import { useStorageState } from 'react-storage-hooks'
 import { isBrowser } from '../services/auth'
 
+const StyledCard = styled.div`
+    display: grid ;
+    grid-template-columns: 1fr 1fr 1fr;
+    // margin:  .5rem 0 1rem 0;
+
+  `
+
 export default function Usage () {
   const [usage, setUsage] = useStorageState(isBrowser() ? localStorage : null, 'usage', [])
 
@@ -16,13 +23,6 @@ export default function Usage () {
   useEffect(() => {
     getUserUsage()
   }, [])
-
-  const StyledCard = styled.div`
-    display: grid ;
-    grid-template-columns: 1fr 1fr 1fr;
-    // margin:  .5rem 0 1rem 0;
-
-  `
 
   if (!usage.length) {
     return (
@@ -56,5 +56,5 @@ export default function Usage () {
       )
     })}
 
-         </>
+  </>
 }
