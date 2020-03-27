@@ -23,7 +23,7 @@ const WordContainer = styled.span`
   
   background: ${props =>
     props.selectedWord && props.selectedWord._id === props.word._id
-    ? '#e6f7ff'
+    ? '#fffbe6'
       : 'none'};
  
   animation: ${flash} 0.5s alternate infinite linear;

@@ -27,7 +27,8 @@ import {
   Progress,
   Menu,
   Dropdown,
-  Divider
+  Divider,
+  Select
 } from 'antd'
 import { ClipContainer, WordsContainer } from './MyStyledComponents'
 import { openNotificationWithIcon } from './Notifications'
@@ -41,6 +42,7 @@ import WordCitationModal from './WordCitationModal'
 import SpanElement from './SpanElement'
 
 const { Step } = Steps
+const { Option } = Select
 
 function Clip (props) {
   const _id = props.clipId
@@ -82,7 +84,8 @@ function Clip (props) {
   const [playerControls, setPlayerControls] = useState({
     playing: false,
     progress: 0,
-    duration: 0
+    duration: 0,
+    playbackRate: 1
   })
 
   const player = useRef(null)
@@ -199,6 +202,7 @@ function Clip (props) {
           width='100%'
           progressInterval={100}
           onProgress={(p) => setClipProgress(p)}
+          playbackRate={playerControls.playbackRate}
           style={{
             justifySelf: 'center',
             width: '100%',
@@ -228,6 +232,14 @@ function Clip (props) {
           </h2>
 
           <Button.Group style={{ justifySelf: 'end' }}>
+            <Select defaultValue={playerControls.playbackRate} style={{ width: '5rem' }} onChange={(d) => setPlayerControls({ ...playerControls, playbackRate: d })}>
+              <Option value={1}>1x</Option>
+              <Option value={1.5}>1.5x</Option>
+              <Option value={1.75}>1.75x</Option>
+              <Option value={2}>2x</Option>
+              {/* <Option value={2.25}>2.25x</Option> */}
+              {/* <Option value={2.5}>2.5x</Option> */}
+            </Select>
 
             <Button
               disabled={!clip.words.length}
@@ -235,6 +247,7 @@ function Clip (props) {
             >
               <Icon type='file-search' />
             </Button>
+
             <Dropdown
               trigger={['click']}
               overlay={
@@ -275,6 +288,7 @@ function Clip (props) {
                 <Icon type='more' />
               </Button>
             </Dropdown>
+
           </Button.Group>
 
           <Divider />
@@ -360,6 +374,7 @@ function Clip (props) {
                   setPlayerControls={setPlayerControls}
                   clip={clip}
                   setClip={setClip}
+
                 />
               </SpanElement>
             ))}
