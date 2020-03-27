@@ -14,7 +14,7 @@ import FileSaver from 'file-saver'
 
 import { Document, Packer, Paragraph, Header, HeadingLevel, Footer } from 'docx'
 
-import { ElementanimateScroll as scroller, scrollTo } from 'react-scroll'
+import { Link, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
 import styled from 'styled-components'
 
 // components
@@ -424,7 +424,7 @@ function Clip (props) {
                     />
                   ) : (
                     <Icon type='loading' />
-                  )
+                )
                 }
               />
               <Step
@@ -435,7 +435,7 @@ function Clip (props) {
                     <Icon active type='loading' />
                   ) : (
                     <Icon type='message' />
-                  )
+                )
                 }
               />
 
