@@ -20,6 +20,8 @@ function SearchClipDrawer (props) {
     navigateToWord,
     setPlayerControls,
     playerControls,
+    searchClipDrawerOpen,
+    setSearchClipDrawerOpen,
     player,
     clip,
     setClip
@@ -64,8 +66,8 @@ function SearchClipDrawer (props) {
       title='Search'
       mask={false}
       maskClosable={false}
-      visible={clip.searchClipDrawerOpen}
-      onClose={() => setClip({ ...clip, searchClipDrawerOpen: false })}
+      visible={searchClipDrawerOpen}
+      onClose={() => setSearchClipDrawerOpen(false)}
     >
       <Search
         style={{ marginBottom: '1rem' }}

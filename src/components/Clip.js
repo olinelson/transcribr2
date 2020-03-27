@@ -46,6 +46,9 @@ function Clip (props) {
   const _id = props.clipId
   const { appState, setAppState } = props
 
+  const [editClipDrawerOpen, setEditClipDrawerOpen] = useState(false)
+  const [searchClipDrawerOpen, setSearchClipDrawerOpen] = useState(false)
+
   const [clip, setClip] = useState({
     // loading
     clipLoading: true,
@@ -66,8 +69,6 @@ function Clip (props) {
     wordCitationModalOpen: false,
     transcribeModalOpen: false,
     language: '',
-    searchClipDrawerOpen: false,
-    editClipDrawerOpen: false,
 
     // search data
     searchInput: '',
@@ -75,6 +76,8 @@ function Clip (props) {
 
     progressPercent: 0
   })
+
+  console.log({ clip })
 
   const [playerControls, setPlayerControls] = useState({
     playing: false,
@@ -87,7 +90,7 @@ function Clip (props) {
     if (notification.name === 'transcriptionUpdate') {
       setClip({
         ...notification.data.clip,
-        ...clip,
+        editClipDrawerOpen: clip.editClipDrawerOpen || false,
         currentPageIndex: 0,
         currentPageSize: 200,
         loading: false
@@ -225,7 +228,7 @@ function Clip (props) {
 
             <Button
               disabled={!clip.words.length}
-              onClick={() => setClip({ ...clip, searchClipDrawerOpen: true })}
+              onClick={() => setSearchClipDrawerOpen(true)}
             >
               <Icon type='file-search' />
             </Button>
@@ -235,7 +238,7 @@ function Clip (props) {
                 <Menu>
                   <Menu.Item
                     onClick={() =>
-                      setClip({ ...clip, editClipDrawerOpen: true })}
+                      setEditClipDrawerOpen(true)}
                   >
                     <Icon type='edit' />
                     Edit
@@ -417,7 +420,7 @@ function Clip (props) {
                     />
                   ) : (
                     <Icon type='loading' />
-                  )
+                )
                 }
               />
               <Step
@@ -428,7 +431,7 @@ function Clip (props) {
                     <Icon active type='loading' />
                   ) : (
                     <Icon type='message' />
-                  )
+                )
                 }
               />
 
@@ -456,15 +459,14 @@ function Clip (props) {
       setClip({
         ...clip,
         currentPageIndex: pageNumber,
-        selectedWord: word,
-        searchClipDrawerOpen: false
+        selectedWord: word
       })
+      setSearchClipDrawerOpen(false)
     } else {
       setClip({
         ...clip,
         currentPageIndex: pageNumber,
-        selectedWord: word,
-        searchClipDrawerOpen: true
+        selectedWord: word
       })
     }
 
@@ -523,6 +525,8 @@ function Clip (props) {
         <EditClipDrawer
           clip={clip}
           setClip={setClip}
+          setEditClipDrawerOpen={setEditClipDrawerOpen}
+          editClipDrawerOpen={editClipDrawerOpen}
           deleteClipHandler={deleteClipHandler}
           {...props}
         />
@@ -532,6 +536,8 @@ function Clip (props) {
           setPlayerControls={setPlayerControls}
           clip={clip}
           setClip={setClip}
+          searchClipDrawerOpen={searchClipDrawerOpen}
+          setSearchClipDrawerOpen={setSearchClipDrawerOpen}
           playerControls={playerControls}
           player={player}
 

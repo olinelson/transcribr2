@@ -16,8 +16,9 @@ import {
 import { updateClip } from '../services/clipManagement'
 
 const { Panel } = Collapse
+
 const EditClipDrawer = props => {
-  const { appState, setAppState, deleteClipHandler, clip } = props
+  const { appState, setAppState, deleteClipHandler, clip, editClipDrawerOpen, setEditClipDrawerOpen } = props
   const [formData, setFormData] = useState(
     !props.clip.citation ? { ...props.clip, citation: {} } : props.clip
   )
@@ -28,10 +29,8 @@ const EditClipDrawer = props => {
       title='Edit Clip'
       placement='right'
       closable
-      onClose={() => {
-        props.setClip({ ...props.clip, editClipDrawerOpen: false })
-      }}
-      visible={clip.editClipDrawerOpen}
+      onClose={() => setEditClipDrawerOpen(false)}
+      visible={editClipDrawerOpen}
     >
       <Form
         layout='vertical'
