@@ -20,16 +20,19 @@ const flash = keyframes`
 `
 
 const WordContainer = styled.span`
+  
   background: ${props =>
     props.selectedWord && props.selectedWord._id === props.word._id
-      ? '#E6F7FF'
+    ? '#e6f7ff'
       : 'none'};
-  border-bottom: ${props =>
-    props.selectedWord && props.selectedWord._id === props.word._id
-      ? '2px solid #1890FF;'
-      : 'none'};
+ 
   animation: ${flash} 0.5s alternate infinite linear;
   animation: ${props => (!props.deleting ? 'none' : null)};
+
+  border-bottom: ${props =>
+    props.clipProgress.playedSeconds > parseInt(props.word.startTime)
+    ? '2px solid #1890FF' : ''}
+     ;
 `
 
 function Word (props) {
@@ -39,7 +42,8 @@ function Word (props) {
     playerControls,
     setPlayerControls,
     clip,
-    setClip
+    setClip,
+    clipProgress
   } = props
 
   const [deleting, setDeleting] = useState(false)
@@ -154,6 +158,7 @@ function Word (props) {
             word={word}
             selectedWord={clip.selectedWord}
             onClick={() => setClip({ ...clip, selectedWord: word })}
+            clipProgress={clipProgress}
           >
             {word.word}
           </WordContainer>{' '}

@@ -1,5 +1,5 @@
-export const API_URL = 'https://transcribr2-api.herokuapp.com'
-// export const API_URL = 'https://transcribr2-api-staging.herokuapp.com'
+// export const API_URL = 'https://transcribr2-api.herokuapp.com'
+export const API_URL = 'https://transcribr2-api-staging.herokuapp.com'
 // export const API_URL = 'http://localhost:3000'
 
 export const STRIPE_PUBLIC_KEY = 'pk_live_cXMZDMoPxJaKGOa5MEXk09PU007Ke5wshF'

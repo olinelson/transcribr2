@@ -14,7 +14,7 @@ import FileSaver from 'file-saver'
 
 import { Document, Packer, Paragraph, Header, HeadingLevel, Footer } from 'docx'
 
-import { ElementanimateScroll as scroller } from 'react-scroll'
+import { ElementanimateScroll as scroller, scrollTo } from 'react-scroll'
 import styled from 'styled-components'
 
 // components
@@ -49,6 +49,8 @@ function Clip (props) {
   const [editClipDrawerOpen, setEditClipDrawerOpen] = useState(false)
   const [searchClipDrawerOpen, setSearchClipDrawerOpen] = useState(false)
 
+  const [clipProgress, setClipProgress] = useState({})
+
   const [clip, setClip] = useState({
     // loading
     clipLoading: true,
@@ -77,13 +79,12 @@ function Clip (props) {
     progressPercent: 0
   })
 
-  console.log({ clip })
-
   const [playerControls, setPlayerControls] = useState({
     playing: false,
     progress: 0,
     duration: 0
   })
+
   const player = useRef(null)
 
   const notificationHandler = notification => {
@@ -196,6 +197,8 @@ function Clip (props) {
           pip
           height='100%'
           width='100%'
+          progressInterval={100}
+          onProgress={(p) => setClipProgress(p)}
           style={{
             justifySelf: 'center',
             width: '100%',
@@ -349,6 +352,7 @@ function Clip (props) {
                 key={'span' + w._id}
               >
                 <Word
+                  clipProgress={clipProgress}
                   key={w._id}
                   word={w}
                   player={player}
@@ -420,7 +424,7 @@ function Clip (props) {
                     />
                   ) : (
                     <Icon type='loading' />
-                )
+                  )
                 }
               />
               <Step
@@ -431,7 +435,7 @@ function Clip (props) {
                     <Icon active type='loading' />
                   ) : (
                     <Icon type='message' />
-                )
+                  )
                 }
               />
 
