@@ -8,10 +8,10 @@ import {
   MoreOutlined,
   PlayCircleOutlined,
   PlusCircleOutlined,
-  SnippetsOutlined,
-} from '@ant-design/icons';
+  SnippetsOutlined
+} from '@ant-design/icons'
 
-import { Popover, Tag, Dropdown, Menu, Popconfirm, Button } from 'antd';
+import { Popover, Tag, Dropdown, Menu, Popconfirm, Button } from 'antd'
 
 import { deleteWord } from '../services/wordManagement'
 
@@ -59,8 +59,9 @@ function Word (props) {
 
   const [deleting, setDeleting] = useState(false)
 
-  const deleteWordHandler = e => {
-    e.preventDefault()
+  const deleteWordHandler = word => {
+    setClip({ ...clip, selectedWord: word })
+
     setDeleting(true)
     deleteWord({
       ...props,
@@ -70,16 +71,9 @@ function Word (props) {
 
   const wordOptions = () => (
     <Menu>
-      <Menu.Item onClick={() => setClip({ ...clip, selectedWord: word })}>
-        <Popconfirm
-          title='Are you sure delete this word?'
-          onConfirm={e => deleteWordHandler(e)}
-          okText='Yes'
-          cancelText='No'
-        >
-          <DeleteOutlined />
-          Delete
-        </Popconfirm>
+      <Menu.Item onClick={() => deleteWordHandler(word)}>
+        <DeleteOutlined /> Delete
+
       </Menu.Item>
       <Menu.Item
         onClick={() =>
@@ -174,7 +168,7 @@ function Word (props) {
         </WordContainer>{' '}
       </span>
     </Popover>
-  </>;
+         </>
 }
 
 export default Word

@@ -1,8 +1,8 @@
-import { notification } from 'antd'
+import { message } from 'antd'
 
-export const openNotificationWithIcon = (type, message) => {
-  notification[type]({
-    message,
-    duration: 2
-  })
+export const openNotificationWithIcon = (type, _message) => {
+  message[type](
+    _message,
+    2
+  )
 }

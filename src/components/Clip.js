@@ -226,14 +226,7 @@ function Clip (props) {
           gridArea: 'clip'
         }}
       />
-      {console.log({ clipProgress })}
-      <Slider
-        value={clipProgress.playedSeconds} onChange={d => player.current.seekTo(
-          d
-        )} max={clipProgress.loadedSeconds} disabled={false}
-      />
-      <Button type='primary' onClick={() => setPlayerControls({ ...playerControls, playing: !playerControls.playing })} shape='circle' icon={playerControls.playing ? <PauseCircleOutlined /> : <PlayCircleOutlined />} />
-           </>
+    </>
   }
 
   const clipOptionsBar = () => (
@@ -456,7 +449,7 @@ function Clip (props) {
                     <CheckCircleTwoTone twoToneColor='#52c41a' />
                   ) : (
                     <LoadingOutlined />
-                )
+                  )
                 }
               />
               <Step
@@ -467,7 +460,7 @@ function Clip (props) {
                     <LoadingOutlined active />
                   ) : (
                     <MessageOutlined />
-                )
+                  )
                 }
               />
 

@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import moment from 'moment'
 
-import { DeleteOutlined } from '@ant-design/icons';
+import { DeleteOutlined } from '@ant-design/icons'
 
-import { Form } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
+import { Form } from '@ant-design/compatible'
+import '@ant-design/compatible/assets/index.css'
 
-import { Drawer, Input, Button, Popconfirm, DatePicker, Divider, Collapse } from 'antd';
+import { Drawer, Input, Button, Popconfirm, DatePicker, Divider, Collapse } from 'antd'
 
 import { updateClip } from '../services/clipManagement'
 
@@ -188,6 +188,7 @@ const EditClipDrawer = props => {
             onConfirm={() => deleteClipHandler(formData._id)}
             okText='Yes'
             cancelText='No'
+
           >
             <Button type='danger'>
               <DeleteOutlined />
@@ -201,7 +202,7 @@ const EditClipDrawer = props => {
         </div>
       </Form>
     </Drawer>
-  );
+  )
 }
 
 export default EditClipDrawer

@@ -1,36 +1,45 @@
-import React from 'react'
-import { Form, Icon, Input, Button } from './MyStyledComponents'
+import React, { useState } from 'react'
+
+import Link from 'gatsby'
 
 import { uploadYoutube } from '../services/clipManagement'
+import { LinkOutlined, MailOutlined, UserOutlined, LockOutlined } from '@ant-design/icons'
 
-export default function YoutubeForm ({ appState, setAppState }) {
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    uploadYoutube({ appState, url: e.target.url.value, setAppState })
+import { Form, Input, Button, Select } from 'antd'
+
+const { Option } = Select
+
+function YoutubeForm ({ appState, setAppState }) {
+  // const handleSubmit = (e) => {
+  //   e.preventDefault()
+  //   uploadYoutube({ appState, url: e.target.url.value, setAppState })
+  // }
+
+  const onFinish = async ({ url }) => {
+    uploadYoutube({ appState, url, setAppState })
   }
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Form.Item>
-        <Input
-          disabled={appState.youtubeUploading}
-          name='url'
-          type='url'
-          prefix={<Icon type='link' style={{ color: 'rgba(0,0,0,.25)' }} />}
-          placeholder='https://www.youtube.com/watch?v=96n33WWgE9g'
-        />
+    <Form
+      name='youtube-form'
+      onFinish={onFinish}
+    >
+
+      <Form.Item
+        name='url'
+        rules={[{ required: true, message: 'Please input a youtube url!' }]}
+      >
+        <Input prefix={<LinkOutlined className='site-form-item-icon' />} placeholder='https://www.youtube.com/watch?v=376q9QUezJU' />
       </Form.Item>
 
       <Form.Item>
-        <Button
-          type='primary'
-          htmlType='submit'
-          loading={appState.youtubeUploading}
-          disabled={appState.youtubeUploading}
-        >
-                    Upload
+        <Button loading={appState.youtubeUploading} type='primary' htmlType='submit' className='login-form-button'>
+          Add
         </Button>
       </Form.Item>
     </Form>
+
   )
 }
+
+export default YoutubeForm

@@ -24,6 +24,7 @@ function App (props) {
     user: {},
     clips: [],
     uploadDrawerOpen: false,
+    uploadYoutubeDrawerOpen: false,
     searchClipDrawerOpen: false,
     editUserDrawerOpen: false,
     editClipDrawerOpen: false,
