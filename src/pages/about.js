@@ -1,5 +1,15 @@
 import React from 'react'
-import { Icon, Tag, Button } from 'antd'
+
+import {
+  CloudUploadOutlined,
+  FileTextOutlined,
+  FileWordOutlined,
+  MessageOutlined,
+  SearchOutlined,
+  SnippetsOutlined,
+} from '@ant-design/icons';
+
+import { Tag, Button } from 'antd';
 import { useStaticQuery, graphql, navigate } from 'gatsby'
 import Img from 'gatsby-image'
 import styled from 'styled-components'
@@ -94,10 +104,7 @@ export default function About () {
           }}
         >
           <Banner>
-            <Icon
-              type='cloud-upload'
-              style={{ fontSize: '10rem', color: '#1890FF' }}
-            />
+            <CloudUploadOutlined style={{ fontSize: '10rem', color: '#1890FF' }} />
             <div style={{ width: '100%' }}>
               <h1>Upload</h1>
               <p>Instantly upload almost any kind of audio or video file.</p>
@@ -163,19 +170,19 @@ export default function About () {
               </p>
               <p>
                 <Tag color='blue'>
-                  <Icon type='file-text' /> .txt
+                  <FileTextOutlined /> .txt
                 </Tag>
 
                 <Tag color='blue'>
-                  <Icon type='file-word' /> .docx
+                  <FileWordOutlined /> .docx
                 </Tag>
               </p>
             </div>
-            <Icon type='message' style={{ fontSize: '8rem', color: 'orange' }} />
+            <MessageOutlined style={{ fontSize: '8rem', color: 'orange' }} />
           </Banner>
 
           <Banner>
-            <Icon type='search' style={{ fontSize: '8rem', color: '#1890FF' }} />
+            <SearchOutlined style={{ fontSize: '8rem', color: '#1890FF' }} />
             <div style={{ width: '100%' }}>
               <h1>Search</h1>
               <p>
@@ -197,10 +204,10 @@ export default function About () {
                 <Tag color='blue'>Harvard</Tag>
               </p>
             </div>
-            <Icon type='snippets' style={{ fontSize: '8rem', color: 'orange' }} />
+            <SnippetsOutlined style={{ fontSize: '8rem', color: 'orange' }} />
           </Banner>
         </div>
       </div>
     </Layout>
-  )
+  );
 }

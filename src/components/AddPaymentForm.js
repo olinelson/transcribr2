@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
 import { attachPaymentMethodToCustomer } from '../services/userManagement'
-import { Form, Alert, Button } from 'antd'
+import { PlusOutlined } from '@ant-design/icons';
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+import { Alert, Button } from 'antd';
 import { openNotificationWithIcon } from './Notifications'
 
 const CardField = ({ onChange }) => (
@@ -39,7 +42,7 @@ const CardField = ({ onChange }) => (
 
 const SubmitButton = ({ processing, error, children, disabled }) => (
   <Button
-    icon='plus'
+    icon={<PlusOutlined />}
     className={`SubmitButton ${error ? 'SubmitButton--error' : ''}`}
     htmlType='submit'
 

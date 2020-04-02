@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from 'react'
 
-import { Menu, Icon } from 'antd'
+import {
+  AudioOutlined,
+  LoadingOutlined,
+  UploadOutlined,
+  UserOutlined,
+  YoutubeOutlined,
+} from '@ant-design/icons';
+
+import { Menu } from 'antd';
 import { navigate } from 'gatsby'
 
 import { StyledSideBar } from './MyStyledComponents'
@@ -33,28 +41,27 @@ function SideBar ({ appState, setAppState }) {
           <Menu.Item
             onClick={() => setAppState({ ...appState, uploadDrawerOpen: true })}
           >
-            {uploading ? <Icon type='loading' spin /> : <Icon type='upload' />}
+            {uploading ? <LoadingOutlined spin /> : <UploadOutlined />}
             <span>Add Clip</span>
           </Menu.Item>
           <Menu.Item
             onClick={() => setAppState({ ...appState, uploadYoutubeDrawerOpen: true })}
           >
-            {youtubeUploading ? <Icon type='loading' spin /> : <Icon type='youtube' />}
+            {youtubeUploading ? <LoadingOutlined spin /> : <YoutubeOutlined />}
             <span>Add Youtube</span>
           </Menu.Item>
 
           <Menu.Item key='/app' onClick={() => navigate('/app')}>
-            <Icon type='user' />
+            <UserOutlined />
             <span>User Profile</span>
           </Menu.Item>
           <Menu.Item key='/app/clips' onClick={() => navigate('/app/clips')}>
-            <Icon type='audio' />
+            <AudioOutlined />
             <span>Clips</span>
           </Menu.Item>
         </Menu>
       </StyledSideBar>
-
-    )
+    );
   }
 
   return (
@@ -67,13 +74,13 @@ function SideBar ({ appState, setAppState }) {
         <Menu.Item
           onClick={() => setAppState({ ...appState, uploadDrawerOpen: true })}
         >
-          {uploading ? <Icon type='loading' spin /> : <Icon type='upload' />}
+          {uploading ? <LoadingOutlined spin /> : <UploadOutlined />}
           <span>Add Clip</span>
         </Menu.Item>
         <Menu.Item
           onClick={() => setAppState({ ...appState, uploadYoutubeDrawerOpen: true })}
         >
-          {youtubeUploading ? <Icon type='loading' spin /> : <Icon type='youtube' />}
+          {youtubeUploading ? <LoadingOutlined spin /> : <YoutubeOutlined />}
           <span>Add Youtube</span>
         </Menu.Item>
       </Menu>
@@ -86,7 +93,7 @@ function SideBar ({ appState, setAppState }) {
         selectedKeys={window ? [window.location.pathname] : ['/app']}
       >
         <Menu.Item key='/app' onClick={() => navigate('/app')}>
-          <Icon type='user' />
+          <UserOutlined />
           <span>User Profile</span>
         </Menu.Item>
 
@@ -94,7 +101,7 @@ function SideBar ({ appState, setAppState }) {
           key='clip'
           title={
             <span>
-              <Icon type='audio' />
+              <AudioOutlined />
               <span>Clips</span>
             </span>
           }
@@ -113,7 +120,7 @@ function SideBar ({ appState, setAppState }) {
 
       </Menu>
     </StyledSideBar>
-  )
+  );
 }
 
 export default SideBar

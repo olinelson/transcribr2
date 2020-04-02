@@ -1,8 +1,9 @@
 import styled from 'styled-components'
 
+import { Form as _Form } from '@ant-design/compatible'
+import '@ant-design/compatible/assets/index.css'
+
 import {
-  Form as _Form,
-  Icon as _Icon,
   Input as _Input,
   Button as _Button,
   Checkbox as _Checkbox,
@@ -15,7 +16,6 @@ import {
 } from 'antd'
 
 export const Form = styled(_Form)``
-export const Icon = styled(_Icon)``
 export const Input = styled(_Input)``
 export const Button = styled(_Button)``
 export const Checkbox = styled(_Checkbox)``

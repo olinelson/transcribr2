@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { getUserPaymentMethods, deletePaymentMethod } from '../services/userManagement'
-import { List, Icon, Modal, Popconfirm, Popover, Button } from 'antd'
+import { CreditCardOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
+import { List, Modal, Popconfirm, Popover, Button } from 'antd';
 
 import styled, { keyframes } from 'styled-components'
 
@@ -82,61 +83,59 @@ align-items: start;
     getPaymentMethods()
   }
 
-  return (
-    <>
-      <List
-        header={
-          <StyledListHeader>
-            <h4>My Payment Methods</h4>
-            <Icon type='plus' onClick={() => setAddCardModalVisible(true)} />
+  return <>
+    <List
+      header={
+        <StyledListHeader>
+          <h4>My Payment Methods</h4>
+          <PlusOutlined onClick={() => setAddCardModalVisible(true)} />
 
-          </StyledListHeader>
-        }
-        locale={{ emptyText: 'no cards added yet...' }}
-        bordered
-        dataSource={cards}
-        loading={loading}
-        renderItem={c => (
+        </StyledListHeader>
+      }
+      locale={{ emptyText: 'no cards added yet...' }}
+      bordered
+      dataSource={cards}
+      loading={loading}
+      renderItem={c => (
 
-          <StyledListItem _id={c.id}>
-            <Icon style={{ fontSize: '3.75rem', margin: '0 .5rem' }} type='credit-card' />
+        <StyledListItem _id={c.id}>
+          <CreditCardOutlined style={{ fontSize: '3.75rem', margin: '0 .5rem' }} />
 
-            <StyledListItemContainer>
-              <h4 style={{ margin: 0 }}>{c.card.brand}</h4>
-              <small>xxxx xxxx xxxx {c.card.last4}</small>
-              <small>Expires: {c.card.exp_month}/{c.card.exp_year}</small>
+          <StyledListItemContainer>
+            <h4 style={{ margin: 0 }}>{c.card.brand}</h4>
+            <small>xxxx xxxx xxxx {c.card.last4}</small>
+            <small>Expires: {c.card.exp_month}/{c.card.exp_year}</small>
 
-            </StyledListItemContainer>
+          </StyledListItemContainer>
 
-            {cards.length <= 1
-              ? <Popover content='To delete a card, first add a new one.' trigger='hover'>
-                <Button type='link' icon='delete' disabled />
-              </Popover>
-              : <Popconfirm
-                title='Are you sure delete this card?'
-                onConfirm={() => deletePaymentMethodHandler(c.id)}
-                okText='Yes'
-                cancelText='No'
-                >
-                <Icon type='delete' />
-                </Popconfirm>}
+          {cards.length <= 1
+            ? <Popover content='To delete a card, first add a new one.' trigger='hover'>
+              <Button type='link' icon={<DeleteOutlined />} disabled />
+            </Popover>
+            : <Popconfirm
+              title='Are you sure delete this card?'
+              onConfirm={() => deletePaymentMethodHandler(c.id)}
+              okText='Yes'
+              cancelText='No'
+              >
+              <DeleteOutlined />
+              </Popconfirm>}
 
-          </StyledListItem>
-        )}
-      />
+        </StyledListItem>
+      )}
+    />
 
-      <Modal
-        title='Add Card'
-        visible={addCardModalVisible}
-        footer={null}
-        //   onOk={this.handleOk}
-        onCancel={() => setAddCardModalVisible(false)}
-      >
-        <Elements stripe={stripePromise}>
-          <AddPaymentForm getPaymentMethods={getPaymentMethods} setAddCardModalVisible={setAddCardModalVisible} />
-        </Elements>
-      </Modal>
+    <Modal
+      title='Add Card'
+      visible={addCardModalVisible}
+      footer={null}
+      //   onOk={this.handleOk}
+      onCancel={() => setAddCardModalVisible(false)}
+    >
+      <Elements stripe={stripePromise}>
+        <AddPaymentForm getPaymentMethods={getPaymentMethods} setAddCardModalVisible={setAddCardModalVisible} />
+      </Elements>
+    </Modal>
 
-    </>
-  )
+  </>;
 }

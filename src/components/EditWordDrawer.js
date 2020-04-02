@@ -1,6 +1,9 @@
 import React from 'react'
 
-import { Drawer, Input, Button, Form } from 'antd'
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+
+import { Drawer, Input, Button } from 'antd';
 
 import { editWord, insertWord } from '../services/wordManagement'
 import { findIndexOfWord } from '../utils'

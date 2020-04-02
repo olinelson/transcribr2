@@ -17,9 +17,24 @@ import { Document, Packer, Paragraph, Header, HeadingLevel, Footer } from 'docx'
 import { Link, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
 import styled from 'styled-components'
 
+import { Icon as LegacyIcon } from '@ant-design/compatible'
+import {
+  PlayCircleOutlined,
+  CheckCircleTwoTone,
+  EditOutlined,
+  FileSearchOutlined,
+  FileTextOutlined,
+  FileWordOutlined,
+  LoadingOutlined,
+  MessageOutlined,
+  MoreOutlined,
+  SmileOutlined,
+  SnippetsOutlined,
+  PauseCircleOutlined
+} from '@ant-design/icons'
+
 // components
 import {
-  Icon,
   Button,
   Pagination,
   Steps,
@@ -190,37 +205,35 @@ function Clip (props) {
   const showClipAudio = () => {
     if (!clip || !clip.rawFileName) return null
 
-    return (
-      <>
-        <ReactPlayer
-          ref={player}
-          url={`https://storage.googleapis.com/${clip.owner}/${clip.rawFileName}`}
-          playing={playerControls.playing}
-          controls
-          playsinline
-          pip
-          height='100%'
-          width='100%'
-          progressInterval={100}
-          onProgress={(p) => setClipProgress(p)}
-          playbackRate={playerControls.playbackRate}
-          style={{
-            justifySelf: 'center',
-            width: '100%',
-            marginTop: '.5rem',
-            minHeight: '.5rem',
-            gridArea: 'clip'
-          }}
-        />
-        {console.log({ clipProgress })}
-        <Slider
-          value={clipProgress.playedSeconds} onChange={d => player.current.seekTo(
-            d
-          )} max={clipProgress.loadedSeconds} disabled={false}
-        />
-        <Button type='primary' shape='circle' icon={<Icon type='play' />} />
-      </>
-    )
+    return <>
+      <ReactPlayer
+        ref={player}
+        url={`https://storage.googleapis.com/${clip.owner}/${clip.rawFileName}`}
+        playing={playerControls.playing}
+        controls
+        playsinline
+        pip
+        height='100%'
+        width='100%'
+        progressInterval={100}
+        onProgress={(p) => setClipProgress(p)}
+        playbackRate={playerControls.playbackRate}
+        style={{
+          justifySelf: 'center',
+          width: '100%',
+          marginTop: '.5rem',
+          minHeight: '.5rem',
+          gridArea: 'clip'
+        }}
+      />
+      {console.log({ clipProgress })}
+      <Slider
+        value={clipProgress.playedSeconds} onChange={d => player.current.seekTo(
+          d
+        )} max={clipProgress.loadedSeconds} disabled={false}
+      />
+      <Button type='primary' onClick={() => setPlayerControls({ ...playerControls, playing: !playerControls.playing })} shape='circle' icon={playerControls.playing ? <PauseCircleOutlined /> : <PlayCircleOutlined />} />
+           </>
   }
 
   const clipOptionsBar = () => (
@@ -253,7 +266,7 @@ function Clip (props) {
               disabled={!clip.words.length}
               onClick={() => setSearchClipDrawerOpen(true)}
             >
-              <Icon type='file-search' />
+              <FileSearchOutlined />
             </Button>
 
             <Dropdown
@@ -264,14 +277,14 @@ function Clip (props) {
                     onClick={() =>
                       setEditClipDrawerOpen(true)}
                   >
-                    <Icon type='edit' />
+                    <EditOutlined />
                     Edit
                   </Menu.Item>
                   <Menu.Item
                     onClick={() =>
                       setClip({ ...clip, clipCitationModalOpen: true })}
                   >
-                    <Icon type='snippets' />
+                    <SnippetsOutlined />
                     Cite
                   </Menu.Item>
 
@@ -279,21 +292,21 @@ function Clip (props) {
                     disabled={!clip.words.length}
                     onClick={() => downloadTextFile()}
                   >
-                    <Icon type='file-text' />
+                    <FileTextOutlined />
                     .txt
                   </Menu.Item>
                   <Menu.Item
                     disabled={!clip.words.length}
                     onClick={() => downloadDocXFile()}
                   >
-                    <Icon type='file-word' />
+                    <FileWordOutlined />
                     .docx
                   </Menu.Item>
                 </Menu>
               }
             >
               <Button>
-                <Icon type='more' />
+                <MoreOutlined />
               </Button>
             </Dropdown>
 
@@ -406,7 +419,7 @@ function Clip (props) {
                   transcribeModalOpen: true
                 })}
             >
-              <Icon type='message' />
+              <MessageOutlined />
               Transcribe
             </Button>
           </div>
@@ -440,14 +453,10 @@ function Clip (props) {
                 title='Converting'
                 icon={
                   clip.conversionComplete ? (
-                    <Icon
-                      type='check-circle'
-                      theme='twoTone'
-                      twoToneColor='#52c41a'
-                    />
+                    <CheckCircleTwoTone twoToneColor='#52c41a' />
                   ) : (
-                    <Icon type='loading' />
-                  )
+                    <LoadingOutlined />
+                )
                 }
               />
               <Step
@@ -455,14 +464,14 @@ function Clip (props) {
                 title='Transcribing'
                 icon={
                   clip.conversionComplete ? (
-                    <Icon active type='loading' />
+                    <LoadingOutlined active />
                   ) : (
-                    <Icon type='message' />
-                  )
+                    <MessageOutlined />
+                )
                 }
               />
 
-              <Step title='Done' icon={<Icon type='smile-o' />} />
+              <Step title='Done' icon={<SmileOutlined />} />
             </Steps>
             {clip.operationId ? (
               <Progress

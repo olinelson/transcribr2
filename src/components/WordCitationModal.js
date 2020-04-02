@@ -1,5 +1,6 @@
 import React, { useRef } from 'react'
-import { Modal, Icon } from 'antd'
+import { CopyOutlined } from '@ant-design/icons';
+import { Modal } from 'antd';
 
 import moment from 'moment'
 
@@ -58,7 +59,7 @@ function WordCitationModal (props) {
             clip.citation.datePosted
           ).format('YYYY')}, ${formatTimeStamp(clip.selectedWord.startTime)})`}
         />
-        <Icon type='copy' onClick={() => copyToClipboard(apaRef, 'APA')} />
+        <CopyOutlined onClick={() => copyToClipboard(apaRef, 'APA')} />
 
         <h4>MLA</h4>
         <TextArea
@@ -73,10 +74,10 @@ function WordCitationModal (props) {
             clip.selectedWord.startTime
           )})`}
         />
-        <Icon type='copy' onClick={() => copyToClipboard(apaRef, 'MLA')} />
+        <CopyOutlined onClick={() => copyToClipboard(apaRef, 'MLA')} />
       </CitationContainer>
     </Modal>
-  )
+  );
 }
 
 export default WordCitationModal

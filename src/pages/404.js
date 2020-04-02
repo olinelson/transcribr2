@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Layout from '../components/layout'
-import { Icon } from 'antd'
+import { LoadingOutlined, QuestionOutlined } from '@ant-design/icons';
 
 export default function IndexPage () {
   const [showMessage, setShowMessage] = useState(false)
@@ -19,10 +19,10 @@ export default function IndexPage () {
     <Layout>
 
       {showMessage
-        ? <Icon type='question' style={{ gridArea: 'main', alignSelf: 'center', fontSize: '2rem' }} />
+        ? <QuestionOutlined style={{ gridArea: 'main', alignSelf: 'center', fontSize: '2rem' }} />
 
-        : <Icon type='loading' style={{ gridArea: 'main', alignSelf: 'center', fontSize: '2rem' }} />}
+        : <LoadingOutlined style={{ gridArea: 'main', alignSelf: 'center', fontSize: '2rem' }} />}
 
     </Layout>
-  )
+  );
 }

@@ -1,6 +1,17 @@
 import React, { useState } from 'react'
 
-import { Popover, Icon, Tag, Dropdown, Menu, Popconfirm, Button } from 'antd'
+import {
+  ArrowLeftOutlined,
+  ArrowRightOutlined,
+  DeleteOutlined,
+  EditOutlined,
+  MoreOutlined,
+  PlayCircleOutlined,
+  PlusCircleOutlined,
+  SnippetsOutlined,
+} from '@ant-design/icons';
+
+import { Popover, Tag, Dropdown, Menu, Popconfirm, Button } from 'antd';
 
 import { deleteWord } from '../services/wordManagement'
 
@@ -66,7 +77,7 @@ function Word (props) {
           okText='Yes'
           cancelText='No'
         >
-          <Icon type='delete' />
+          <DeleteOutlined />
           Delete
         </Popconfirm>
       </Menu.Item>
@@ -78,7 +89,7 @@ function Word (props) {
             editWordDrawerOpen: true
           })}
       >
-        <Icon type='edit' />
+        <EditOutlined />
         Edit
       </Menu.Item>
       <Menu.Item
@@ -89,8 +100,8 @@ function Word (props) {
             editWordDrawerOpen: true
           })}
       >
-        <Icon type='arrow-left' />
-        <Icon type='plus-circle' /> Insert Before
+        <ArrowLeftOutlined />
+        <PlusCircleOutlined /> Insert Before
       </Menu.Item>
       <Menu.Item
         onClick={() =>
@@ -100,8 +111,8 @@ function Word (props) {
             editWordDrawerOpen: true
           })}
       >
-        <Icon type='arrow-right' />
-        <Icon type='plus-circle' /> Insert After
+        <ArrowRightOutlined />
+        <PlusCircleOutlined /> Insert After
       </Menu.Item>
       <Menu.Item
         onClick={() =>
@@ -111,61 +122,59 @@ function Word (props) {
             wordCitationModalOpen: true
           })}
       >
-        <Icon type='snippets' />
+        <SnippetsOutlined />
         Cite
       </Menu.Item>
     </Menu>
   )
 
-  return (
-    <>
-      <Popover
-        trigger='click'
-        key={word._id}
-        content={
-          <>
-            <Tag style={{ marginBottom: '.5rem' }}>
-              {formatTimeStamp(word.startTime)}{' '}
-            </Tag>
-            <div>
-              <ButtonGroup>
-                <Button
-                  onClick={() => {
-                    player.current.seekTo(
-                      parseInt(word.startTime.replace('s', ''))
-                    )
-                    setPlayerControls({ ...playerControls, playing: true })
-                  }}
-                >
-                  <Icon type='play-circle' />
-                </Button>
+  return <>
+    <Popover
+      trigger='click'
+      key={word._id}
+      content={
+        <>
+          <Tag style={{ marginBottom: '.5rem' }}>
+            {formatTimeStamp(word.startTime)}{' '}
+          </Tag>
+          <div>
+            <ButtonGroup>
+              <Button
+                onClick={() => {
+                  player.current.seekTo(
+                    parseInt(word.startTime.replace('s', ''))
+                  )
+                  setPlayerControls({ ...playerControls, playing: true })
+                }}
+              >
+                <PlayCircleOutlined />
+              </Button>
 
-                <Dropdown overlay={wordOptions()} trigger={['click']}>
-                  <Button>
-                    <Icon type='more' />
-                  </Button>
-                </Dropdown>
-              </ButtonGroup>
-            </div>
-          </>
-        }
-      >
-        <span>
-          {' '}
-          <WordContainer
-            style={{ cursor: 'pointer' }}
-            deleting={deleting}
-            word={word}
-            selectedWord={clip.selectedWord}
-            onClick={() => setClip({ ...clip, selectedWord: word })}
-            clipProgress={clipProgress}
-          >
-            {word.word}
-          </WordContainer>{' '}
-        </span>
-      </Popover>
-    </>
-  )
+              <Dropdown overlay={wordOptions()} trigger={['click']}>
+                <Button>
+                  <MoreOutlined />
+                </Button>
+              </Dropdown>
+            </ButtonGroup>
+          </div>
+        </>
+      }
+    >
+      <span>
+        {' '}
+        <WordContainer
+          style={{ cursor: 'pointer' }}
+          deleting={deleting}
+          word={word}
+          selectedWord={clip.selectedWord}
+          onClick={() => setClip({ ...clip, selectedWord: word })}
+          clipProgress={clipProgress}
+        >
+          {word.word}
+        </WordContainer>{' '}
+      </span>
+    </Popover>
+  </>;
 }
 
 export default Word

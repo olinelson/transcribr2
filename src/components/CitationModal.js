@@ -1,5 +1,6 @@
 import React, { useRef } from 'react'
-import { Modal, Icon, Button } from 'antd'
+import { CopyOutlined } from '@ant-design/icons';
+import { Modal, Button } from 'antd';
 
 import moment from 'moment'
 
@@ -95,7 +96,7 @@ function CitationModal (props) {
         </span>
 
         <Button onClick={() => copyHtmlToClipboard(apaRef, 'APA')}>
-          <Icon type='copy' />
+          <CopyOutlined />
         </Button>
 
         <h4>MLA</h4>
@@ -103,7 +104,7 @@ function CitationModal (props) {
           {lastName}, {firstName[0]} {middleInitial}. "{episodeTitle}" {mediaDescription}. {showTitle}. {publisher}, {moment(datePosted).format('DD MMMM YYYY')}. Web. {moment(dateAccessed).format('DD MMMM YYYY')}
         </span>
         <Button onClick={() => copyHtmlToClipboard(mlaRef, 'MLA')}>
-          <Icon type='copy' />
+          <CopyOutlined />
         </Button>
 
         <h4>Vancouver</h4>
@@ -111,7 +112,7 @@ function CitationModal (props) {
           {lastName} {firstName[0]}. {episodeTitle}. {showTitle} [{mediaDescription}]. {placeOfRecording}: {publisher}; {moment(datePosted).format('YYYY')} [cited {moment(dateAccessed).format('YYYY')}]. Available from: {url}.
         </span>
         <Button onClick={() => copyHtmlToClipboard(vancouverRef, 'Vancouver')}>
-          <Icon type='copy' />
+          <CopyOutlined />
         </Button>
 
         <h4>Chicago</h4>
@@ -119,7 +120,7 @@ function CitationModal (props) {
           {lastName}, {firstName}. "{episodeTitle}". {showTitle}. {mediaDescription}, {moment(datePosted).format('MMM. DD, YYYY')}. {url}
         </span>
         <Button onClick={() => copyHtmlToClipboard(chicagoRef, 'Chicago')}>
-          <Icon type='copy' />
+          <CopyOutlined />
         </Button>
 
         <h4>Harvard</h4>
@@ -137,11 +138,11 @@ function CitationModal (props) {
           {lastName}, {firstName[0]}.  ({moment(datePosted).format('YYYY')}). {showTitle}. [{mediaDescription}] {episodeTitle}. Available at: {url} [Accessed {moment(dateAccessed).format('D MMM. YYYY')}].
         </span>
         <Button onClick={() => copyHtmlToClipboard(harvardRef, 'Harvard')}>
-          <Icon type='copy' />
+          <CopyOutlined />
         </Button>
       </CitationContainer>
     </Modal>
-  )
+  );
 }
 
 export default CitationModal

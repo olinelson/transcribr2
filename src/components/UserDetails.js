@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from 'react'
 
-import {
-  Descriptions,
-  Drawer,
-  Icon,
-  Form,
-  Input,
-  Button,
-  Popconfirm,
-  Divider
+import { EditOutlined } from '@ant-design/icons';
 
-} from 'antd'
+import { Form } from '@ant-design/compatible';
+import '@ant-design/compatible/assets/index.css';
+
+import { Descriptions, Drawer, Input, Button, Popconfirm, Divider } from 'antd';
 import { updateUser, deleteUser, changeEmail } from '../services/userManagement'
 import { openNotificationWithIcon } from './Notifications'
 import { navigate } from 'gatsby'
@@ -49,19 +44,15 @@ export default function UserDetails (props) {
 
       </h1>
       <Descriptions layout='vertical'>
-        <Descriptions.Item label='Name'>{user.name}{' '}<Icon
+        <Descriptions.Item label='Name'>{user.name}{' '}<EditOutlined
           onClick={() => setAppState({ ...appState, editUserDrawerOpen: true })}
-          style={{ fontSize: '1rem' }}
-          type='edit'
-        />
+          style={{ fontSize: '1rem' }} />
         </Descriptions.Item>
         <Descriptions.Item label='Email'>
           {user.email}{' '}
-          <Icon
+          <EditOutlined
             onClick={() =>
-              setAppState({ ...appState, editEmailDrawerOpen: true })}
-            type='edit'
-          />
+              setAppState({ ...appState, editEmailDrawerOpen: true })} />
         </Descriptions.Item>
       </Descriptions>
 
@@ -197,5 +188,5 @@ export default function UserDetails (props) {
         </Form>
       </Drawer>
     </div>
-  )
+  );
 }

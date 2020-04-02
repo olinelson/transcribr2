@@ -1,4 +1,5 @@
 import React from 'react'
+import { UploadOutlined, YoutubeOutlined } from '@ant-design/icons';
 import { List, Button } from 'antd'
 import { navigate } from 'gatsby'
 import { sortClipsChronologically } from '../utils'
@@ -17,8 +18,8 @@ export default function Clips (props) {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '0 1rem' }}>
           <h1 style={{ margin: 0 }}>Clips</h1>
           <ButtonGroup>
-            <Button icon='youtube' loading={appState.youtubeUploading} onClick={() => setAppState({ ...appState, uploadYoutubeDrawerOpen: true })}>Add with link</Button>
-            <Button icon='upload' onClick={() => setAppState({ ...appState, uploadDrawerOpen: true })}>Upload</Button>
+            <Button icon={<YoutubeOutlined />} loading={appState.youtubeUploading} onClick={() => setAppState({ ...appState, uploadYoutubeDrawerOpen: true })}>Add with link</Button>
+            <Button icon={<UploadOutlined />} onClick={() => setAppState({ ...appState, uploadDrawerOpen: true })}>Upload</Button>
           </ButtonGroup>
         </div>
       }
@@ -42,5 +43,5 @@ export default function Clips (props) {
         </List.Item>
       )}
     </List>
-  )
+  );
 }

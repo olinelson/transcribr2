@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { debounce } from 'debounce'
 
-import { Icon, Drawer, Input, List, Button } from 'antd'
+import { ClockCircleOutlined, EyeOutlined, PlayCircleOutlined } from '@ant-design/icons';
+
+import { Drawer, Input, List, Button } from 'antd';
 import styled from 'styled-components'
 
 import { formatTimeStamp } from '../utils'
@@ -97,7 +99,7 @@ function SearchClipDrawer (props) {
                 ghost
                 onClick={() => navigateToWord(word)}
               >
-                <Icon type='eye' />
+                <EyeOutlined />
               </Button>,
               <Button
                 key={word._id + 'playButton'}
@@ -114,7 +116,7 @@ function SearchClipDrawer (props) {
                 type='primary'
                 ghost
               >
-                <Icon type='play-circle' />
+                <PlayCircleOutlined />
               </Button>
             ]}
           >
@@ -124,10 +126,7 @@ function SearchClipDrawer (props) {
 
               description={
                 <span>
-                  <Icon
-                    onClick={() => navigateToWord(word)}
-                    type='clock-circle'
-                  />{' '}
+                  <ClockCircleOutlined onClick={() => navigateToWord(word)} />{' '}
                   {formatTimeStamp(word.startTime)}{' '}
                 </span>
               }
@@ -136,7 +135,7 @@ function SearchClipDrawer (props) {
         )}
       />
     </Drawer>
-  )
+  );
 }
 
 export default SearchClipDrawer
