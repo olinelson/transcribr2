@@ -28,7 +28,8 @@ import {
   Menu,
   Dropdown,
   Divider,
-  Select
+  Select,
+  Slider
 } from 'antd'
 import { ClipContainer, WordsContainer } from './MyStyledComponents'
 import { openNotificationWithIcon } from './Notifications'
@@ -211,6 +212,13 @@ function Clip (props) {
             gridArea: 'clip'
           }}
         />
+        {console.log({ clipProgress })}
+        <Slider
+          value={clipProgress.playedSeconds} onChange={d => player.current.seekTo(
+            d
+          )} max={clipProgress.loadedSeconds} disabled={false}
+        />
+        <Button type='primary' shape='circle' icon={<Icon type='play' />} />
       </>
     )
   }
@@ -439,7 +447,7 @@ function Clip (props) {
                     />
                   ) : (
                     <Icon type='loading' />
-                )
+                  )
                 }
               />
               <Step
@@ -450,7 +458,7 @@ function Clip (props) {
                     <Icon active type='loading' />
                   ) : (
                     <Icon type='message' />
-                )
+                  )
                 }
               />
 

@@ -23,15 +23,15 @@ const WordContainer = styled.span`
   
   background: ${props =>
     props.selectedWord && props.selectedWord._id === props.word._id
-    ? '#fffbe6'
+    ? '#fffbe5'
       : 'none'};
  
   animation: ${flash} 0.5s alternate infinite linear;
   animation: ${props => (!props.deleting ? 'none' : null)};
 
-  border-bottom: ${props =>
-    props.clipProgress.playedSeconds > parseInt(props.word.startTime)
-    ? '2px solid #1890FF' : ''}
+  opacity: ${props =>
+  props.clipProgress.playedSeconds > parseInt(props.word.startTime) || (props.selectedWord && props.selectedWord._id === props.word._id)
+    ? '1' : '.5'}
      ;
 `
 
