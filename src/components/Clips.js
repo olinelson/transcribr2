@@ -1,14 +1,25 @@
-import React from 'react'
-import { UploadOutlined, YoutubeOutlined } from '@ant-design/icons';
-import { List, Button } from 'antd'
+import React, { useState } from 'react'
+import { UploadOutlined, YoutubeOutlined } from '@ant-design/icons'
+import { List, Button, Input } from 'antd'
 import { navigate } from 'gatsby'
 import { sortClipsChronologically } from '../utils'
 import ButtonGroup from 'antd/lib/button/button-group'
+const { Search } = Input
 
 export default function Clips (props) {
   const { appState, setAppState } = props
+  const [clipFilterText, setClipFilterText] = useState('')
 
   const clips = props.appState.clips
+
+  const sortOrFilterClips = (clips) => {
+    if (clipFilterText.length && clipFilterText.length > 0) {
+      return clips.filter(c => c.name.toLowerCase().includes(clipFilterText.toLowerCase()))
+      // return []
+    } else {
+      return clips.sort((a, b) => b.dateCreated - a.dateCreated)
+    }
+  }
 
   return (
     <List
@@ -24,9 +35,15 @@ export default function Clips (props) {
         </div>
       }
     >
-
+      <Search
+        placeholder='Search clips'
+        onChange={e => setClipFilterText(e.target.value)}
+        // onSearch={e => setClipFilterText(e.target.value)}
+        value={clipFilterText}
+        style={{ border: 'none', padding: '16px 24px' }}
+      />
       {clips.length ? (
-        [...clips].sort((a, b) => b.dateCreated - a.dateCreated).map(c => (
+        sortOrFilterClips([...clips]).map(c => (
           <List.Item
             key={c._id} onClick={() => {
               navigate(`app/clips/${c._id}`)
@@ -43,5 +60,5 @@ export default function Clips (props) {
         </List.Item>
       )}
     </List>
-  );
+  )
 }

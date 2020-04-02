@@ -190,14 +190,6 @@ function App (props) {
         <YoutubeForm appState={appState} setAppState={setAppState} />
       </Drawer>
 
-      {/* <Alert
-        style={{ zIndex: 1000, position: 'fixed', bottom: '0', left: '0' }}
-        message={moment(time).format('h:mm:ss a')}
-        banner
-        type='success'
-        showIcon={false}
-      /> */}
-
     </Layout>
   )
 }

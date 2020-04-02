@@ -5,17 +5,20 @@ import {
   LoadingOutlined,
   UploadOutlined,
   UserOutlined,
-  YoutubeOutlined,
-} from '@ant-design/icons';
+  YoutubeOutlined
+} from '@ant-design/icons'
 
-import { Menu } from 'antd';
+import { Menu, Input } from 'antd'
 import { navigate } from 'gatsby'
 
 import { StyledSideBar } from './MyStyledComponents'
 
+const { Search } = Input
+
 const { SubMenu } = Menu
 function SideBar ({ appState, setAppState }) {
   const { clips, uploading, youtubeUploading } = appState
+  const [clipFilterText, setClipFilterText] = useState('')
 
   const [viewWidth, setViewWidth] = useState(window.innerWidth)
 
@@ -26,6 +29,15 @@ function SideBar ({ appState, setAppState }) {
 
     window.addEventListener('resize', handleResize)
   }, [])
+
+  const sortOrFilterClips = (clips) => {
+    if (clipFilterText.length && clipFilterText.length > 0) {
+      return clips.filter(c => c.name.toLowerCase().includes(clipFilterText.toLowerCase()))
+      // return []
+    } else {
+      return clips.sort((a, b) => b.dateCreated - a.dateCreated)
+    }
+  }
 
   if (viewWidth <= 600) return null
 
@@ -61,7 +73,7 @@ function SideBar ({ appState, setAppState }) {
           </Menu.Item>
         </Menu>
       </StyledSideBar>
-    );
+    )
   }
 
   return (
@@ -106,21 +118,31 @@ function SideBar ({ appState, setAppState }) {
             </span>
           }
         >
-          {clips
-            .sort((a, b) => b.dateCreated - a.dateCreated)
-            .map(c => (
-              <Menu.Item
-                onClick={() => navigate(`app/clips/${c._id}`)}
-                key={`/app/clips/${c._id}`}
-              >
-                <span>{c.name}</span>
-              </Menu.Item>
-            ))}
+          <Menu.Item>
+            <Search
+              placeholder='Search clips'
+              onChange={e => setClipFilterText(e.target.value)}
+              value={clipFilterText}
+              style={{ border: 'none', padding: 0 }}
+            />
+          </Menu.Item>
+          {
+            sortOrFilterClips(clips)
+            // .sort((a, b) => b.dateCreated - a.dateCreated)
+              .map(c => (
+                <Menu.Item
+                  onClick={() => navigate(`app/clips/${c._id}`)}
+                  key={`/app/clips/${c._id}`}
+                >
+                  <span>{c.name}</span>
+                </Menu.Item>
+              ))
+          }
         </SubMenu>
 
       </Menu>
     </StyledSideBar>
-  );
+  )
 }
 
 export default SideBar
