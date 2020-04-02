@@ -67,7 +67,8 @@ export const insertWord = async ({ index, setClip, clip, newWord }) => {
       words: newWords,
       editing: false,
       inserting: null,
-      loading: false
+      loading: false,
+      editWordDrawerOpen: false
     })
     openNotificationWithIcon('success', 'Word Created')
   } catch (error) {
