@@ -86,9 +86,9 @@ class SignUp extends React.Component {
                 valuePropName: "checked",
                 initialValue: true,
               })(<Checkbox>Remember me</Checkbox>)}
-              <a className="login-form-forgot" href="https://www.google.com">
+              <Link to ="/forgot">
                 Forgot password
-              </a>
+              </Link>
               <Button
                 type="primary"
                 htmlType="submit"
