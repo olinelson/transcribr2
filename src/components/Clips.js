@@ -39,6 +39,7 @@ export default function Clips (props) {
         placeholder='Search clips'
         onChange={e => setClipFilterText(e.target.value)}
         // onSearch={e => setClipFilterText(e.target.value)}
+        allowClear
         value={clipFilterText}
         style={{ border: 'none', padding: '16px 24px' }}
       />

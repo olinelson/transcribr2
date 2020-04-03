@@ -124,6 +124,7 @@ function SideBar ({ appState, setAppState }) {
               onChange={e => setClipFilterText(e.target.value)}
               value={clipFilterText}
               style={{ border: 'none', padding: 0 }}
+              allowClear
             />
           </Menu.Item>
           {
