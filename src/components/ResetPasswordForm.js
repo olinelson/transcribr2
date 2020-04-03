@@ -1,91 +1,51 @@
-import React from "react"
-import { Form, Icon, Input, Button } from "./MyStyledComponents"
-import { handleResetPassword } from "../services/auth"
-import { openNotificationWithIcon } from "./Notifications"
-import { navigate, Link } from "gatsby"
-import Layout from "./layout"
-import WithLocation from "./WithLocation"
-import queryString from "query-string"
+import React, { useState } from 'react'
+import { Form, Input, Button } from './MyStyledComponents'
+import { handleResetPassword } from '../services/auth'
+import { openNotificationWithIcon } from './Notifications'
+import { navigate } from 'gatsby'
+import WithLocation from './WithLocation'
+import queryString from 'query-string'
+import { UserOutlined } from '@ant-design/icons'
 
-class ResetPassword extends React.Component {
-  state = {
-    loading: false,
-    search: queryString.parse(this.props.location.search),
-  }
+function ResetPasswordForm (props) {
+  const [loading, setLoading] = useState(false)
 
-  handleSubmit = e => {
-    this.setState({ ...this.state, loading: true })
+  const token = queryString.parse(props.location.search)
 
-    e.preventDefault()
-
-    this.props.form.validateFields(async (err, values) => {
-      if (!err) {
-        const sent = await handleResetPassword({
-          ...values,
-          token: this.state.search.token,
-        })
-
-        if (sent) {
-          openNotificationWithIcon("success", "Password reset, logging you  in")
-          navigate(`/app`)
-        } else {
-          openNotificationWithIcon("error", "Sorry, something went wrong")
-        }
-      }
-      this.setState({ loading: false })
+  const onFinish = async (values) => {
+    setLoading(true)
+    const sent = await handleResetPassword({
+      ...values,
+      token
     })
+
+    if (sent) {
+      openNotificationWithIcon('success', 'Password reset, logging you  in')
+      navigate('/app')
+    } else {
+      openNotificationWithIcon('error', 'Sorry, something went wrong')
+    }
   }
 
-  render() {
-    const { getFieldDecorator } = this.props.form
-    return (
-      <Layout>
-        <div
-          style={{
-            display: "grid",
-            alignItems: "center",
-            justifyItems: "center",
-            height: "100%",
-            gridColumn: "1/-1",
-            gridRow: "2",
-          }}
-        >
-          <Form onSubmit={this.handleSubmit} className="login-form">
-            <h1>Reset Password</h1>
-            <Form.Item>
-              {getFieldDecorator("password", {
-                rules: [
-                  { required: true, message: "Please input your Password!" },
-                ],
-              })(
-                <Input
-                  prefix={
-                    <Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />
-                  }
-                  type="password"
-                  placeholder="New Password"
-                />
-              )}
-            </Form.Item>
+  return (
+    <Form
+      name='normal_login'
+      onFinish={onFinish}
+    >
+      <Form.Item
+        name='password'
+        rules={[{ required: true, message: 'Please input your new password!' }]}
+      >
+        <Input prefix={<UserOutlined className='site-form-item-icon' />} placeholder='New Password' />
+      </Form.Item>
 
-            <Form.Item>
-              <Button
-                type="primary"
-                htmlType="submit"
-                className="login-form-button"
-                loading={this.state.loading}
-              >
-                Reset
-              </Button>
-              Or <Link to="/login">Log in</Link>
-            </Form.Item>
-          </Form>
-        </div>
-      </Layout>
-    )
-  }
+      <Form.Item>
+        <Button loading={loading} type='primary' htmlType='submit' className='login-form-button'>
+          Reset
+        </Button>
+      </Form.Item>
+    </Form>
+  )
 }
-
-const ResetPasswordForm = Form.create({ name: "ResetPassword " })(ResetPassword)
 
 export default WithLocation(ResetPasswordForm)
