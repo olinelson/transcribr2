@@ -8,7 +8,6 @@ import { isBrowser } from '../services/auth'
 const StyledCard = styled.div`
     display: grid ;
     grid-template-columns: 1fr 1fr 1fr;
-    // margin:  .5rem 0 1rem 0;
 
   `
 

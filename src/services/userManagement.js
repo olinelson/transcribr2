@@ -13,7 +13,11 @@ export const getUserProfileAndSet = async (appState, setAppState) => {
       redirect: 'follow', // manual, *follow, error
       referrerPolicy: 'no-referrer' // no-referrer, *client
     })
-    if (!res.ok) throw new Error('Can\'t find user')
+    if (res.status === 401){
+      window.localStorage.clear()
+      navigate('/login')
+      return false
+    }
 
     res = await res.json() // parses JSON response into native JavaScript objects
     const user = res.user
@@ -34,8 +38,6 @@ export const getUserProfileAndSet = async (appState, setAppState) => {
     })
   } catch (error) {
     console.error(error)
-    // window.localStorage.clear()
-    // navigate('/login')
     return false
   }
 }
@@ -71,7 +73,7 @@ export const updateUser = async user => {
       redirect: 'follow', // manual, *follow, error
       referrerPolicy: 'no-referrer' // no-referrer, *client
     })
-
+    if (!res.ok) throw new Error('Couldn\'t update user')
     res = await res.json() // parses JSON response into native JavaScript objects
     return res
   } catch (error) {
@@ -112,7 +114,7 @@ export const deleteUser = async () => {
       redirect: 'follow', // manual, *follow, error
       referrerPolicy: 'no-referrer' // no-referrer, *client
     })
-
+    if (!res.ok) throw new Error('Couldn\'t delete user')
     res = await res.json() // parses JSON response into native JavaScript objects
     return res
   } catch (error) {

@@ -1,14 +1,10 @@
 import React, { useState } from 'react'
 import { Checkbox } from './MyStyledComponents'
 import { handleSignup } from '../services/auth'
-import { openNotificationWithIcon } from './Notifications'
 import { navigate, Link } from 'gatsby'
-import Layout from './layout'
 
-import { Form, Input, Button, Select } from 'antd'
-import { MailOutlined, UserOutlined, LockOutlined } from '@ant-design/icons'
-
-const { Option } = Select
+import { Form, Input, Button } from 'antd'
+import { UserOutlined, LockOutlined } from '@ant-design/icons'
 
 function LoginForm () {
   const [loading, setLoading] = useState(false)
@@ -17,19 +13,10 @@ function LoginForm () {
     setLoading(true)
     const signedUp = await handleSignup(values)
     if (signedUp) {
-      openNotificationWithIcon('success', 'Welcome to Transcribr!')
       navigate('/app')
     } else {
-      openNotificationWithIcon(
-        'error',
-        'Sorry, email address already taken'
-      )
+      setLoading(false)
     }
-  }
-
-  const onFinishFailed = errorInfo => {
-    setLoading(false)
-    console.log('Failed:', errorInfo)
   }
 
   return (

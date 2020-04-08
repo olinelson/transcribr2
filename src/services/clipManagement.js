@@ -134,7 +134,6 @@ export const convertClip = async (clip, minutes, setClip) => {
 
 export const uploadYoutube = async ({ appState, setAppState, url, setLoading }) => {
   try {
-    setAppState({ ...appState, youtubeUploading: true, uploadYoutubeDrawerOpen: false })
     const res = await fetch(API_URL + '/youtube', {
       method: 'POST',
       headers: {
@@ -145,10 +144,12 @@ export const uploadYoutube = async ({ appState, setAppState, url, setLoading }) 
         url
       })
     })
+    console.log({res})
     if (!res.ok) throw new Error(res.error)
     openNotificationWithIcon('success', 'Youtube download started!')
+    return true
   } catch (error) {
     openNotificationWithIcon('error', 'Coudn\'t create clip, please try again')
-    setAppState({ ...appState, uploadYoutubeDrawerOpen: true, youtubeUploading: false })
+    return false
   }
 }

@@ -26,8 +26,6 @@ export default function IndexPage () {
       <div
         style={{
           gridArea: 'main',
-          // gridColumn: '1/-1',
-          // gridRow: '2',
           display: 'grid',
           alignSelf: 'center',
           justifyContent: 'center',

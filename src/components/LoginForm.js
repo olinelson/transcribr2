@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
-import { Icon, Checkbox } from './MyStyledComponents'
+import { Checkbox } from './MyStyledComponents'
 import { handleLogin } from '../services/auth'
-import { openNotificationWithIcon } from './Notifications'
 import { navigate, Link } from 'gatsby'
 
 import { Form, Input, Button, Select } from 'antd'
-import { MailOutlined, UserOutlined, LockOutlined } from '@ant-design/icons'
+import {  UserOutlined, LockOutlined } from '@ant-design/icons'
 
 const { Option } = Select
 
@@ -16,16 +15,10 @@ function LoginForm () {
     setLoading(true)
     const loggedInSuccessfully = await handleLogin(values)
     if (loggedInSuccessfully) {
-      openNotificationWithIcon('success', 'Logged In!')
       navigate('/app')
     } else {
-      openNotificationWithIcon('error', 'Sorry, wrong email or password...')
+      setLoading(false)
     }
-  }
-
-  const onFinishFailed = errorInfo => {
-    setLoading(false)
-    console.log('Failed:', errorInfo)
   }
 
   return (

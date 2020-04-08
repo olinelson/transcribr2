@@ -1,15 +1,22 @@
 import React from 'react'
 
-import Link from 'gatsby'
-
 import { uploadYoutube } from '../services/clipManagement'
 import { LinkOutlined } from '@ant-design/icons'
 
 import { Form, Input, Button } from 'antd'
 
 function YoutubeForm ({ appState, setAppState }) {
+
   const onFinish = async ({ url }) => {
-    uploadYoutube({ appState, url, setAppState })
+    console.log({url})
+    setAppState({ ...appState, youtubeUploading: true, uploadYoutubeDrawerOpen: false })
+    const started = await uploadYoutube({ appState, url, setAppState })
+    console.log(started)
+    if (started){
+      setAppState({ ...appState, uploadYoutubeDrawerOpen: true, youtubeUploading: true })
+    }else{
+      setAppState({ ...appState, uploadYoutubeDrawerOpen: false, youtubeUploading: false })
+    }
   }
 
   return (

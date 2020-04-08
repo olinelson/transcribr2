@@ -1,5 +1,6 @@
 import { API_URL } from '../config'
 import { navigate } from 'gatsby'
+import { openNotificationWithIcon } from '../components/Notifications'
 
 export const isBrowser = () => typeof window !== 'undefined'
 
@@ -38,12 +39,19 @@ export const handleLogin = async ({ email, password }) => {
       referrerPolicy: 'no-referrer', // no-referrer, *client
       body: JSON.stringify({ email, password }) // body data type must match "Content-Type" header
     })
+    switch (res.status) {
+      case 200:
+        res = await res.json()
+        await setUserAndToken(res)
+        return true
 
-    res = await res.json() // parses JSON response into native JavaScript objects
-    await setUserAndToken(res)
-    return true
+      default:
+        openNotificationWithIcon('error', 'Sorry, wrong email or password')
+        return false
+    }
   } catch (error) {
-    console.error(error)
+    console.log(error)
+    openNotificationWithIcon('error', 'Sorry, can\'t reach the server')
     return false
   }
 }
@@ -59,13 +67,22 @@ export const handleSignup = async ({ name, email, password }) => {
       referrerPolicy: 'no-referrer', // no-referrer, *client
       body: JSON.stringify({ name, email, password }) // body data type must match "Content-Type" header
     })
-    if (!res.ok) return false
-    res = await res.json() // parses JSON response into native JavaScript objects
+    switch (res.status) {
+      case 201:
+        res = await res.json()
+        await setUserAndToken(res)
+        return true
 
-    await setUserAndToken(res)
-    return true
+      case 406:
+        openNotificationWithIcon('error', 'Sorry, that email is already in use')
+        return false
+      default:
+        openNotificationWithIcon('error', 'Sorry, something went wrong')
+        return false
+    }
   } catch (error) {
-    console.error(error)
+    console.log(error)
+    openNotificationWithIcon('error', 'Sorry, can\'t reach the server')
     return false
   }
 }
