@@ -13,7 +13,7 @@
     "deploy": "gatsby build --prefix-paths && gh-pages -d public",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
-    "test": "standard"
+    "test": "jest"
   },
   "dependencies": {
     "@ant-design/compatible": "^1.0.2",
@@ -46,7 +46,12 @@
     "styled-components": "^5.0.0"
   },
   "devDependencies": {
-    "prettier": "^1.19.1"
+    "babel-jest": "^25.2.6",
+    "babel-preset-gatsby": "^0.3.1",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^25.2.7",
+    "prettier": "^1.19.1",
+    "react-test-renderer": "^16.13.1"
   },
   "repository": {
     "type": "git",

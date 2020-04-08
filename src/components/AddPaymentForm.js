@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
 import { attachPaymentMethodToCustomer } from '../services/userManagement'
-import { PlusOutlined } from '@ant-design/icons';
-import { Form } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
-import { Alert, Button } from 'antd';
+import { PlusOutlined } from '@ant-design/icons'
+import { Form } from '@ant-design/compatible'
+import '@ant-design/compatible/assets/index.css'
+import { Alert, Button } from 'antd'
 import { openNotificationWithIcon } from './Notifications'
 
 const CardField = ({ onChange }) => (
@@ -12,33 +12,6 @@ const CardField = ({ onChange }) => (
     <CardElement onChange={onChange} />
   </div>
 )
-
-// const Field = ({
-//   label,
-//   id,
-//   type,
-//   placeholder,
-//   required,
-//   autoComplete,
-//   value,
-//   onChange
-// }) => (
-//   <div className='FormRow'>
-//     <label htmlFor={id} className='FormRowLabel'>
-//       {label}
-//     </label>
-//     <input
-//       className='FormRowInput'
-//       id={id}
-//       type={type}
-//       placeholder={placeholder}
-//       required={required}
-//       autoComplete={autoComplete}
-//       value={value}
-//       onChange={onChange}
-//     />
-//   </div>
-// )
 
 const SubmitButton = ({ processing, error, children, disabled }) => (
   <Button
@@ -96,8 +69,6 @@ const CheckoutForm = ({ setAddCardModalVisible, getPaymentMethods }) => {
     event.preventDefault()
 
     if (!stripe || !elements) {
-      // Stripe.js has not loaded yet. Make sure to disable
-      // form submission until Stripe.js has loaded.
       return
     }
 
@@ -163,7 +134,7 @@ const CheckoutForm = ({ setAddCardModalVisible, getPaymentMethods }) => {
       {error
         ? <Form.Item>
           <Alert message={error.message} type='error' showIcon />
-        </Form.Item>
+          </Form.Item>
 
         : null}
 

@@ -17,9 +17,7 @@ import { Document, Packer, Paragraph, Header, HeadingLevel, Footer } from 'docx'
 import { Link, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
 import styled from 'styled-components'
 
-import { Icon as LegacyIcon } from '@ant-design/compatible'
 import {
-  PlayCircleOutlined,
   CheckCircleTwoTone,
   EditOutlined,
   FileSearchOutlined,
@@ -29,8 +27,7 @@ import {
   MessageOutlined,
   MoreOutlined,
   SmileOutlined,
-  SnippetsOutlined,
-  PauseCircleOutlined
+  SnippetsOutlined
 } from '@ant-design/icons'
 
 // components
@@ -43,8 +40,7 @@ import {
   Menu,
   Dropdown,
   Divider,
-  Select,
-  Slider
+  Select
 } from 'antd'
 import { ClipContainer, WordsContainer } from './MyStyledComponents'
 import { openNotificationWithIcon } from './Notifications'
@@ -226,7 +222,7 @@ function Clip (props) {
           gridArea: 'clip'
         }}
       />
-    </>
+           </>
   }
 
   const clipOptionsBar = () => (
@@ -449,7 +445,7 @@ function Clip (props) {
                     <CheckCircleTwoTone twoToneColor='#52c41a' />
                   ) : (
                     <LoadingOutlined />
-                  )
+                )
                 }
               />
               <Step
@@ -460,7 +456,7 @@ function Clip (props) {
                     <LoadingOutlined active />
                   ) : (
                     <MessageOutlined />
-                  )
+                )
                 }
               />
 

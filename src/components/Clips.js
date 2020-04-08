@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { UploadOutlined, YoutubeOutlined } from '@ant-design/icons'
 import { List, Button, Input } from 'antd'
 import { navigate } from 'gatsby'
-import { sortClipsChronologically } from '../utils'
 import ButtonGroup from 'antd/lib/button/button-group'
 const { Search } = Input
 

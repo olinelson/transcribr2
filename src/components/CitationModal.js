@@ -1,12 +1,11 @@
 import React, { useRef } from 'react'
-import { CopyOutlined } from '@ant-design/icons';
-import { Modal, Button } from 'antd';
+import { CopyOutlined } from '@ant-design/icons'
+import { Modal, Button } from 'antd'
 
 import moment from 'moment'
 
 import styled from 'styled-components'
 import { openNotificationWithIcon } from './Notifications'
-import TextArea from 'antd/lib/input/TextArea'
 
 const CitationContainer = styled.div`
     display: grid;
@@ -142,7 +141,7 @@ function CitationModal (props) {
         </Button>
       </CitationContainer>
     </Modal>
-  );
+  )
 }
 
 export default CitationModal

@@ -1,20 +1,13 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import Link from 'gatsby'
 
 import { uploadYoutube } from '../services/clipManagement'
-import { LinkOutlined, MailOutlined, UserOutlined, LockOutlined } from '@ant-design/icons'
+import { LinkOutlined } from '@ant-design/icons'
 
-import { Form, Input, Button, Select } from 'antd'
-
-const { Option } = Select
+import { Form, Input, Button } from 'antd'
 
 function YoutubeForm ({ appState, setAppState }) {
-  // const handleSubmit = (e) => {
-  //   e.preventDefault()
-  //   uploadYoutube({ appState, url: e.target.url.value, setAppState })
-  // }
-
   const onFinish = async ({ url }) => {
     uploadYoutube({ appState, url, setAppState })
   }
