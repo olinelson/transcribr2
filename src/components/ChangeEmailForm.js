@@ -6,6 +6,7 @@ import { navigate, Link } from "gatsby"
 import Layout from "./layout"
 import WithLocation from "./WithLocation"
 import queryString from "query-string"
+import {LockOutlined} from '@ant-design/icons'
 
 class ResetPassword extends React.Component {
   state = {
@@ -60,7 +61,7 @@ class ResetPassword extends React.Component {
               })(
                 <Input
                   prefix={
-                    <Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />
+                    <LockOutlined style={{ color: "rgba(0,0,0,.25)" }} />
                   }
                   type="password"
                   placeholder="New Password"

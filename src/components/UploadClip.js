@@ -4,6 +4,7 @@ import { getToken } from '../services/auth'
 import { Upload, Icon } from './MyStyledComponents'
 import { openNotificationWithIcon } from './Notifications'
 import sanitize from 'sanitize-filename'
+import { InboxOutlined } from '@ant-design/icons'
 const { Dragger } = Upload
 
 function UploadClip (props) {
@@ -121,7 +122,7 @@ function UploadClip (props) {
     >
       <Dragger {...settings} style={{ padding: '1rem' }}>
         <p className='ant-upload-drag-icon'>
-          <Icon type='inbox' />
+          <InboxOutlined />
         </p>
         <p className='ant-upload-text'>
           Click or drag file to this area to upload
