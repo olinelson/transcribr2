@@ -143,6 +143,7 @@ function Clip (props) {
       joinClipChannel(token, notification => {
         notificationHandler(notification)
       })
+      getClip(_id, clip, setClip)
 
     }
 
