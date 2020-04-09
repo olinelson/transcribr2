@@ -65,6 +65,7 @@ export const getClip = async (_id, clip, setClip, signal) => {
     })
     res = await res.json()
     setClip( oldClip =>  ({
+      ...oldClip,
       currentPageIndex: 0,
       currentPageSize: 200,
       ...res,

@@ -143,9 +143,7 @@ function Clip (props) {
       joinClipChannel(token, notification => {
         notificationHandler(notification)
       })
-      if ((!clip.words.length || clip.words.length < 1) && clip.conversionComplete) {
-        getClip(_id, clip, setClip)
-      }
+
     }
 
     function handleVisibilityChange () {
@@ -153,12 +151,7 @@ function Clip (props) {
         joinClipChannel(token, notification => {
           notificationHandler(notification)
         })
-        console.log('visibility change', { clip })
-        
-        if ((!clip.words.length || clip.words.length < 1) && clip.conversionComplete){
-          console.log('getting clip', clip)
           getClip(_id, clip, setClip)
-        }
       } else {
         socket.emit('leaveClipChannel', token, _id)
       }
