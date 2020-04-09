@@ -2,7 +2,7 @@
   "name": "gatsby-starter-hello-world",
   "private": true,
   "description": "A simplified bare-bones starter for Gatsby",
-  "version": "0.1.5",
+  "version": "0.1.4",
   "license": "MIT",
   "scripts": {
     "build": "gatsby build",
@@ -10,7 +10,7 @@
     "dev": "gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
     "start": "yarn develop",
-    "deploy": "yarn version && gatsby build --prefix-paths && node deployScript.js",
+    "deploy": "yarn version && gatsby build --prefix-paths && gh-pages -d public",
     "myDeploy": "node deployScript.js",
     "serve": "gatsby serve",
     "clean": "gatsby clean",

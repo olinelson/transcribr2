@@ -1,7 +1,7 @@
 const ghpages = require('gh-pages')
 var pjson = require('./package.json');
 
-ghpages.publish('dist', {
+ghpages.publish('public', {
     message: `Release - ${pjson.version}`,
     tag:  pjson.version,
-}, callback);
+}, (e) => console.log('done',e));
