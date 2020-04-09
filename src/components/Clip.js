@@ -143,7 +143,7 @@ function Clip (props) {
       joinClipChannel(token, notification => {
         notificationHandler(notification)
       })
-      if (!clip.words.length && clip.conversionJobId) {
+      if ((!clip.words.length || clip.words.length < 1) && clip.conversionComplete) {
         getClip(_id, clip, setClip)
       }
     }
@@ -154,7 +154,8 @@ function Clip (props) {
           notificationHandler(notification)
         })
         console.log('visibility change', { clip })
-        if ((!clip.words.length || clip.words.legnth < 1) && clip.conversionJobId) {
+        
+        if ((!clip.words.length || clip.words.length < 1) && clip.conversionComplete){
           console.log('getting clip', clip)
           getClip(_id, clip, setClip)
         }
