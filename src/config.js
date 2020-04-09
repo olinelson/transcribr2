@@ -4,6 +4,7 @@ export const API_URL = 'https://transcribr2-api.herokuapp.com'
 
 export const STRIPE_PUBLIC_KEY = 'pk_live_cXMZDMoPxJaKGOa5MEXk09PU007Ke5wshF'
 // export const STRIPE_PUBLIC_KEY = 'pk_test_9MNFVyvIUuMqQgdozJBdDxjO005OlKPNVa'
+// minor changes
 
 export const LanguageOptions = [
   {
