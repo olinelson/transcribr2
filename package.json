@@ -9,8 +9,8 @@
     "develop": "gatsby develop",
     "dev": "gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
-    "start": "npm run develop",
-    "deploy": "gatsby build --prefix-paths && gh-pages -d public",
+    "start": "yarn develop",
+    "deploy": "yarn version gatsby build --prefix-paths && gh-pages -d public",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "test": "jest"
