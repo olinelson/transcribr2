@@ -15,7 +15,7 @@ const CitationContainer = styled.div`
   `
 
 function CitationModal (props) {
-  const { clip, setClip } = props
+  const { clip, setClip, setEditClipDrawerOpen } = props
 
   const mlaRef = useRef(null)
   const apaRef = useRef(null)
@@ -75,6 +75,13 @@ function CitationModal (props) {
     openNotificationWithIcon('success', `Copied ${style} citation.`)
   }
 
+  const goToEditClip = () => {
+    setClip(oldClip => ({ ...oldClip, clipCitationModalOpen: false, }))
+    setEditClipDrawerOpen(true)
+    
+    
+  }
+
   return (
     <Modal
       onCancel={() =>
@@ -88,7 +95,9 @@ function CitationModal (props) {
       autoSize
       centered
     >
+      <p>Doesn't look right? <Button style={{padding: 0, margin: 0}} onClick={() => goToEditClip()} type="link">Add more details</Button> to your clip to see properly formatted citation.</p>
       <CitationContainer>
+        
         <h4>APA</h4>
         <span ref={apaRef}>
           {lastName}, {firstName[0]}. ({moment(datePosted).format('YYYY, MMMM D')}) <i>{episodeTitle}</i> [{mediaDescription}] {showTitle} {url}

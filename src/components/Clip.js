@@ -572,7 +572,7 @@ function Clip (props) {
           player={player}
         />
 
-        <CitationModal setClip={setClip} clip={clip} />
+        <CitationModal setEditClipDrawerOpen={setEditClipDrawerOpen} setClip={setClip} clip={clip} />
         <WordCitationModal clip={clip} setClip={setClip} />
       </>
     )
