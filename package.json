@@ -10,7 +10,8 @@
     "dev": "gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
     "start": "yarn develop",
-    "deploy": "yarn version && gatsby build --prefix-paths && gh-pages -d public",
+    "deploy": "yarn version && gatsby build --prefix-paths && gh-pages -d public -g",
+    "help": " gh-pages --help",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "test": "jest"
