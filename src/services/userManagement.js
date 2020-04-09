@@ -13,7 +13,7 @@ export const getUserProfileAndSet = async (appState, setAppState) => {
       redirect: 'follow', // manual, *follow, error
       referrerPolicy: 'no-referrer' // no-referrer, *client
     })
-    if (res.status === 401){
+    if (res.status === 401) {
       window.localStorage.clear()
       navigate('/login')
       return false
@@ -29,7 +29,7 @@ export const getUserProfileAndSet = async (appState, setAppState) => {
       openNotificationWithIcon('success', 'Email updated!')
     }
 
-    return setAppState( oldAppState => ({
+    return setAppState(oldAppState => ({
       ...oldAppState,
       clips,
       user,
@@ -105,7 +105,7 @@ export const changeEmail = async unconfirmedEmail => {
 
 export const deleteUser = async () => {
   try {
-    let res = await fetch(API_URL + '/users/me', {
+    const res = await fetch(API_URL + '/users/me', {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -114,13 +114,12 @@ export const deleteUser = async () => {
       redirect: 'follow', // manual, *follow, error
       referrerPolicy: 'no-referrer' // no-referrer, *client
     })
-    if (!res.ok) throw new Error('Couldn\'t delete user')
-    res = await res.json() // parses JSON response into native JavaScript objects
-    return res
+    if (res.status === 200) return true
   } catch (error) {
     console.error(error)
     return false
   }
+  return false
 }
 
 export const attachPaymentMethodToCustomer = async paymentMethod => {
