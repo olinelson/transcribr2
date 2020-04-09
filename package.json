@@ -11,7 +11,7 @@
     "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
     "start": "yarn develop",
     "deploy": "yarn version && gatsby build --prefix-paths && gh-pages -d public",
-    "myDeploy": "node deployScript.js",
+    "myDeploy": "yarn version && gatsby build --prefix-paths && node deployScript.js",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "test": "jest"
