@@ -163,7 +163,7 @@ function Clip (props) {
       }
     }
 
-    setClip({ ...clip, loading: true })
+    setClip( oldClip => ({ ...oldClip, loading: true }))
     getClip(_id, clip, setClip, signal)
 
     joinClipChannel(token, notification => {
@@ -183,18 +183,14 @@ function Clip (props) {
   }, [_id])
 
   const deleteClipHandler = async () => {
-    setClip({ ...clip, loading: true })
+    setClip( oldClip => ({ ...oldClip, loading: true }))
     const success = await deleteClip(clip._id)
     if (success) {
       const clips = appState.clips.filter(c => c._id !== clip._id)
-
-      setAppState({
-        ...appState,
-        clips
-      })
+      setAppState(oldAppState => ({...oldAppState, clips}) )
       navigate('/app')
     } else {
-      setClip({ ...clip, loading: false })
+      setClip(oldClip => ({ ...oldClip, loading: false }))
     }
   }
 
@@ -271,7 +267,7 @@ function Clip (props) {
                   </Menu.Item>
                   <Menu.Item
                     onClick={() =>
-                      setClip({ ...clip, clipCitationModalOpen: true })}
+                      setClip(oldClip => ({ ...oldClip, clipCitationModalOpen: true }))}
                   >
                     <SnippetsOutlined />
                     Cite
@@ -403,10 +399,10 @@ function Clip (props) {
               type='primary'
               loading={clip.transcriptionLoading}
               onClick={() =>
-                setClip({
-                  ...clip,
+                setClip(oldClip => ({
+                  ...oldClip,
                   transcribeModalOpen: true
-                })}
+                }))}
             >
               <MessageOutlined />
               Transcribe
@@ -481,18 +477,18 @@ function Clip (props) {
     const pageNumber = Math.floor(wordIndex / wordPageSize)
 
     if (window.innerWidth < 800) {
-      setClip({
-        ...clip,
+      setClip( oldClip => ({
+        ...oldClip,
         currentPageIndex: pageNumber,
         selectedWord: word
-      })
+      }))
       setSearchClipDrawerOpen(false)
     } else {
-      setClip({
-        ...clip,
+      setClip( oldClip => ({
+        ...oldClip,
         currentPageIndex: pageNumber,
         selectedWord: word
-      })
+      }))
     }
 
     // to accomodate for page change
@@ -540,7 +536,7 @@ function Clip (props) {
             current={clip.currentPageIndex + 1}
             pageSizeOptions={['200', '300', '400', '500', '600']}
             onShowSizeChange={(e, num) =>
-              setClip({ ...clip, wordPageSize: num, currentPageIndex: 0 })}
+              setClip( oldClip => ({ ...oldClip, wordPageSize: num, currentPageIndex: 0 }))}
             total={clip.words.length}
             pageSize={clip.wordPageSize || 200}
             hideOnSinglePage

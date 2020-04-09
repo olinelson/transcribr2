@@ -17,7 +17,7 @@ function EditWordDrawer (props) {
 
   const insertOrEditWord = ({ e }) => {
     e.preventDefault()
-    setClip({ ...clip, clipSaving: true })
+    setClip(oldClip => ({ ...oldClip, clipSaving: true }))
 
     const newWordValue = e.target.newWordValue.value
 
@@ -41,11 +41,11 @@ function EditWordDrawer (props) {
       visible={clip.editWordDrawerOpen}
       destroyOnClose
       onClose={() =>
-        setClip({
-          ...clip,
+        setClip(oldClip =>({
+          ...oldClip,
           editWordDrawerOpen: false,
           inserting: null
-        })}
+        }))}
       closable
       title={inserting === false ? 'Edit Word' : 'Insert Word'}
     >

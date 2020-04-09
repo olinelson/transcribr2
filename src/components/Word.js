@@ -60,7 +60,7 @@ function Word (props) {
   const [deleting, setDeleting] = useState(false)
 
   const deleteWordHandler = word => {
-    setClip({ ...clip, selectedWord: word })
+    setClip(oldClip => ({ ...oldClip, selectedWord: word }))
 
     setDeleting(true)
     deleteWord({
@@ -77,44 +77,44 @@ function Word (props) {
       </Menu.Item>
       <Menu.Item
         onClick={() =>
-          setClip({
-            ...clip,
+          setClip(oldClip => ({
+            ...oldClip,
             selectedWord: word,
             editWordDrawerOpen: true
-          })}
+          }))}
       >
         <EditOutlined />
         Edit
       </Menu.Item>
       <Menu.Item
         onClick={() =>
-          setClip({
-            ...clip,
+          setClip( oldClip => ({
+            ...oldClip,
             selectedWord: { ...word, inserting: 0 },
             editWordDrawerOpen: true
-          })}
+          }))}
       >
         <ArrowLeftOutlined />
         <PlusCircleOutlined /> Insert Before
       </Menu.Item>
       <Menu.Item
         onClick={() =>
-          setClip({
-            ...clip,
+          setClip( oldClip => ({
+            ...oldClip,
             selectedWord: { ...word, inserting: 1 },
             editWordDrawerOpen: true
-          })}
+          }))}
       >
         <ArrowRightOutlined />
         <PlusCircleOutlined /> Insert After
       </Menu.Item>
       <Menu.Item
         onClick={() =>
-          setClip({
-            ...clip,
+          setClip(oldClip => ({
+            ...oldClip,
             selectedWord: word,
             wordCitationModalOpen: true
-          })}
+          }))}
       >
         <SnippetsOutlined />
         Cite
@@ -161,7 +161,7 @@ function Word (props) {
           deleting={deleting}
           word={word}
           selectedWord={clip.selectedWord}
-          onClick={() => setClip({ ...clip, selectedWord: word })}
+          onClick={() => setClip(oldClip => ({ ...oldClip, selectedWord: word }))}
           clipProgress={clipProgress}
         >
           {word.word}

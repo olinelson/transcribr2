@@ -29,13 +29,13 @@ export const getUserProfileAndSet = async (appState, setAppState) => {
       openNotificationWithIcon('success', 'Email updated!')
     }
 
-    return setAppState({
-      ...appState,
+    return setAppState( oldAppState => ({
+      ...oldAppState,
       clips,
       user,
       youtubeUploading: false,
       offline: false
-    })
+    }))
   } catch (error) {
     console.error(error)
     return false

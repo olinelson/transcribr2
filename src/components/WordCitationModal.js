@@ -34,7 +34,7 @@ function WordCitationModal (props) {
   if (!clip.selectedWord) return null
   return (
     <Modal
-      onCancel={() => setClip({ ...clip, wordCitationModalOpen: false })}
+      onCancel={() => setClip(oldClip => ({ ...oldClip, wordCitationModalOpen: false }))}
       footer={null}
       visible={clip.wordCitationModalOpen}
       title='Citation'

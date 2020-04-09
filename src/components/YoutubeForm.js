@@ -9,13 +9,13 @@ function YoutubeForm ({ appState, setAppState }) {
 
   const onFinish = async ({ url }) => {
     console.log({url})
-    setAppState({ ...appState, youtubeUploading: true, uploadYoutubeDrawerOpen: false })
+    setAppState(oldAppState => ({ ...oldAppState, youtubeUploading: true, uploadYoutubeDrawerOpen: false }))
     const started = await uploadYoutube({ appState, url, setAppState })
     console.log(started)
     if (started){
-      setAppState({ ...appState, uploadYoutubeDrawerOpen: true, youtubeUploading: true })
+      setAppState(oldAppState => ({ ...oldAppState, uploadYoutubeDrawerOpen: true, youtubeUploading: true }))
     }else{
-      setAppState({ ...appState, uploadYoutubeDrawerOpen: false, youtubeUploading: false })
+      setAppState( oldAppState => ({ ...oldAppState, uploadYoutubeDrawerOpen: false, youtubeUploading: false }))
     }
   }
 

@@ -51,13 +51,13 @@ function SideBar ({ appState, setAppState }) {
           inlineCollapsed={viewWidth < 800}
         >
           <Menu.Item
-            onClick={() => setAppState({ ...appState, uploadDrawerOpen: true })}
+            onClick={() => setAppState(oldAppState =>  ({ ...oldAppState, uploadDrawerOpen: true }))}
           >
             {uploading ? <LoadingOutlined spin /> : <UploadOutlined />}
             <span>Add Clip</span>
           </Menu.Item>
           <Menu.Item
-            onClick={() => setAppState({ ...appState, uploadYoutubeDrawerOpen: true })}
+            onClick={() => setAppState( oldAppState => ({ ...oldAppState, uploadYoutubeDrawerOpen: true }))}
           >
             {youtubeUploading ? <LoadingOutlined spin /> : <YoutubeOutlined />}
             <span>Add Youtube</span>
@@ -84,13 +84,13 @@ function SideBar ({ appState, setAppState }) {
         inlineCollapsed={viewWidth < 800}
       >
         <Menu.Item
-          onClick={() => setAppState({ ...appState, uploadDrawerOpen: true })}
+          onClick={() => setAppState( oldAppState => ({ ...oldAppState, uploadDrawerOpen: true }))}
         >
           {uploading ? <LoadingOutlined spin /> : <UploadOutlined />}
           <span>Add Clip</span>
         </Menu.Item>
         <Menu.Item
-          onClick={() => setAppState({ ...appState, uploadYoutubeDrawerOpen: true })}
+          onClick={() => setAppState( oldAppState => ({ ...oldAppState, uploadYoutubeDrawerOpen: true }))}
         >
           {youtubeUploading ? <LoadingOutlined spin /> : <YoutubeOutlined />}
           <span>Add Youtube</span>

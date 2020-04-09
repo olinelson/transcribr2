@@ -18,7 +18,7 @@ const TranscriptionModal = ({ clip, setClip, player }) => {
       title={`Transcribe ${clip.name}`}
       visible={clip.transcribeModalOpen}
       onOk={() => convertClipHandler()}
-      onCancel={() => setClip({ ...clip, transcribeModalOpen: false })}
+      onCancel={() => setClip(oldClip => ({ ...oldClip, transcribeModalOpen: false }))}
     >
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <Select
@@ -26,7 +26,7 @@ const TranscriptionModal = ({ clip, setClip, player }) => {
           style={{ width: '100%' }}
           placeholder='What language/accent is being spoken?'
           optionFilterProp='children'
-          onChange={lang => setClip({ ...clip, language: lang })}
+          onChange={lang => setClip( oldClip => ({ ...oldClip, language: lang }))}
           filterOption={(input, option) =>
             option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
         >

@@ -32,16 +32,16 @@ export const editWord = async ({ newWordValue, clip, setClip }) => {
     const index = findIndexOfWord(clip.selectedWord, clip.words)
     newWords.splice(index, 1, res)
 
-    setClip({
-      ...clip,
+    setClip(oldClip => ({
+      ...oldClip,
       words: newWords,
       editWordDrawerOpen: false
-    })
+    }))
     openNotificationWithIcon('success', 'Changes saved')
   } catch (error) {
     console.error(error)
     openNotificationWithIcon('error', 'Something went wrong :(')
-    setClip({ ...clip })
+    setClip(oldClip => ({ ...oldClip }))
   }
 }
 
@@ -62,18 +62,18 @@ export const insertWord = async ({ index, setClip, clip, newWord }) => {
     const newWords = [...clip.words]
     newWords.splice(index, 0, res)
 
-    setClip({
-      ...clip,
+    setClip(oldClip => ({
+      ...oldClip,
       words: newWords,
       editing: false,
       inserting: null,
       loading: false,
       editWordDrawerOpen: false
-    })
+    }))
     openNotificationWithIcon('success', 'Word Created')
   } catch (error) {
     console.error(error)
-    setClip({ ...clip })
+    setClip(oldClip => ({ ...oldClip }))
   }
 }
 
@@ -100,10 +100,10 @@ export const deleteWord = async ({
     const newWords = [...clip.words]
     newWords.splice(index, 1)
 
-    setClip({ ...clip, words: newWords })
+    setClip(oldClip => ({ ...oldClip, words: newWords }))
     openNotificationWithIcon('success', 'Word Deleted')
   } catch (error) {
     console.error(error)
-    setClip({ ...clip })
+    setClip(oldClip => ({ ...clip }))
   }
 }

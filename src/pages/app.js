@@ -47,12 +47,11 @@ function App (props) {
       switch (notification.name) {
         case 'youtubeUploadFailed':
           openNotificationWithIcon('error', notification.message)
-          setAppState({ ...appState, youtubeUploading: false })
+          setAppState(oldAppState => ({ ...oldAppState, youtubeUploading: false }))
           break
         case 'youtubeUploadComplete':
           openNotificationWithIcon('success', notification.message)
           getUserProfileAndSet(appState, setAppState)
-          // setAppState({ ...appState, clips: [...appState.clips, notification.data.clip], youtubeUploading: false })
           break
         case 'setTime':
           setTime(notification.data)
@@ -77,7 +76,7 @@ function App (props) {
     function handleOffline () {
       message.warning('Connection lost')
       socket.disconnect()
-      setAppState({ ...appState, offline: true })
+      setAppState(oldAppState => ({ ...oldAppState, offline: true }))
     }
 
     function handleOnline () {
@@ -171,7 +170,7 @@ function App (props) {
         title='Upload Clip'
         placement='right'
         closable
-        onClose={() => setAppState({ ...appState, uploadDrawerOpen: false })}
+        onClose={() => setAppState(oldAppState => ({ ...oldAppState, uploadDrawerOpen: false }))}
         visible={appState.uploadDrawerOpen}
         width='auto'
       >
@@ -182,7 +181,7 @@ function App (props) {
         title='Upload Youtube'
         placement='right'
         closable
-        onClose={() => setAppState({ ...appState, uploadYoutubeDrawerOpen: false })}
+        onClose={() => setAppState(oldAppState =>  ({ ...appState, uploadYoutubeDrawerOpen: false }))}
         visible={appState.uploadYoutubeDrawerOpen}
         width='auto'
 

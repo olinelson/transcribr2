@@ -178,7 +178,7 @@ const EditClipDrawer = props => {
           }}
         >
           <Button
-            onClick={() => props.setClip({ ...props.clip, editing: false })}
+            onClick={() => props.setClip(oldClip => ({ ...oldClip, editing: false }))}
           >
             Cancel
           </Button>

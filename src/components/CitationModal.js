@@ -78,10 +78,10 @@ function CitationModal (props) {
   return (
     <Modal
       onCancel={() =>
-        setClip({
-          ...clip,
+        setClip( oldClip => ({
+          ...oldClip,
           clipCitationModalOpen: false
-        })}
+        }))}
       footer={null}
       visible={clip.clipCitationModalOpen}
       title='Citation'

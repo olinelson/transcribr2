@@ -26,7 +26,7 @@ function UploadClip (props) {
       })
       const clip = await res.json() // parses JSON response into native JavaScript objects
       openNotificationWithIcon('success', `${clip.name} created!`)
-      setAppState({ ...appState, clips: [...appState.clips, clip] })
+      setAppState(oldAppState => ({ ...oldAppState, clips: [...oldAppState.clips, clip] }))
     } catch (error) {
       openNotificationWithIcon('error', 'Coudn\'t create clip, please try again')
     }

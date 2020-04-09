@@ -45,7 +45,7 @@ export default function UserDetails (props) {
       </h1>
       <Descriptions layout='vertical'>
         <Descriptions.Item label='Name'>{user.name}{' '}<EditOutlined
-          onClick={() => setAppState({ ...appState, editUserDrawerOpen: true })}
+          onClick={() => setAppState(oldAppState => ({ ...oldAppState, editUserDrawerOpen: true }))}
           style={{ fontSize: '1rem' }}
                                                         />
         </Descriptions.Item>
@@ -53,7 +53,7 @@ export default function UserDetails (props) {
           {user.email}{' '}
           <EditOutlined
             onClick={() =>
-              setAppState({ ...appState, editEmailDrawerOpen: true })}
+              setAppState(oldAppState => ({ ...oldAppState, editEmailDrawerOpen: true }))}
           />
         </Descriptions.Item>
       </Descriptions>
@@ -80,7 +80,7 @@ export default function UserDetails (props) {
 
       <Drawer
         onClose={() => {
-          setAppState({ ...appState, editEmailDrawerOpen: false })
+          setAppState(oldAppState => ({ ...oldAppState, editEmailDrawerOpen: false }))
         }}
         title='Change Email'
         visible={appState.editEmailDrawerOpen}
@@ -93,14 +93,14 @@ export default function UserDetails (props) {
             const unconfirmedEmail = e.target.unconfirmedEmail.value
             const success = await changeEmail(unconfirmedEmail)
             if (success) {
-              setAppState({
-                ...appState,
+              setAppState(oldAppState => ({
+                ...oldAppState,
                 user: {
                   ...appState.user,
                   unconfirmedEmail,
                   editEmailDrawOpen: false
                 }
-              })
+              }))
               setUser({ ...user, unconfirmedEmail })
               openNotificationWithIcon('success', 'Verification email sent.')
             } else {
@@ -146,7 +146,7 @@ export default function UserDetails (props) {
         onClose={() => {
           setUser(appState.user)
           // setEditDrawerOpen(false)
-          setAppState({ ...appState, editUserDrawerOpen: false })
+          setAppState(oldAppState => ({ ...oldAppState, editUserDrawerOpen: false }))
         }}
         title='Edit Profile'
         visible={appState.editUserDrawerOpen}
@@ -159,7 +159,7 @@ export default function UserDetails (props) {
             setLoading(true)
             const success = await updateUser(user)
             if (success) {
-              setAppState({ ...appState, user, editUserDrawerOpen: false })
+              setAppState(oldAppState => ({ ...oldAppState, user, editUserDrawerOpen: false }))
               openNotificationWithIcon('success', 'User Profile Updated')
             } else {
               openNotificationWithIcon('error', 'There was a problem :(')

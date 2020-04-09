@@ -24,7 +24,7 @@ export const deleteClip = async clipId => {
 }
 
 export const updateClip = async (clip, appState, setAppState, setClip) => {
-  setClip({ ...clip, clipSaving: true })
+  setClip(oldClip => ({ ...oldClip, clipSaving: true }))
 
   try {
     let res = await fetch(API_URL + '/clips/' + clip._id, {
@@ -41,11 +41,11 @@ export const updateClip = async (clip, appState, setAppState, setClip) => {
 
     openNotificationWithIcon('success', 'Changes saved')
     const filteredClips = appState.clips.filter(c => c._id !== clip._id)
-    setClip({ ...clip, clipSaving: false })
-    setAppState({ ...appState, clips: [...filteredClips, res] })
+    setClip(oldClip => ({ ...oldClip, clipSaving: false }))
+    setAppState(oldAppState =>  ({ ...oldAppState, clips: [...filteredClips, res] }))
   } catch (error) {
     console.error(error)
-    setClip({ ...clip, saving: false, editClipDrawerOpen: false })
+    setClip(oldClip => ({ ...oldClip, saving: false, editClipDrawerOpen: false }))
   }
 }
 
@@ -64,12 +64,12 @@ export const getClip = async (_id, clip, setClip, signal) => {
       referrerPolicy: 'no-referrer' // no-referrer, *client
     })
     res = await res.json()
-    setClip({
+    setClip( oldClip =>  ({
       currentPageIndex: 0,
       currentPageSize: 200,
       ...res,
       loading: false
-    })
+    }))
 
     return res
   } catch (error) {
@@ -77,7 +77,7 @@ export const getClip = async (_id, clip, setClip, signal) => {
   }
 }
 export const convertClip = async (clip, minutes, setClip) => {
-  setClip({ ...clip, transcribeModalOpen: false })
+  setClip(oldClip => ({ ...oldClip, transcribeModalOpen: false }))
   try {
     let res = await fetch(
       `${API_URL}/convert/clips/${clip._id}?lang=${clip.language}&duration=${minutes}`,
@@ -95,16 +95,16 @@ export const convertClip = async (clip, minutes, setClip) => {
         res = await res.json()
 
         openNotificationWithIcon('success', 'Transcription Started!')
-        setClip(res.clip)
+        setClip( oldClip => ({...oldClip, ...res.clip}))
         break
 
       case 402:
         openNotificationWithIcon('warning', 'Not enough free minutes remaining. Add your card details to continue!')
-        setClip({
-          ...clip,
+        setClip( oldClip => ({
+          ...oldClip,
           transcriptionLoading: false,
           transcribeModalOpen: false
-        })
+        }))
         break
 
       default:
@@ -112,11 +112,11 @@ export const convertClip = async (clip, minutes, setClip) => {
           'error',
           'Something went wrong, please try again.'
         )
-        setClip({
-          ...clip,
+        setClip( oldClip => ({
+          ...oldClip,
           transcriptionLoading: false,
           transcribeModalOpen: false
-        })
+        }))
     }
   } catch (error) {
     openNotificationWithIcon(
@@ -124,11 +124,11 @@ export const convertClip = async (clip, minutes, setClip) => {
       'Something went wrong, please try again.'
     )
     console.error(error)
-    setClip({
-      ...clip,
+    setClip(oldClip => ({
+      ...oldClip,
       transcriptionLoading: false,
       transcribeModalOpen: false
-    })
+    }))
   }
 }
 
