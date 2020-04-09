@@ -8,12 +8,11 @@ import { Form, Input, Button } from 'antd'
 function YoutubeForm ({ appState, setAppState }) {
 
   const onFinish = async ({ url }) => {
-    console.log({url})
     setAppState(oldAppState => ({ ...oldAppState, youtubeUploading: true, uploadYoutubeDrawerOpen: false }))
     const started = await uploadYoutube({ appState, url, setAppState })
     console.log(started)
     if (started){
-      setAppState(oldAppState => ({ ...oldAppState, uploadYoutubeDrawerOpen: true, youtubeUploading: true }))
+      setAppState(oldAppState => ({ ...oldAppState, uploadYoutubeDrawerOpen: false, youtubeUploading: true }))
     }else{
       setAppState( oldAppState => ({ ...oldAppState, uploadYoutubeDrawerOpen: false, youtubeUploading: false }))
     }

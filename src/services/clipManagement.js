@@ -144,7 +144,6 @@ export const uploadYoutube = async ({ appState, setAppState, url, setLoading }) 
         url
       })
     })
-    console.log({res})
     if (!res.ok) throw new Error(res.error)
     openNotificationWithIcon('success', 'Youtube download started!')
     return true

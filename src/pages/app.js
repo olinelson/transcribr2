@@ -92,7 +92,6 @@ function App (props) {
         socket.emit('joinUserChannel', bearerToken)
         getUserProfileAndSet(appState, setAppState)
       } else {
-        // console.log('leaving user channel')
         socket.emit('leaveUserChannel', bearerToken)
       }
     }
