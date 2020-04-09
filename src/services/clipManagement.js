@@ -41,11 +41,11 @@ export const updateClip = async (clip, appState, setAppState, setClip) => {
 
     openNotificationWithIcon('success', 'Changes saved')
     const filteredClips = appState.clips.filter(c => c._id !== clip._id)
-    setClip(oldClip => ({ ...oldClip, clipSaving: false }))
+    setClip(oldClip => ({ ...oldClip, ...res, clipSaving: false}))
     setAppState(oldAppState =>  ({ ...oldAppState, clips: [...filteredClips, res] }))
   } catch (error) {
     console.error(error)
-    setClip(oldClip => ({ ...oldClip, saving: false, editClipDrawerOpen: false }))
+    setClip(oldClip => ({ ...oldClip, saving: false }))
   }
 }
 

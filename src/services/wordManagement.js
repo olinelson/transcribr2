@@ -35,7 +35,8 @@ export const editWord = async ({ newWordValue, clip, setClip }) => {
     setClip(oldClip => ({
       ...oldClip,
       words: newWords,
-      editWordDrawerOpen: false
+      editWordDrawerOpen: false,
+      clipSaving: false,
     }))
     openNotificationWithIcon('success', 'Changes saved')
   } catch (error) {
@@ -65,6 +66,7 @@ export const insertWord = async ({ index, setClip, clip, newWord }) => {
     setClip(oldClip => ({
       ...oldClip,
       words: newWords,
+      clipSaving: false,
       editing: false,
       inserting: null,
       loading: false,

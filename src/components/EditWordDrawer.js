@@ -31,9 +31,11 @@ function EditWordDrawer (props) {
         word: newWordValue,
         startTime: clip.selectedWord.startTime
       }
-      return insertWord({ ...props, index, newWord })
+       insertWord({ ...props, index, newWord })
+    }else{
+      editWord({ ...props, newWordValue })
     }
-    editWord({ ...props, newWordValue })
+    
   }
 
   return (
@@ -44,7 +46,8 @@ function EditWordDrawer (props) {
         setClip(oldClip =>({
           ...oldClip,
           editWordDrawerOpen: false,
-          inserting: null
+          inserting: null,
+          clipSaving: false,
         }))}
       closable
       title={inserting === false ? 'Edit Word' : 'Insert Word'}
@@ -55,7 +58,7 @@ function EditWordDrawer (props) {
             <Input
               name='newWordValue'
               spellCheck='true'
-              defaultValue={clip.selectedWord.word}
+              defaultValue={!inserting ? clip.selectedWord.word : ""}
             />
           </Form.Item>
           <Form.Item>
