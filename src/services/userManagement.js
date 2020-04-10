@@ -94,8 +94,12 @@ export const changeEmail = async unconfirmedEmail => {
       redirect: 'follow', // manual, *follow, error
       referrerPolicy: 'no-referrer' // no-referrer, *client
     })
+    if (res.status === 406) {
+      openNotificationWithIcon('error', 'Email address already in use')
+      return false
+    }
     if (!res.ok) throw new Error('something went wrong')
-
+    openNotificationWithIcon('success', 'Verification email sent.')
     return true
   } catch (error) {
     console.error(error)
@@ -106,6 +110,24 @@ export const changeEmail = async unconfirmedEmail => {
 export const deleteUser = async () => {
   try {
     const res = await fetch(API_URL + '/users/me', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: getToken()
+      },
+      redirect: 'follow', // manual, *follow, error
+      referrerPolicy: 'no-referrer' // no-referrer, *client
+    })
+    if (res.status === 200) return true
+  } catch (error) {
+    console.error(error)
+    return false
+  }
+  return false
+}
+export const deleteAllSessions = async () => {
+  try {
+    const res = await fetch(API_URL + '/users/me/sessions', {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

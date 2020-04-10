@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
 import { attachPaymentMethodToCustomer } from '../services/userManagement'
 import { PlusOutlined } from '@ant-design/icons'
-import { Form } from '@ant-design/compatible'
+import { Form , Alert, Button } from 'antd'
 import '@ant-design/compatible/assets/index.css'
-import { Alert, Button } from 'antd'
+
 import { openNotificationWithIcon } from './Notifications'
 
 const CardField = ({ onChange }) => (
@@ -65,9 +65,7 @@ const CheckoutForm = ({ setAddCardModalVisible, getPaymentMethods }) => {
     name: ''
   })
 
-  const handleSubmit = async (event) => {
-    event.preventDefault()
-
+  const onFinish = async (data) => {
     if (!stripe || !elements) {
       return
     }
@@ -119,7 +117,7 @@ const CheckoutForm = ({ setAddCardModalVisible, getPaymentMethods }) => {
       <ResetButton onClick={reset} />
     </div>
   ) : (
-    <Form message='hello world' className='Form' onSubmit={handleSubmit}>
+    <Form message='hello world' className='Form' onFinish={onFinish}>
       <Form.Item>
 
         <CardField
@@ -134,7 +132,7 @@ const CheckoutForm = ({ setAddCardModalVisible, getPaymentMethods }) => {
       {error
         ? <Form.Item>
           <Alert message={error.message} type='error' showIcon />
-          </Form.Item>
+        </Form.Item>
 
         : null}
 

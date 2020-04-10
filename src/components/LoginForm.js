@@ -4,7 +4,7 @@ import { handleLogin } from '../services/auth'
 import { navigate, Link } from 'gatsby'
 
 import { Form, Input, Button, Select } from 'antd'
-import {  UserOutlined, LockOutlined } from '@ant-design/icons'
+import { UserOutlined, LockOutlined } from '@ant-design/icons'
 
 const { Option } = Select
 
@@ -12,6 +12,7 @@ function LoginForm () {
   const [loading, setLoading] = useState(false)
 
   const onFinish = async (values) => {
+    console.log(values)
     setLoading(true)
     const loggedInSuccessfully = await handleLogin(values)
     if (loggedInSuccessfully) {

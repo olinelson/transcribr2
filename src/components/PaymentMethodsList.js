@@ -31,7 +31,7 @@ const StyledListItemContainer = styled.div`
 
 const StyledListHeader = styled.div`
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     
   `
@@ -39,7 +39,7 @@ const StyledListHeader = styled.div`
 export default function PaymentMethodsList () {
   const stripePromise = loadStripe(STRIPE_PUBLIC_KEY)
   const [cards, setCards] = useStorageState(isBrowser() ? localStorage : null, 'cards', [])
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [addCardModalVisible, setAddCardModalVisible] = useState(false)
   const [selectedPaymentMethodId, setSelectedPaymentMethodId] = useState('')
 
@@ -60,7 +60,6 @@ align-items: start;
   `
 
   const getPaymentMethods = async () => {
-    if (cards.length === 0) setLoading(true)
     const paymentMethods = await getUserPaymentMethods()
     if (paymentMethods) {
       setCards(paymentMethods.data)
@@ -88,13 +87,16 @@ align-items: start;
     <List
       header={
         <StyledListHeader>
-          <h4>My Payment Methods</h4>
-          <PlusOutlined onClick={() => setAddCardModalVisible(true)} />
+          {/* <h4>My Payment Methods</h4> */}
+          <Button onClick={() => setAddCardModalVisible(true)}>
+            <PlusOutlined />
+            Add Card
+          </Button>
 
         </StyledListHeader>
       }
       locale={{ emptyText: 'no cards added yet...' }}
-      bordered
+      // bordered
       dataSource={cards}
       loading={loading}
       renderItem={c => (
