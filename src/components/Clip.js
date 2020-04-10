@@ -144,7 +144,6 @@ function Clip (props) {
         notificationHandler(notification)
       })
       getClip(_id, clip, setClip)
-
     }
 
     function handleVisibilityChange () {
@@ -152,13 +151,13 @@ function Clip (props) {
         joinClipChannel(token, notification => {
           notificationHandler(notification)
         })
-          getClip(_id, clip, setClip)
+        getClip(_id, clip, setClip)
       } else {
         socket.emit('leaveClipChannel', token, _id)
       }
     }
 
-    setClip( oldClip => ({ ...oldClip, loading: true }))
+    setClip(oldClip => ({ ...oldClip, loading: true }))
     getClip(_id, clip, setClip, signal)
 
     joinClipChannel(token, notification => {
@@ -178,22 +177,23 @@ function Clip (props) {
   }, [_id])
 
   const deleteClipHandler = async () => {
-    setClip( oldClip => ({ ...oldClip, loading: true }))
+    setClip(oldClip => ({ ...oldClip, loading: true }))
     const success = await deleteClip(clip._id)
     if (success) {
       const clips = appState.clips.filter(c => c._id !== clip._id)
-      setAppState(oldAppState => ({...oldAppState, clips}) )
+      setAppState(oldAppState => ({ ...oldAppState, clips }))
       navigate('/app')
     } else {
       setClip(oldClip => ({ ...oldClip, loading: false }))
     }
   }
 
-  const showClipAudio = () => {
+  const showClipMedia = () => {
     if (!clip || !clip.rawFileName) return null
 
-    return <>
+    return (
       <ReactPlayer
+
         ref={player}
         url={`https://storage.googleapis.com/${clip.owner}/${clip.rawFileName}`}
         playing={playerControls.playing}
@@ -208,16 +208,23 @@ function Clip (props) {
         style={{
           justifySelf: 'center',
           width: '100%',
-          marginTop: '.5rem',
           minHeight: '.5rem',
           gridArea: 'clip'
         }}
       />
-           </>
+    )
   }
 
+  const PaddedOnMobile = styled.div`
+    @media (max-width: 600px) {
+    padding-left: max(.5rem, env(safe-area-inset-left));
+    padding-right: max(.5rem, env(safe-area-inset-right));
+    }
+   
+  `
+
   const clipOptionsBar = () => (
-    <div style={{ gridArea: 'toolbar' }}>
+    <PaddedOnMobile style={{ gridArea: 'toolbar' }}>
       {clip ? (
         <div
           style={{
@@ -295,7 +302,7 @@ function Clip (props) {
           <Divider />
         </div>
       ) : null}
-    </div>
+    </PaddedOnMobile>
   )
 
   const downloadDocXFile = () => {
@@ -359,28 +366,30 @@ function Clip (props) {
       const currentPageIndex = clip.currentPageIndex || 0
 
       return (
-        <WordsContainer style={{ gridArea: 'words' }}>
-          <p>
-            {wordPages[currentPageIndex].map(w => (
-              <SpanElement
-                name={w._id}
-                key={'span' + w._id}
-              >
-                <Word
-                  clipProgress={clipProgress}
-                  key={w._id}
-                  word={w}
-                  player={player}
-                  playerControls={playerControls}
-                  setPlayerControls={setPlayerControls}
-                  clip={clip}
-                  setClip={setClip}
+        <PaddedOnMobile style={{ gridArea: 'words' }}>
+          <WordsContainer>
+            <p>
+              {wordPages[currentPageIndex].map(w => (
+                <SpanElement
+                  name={w._id}
+                  key={'span' + w._id}
+                >
+                  <Word
+                    clipProgress={clipProgress}
+                    key={w._id}
+                    word={w}
+                    player={player}
+                    playerControls={playerControls}
+                    setPlayerControls={setPlayerControls}
+                    clip={clip}
+                    setClip={setClip}
 
-                />
-              </SpanElement>
-            ))}
-          </p>
-        </WordsContainer>
+                  />
+                </SpanElement>
+              ))}
+            </p>
+          </WordsContainer>
+        </PaddedOnMobile>
       )
     }
   }
@@ -436,7 +445,7 @@ function Clip (props) {
                     <CheckCircleTwoTone twoToneColor='#52c41a' />
                   ) : (
                     <LoadingOutlined />
-                )
+                  )
                 }
               />
               <Step
@@ -447,7 +456,7 @@ function Clip (props) {
                     <LoadingOutlined active />
                   ) : (
                     <MessageOutlined />
-                )
+                  )
                 }
               />
 
@@ -472,14 +481,14 @@ function Clip (props) {
     const pageNumber = Math.floor(wordIndex / wordPageSize)
 
     if (window.innerWidth < 800) {
-      setClip( oldClip => ({
+      setClip(oldClip => ({
         ...oldClip,
         currentPageIndex: pageNumber,
         selectedWord: word
       }))
       setSearchClipDrawerOpen(false)
     } else {
-      setClip( oldClip => ({
+      setClip(oldClip => ({
         ...oldClip,
         currentPageIndex: pageNumber,
         selectedWord: word
@@ -498,14 +507,16 @@ function Clip (props) {
     return (
       <div>
         <div style={{ height: '4rem' }} />
-        <Skeleton active />
+        <PaddedOnMobile>
+          <Skeleton active />
+        </PaddedOnMobile>
       </div>
     )
   } else {
     return (
       <>
         <ClipContainer isVideo={clip.isVideo}>
-          {showClipAudio()}
+          {showClipMedia()}
 
           {clipOptionsBar()}
 
@@ -531,7 +542,7 @@ function Clip (props) {
             current={clip.currentPageIndex + 1}
             pageSizeOptions={['200', '300', '400', '500', '600']}
             onShowSizeChange={(e, num) =>
-              setClip( oldClip => ({ ...oldClip, wordPageSize: num, currentPageIndex: 0 }))}
+              setClip(oldClip => ({ ...oldClip, wordPageSize: num, currentPageIndex: 0 }))}
             total={clip.words.length}
             pageSize={clip.wordPageSize || 200}
             hideOnSinglePage

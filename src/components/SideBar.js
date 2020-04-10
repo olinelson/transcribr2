@@ -48,16 +48,16 @@ function SideBar ({ appState, setAppState }) {
           style={{ height: '100%' }}
           mode='inline'
           selectable={false}
-          inlineCollapsed={viewWidth < 800}
+          // inlineCollapsed={viewWidth < 800}
         >
           <Menu.Item
-            onClick={() => setAppState(oldAppState =>  ({ ...oldAppState, uploadDrawerOpen: true }))}
+            onClick={() => setAppState(oldAppState => ({ ...oldAppState, uploadDrawerOpen: true }))}
           >
             {uploading ? <LoadingOutlined spin /> : <UploadOutlined />}
             <span>Add Clip</span>
           </Menu.Item>
           <Menu.Item
-            onClick={() => setAppState( oldAppState => ({ ...oldAppState, uploadYoutubeDrawerOpen: true }))}
+            onClick={() => setAppState(oldAppState => ({ ...oldAppState, uploadYoutubeDrawerOpen: true }))}
           >
             {youtubeUploading ? <LoadingOutlined spin /> : <YoutubeOutlined />}
             <span>Add Youtube</span>
@@ -81,16 +81,16 @@ function SideBar ({ appState, setAppState }) {
       <Menu
         mode='inline'
         selectable={false}
-        inlineCollapsed={viewWidth < 800}
+        // inlineCollapsed={viewWidth < 800}
       >
         <Menu.Item
-          onClick={() => setAppState( oldAppState => ({ ...oldAppState, uploadDrawerOpen: true }))}
+          onClick={() => setAppState(oldAppState => ({ ...oldAppState, uploadDrawerOpen: true }))}
         >
           {uploading ? <LoadingOutlined spin /> : <UploadOutlined />}
           <span>Add Clip</span>
         </Menu.Item>
         <Menu.Item
-          onClick={() => setAppState( oldAppState => ({ ...oldAppState, uploadYoutubeDrawerOpen: true }))}
+          onClick={() => setAppState(oldAppState => ({ ...oldAppState, uploadYoutubeDrawerOpen: true }))}
         >
           {youtubeUploading ? <LoadingOutlined spin /> : <YoutubeOutlined />}
           <span>Add Youtube</span>
@@ -98,7 +98,7 @@ function SideBar ({ appState, setAppState }) {
       </Menu>
 
       <Menu
-        inlineCollapsed={viewWidth < 800}
+        // inlineCollapsed={viewWidth < 800}
         mode='inline'
         style={{ height: '100%' }}
         // defaultOpenKeys={["clip"]}

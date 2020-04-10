@@ -27,17 +27,16 @@ export const Layout = styled.div`
   min-height: 100vh;
   overflow: hidden;
   grid-template-columns: 1fr 3fr 1fr;
-  grid-template-rows: 46px 1fr auto;
+  grid-template-rows: 43px 1fr auto;
   grid-gap: 1rem;
   max-width: 120rem;
-  margin: auto;
 
   grid-template-areas:
     ". . ."
     "sidebar main  .";
 
   @media (max-width: 800px) {
-    grid-template-columns: auto 1fr;
+    grid-template-columns: auto 1fr 1fr;
     grid-gap: 0;
     grid-template-areas:
       ". . ."
@@ -49,17 +48,12 @@ export const Layout = styled.div`
   @media (max-width: 600px) {
      grid-template-areas:
       
-      "sidebar main  main"
-      // ". . ."
+      "main main  main"
       ;
     grid-template-rows:  1fr 46px;
   }
 
-  @supports (padding: max(0px)) {
-    padding-left: max(12px, env(safe-area-inset-left));
-    padding-right: max(12px, env(safe-area-inset-right));
-    padding-bottom: max(12px, env(safe-area-inset-bottom));
-  }
+ 
 `
 export const Header = styled.div``
 export const Footer = styled.div``
@@ -79,7 +73,6 @@ export const ClipContainer = styled.div`
   grid-template-columns: 1fr;
   grid-gap: 1rem;
   grid-template-rows: auto auto 1fr auto;
-  margin: 0 1rem;
   height: 100%;
   max-height: 100%;
   grid-template-areas:
@@ -90,6 +83,7 @@ export const ClipContainer = styled.div`
 
   @media (max-width: 600px) {
     grid-template-rows: auto auto auto 1fr;
+    grid-template-columns: 100vw;
     grid-template-areas:
       "clip"
       "toolbar"
@@ -116,12 +110,17 @@ export const FixedMenuDiv = styled.div`
     left:0;
     bottom: right;
 
-     @supports (padding: max(0px)) {
-     background: #001529;
-    padding-bottom: max(12px, env(safe-area-inset-bottom));
+ 
+
+
   }
 
-
+      @supports (padding: max(0px)) {
+     background: #001529;
+    padding-bottom: max(env(safe-area-inset-bottom));
+    padding-left: max(env(safe-area-inset-left));
+    padding-right: max(env(safe-area-inset-right));
+    padding-top: max(env(safe-area-inset-top));
   }
   
 
