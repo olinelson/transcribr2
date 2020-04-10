@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { getUserPaymentMethods, deletePaymentMethod } from '../services/userManagement'
-import { CreditCardOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
-import { List, Modal, Popconfirm, Popover, Button } from 'antd';
+import { CreditCardOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons'
+import { List, Modal, Popconfirm, Popover, Button } from 'antd'
 
 import styled, { keyframes } from 'styled-components'
 
@@ -39,7 +39,7 @@ const StyledListHeader = styled.div`
 export default function PaymentMethodsList () {
   const stripePromise = loadStripe(STRIPE_PUBLIC_KEY)
   const [cards, setCards] = useStorageState(isBrowser() ? localStorage : null, 'cards', [])
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const [addCardModalVisible, setAddCardModalVisible] = useState(false)
   const [selectedPaymentMethodId, setSelectedPaymentMethodId] = useState('')
 
@@ -60,6 +60,7 @@ align-items: start;
   `
 
   const getPaymentMethods = async () => {
+    if (cards.length === 0) setLoading(true)
     const paymentMethods = await getUserPaymentMethods()
     if (paymentMethods) {
       setCards(paymentMethods.data)
@@ -137,5 +138,5 @@ align-items: start;
       </Elements>
     </Modal>
 
-  </>;
+  </>
 }

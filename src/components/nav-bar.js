@@ -4,9 +4,9 @@ import { isLoggedIn, logout, isBrowser } from '../services/auth'
 import { Menu, FixedMenuDiv, DynamicMenu } from './MyStyledComponents'
 import WithLocation from './WithLocation'
 
-import { AudioOutlined, HomeOutlined, InfoCircleOutlined, UserOutlined } from '@ant-design/icons';
+import { AudioOutlined, HomeOutlined, InfoCircleOutlined, UserOutlined } from '@ant-design/icons'
 
-import { Popconfirm, Alert } from 'antd';
+import { Popconfirm, Alert } from 'antd'
 
 import { openNotificationWithIcon } from './Notifications'
 
@@ -40,18 +40,17 @@ function Navbar (props) {
 
         <Menu.Item onClick={() => navigate('/app')} key='/app'>
           <UserOutlined />
-          {/* <span>Profile</span> */}
         </Menu.Item>
 
         {viewWidth < 600
-          ? <Menu.Item onClick={() => navigate('/app/clips')} key='/app/clips'>
+          ? <Menu.Item onClick={() => navigate('/app/clips')} key='clips'>
             <AudioOutlined />
           </Menu.Item>
           : null}
 
       </DynamicMenu>
     </FixedMenuDiv>
-  );
+  )
 }
 
 export default WithLocation(Navbar)

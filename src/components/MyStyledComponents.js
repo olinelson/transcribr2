@@ -37,7 +37,7 @@ export const Layout = styled.div`
 
   @media (max-width: 800px) {
     grid-template-columns: auto 1fr 1fr;
-    grid-gap: 0;
+    grid-gap: 1rem;
     grid-template-areas:
       ". . ."
       "sidebar main  main"

@@ -33,7 +33,6 @@ function SideBar ({ appState, setAppState }) {
   const sortOrFilterClips = (clips) => {
     if (clipFilterText.length && clipFilterText.length > 0) {
       return clips.filter(c => c.name.toLowerCase().includes(clipFilterText.toLowerCase()))
-      // return []
     } else {
       return clips.sort((a, b) => b.dateCreated - a.dateCreated)
     }
@@ -48,6 +47,7 @@ function SideBar ({ appState, setAppState }) {
           style={{ height: '100%' }}
           mode='inline'
           selectable={false}
+          selectedKeys={window ? [window.location.pathname] : ['/app']}
           // inlineCollapsed={viewWidth < 800}
         >
           <Menu.Item

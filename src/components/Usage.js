@@ -47,11 +47,14 @@ export default function Usage () {
       const estimatedCost = paidUsage > 0 ? 5 + (paidUsage * 0.03) : '0.00'
 
       return (
-        <StyledCard key={u.id}>
-          <Statistic title='Free Minutes Used' value={freeUsage} suffix='/180' />
-          <Statistic title='Paid Min Used' value={paidUsage} />
-          <Statistic title='Est. Cost' value={estimatedCost} prefix='$' />
-        </StyledCard>
+        <>
+          <h1>Usage This Month</h1>
+          <StyledCard key={u.id}>
+            <Statistic title='Free Minutes Used' value={freeUsage} suffix='/180' />
+            <Statistic title='Paid Min Used' value={paidUsage} />
+            <Statistic title='Est. Cost' value={estimatedCost} prefix='$' />
+          </StyledCard>
+        </>
       )
     })}
 
