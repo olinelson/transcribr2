@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import {
   ArrowLeftOutlined,
@@ -30,6 +30,16 @@ const flash = keyframes`
   }
 `
 
+// const FullPageListener = styled.div`
+
+//   top: 0;
+//   left: 0;
+//   width: 100vw;
+//   height: 100vh;
+//   position: absolute;
+//   opacity: 0.5;
+// `
+
 const WordContainer = styled.span`
   
   background: ${props =>
@@ -41,7 +51,7 @@ const WordContainer = styled.span`
   animation: ${props => (!props.deleting ? 'none' : null)};
 
   opacity: ${props =>
-  props.clipProgress.playedSeconds > parseInt(props.word.startTime) || (props.selectedWord && props.selectedWord._id === props.word._id)
+  props.clipProgress > parseInt(props.word.startTime) || (props.selectedWord && props.selectedWord._id === props.word._id)
     ? '1' : '.5'}
      ;
 `
@@ -53,9 +63,10 @@ function Word (props) {
     playerControls,
     setPlayerControls,
     clip,
-    setClip,
-    clipProgress
+    setClip
   } = props
+
+  const [clipProgress, setClipProgress] = useState(player.current ? player.current.getCurrentTime() : 0)
 
   const [deleting, setDeleting] = useState(false)
 
@@ -68,6 +79,17 @@ function Word (props) {
       index: findIndexOfWord(word, clip.words)
     })
   }
+
+  const getCurrentTime = () => {
+    const currentTime = player.current ? player.current.getCurrentTime() : 0
+    setClipProgress(currentTime)
+  }
+
+  useEffect(() => {
+    const getCurrentTimeInterval = setInterval(getCurrentTime, 1000)
+
+    return () => clearInterval(getCurrentTimeInterval)
+  }, [])
 
   const wordOptions = () => (
     <Menu>
@@ -88,7 +110,7 @@ function Word (props) {
       </Menu.Item>
       <Menu.Item
         onClick={() =>
-          setClip( oldClip => ({
+          setClip(oldClip => ({
             ...oldClip,
             selectedWord: { ...word, inserting: 0 },
             editWordDrawerOpen: true
@@ -99,7 +121,7 @@ function Word (props) {
       </Menu.Item>
       <Menu.Item
         onClick={() =>
-          setClip( oldClip => ({
+          setClip(oldClip => ({
             ...oldClip,
             selectedWord: { ...word, inserting: 1 },
             editWordDrawerOpen: true
@@ -126,6 +148,9 @@ function Word (props) {
     <Popover
       trigger='click'
       key={word._id}
+      onVisibleChange={(v) => !v ? setClip(oldClip => ({ ...oldClip, selectedWord: undefined })) : null}
+      visible={clip.selectedWord && clip.selectedWord._id === word._id}
+      onClick={() => setClip(oldClip => ({ ...oldClip, selectedWord: word }))}
       content={
         <>
           <Tag style={{ marginBottom: '.5rem' }}>
@@ -161,13 +186,14 @@ function Word (props) {
           deleting={deleting}
           word={word}
           selectedWord={clip.selectedWord}
-          onClick={() => setClip(oldClip => ({ ...oldClip, selectedWord: word }))}
+
           clipProgress={clipProgress}
         >
           {word.word}
         </WordContainer>{' '}
       </span>
     </Popover>
+
          </>
 }
 

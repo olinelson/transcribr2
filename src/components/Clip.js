@@ -203,7 +203,8 @@ function Clip (props) {
         height='100%'
         width='100%'
         progressInterval={100}
-        onProgress={(p) => setClipProgress(p)}
+        // onProgress={(p) => setClipProgress(p)}
+        // onProgress={(p) => clipProgress(p)}
         playbackRate={playerControls.playbackRate}
         style={{
           justifySelf: 'center',
