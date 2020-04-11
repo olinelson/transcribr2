@@ -131,7 +131,6 @@ function Clip (props) {
 
     function handleOffline () {
       console.log('clip offline')
-      // socket.emit('leaveClipChannel', token, _id)
       socket.disconnect()
     }
 
@@ -352,10 +351,6 @@ function Clip (props) {
     FileSaver.saveAs(file, clip.name + '.txt')
   }
 
-  const StyledElement = styled(Element)`
-    display: flex;
-  `
-
   const maybeShowWordsParagraph = () => {
     if (clip.words.length) {
       const wordPages = splitWordsIntoPages(clip.words, clip.wordPageSize)
@@ -440,7 +435,7 @@ function Clip (props) {
                     <CheckCircleTwoTone twoToneColor='#52c41a' />
                   ) : (
                     <LoadingOutlined />
-                  )
+                )
                 }
               />
               <Step
@@ -451,7 +446,7 @@ function Clip (props) {
                     <LoadingOutlined active />
                   ) : (
                     <MessageOutlined />
-                  )
+                )
                 }
               />
 
