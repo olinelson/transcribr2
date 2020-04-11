@@ -28,10 +28,7 @@ module.exports = {
       }
     },
     {
-      resolve: 'gatsby-plugin-offline',
-      options: {
-        precachePages: ['/', '/about', '/login', '/logout', '/app/*']
-      }
+      resolve: 'gatsby-plugin-offline'
     }
   ]
 }
