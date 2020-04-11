@@ -11,4 +11,4 @@ export const onServiceWorkerUpdateReady = () => {
   }
 }
 
-export const registerServiceWorker = () => true
+// export const registerServiceWorker = () => true

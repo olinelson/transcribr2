@@ -26,12 +26,12 @@ module.exports = {
         theme_color: '#a2466c',
         display: 'standalone'
       }
+    },
+    {
+      resolve: 'gatsby-plugin-offline',
+      options: {
+        appendScript: require.resolve('./service-worker-append.js')
+      }
     }
-    // {
-    //   resolve: 'gatsby-plugin-offline',
-    //   workboxConfig: {
-    //     globPatterns: ['**/*']
-    //   }
-    // }
   ]
 }
