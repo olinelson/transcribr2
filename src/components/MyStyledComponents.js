@@ -33,7 +33,8 @@ export const Layout = styled.div`
 
   grid-template-areas:
     ". . ."
-    "sidebar main  .";
+    "sidebar main  ."
+    ;
 
   @media (max-width: 800px) {
     grid-template-columns: auto 1fr 1fr;
@@ -41,16 +42,19 @@ export const Layout = styled.div`
     grid-template-areas:
       ". . ."
       "sidebar main  main"
-      
       ;
+    padding:0 1rem;
   }
 
   @media (max-width: 600px) {
-     grid-template-areas:
-      
-      "main main  main"
+    grid-template-columns: 1fr ;
+    grid-template-rows: auto ;
+    padding: 0;
+    grid-template-areas:
+      "main"
+      "sidebar"
       ;
-    grid-template-rows:  1fr 46px;
+    
   }
 
  
@@ -109,14 +113,9 @@ export const FixedMenuDiv = styled.div`
     bottom: 0;
     left:0;
     bottom: right;
-
- 
-
-
   }
-
-      @supports (padding: max(0px)) {
-     background: #001529;
+  @supports (padding: max(0px)) {
+    background: #001529;
     padding-bottom: max(env(safe-area-inset-bottom));
     padding-left: max(env(safe-area-inset-left));
     padding-right: max(env(safe-area-inset-right));

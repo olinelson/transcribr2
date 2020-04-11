@@ -83,7 +83,7 @@ export default function UserDetails (props) {
         <Descriptions.Item label='Name'>{user.name}{' '}<EditOutlined
           onClick={() => setAppState(oldAppState => ({ ...oldAppState, editUserDrawerOpen: true }))}
           style={{ fontSize: '1rem' }}
-        />
+                                                        />
         </Descriptions.Item>
         <Descriptions.Item label='Email'>
           {user.email}{' '}

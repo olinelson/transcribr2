@@ -135,7 +135,7 @@ function App (props) {
         </Router>
       </div>
 
-      <div style={{ gridArea: 'main' }}>
+      <div style={{ gridArea: 'main'  }}>
         <Router basepath='/app'>
           <PrivateRoute
             component={UserDetails}
@@ -180,7 +180,7 @@ function App (props) {
         title='Upload Youtube'
         placement='right'
         closable
-        onClose={() => setAppState(oldAppState =>  ({ ...appState, uploadYoutubeDrawerOpen: false }))}
+        onClose={() => setAppState(oldAppState => ({ ...appState, uploadYoutubeDrawerOpen: false }))}
         visible={appState.uploadYoutubeDrawerOpen}
         width='auto'
 
