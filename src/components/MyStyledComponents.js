@@ -39,19 +39,20 @@ export const Layout = styled.div`
   @media (max-width: 800px) {
     grid-template-columns: auto 1fr 1fr;
     grid-gap: 1rem;
-    padding-bottom: 3rem;
+    
     grid-template-areas:
       ". . ."
       "sidebar main  main"
       ;
     padding:0 1rem;
+    padding-bottom: 5rem;
   }
 
   @media (max-width: 600px) {
     grid-template-columns: 1fr ;
     grid-template-rows: auto auto ;
     padding: 0;
-    padding-bottom: 3rem;
+    padding-bottom: 5rem;
     grid-template-areas:
       "main"
       "sidebar"
