@@ -30,16 +30,6 @@ const flash = keyframes`
   }
 `
 
-// const FullPageListener = styled.div`
-
-//   top: 0;
-//   left: 0;
-//   width: 100vw;
-//   height: 100vh;
-//   position: absolute;
-//   opacity: 0.5;
-// `
-
 const WordContainer = styled.span`
   
   background: ${props =>
@@ -150,6 +140,8 @@ function Word (props) {
   const selectWordAndFocus = (v) => {
     if (v) {
       setClip(oldClip => ({ ...oldClip, selectedWord: word, focusedWord: word }))
+    } else {
+      setClip(oldClip => ({ ...oldClip, focusedWord: undefined }))
     }
   }
 
@@ -159,7 +151,6 @@ function Word (props) {
       key={word._id}
       onVisibleChange={(v) => selectWordAndFocus(v)}
       visible={clip.focusedWord && clip.focusedWord._id === word._id}
-      // onClick={() => selectWordAndFocus(true)}
       content={
         <>
           <Tag style={{ marginBottom: '.5rem' }}>
