@@ -39,6 +39,7 @@ export const Layout = styled.div`
   @media (max-width: 800px) {
     grid-template-columns: auto 1fr 1fr;
     grid-gap: 1rem;
+    padding-bottom: 3rem;
     grid-template-areas:
       ". . ."
       "sidebar main  main"
@@ -50,14 +51,11 @@ export const Layout = styled.div`
     grid-template-columns: 1fr ;
     grid-template-rows: auto auto ;
     padding: 0;
+    padding-bottom: 3rem;
     grid-template-areas:
       "main"
       "sidebar"
       ;
-
-     @supports (padding: max(0px)) {
-    padding-bottom: max(env(safe-area-inset-bottom));
-  
   }
     
   }
