@@ -1,5 +1,5 @@
 import React from 'react'
-import 'antd/dist/antd.css'
+// import 'antd/dist/antd.css'
 import NavBar from './nav-bar'
 import { Helmet } from 'react-helmet'
 import { Layout as MyLayout } from './MyStyledComponents'

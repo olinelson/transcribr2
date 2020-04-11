@@ -57,3 +57,5 @@ body {
 .ant-upload-list-item-info{
   max-width: 80vw;
 }
+
+@import '~antd/dist/antd.css'
