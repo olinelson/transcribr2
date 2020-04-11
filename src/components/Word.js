@@ -101,7 +101,7 @@ function Word (props) {
         onClick={() =>
           setClip(oldClip => ({
             ...oldClip,
-            selectedWord: word,
+            focusedWord: undefined,
             editWordDrawerOpen: true
           }))}
       >
@@ -112,6 +112,7 @@ function Word (props) {
         onClick={() =>
           setClip(oldClip => ({
             ...oldClip,
+            focusedWord: undefined,
             selectedWord: { ...word, inserting: 0 },
             editWordDrawerOpen: true
           }))}
@@ -123,6 +124,7 @@ function Word (props) {
         onClick={() =>
           setClip(oldClip => ({
             ...oldClip,
+            focusedWord: undefined,
             selectedWord: { ...word, inserting: 1 },
             editWordDrawerOpen: true
           }))}
@@ -134,6 +136,7 @@ function Word (props) {
         onClick={() =>
           setClip(oldClip => ({
             ...oldClip,
+            focusedWord: undefined,
             selectedWord: word,
             wordCitationModalOpen: true
           }))}
@@ -144,13 +147,19 @@ function Word (props) {
     </Menu>
   )
 
+  const selectWordAndFocus = (v) => {
+    if (v) {
+      setClip(oldClip => ({ ...oldClip, selectedWord: word, focusedWord: word }))
+    }
+  }
+
   return <>
     <Popover
       trigger='click'
       key={word._id}
-      onVisibleChange={(v) => !v ? setClip(oldClip => ({ ...oldClip, selectedWord: undefined })) : null}
-      visible={clip.selectedWord && clip.selectedWord._id === word._id}
-      onClick={() => setClip(oldClip => ({ ...oldClip, selectedWord: word }))}
+      onVisibleChange={(v) => selectWordAndFocus(v)}
+      visible={clip.focusedWord && clip.focusedWord._id === word._id}
+      // onClick={() => selectWordAndFocus(true)}
       content={
         <>
           <Tag style={{ marginBottom: '.5rem' }}>

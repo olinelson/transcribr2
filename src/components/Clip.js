@@ -63,8 +63,6 @@ function Clip (props) {
   const [editClipDrawerOpen, setEditClipDrawerOpen] = useState(false)
   const [searchClipDrawerOpen, setSearchClipDrawerOpen] = useState(false)
 
-  const [clipProgress, setClipProgress] = useState({})
-
   const [clip, setClip] = useState({
     // loading
     clipLoading: true,
@@ -203,8 +201,6 @@ function Clip (props) {
         height='100%'
         width='100%'
         progressInterval={100}
-        // onProgress={(p) => setClipProgress(p)}
-        // onProgress={(p) => clipProgress(p)}
         playbackRate={playerControls.playbackRate}
         style={{
           justifySelf: 'center',
@@ -376,7 +372,6 @@ function Clip (props) {
                   key={'span' + w._id}
                 >
                   <Word
-                    clipProgress={clipProgress}
                     key={w._id}
                     word={w}
                     player={player}
@@ -446,7 +441,7 @@ function Clip (props) {
                     <CheckCircleTwoTone twoToneColor='#52c41a' />
                   ) : (
                     <LoadingOutlined />
-                  )
+                )
                 }
               />
               <Step
@@ -457,7 +452,7 @@ function Clip (props) {
                     <LoadingOutlined active />
                   ) : (
                     <MessageOutlined />
-                  )
+                )
                 }
               />
 

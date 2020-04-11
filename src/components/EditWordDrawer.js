@@ -1,9 +1,9 @@
 import React from 'react'
 
-import { Form } from '@ant-design/compatible';
-import '@ant-design/compatible/assets/index.css';
+import { Form } from '@ant-design/compatible'
+import '@ant-design/compatible/assets/index.css'
 
-import { Drawer, Input, Button } from 'antd';
+import { Drawer, Input, Button } from 'antd'
 
 import { editWord, insertWord } from '../services/wordManagement'
 import { findIndexOfWord } from '../utils'
@@ -31,11 +31,10 @@ function EditWordDrawer (props) {
         word: newWordValue,
         startTime: clip.selectedWord.startTime
       }
-       insertWord({ ...props, index, newWord })
-    }else{
+      insertWord({ ...props, index, newWord })
+    } else {
       editWord({ ...props, newWordValue })
     }
-    
   }
 
   return (
@@ -43,11 +42,11 @@ function EditWordDrawer (props) {
       visible={clip.editWordDrawerOpen}
       destroyOnClose
       onClose={() =>
-        setClip(oldClip =>({
+        setClip(oldClip => ({
           ...oldClip,
           editWordDrawerOpen: false,
           inserting: null,
-          clipSaving: false,
+          clipSaving: false
         }))}
       closable
       title={inserting === false ? 'Edit Word' : 'Insert Word'}
@@ -58,7 +57,7 @@ function EditWordDrawer (props) {
             <Input
               name='newWordValue'
               spellCheck='true'
-              defaultValue={!inserting ? clip.selectedWord.word : ""}
+              defaultValue={inserting === 1 || inserting === 0 ? ' ' : clip.selectedWord.word}
             />
           </Form.Item>
           <Form.Item>
