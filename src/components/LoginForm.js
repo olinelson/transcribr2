@@ -12,7 +12,6 @@ function LoginForm () {
   const [loading, setLoading] = useState(false)
 
   const onFinish = async (values) => {
-    console.log(values)
     setLoading(true)
     const loggedInSuccessfully = await handleLogin(values)
     if (loggedInSuccessfully) {
