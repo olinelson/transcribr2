@@ -74,6 +74,7 @@ export const Upload = styled(_Upload)``
 export const ProfileContainer = styled.div``
 export const ClipContainer = styled.div`
   display: grid;
+  margin: 0;
   grid-template-columns: 1fr;
   grid-gap: 1rem;
   grid-template-rows: auto auto 1fr auto;
