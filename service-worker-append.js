@@ -25,7 +25,7 @@ workbox.routing.registerRoute(
 workbox.routing.registerRoute(
   /^https:\/\/transcribr2-api-staging\.herokuapp\.com\/clips/,
   new workbox.strategies.CacheFirst({
-    cacheName: 'clip-cache',
+    cacheName: 'clip-cache-staging',
     plugins: [
       new workbox.cacheableResponse.Plugin({ statuses: [200] }),
       new workbox.rangeRequests.Plugin(),
