@@ -96,6 +96,10 @@ function Clip (props) {
     searchInput: '',
     searchResults: [],
 
+    converstionJobId: undefined,
+    conversionComplete: false,
+    operationId: undefined,
+    operationCompleted: false,
     progressPercent: 0
   })
 
@@ -224,7 +228,6 @@ function Clip (props) {
             }
           }
         }}
-        preload
         ref={player}
         url={`https://storage.googleapis.com/${clip.owner}/${clip.rawFileName}`}
         playing={playerControls.playing}
@@ -412,30 +415,28 @@ function Clip (props) {
   }
 
   const maybeShowTranscribeButtton = () => {
-    if (!clip.words || !clip.words.length) {
-      if (!clip.conversionJobId) {
-        return (
-          <div style={{ gridArea: 'words', justifySelf: 'center' }}>
-            <Button
-              type='primary'
-              loading={clip.transcriptionLoading}
-              onClick={() =>
-                setClip(oldClip => ({
-                  ...oldClip,
-                  transcribeModalOpen: true
-                }))}
-            >
-              <MessageOutlined />
+    if (!clip.conversionJobId) {
+      return (
+        <div style={{ gridArea: 'words', justifySelf: 'center' }}>
+          <Button
+            type='primary'
+            loading={clip.transcriptionLoading}
+            onClick={() =>
+              setClip(oldClip => ({
+                ...oldClip,
+                transcribeModalOpen: true
+              }))}
+          >
+            <MessageOutlined />
               Transcribe
-            </Button>
-          </div>
-        )
-      }
+          </Button>
+        </div>
+      )
     }
   }
 
   const maybeShowTranscribingLoadingState = () => {
-    if (!clip.words.length && clip.conversionJobId) {
+    if (clip.conversionJobId && clip.operationCompleted === false) {
       return (
         <div
           style={{
