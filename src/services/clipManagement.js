@@ -54,8 +54,6 @@ export const getClip = async (_id, clip, setClip, signal) => {
     let res = await fetch(API_URL + '/clips/' + _id, {
       signal,
       mode: 'cors', // no-cors, *cors, same-origin
-      // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-      // credentials: "same-origin", // include, *same-origin, omit
       headers: {
         'Content-Type': 'application/json',
         Authorization: getToken()
@@ -66,6 +64,7 @@ export const getClip = async (_id, clip, setClip, signal) => {
     res = await res.json()
     setClip(oldClip => ({
       ...oldClip,
+      conversionJobId: undefined,
       currentPageIndex: 0,
       currentPageSize: 200,
       ...res,

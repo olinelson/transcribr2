@@ -96,7 +96,7 @@ function Clip (props) {
     searchInput: '',
     searchResults: [],
 
-    converstionJobId: undefined,
+    conversionJobId: undefined,
     conversionComplete: false,
     operationId: undefined,
     operationCompleted: false,
@@ -109,6 +109,8 @@ function Clip (props) {
     duration: 0,
     playbackRate: 1
   })
+
+  console.log({ clip })
 
   const player = useRef(null)
 
@@ -415,6 +417,7 @@ function Clip (props) {
   }
 
   const maybeShowTranscribeButtton = () => {
+    console.log('maybe show convert button', clip)
     if (!clip.conversionJobId) {
       return (
         <div style={{ gridArea: 'words', justifySelf: 'center' }}>
@@ -463,7 +466,7 @@ function Clip (props) {
                     <CheckCircleTwoTone twoToneColor='#52c41a' />
                   ) : (
                     <LoadingOutlined />
-                )
+                  )
                 }
               />
               <Step
@@ -474,7 +477,7 @@ function Clip (props) {
                     <LoadingOutlined active />
                   ) : (
                     <MessageOutlined />
-                )
+                  )
                 }
               />
 
