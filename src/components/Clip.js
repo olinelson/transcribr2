@@ -193,6 +193,23 @@ function Clip (props) {
     }
   }
 
+  const getBrowserName = () => {
+    let name = 'Unknown';
+    if (navigator.userAgent.indexOf('MSIE') != -1) {
+      name = 'MSIE';
+    } else if (navigator.userAgent.indexOf('Firefox') != -1) {
+      name = 'Firefox';
+    } else if (navigator.userAgent.indexOf('Opera') != -1) {
+      name = 'Opera';
+    } else if (navigator.userAgent.indexOf('Chrome') != -1) {
+      name = 'Chrome';
+    } else if (navigator.userAgent.indexOf('Safari') != -1) {
+      name = 'Safari';
+    }
+    return name
+
+  }
+
   const showClipMedia = () => {
     if (!clip || !clip.rawFileName) return null
 
@@ -201,17 +218,19 @@ function Clip (props) {
         config={{
           file: {
             attributes: {
-              // crossOrigin: 'anonymous'
+              crossOrigin: getBrowserName() === 'Safari' ? 'anonymous' : null
               // crossOrigin: 'use-credentials'
             }
           }
         }}
+        preload
         ref={player}
         url={`https://storage.googleapis.com/${clip.owner}/${clip.rawFileName}`}
         playing={playerControls.playing}
         controls
         playsinline
         pip
+
         height='auto'
         width='100%'
         progressInterval={100}
@@ -442,7 +461,7 @@ function Clip (props) {
                     <CheckCircleTwoTone twoToneColor='#52c41a' />
                   ) : (
                     <LoadingOutlined />
-                )
+                  )
                 }
               />
               <Step
@@ -453,7 +472,7 @@ function Clip (props) {
                     <LoadingOutlined active />
                   ) : (
                     <MessageOutlined />
-                )
+                  )
                 }
               />
 

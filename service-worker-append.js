@@ -10,7 +10,7 @@ workbox.routing.registerRoute(
   /^https:\/\/storage\.googleapis\.com/,
   new workbox.strategies.CacheFirst({
     plugins: [
-      new workbox.cacheableResponse.Plugin({ statuses: [200] }),
+      new workbox.cacheableResponse.Plugin({ statuses: [200, 206] }),
       new workbox.rangeRequests.Plugin()
     ]
   }),
