@@ -190,7 +190,14 @@ function Clip (props) {
 
     return (
       <ReactPlayer
-
+        config={{
+          file: {
+            attributes: {
+              crossOrigin: 'anonymous'
+            }
+          }
+        }}
+        crossOrigin='anonymous'
         ref={player}
         url={`https://storage.googleapis.com/${clip.owner}/${clip.rawFileName}`}
         playing={playerControls.playing}
