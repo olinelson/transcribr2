@@ -11,7 +11,11 @@ workbox.routing.registerRoute(
   new workbox.strategies.CacheFirst({
     plugins: [
       new workbox.cacheableResponse.Plugin({ statuses: [200, 206] }),
-      new workbox.rangeRequests.Plugin()
+      new workbox.rangeRequests.Plugin(),
+      new workbox.expiration.Plugin({
+        maxEntries: 20,
+        maxAgeSeconds: 1209600
+      })
     ]
   }),
   'GET'
@@ -22,7 +26,11 @@ workbox.routing.registerRoute(
   new workbox.strategies.CacheFirst({
     plugins: [
       new workbox.cacheableResponse.Plugin({ statuses: [200] }),
-      new workbox.rangeRequests.Plugin()
+      new workbox.rangeRequests.Plugin(),
+      new workbox.expiration.Plugin({
+        maxEntries: 20,
+        maxAgeSeconds: 1209600
+      })
     ]
   }),
   'GET'
@@ -32,7 +40,11 @@ workbox.routing.registerRoute(
   new workbox.strategies.CacheFirst({
     plugins: [
       new workbox.cacheableResponse.Plugin({ statuses: [200] }),
-      new workbox.rangeRequests.Plugin()
+      new workbox.rangeRequests.Plugin(),
+      new workbox.expiration.Plugin({
+        maxEntries: 20,
+        maxAgeSeconds: 1209600
+      })
     ]
   }),
   'GET'
