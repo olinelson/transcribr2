@@ -27,7 +27,7 @@ workbox.core.clientsClaim();
  */
 self.__precacheManifest = [
   {
-    "url": "webpack-runtime-008d5b202b0f8cda1af5.js"
+    "url": "webpack-runtime-661585f5ffc2c304a404.js"
   },
   {
     "url": "styles.610a6b9e99c506ffbbf5.css"
@@ -39,14 +39,89 @@ self.__precacheManifest = [
     "url": "framework-d58e6aa01b2ba4423f5b.js"
   },
   {
-    "url": "app-4e8e90e29cecb7cdc51a.js"
+    "url": "app-0274878c86fa5c913e0e.js"
   },
   {
     "url": "offline-plugin-app-shell-fallback/index.html",
-    "revision": "f5a4b32f5ccafbc1e1ece2105a24f1ca"
+    "revision": "8799a8a2cd1d69f40864850b3a8645db"
   },
   {
     "url": "component---cache-caches-gatsby-plugin-offline-app-shell-js-53510201dcf61d0f1308.js"
+  },
+  {
+    "url": "95cb632c25a65ea663d3791c042a721a3193f9cd-96ce6531bc649682296f.js"
+  },
+  {
+    "url": "component---src-pages-404-js-89b6b2ee0e9e48e8a1f9.js"
+  },
+  {
+    "url": "page-data/404/page-data.json",
+    "revision": "885296f794bc4c06d05f9cb1f0a23695"
+  },
+  {
+    "url": "page-data/app-data.json",
+    "revision": "eb862672615ef6895bcea781f0b0728b"
+  },
+  {
+    "url": "d4ad233efeb1d959420253442063e6db7488fdeb-be428484e5bd284a9dc2.js"
+  },
+  {
+    "url": "component---src-pages-index-js-c3990ad0d4cf698f13c7.js"
+  },
+  {
+    "url": "page-data/index/page-data.json",
+    "revision": "16e6d67d0f38a6c526c4d983c7128c58"
+  },
+  {
+    "url": "bb0e2423-1900570e2e5d327feda0.js"
+  },
+  {
+    "url": "ad895f8b1e5b0a5c811318d367d3d00489b852d5-7567b6380ad3d66f5f60.js"
+  },
+  {
+    "url": "component---src-pages-app-js-570ff1720407b0126042.js"
+  },
+  {
+    "url": "page-data/app/page-data.json",
+    "revision": "9179f5604b75572075377b39cb75255f"
+  },
+  {
+    "url": "component---src-pages-about-js-af9f669da02740c4590c.js"
+  },
+  {
+    "url": "page-data/about/page-data.json",
+    "revision": "7b8bb68be84d2c186896cab5851dc279"
+  },
+  {
+    "url": "fc064ac90949da06f863575e936272b4fffde84f-3ef226b3b9f8801d0fd2.js"
+  },
+  {
+    "url": "component---src-pages-forgot-js-e68ccefaf9e69509232c.js"
+  },
+  {
+    "url": "page-data/forgot/page-data.json",
+    "revision": "4c4fbc86dd6f5e4b01d799a682ac785d"
+  },
+  {
+    "url": "component---src-pages-login-js-141f1a88065914f6b24f.js"
+  },
+  {
+    "url": "page-data/login/page-data.json",
+    "revision": "3e439cbbe8d42b5b848333c3e62a8b06"
+  },
+  {
+    "url": "component---src-pages-reset-password-js-86f43b16b21ffda597a9.js"
+  },
+  {
+    "url": "page-data/resetPassword/page-data.json",
+    "revision": "8601ccb49532b8b89b23e1c5abba0209"
+  },
+  {
+    "url": "component---src-pages-signup-js-9195e3657b9c6a241e73.js"
+  },
+  {
+    "url": "page-data/signup/page-data.json",
+    "revision": "9e0600913974e57e35187ef479804995"
   },
   {
     "url": "manifest.json",
@@ -147,7 +222,7 @@ const navigationRoute = new NavigationRoute(async ({ event }) => {
   // Check for resources + the app bundle
   // The latter may not exist if the SW is updating to a new version
   const resources = await idbKeyval.get(`resources:${pathname}`)
-  if (!resources || !(await caches.match(`/app-4e8e90e29cecb7cdc51a.js`))) {
+  if (!resources || !(await caches.match(`/app-0274878c86fa5c913e0e.js`))) {
     return await fetch(event.request)
   }
 
@@ -170,102 +245,38 @@ workbox.routing.registerRoute(navigationRoute)
 // this route is used when performing a non-navigation request (e.g. fetch)
 workbox.routing.registerRoute(/\/.gatsby-plugin-offline:.+/, handleAPIRequest)
 
-// var CACHE_VERSION = 12
 
-// // Shorthand identifier mapped to specific versioned cache.
-// var CURRENT_CACHES = {
-//   transcribr: 'transcribr-cache-v' + CACHE_VERSION
-// }
-
-// // self.addEventListener('install', function (event) {
-// //   var urlsToPrefetch = [
-// //     '/',
-// //     '/404',
-// //     '/about',
-// //     '/app',
-// //     '/forgot',
-// //     '/index',
-// //     '/login',
-// //     '/resetPassword',
-// //     '/signup'
-// //     // The videos are stored remotely with CORS enabled.
-// //     // 'https://prefetch-video-sample.storage.googleapis.com/gbike.webm',
-// //     // 'https://prefetch-video-sample.storage.googleapis.com/gbike.mp4'
-// //   ]
-
-// //   // All of these logging statements should be visible via the "Inspect" interface
-// //   // for the relevant SW accessed via chrome://serviceworker-internals
-// //   console.log('Handling install event. Resources to prefetch:', urlsToPrefetch)
-
-// //   self.skipWaiting()
-
-// //   event.waitUntil(
-// //     caches.open(CURRENT_CACHES.prefetch).then(function (cache) {
-// //       return cache.addAll(urlsToPrefetch)
-// //     })
-// //   )
-// // })
-
-// self.addEventListener('activate', function (event) {
-//   var expectedCacheNames = Object.values(CURRENT_CACHES)
-
-//   // Active worker won't be treated as activated until promise
-//   // resolves successfully.
-//   event.waitUntil(
-//     caches.keys().then(function (cacheNames) {
-//       return Promise.all(
-//         cacheNames.map(function (cacheName) {
-//           if (!expectedCacheNames.includes(cacheName)) {
-//             console.log('Deleting out of date cache:', cacheName)
-
-//             return caches.delete(cacheName)
-//           }
-//         })
-//       )
-//     })
-//   )
-// })
-
-// self.addEventListener('fetch', function (event) {
-//   console.log('Handling fetch event for', event.request.url)
-
-//   event.respondWith(
-
-//     // Opens Cache objects that start with 'font'.
-//     caches.open(CURRENT_CACHES.transcribr).then(function (cache) {
-//       return cache.match(event.request).then(function (response) {
-//         if (response) {
-//           console.log('Found response in cache:', response)
-
-//           return response
-//         }
-
-//         console.log('Fetching request from the network')
-
-//         return fetch(event.request).then(function (networkResponse) {
-//           cache.put(event.request, networkResponse.clone())
-
-//           return networkResponse
-//         })
-//       }).catch(function (error) {
-//         // Handles exceptions that arise from match() or fetch().
-//         console.error('Error in fetch handler:', error)
-
-//         throw error
-//       })
-//     })
-//   )
-// })
+if (workbox) {
+  console.log(workbox)
+  console.log('Yay! Workbox is loaded 🎉')
+} else {
+  console.log('Boo! Workbox didn\'t load 😬')
+}
 
 workbox.routing.registerRoute(
-  /.*\.mp4/,
+  /^https:\/\/storage\.googleapis\.com/,
   new workbox.strategies.CacheFirst({
     plugins: [
-      new workbox.cacheableResponse.CacheableResponsePlugin({
-        statuses: [200]
-      }),
-      new workbox.rangeRequests.RangeRequestsPlugin()
+      new workbox.cacheableResponse.Plugin({ statuses: [200] }),
+      new workbox.rangeRequests.Plugin()
     ]
   }),
   'GET'
 )
+
+workbox.routing.registerRoute(
+  /^https:\/\/transcribr2-api-staging\.herokuapp\.com\/clips/,
+  new workbox.strategies.CacheFirst({
+    plugins: [
+      new workbox.cacheableResponse.Plugin({ statuses: [200] }),
+      new workbox.rangeRequests.Plugin()
+    ]
+  }),
+  'GET'
+)
+
+// probblems with safari not working when crossorigin on video is 'anonymous'
+
+// or
+
+// works on chromium when this is not set
