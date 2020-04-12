@@ -274,6 +274,16 @@ workbox.routing.registerRoute(
   }),
   'GET'
 )
+workbox.routing.registerRoute(
+  /^https:\/\/transcribr2-api\.herokuapp\.com\/clips/,
+  new workbox.strategies.CacheFirst({
+    plugins: [
+      new workbox.cacheableResponse.Plugin({ statuses: [200] }),
+      new workbox.rangeRequests.Plugin()
+    ]
+  }),
+  'GET'
+)
 
 // minor change
 
