@@ -38,7 +38,8 @@ const StyledListHeader = styled.div`
 
 export default function PaymentMethodsList () {
   const stripePromise = loadStripe(STRIPE_PUBLIC_KEY)
-  const [cards, setCards] = useStorageState(isBrowser() ? localStorage : null, 'cards', [])
+  // const [cards, setCards] = useStorageState(isBrowser() ? localStorage : null, 'cards', [])
+  const [cards, setCards] = useState([])
   const [loading, setLoading] = useState(true)
   const [addCardModalVisible, setAddCardModalVisible] = useState(false)
   const [selectedPaymentMethodId, setSelectedPaymentMethodId] = useState('')
@@ -114,15 +115,15 @@ align-items: start;
           {cards.length <= 1
             ? <Popover content='To delete a card, first add a new one.' trigger='hover'>
               <Button type='link' icon={<DeleteOutlined />} disabled />
-            </Popover>
+              </Popover>
             : <Popconfirm
               title='Are you sure delete this card?'
               onConfirm={() => deletePaymentMethodHandler(c.id)}
               okText='Yes'
               cancelText='No'
-              >
+            >
               <DeleteOutlined />
-              </Popconfirm>}
+            </Popconfirm>}
 
         </StyledListItem>
       )}
@@ -140,5 +141,5 @@ align-items: start;
       </Elements>
     </Modal>
 
-  </>
+         </>
 }

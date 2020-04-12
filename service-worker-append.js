@@ -54,6 +54,22 @@ workbox.routing.registerRoute(
   'GET'
 )
 
+workbox.routing.registerRoute(
+  /^https:\/\/transcribr2-api\.herokuapp\.com\/users\/me/,
+  new workbox.strategies.CacheFirst({
+    cacheName: 'user-details-cache',
+    plugins: [
+      new workbox.cacheableResponse.Plugin({ statuses: [200] }),
+      new workbox.rangeRequests.Plugin(),
+      new workbox.expiration.Plugin({
+        maxEntries: 20,
+        maxAgeSeconds: 1209600
+      })
+    ]
+  }),
+  'GET'
+)
+
 // minor change
 
 // probblems with safari not working when crossorigin on video is 'anonymous'

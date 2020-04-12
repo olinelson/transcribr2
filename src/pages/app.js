@@ -20,7 +20,7 @@ import YoutubeForm from '../components/YoutubeForm'
 import { useStorageState } from 'react-storage-hooks'
 
 function App (props) {
-  const [appState, setAppState] = useStorageState(isBrowser() ? localStorage : null, 'appState', {
+  const [appState, setAppState] = useState({
     user: {},
     clips: [],
     uploadDrawerOpen: false,

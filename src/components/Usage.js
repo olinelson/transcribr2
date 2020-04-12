@@ -12,7 +12,8 @@ const StyledCard = styled.div`
   `
 
 export default function Usage () {
-  const [usage, setUsage] = useStorageState(isBrowser() ? localStorage : null, 'usage', [])
+  // const [usage, setUsage] = useStorageState(isBrowser() ? localStorage : null, 'usage', [])
+  const [usage, setUsage] = useState([])
 
   const getUserUsage = async () => {
     const usage = await getUsage()
@@ -58,5 +59,5 @@ export default function Usage () {
       )
     })}
 
-         </>
+  </>
 }
