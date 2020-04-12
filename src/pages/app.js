@@ -74,7 +74,7 @@ function App (props) {
     }
 
     function handleOffline () {
-      message.warning('Connection lost')
+      message.warning('Working offline')
       socket.disconnect()
       setAppState(oldAppState => ({ ...oldAppState, offline: true }))
     }
@@ -135,7 +135,7 @@ function App (props) {
         </Router>
       </div>
 
-      <div style={{ gridArea: 'main'  }}>
+      <div style={{ gridArea: 'main' }}>
         <Router basepath='/app'>
           <PrivateRoute
             component={UserDetails}
