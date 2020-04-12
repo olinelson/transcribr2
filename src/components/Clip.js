@@ -442,7 +442,7 @@ function Clip (props) {
                     <CheckCircleTwoTone twoToneColor='#52c41a' />
                   ) : (
                     <LoadingOutlined />
-                  )
+                )
                 }
               />
               <Step
@@ -453,7 +453,7 @@ function Clip (props) {
                     <LoadingOutlined active />
                   ) : (
                     <MessageOutlined />
-                  )
+                )
                 }
               />
 
