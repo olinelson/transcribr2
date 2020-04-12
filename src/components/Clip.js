@@ -178,6 +178,8 @@ function Clip (props) {
       socket.emit('leaveClipChannel', token, _id)
       controller.abort()
       document.removeEventListener('visibilitychange', handleVisibilityChange)
+      window.removeEventListener('offline', handleOffline)
+      window.removeEventListener('online', handleOnline)
     }
   }, [_id])
 
@@ -194,20 +196,19 @@ function Clip (props) {
   }
 
   const getBrowserName = () => {
-    let name = 'Unknown';
+    let name = 'Unknown'
     if (navigator.userAgent.indexOf('MSIE') != -1) {
-      name = 'MSIE';
+      name = 'MSIE'
     } else if (navigator.userAgent.indexOf('Firefox') != -1) {
-      name = 'Firefox';
+      name = 'Firefox'
     } else if (navigator.userAgent.indexOf('Opera') != -1) {
-      name = 'Opera';
+      name = 'Opera'
     } else if (navigator.userAgent.indexOf('Chrome') != -1) {
-      name = 'Chrome';
+      name = 'Chrome'
     } else if (navigator.userAgent.indexOf('Safari') != -1) {
-      name = 'Safari';
+      name = 'Safari'
     }
     return name
-
   }
 
   const showClipMedia = () => {
@@ -461,7 +462,7 @@ function Clip (props) {
                     <CheckCircleTwoTone twoToneColor='#52c41a' />
                   ) : (
                     <LoadingOutlined />
-                  )
+                )
                 }
               />
               <Step
@@ -472,7 +473,7 @@ function Clip (props) {
                     <LoadingOutlined active />
                   ) : (
                     <MessageOutlined />
-                  )
+                )
                 }
               />
 
