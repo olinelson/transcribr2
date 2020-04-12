@@ -56,6 +56,14 @@ import SpanElement from './SpanElement'
 const { Step } = Steps
 const { Option } = Select
 
+const PaddedOnMobile = styled.div`
+    @media (max-width: 600px) {
+    padding-left: max(.5rem, env(safe-area-inset-left));
+    padding-right: max(.5rem, env(safe-area-inset-right));
+    }
+   
+  `
+
 function Clip (props) {
   const _id = props.clipId
   const { appState, setAppState } = props
@@ -194,10 +202,10 @@ function Clip (props) {
           file: {
             attributes: {
               crossOrigin: 'anonymous'
+              // crossOrigin: 'use-credentials'
             }
           }
         }}
-        crossOrigin='anonymous'
         ref={player}
         url={`https://storage.googleapis.com/${clip.owner}/${clip.rawFileName}`}
         playing={playerControls.playing}
@@ -216,14 +224,6 @@ function Clip (props) {
       />
     )
   }
-
-  const PaddedOnMobile = styled.div`
-    @media (max-width: 600px) {
-    padding-left: max(.5rem, env(safe-area-inset-left));
-    padding-right: max(.5rem, env(safe-area-inset-right));
-    }
-   
-  `
 
   const clipOptionsBar = () => (
     <PaddedOnMobile style={{ gridArea: 'toolbar' }}>

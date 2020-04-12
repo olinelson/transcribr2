@@ -30,7 +30,7 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-offline',
       options: {
-        precachePages: ['/404/', '/app/*', '/about/', '/forgot/', '/index/', '/login/', '/resetPassword/', '/signup/'],
+        precachePages: ['/404/', '/', '/app/*', '/about/', '/forgot/', '/index/', '/login/', '/resetPassword/', '/signup/'],
         appendScript: require.resolve('./service-worker-append.js')
         // workboxConfig: {
         //   importWorkboxFrom: 'cdn'
