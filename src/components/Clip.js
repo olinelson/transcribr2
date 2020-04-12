@@ -201,7 +201,7 @@ function Clip (props) {
         config={{
           file: {
             attributes: {
-              crossOrigin: 'anonymous'
+              // crossOrigin: 'anonymous'
               // crossOrigin: 'use-credentials'
             }
           }
@@ -442,7 +442,7 @@ function Clip (props) {
                     <CheckCircleTwoTone twoToneColor='#52c41a' />
                   ) : (
                     <LoadingOutlined />
-                )
+                  )
                 }
               />
               <Step
@@ -453,7 +453,7 @@ function Clip (props) {
                     <LoadingOutlined active />
                   ) : (
                     <MessageOutlined />
-                )
+                  )
                 }
               />
 
