@@ -63,8 +63,6 @@ export const getClip = async (_id, clip, setClip, signal) => {
     })
     res = await res.json()
     setClip(oldClip => ({
-      ...oldClip,
-      conversionJobId: undefined,
       currentPageIndex: 0,
       currentPageSize: 200,
       ...res,
@@ -77,7 +75,7 @@ export const getClip = async (_id, clip, setClip, signal) => {
   }
 }
 export const convertClip = async (clip, minutes, setClip) => {
-  setClip(oldClip => ({ ...oldClip, transcribeModalOpen: false }))
+  setClip(oldClip => ({ ...oldClip, transcribeModalOpen: false, transcriptionLoading: true }))
   try {
     let res = await fetch(
       `${API_URL}/convert/clips/${clip._id}?lang=${clip.language}&duration=${minutes}`,
