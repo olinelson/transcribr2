@@ -275,6 +275,8 @@ workbox.routing.registerRoute(
   'GET'
 )
 
+// minor change
+
 // probblems with safari not working when crossorigin on video is 'anonymous'
 
 // or
