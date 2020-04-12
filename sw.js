@@ -27,7 +27,7 @@ workbox.core.clientsClaim();
  */
 self.__precacheManifest = [
   {
-    "url": "webpack-runtime-17382ea988ba438d2d31.js"
+    "url": "webpack-runtime-fe59a75c51d38ec7915c.js"
   },
   {
     "url": "styles.610a6b9e99c506ffbbf5.css"
@@ -43,7 +43,7 @@ self.__precacheManifest = [
   },
   {
     "url": "offline-plugin-app-shell-fallback/index.html",
-    "revision": "767fb5a5192f9a01e184c6e52650b6cf"
+    "revision": "7a099077456a9d6bf529206bec6c31ad"
   },
   {
     "url": "component---cache-caches-gatsby-plugin-offline-app-shell-js-53510201dcf61d0f1308.js"
@@ -60,7 +60,7 @@ self.__precacheManifest = [
   },
   {
     "url": "page-data/app-data.json",
-    "revision": "fb3ded7ae17dbec09822e28ad3558b3d"
+    "revision": "a7fa6292231b7679c19fa24741d7f4f8"
   },
   {
     "url": "d4ad233efeb1d959420253442063e6db7488fdeb-be428484e5bd284a9dc2.js"
@@ -79,7 +79,7 @@ self.__precacheManifest = [
     "url": "ad895f8b1e5b0a5c811318d367d3d00489b852d5-7567b6380ad3d66f5f60.js"
   },
   {
-    "url": "component---src-pages-app-js-51c297afc1b982c38885.js"
+    "url": "component---src-pages-app-js-6f67f26da1fb7a801354.js"
   },
   {
     "url": "page-data/app/page-data.json",
@@ -257,7 +257,7 @@ workbox.routing.registerRoute(
   /^https:\/\/storage\.googleapis\.com/,
   new workbox.strategies.CacheFirst({
     plugins: [
-      new workbox.cacheableResponse.Plugin({ statuses: [200] }),
+      new workbox.cacheableResponse.Plugin({ statuses: [200, 206] }),
       new workbox.rangeRequests.Plugin()
     ]
   }),
