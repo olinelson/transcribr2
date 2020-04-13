@@ -183,7 +183,7 @@ function Clip (props) {
         }))
       }
     }
-
+    setClip(oldClip => ({ ...oldClip, loading: true }))
     getClip(_id, clip, setClip, signal)
 
     joinClipChannel(token, notification => {
@@ -488,7 +488,7 @@ function Clip (props) {
                     <CheckCircleTwoTone twoToneColor='#52c41a' />
                   ) : (
                     <LoadingOutlined />
-                  )
+                )
                 }
               />
               <Step
@@ -499,7 +499,7 @@ function Clip (props) {
                     <LoadingOutlined active />
                   ) : (
                     <MessageOutlined />
-                  )
+                )
                 }
               />
 
