@@ -25,7 +25,7 @@ export const getUserProfileAndSet = async (appState, setAppState) => {
 
     const oldEmail = appState.user.email
     const newEmail = res.user.email
-    if (oldEmail.length && oldEmail !== newEmail) {
+    if (oldEmail && oldEmail.length && oldEmail !== newEmail) {
       openNotificationWithIcon('success', 'Email updated!')
     }
 

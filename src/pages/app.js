@@ -12,12 +12,11 @@ import { getToken, isLoggedIn, isBrowser } from '../services/auth'
 import openSocket from 'socket.io-client'
 import { API_URL } from '../config'
 
-import { Drawer, Alert, message } from 'antd'
+import { Drawer, message } from 'antd'
 import UploadClip from '../components/UploadClip'
 import SideBar from '../components/SideBar'
 import UserDetails from '../components/UserDetails'
 import YoutubeForm from '../components/YoutubeForm'
-import { useStorageState } from 'react-storage-hooks'
 
 function App (props) {
   const [appState, setAppState] = useState({
@@ -34,13 +33,10 @@ function App (props) {
     offline: false
   })
 
-  const [time, setTime] = useState(Date.now())
-
   const mounted = useRef()
-
   const bearerToken = getToken()
-
   let socket = openSocket(API_URL)
+  let updatesChannel
 
   useEffect(() => {
     function notificationHandler (notification) {
@@ -53,10 +49,6 @@ function App (props) {
           openNotificationWithIcon('success', notification.message)
           getUserProfileAndSet(appState, setAppState)
           break
-        case 'setTime':
-          setTime(notification.data)
-          break
-
         default:
           openNotificationWithIcon('success', notification.message)
       }
@@ -66,10 +58,6 @@ function App (props) {
       if (isLoggedIn()) {
         socket.on('notification', notification => cb(notification))
         socket.emit('joinUserChannel', bearerToken)
-        socket.on('connect', (e) => console.log(e, 'connect'))
-        socket.on('disconnect', (e) => console.log(e, 'disconnect'))
-        socket.on('connect_failed', (e) => console.log(e, 'connect-failed'))
-        socket.io.on('connect_error', (e) => console.log(e, 'connect-error'))
       }
     }
 
@@ -87,6 +75,7 @@ function App (props) {
       )
       getUserProfileAndSet(appState, setAppState)
     }
+
     function handleVisibilityChange () {
       if (document.visibilityState === 'visible') {
         socket.emit('joinUserChannel', bearerToken)
@@ -94,6 +83,28 @@ function App (props) {
       } else {
         socket.emit('leaveUserChannel', bearerToken)
       }
+    }
+
+    const updateStateFromCache = async (event) => {
+      const { cacheName, updatedURL } = event.data.payload
+      const cache = await caches.open(cacheName)
+      const updatedResponse = await cache.match(updatedURL)
+
+      if (updatedResponse && cacheName === 'user-details-cache') {
+        const { user, clips } = await updatedResponse.json()
+
+        openNotificationWithIcon('info', 'Updating')
+
+        setAppState(oldAppState => ({
+          ...oldAppState,
+          clips,
+          user
+        }))
+      }
+    }
+
+    if ('serviceWorker' in navigator && typeof (BroadcastChannel) !== 'undefined') {
+      updatesChannel = new BroadcastChannel('user-details-cache-update')
     }
 
     // first load
@@ -108,7 +119,12 @@ function App (props) {
       window.addEventListener('online', handleOnline)
 
       document.addEventListener('visibilitychange', handleVisibilityChange)
+
+      if (typeof (BroadcastChannel) !== 'undefined') {
+        updatesChannel.addEventListener('message', updateStateFromCache)
+      }
     }
+
     // cleanup
     return function cleanup () {
       socket.emit('leaveUserChannel', bearerToken)
@@ -117,6 +133,10 @@ function App (props) {
       window.removeEventListener('online', handleOnline)
 
       document.removeEventListener('visibilitychange', handleVisibilityChange)
+
+      if (typeof (BroadcastChannel) !== 'undefined') {
+        updatesChannel.removeEventListener('message', updateStateFromCache)
+      }
     }
   }, [])
 
@@ -177,7 +197,7 @@ function App (props) {
       </Drawer>
 
       <Drawer
-        title='Upload Youtube'
+        title='Add Youtube'
         placement='right'
         closable
         onClose={() => setAppState(oldAppState => ({ ...appState, uploadYoutubeDrawerOpen: false }))}

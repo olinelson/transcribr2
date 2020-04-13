@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { EditOutlined, UserDeleteOutlined, LogoutOutlined } from '@ant-design/icons'
 
@@ -18,7 +18,7 @@ const { Panel } = Collapse
 
 export default function UserDetails (props) {
   const { appState, setAppState } = props
-  const [user, setUser] = useState(appState.user)
+  const user = appState.user
 
   const [loading, setLoading] = useState(false)
 
@@ -47,8 +47,7 @@ export default function UserDetails (props) {
     setLoading(true)
     const updatedUser = await updateUser(user)
     if (updateUser) {
-      setUser(oldUser => (updatedUser))
-      setAppState(oldAppState => ({ ...oldAppState, user: { ...oldAppState.user, updatedUser }, editUserDrawerOpen: false }))
+      setAppState(oldAppState => ({ ...oldAppState, user: { ...oldAppState.user, ...updatedUser }, editUserDrawerOpen: false }))
       openNotificationWithIcon('success', 'User Profile Updated')
     } else {
       openNotificationWithIcon('error', 'There was a problem :(')
@@ -67,7 +66,6 @@ export default function UserDetails (props) {
           editEmailDrawOpen: false
         }
       }))
-      setUser(oldUser => ({ ...oldUser, unconfirmedEmail }))
     }
     setLoading(false)
   }
@@ -83,7 +81,7 @@ export default function UserDetails (props) {
         <Descriptions.Item label='Name'>{user.name}{' '}<EditOutlined
           onClick={() => setAppState(oldAppState => ({ ...oldAppState, editUserDrawerOpen: true }))}
           style={{ fontSize: '1rem' }}
-                                                        />
+        />
         </Descriptions.Item>
         <Descriptions.Item label='Email'>
           {user.email}{' '}

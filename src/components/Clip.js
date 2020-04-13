@@ -30,7 +30,6 @@ import {
   SnippetsOutlined
 } from '@ant-design/icons'
 
-// components
 import {
   Button,
   Pagination,
@@ -61,7 +60,6 @@ const PaddedOnMobile = styled.div`
     padding-left: max(.5rem, env(safe-area-inset-left));
     padding-right: max(.5rem, env(safe-area-inset-right));
     }
-   
   `
 
 function Clip (props) {
@@ -73,7 +71,7 @@ function Clip (props) {
 
   const [clip, setClip] = useState({
     // loading
-    clipLoading: true,
+    loading: true,
     clipSaving: false,
     searchLoading: false,
 
@@ -82,7 +80,6 @@ function Clip (props) {
     _id,
     currentPageIndex: 0,
     selectedWord: undefined,
-
     wordPageSize: 200,
     wordPages: [],
 
@@ -110,8 +107,6 @@ function Clip (props) {
     playbackRate: 1
   })
 
-  console.log({ clip })
-
   const player = useRef(null)
 
   const notificationHandler = notification => {
@@ -138,18 +133,22 @@ function Clip (props) {
     const controller = new AbortController()
     const signal = controller.signal
 
+    let updatesChannel
+
+    if ('serviceWorker' in navigator && typeof (BroadcastChannel) !== 'undefined') {
+      updatesChannel = new BroadcastChannel('clip-cache-update')
+    }
+
     function joinClipChannel (token, cb) {
       socket.on('clipChannelUpdate', data => cb(data))
       socket.emit('joinClipChannel', token, _id)
     }
 
     function handleOffline () {
-      console.log('clip offline')
       socket.disconnect()
     }
 
     function handleOnline () {
-      console.log('clip online!')
       socket = openSocket(API_URL)
       joinClipChannel(token, notification => {
         notificationHandler(notification)
@@ -168,7 +167,23 @@ function Clip (props) {
       }
     }
 
-    setClip(oldClip => ({ ...oldClip, loading: true }))
+    const updateStateFromCache = async (event) => {
+      const { cacheName, updatedURL } = event.data.payload
+      const cache = await caches.open(cacheName)
+
+      const updatedResponse = await cache.match(updatedURL)
+      const clip = await updatedResponse.json()
+
+      if (updatedResponse && cacheName === 'clip-cache') {
+        openNotificationWithIcon('info', 'Updating')
+
+        setClip(oldClip => ({
+          ...oldClip,
+          ...clip
+        }))
+      }
+    }
+
     getClip(_id, clip, setClip, signal)
 
     joinClipChannel(token, notification => {
@@ -180,12 +195,20 @@ function Clip (props) {
 
     document.addEventListener('visibilitychange', handleVisibilityChange)
 
+    if (typeof (BroadcastChannel) !== 'undefined') {
+      updatesChannel.addEventListener('message', updateStateFromCache)
+    }
+
     return function cleanup (token) {
       socket.emit('leaveClipChannel', token, _id)
       controller.abort()
       document.removeEventListener('visibilitychange', handleVisibilityChange)
       window.removeEventListener('offline', handleOffline)
       window.removeEventListener('online', handleOnline)
+
+      if (typeof (BroadcastChannel) !== 'undefined') {
+        updatesChannel.removeEventListener('message', updateStateFromCache)
+      }
     }
   }, [_id])
 
@@ -226,7 +249,6 @@ function Clip (props) {
           file: {
             attributes: {
               crossOrigin: getBrowserName() === 'Safari' ? 'anonymous' : null
-              // crossOrigin: 'use-credentials'
             }
           }
         }}
@@ -332,6 +354,7 @@ function Clip (props) {
     </PaddedOnMobile>
   )
 
+  // TO DO - Break this out into a different component
   const downloadDocXFile = () => {
     const doc = new Document()
 
@@ -417,7 +440,6 @@ function Clip (props) {
   }
 
   const maybeShowTranscribeButtton = () => {
-    console.log('maybe show convert button', clip)
     if (!clip.conversionJobId) {
       return (
         <div style={{ gridArea: 'words', justifySelf: 'center' }}>
@@ -520,7 +542,7 @@ function Clip (props) {
     setTimeout(() => scroller.scrollTo(word._id, {
       duration: 500,
       smooth: true,
-      offset: -100 // Scrolls to element + 50 pixels down the page
+      offset: -100
     }), 5)
   }
 

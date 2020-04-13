@@ -22,11 +22,6 @@ function ForgotPasswordForm () {
     }
   }
 
-  const onFinishFailed = errorInfo => {
-    setLoading(false)
-    console.log('Failed:', errorInfo)
-  }
-
   return (
     <Form
       name='normal_login'

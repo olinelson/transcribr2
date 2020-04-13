@@ -21,10 +21,10 @@ export const getUser = () => {
 const setUserAndToken = res => {
   window.localStorage.setItem('token', 'Bearer ' + res.token)
 
-  window.localStorage.setItem(
-    'appState',
-    JSON.stringify({ user: res.user, clips: res.clips })
-  )
+  // window.localStorage.setItem(
+  //   'appState',
+  //   JSON.stringify({ user: res.user, clips: res.clips })
+  // )
 }
 
 export const handleLogin = async ({ email, password }) => {
@@ -50,7 +50,7 @@ export const handleLogin = async ({ email, password }) => {
         return false
     }
   } catch (error) {
-    console.log(error)
+    console.error(error)
     openNotificationWithIcon('error', 'Sorry, can\'t reach the server')
     return false
   }
@@ -81,7 +81,7 @@ export const handleSignup = async ({ name, email, password }) => {
         return false
     }
   } catch (error) {
-    console.log(error)
+    console.error(error)
     openNotificationWithIcon('error', 'Sorry, can\'t reach the server')
     return false
   }
@@ -136,5 +136,6 @@ export const isLoggedIn = () => {
 
 export const logout = callback => {
   window.localStorage.clear()
+  navigator.serviceWorker.controller.postMessage('clearCache')
   navigate('/')
 }

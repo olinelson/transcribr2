@@ -146,7 +146,7 @@ export const uploadYoutube = async ({ appState, setAppState, url, setLoading }) 
     openNotificationWithIcon('success', 'Youtube download started!')
     return true
   } catch (error) {
-    console.log('client error', error)
+    console.error('client error', error)
     openNotificationWithIcon('error', 'Coudn\'t create clip, please try again')
     return false
   }
