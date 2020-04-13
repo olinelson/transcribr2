@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 
 import { EditOutlined, UserDeleteOutlined, LogoutOutlined } from '@ant-design/icons'
-
-// import { Form } from '@ant-design/compatible'
 import '@ant-design/compatible/assets/index.css'
 
 import { Descriptions, Drawer, Input, Button, Popconfirm, Divider, Form, Collapse } from 'antd'
@@ -81,7 +79,7 @@ export default function UserDetails (props) {
         <Descriptions.Item label='Name'>{user.name}{' '}<EditOutlined
           onClick={() => setAppState(oldAppState => ({ ...oldAppState, editUserDrawerOpen: true }))}
           style={{ fontSize: '1rem' }}
-        />
+                                                        />
         </Descriptions.Item>
         <Descriptions.Item label='Email'>
           {user.email}{' '}

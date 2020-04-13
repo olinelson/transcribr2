@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { navigate } from 'gatsby'
-import { isLoggedIn, logout, isBrowser } from '../services/auth'
+import { isBrowser } from '../services/auth'
 import { Menu, FixedMenuDiv, DynamicMenu } from './MyStyledComponents'
 import WithLocation from './WithLocation'
 
 import { AudioOutlined, HomeOutlined, InfoCircleOutlined, UserOutlined } from '@ant-design/icons'
-
-import { Popconfirm, Alert } from 'antd'
-
-import { openNotificationWithIcon } from './Notifications'
 
 function Navbar (props) {
   const [viewWidth, setViewWidth] = useState(

@@ -3,10 +3,8 @@ import { Checkbox } from './MyStyledComponents'
 import { handleLogin } from '../services/auth'
 import { navigate, Link } from 'gatsby'
 
-import { Form, Input, Button, Select } from 'antd'
+import { Form, Input, Button } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
-
-const { Option } = Select
 
 function LoginForm () {
   const [loading, setLoading] = useState(false)

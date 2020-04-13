@@ -1,8 +1,4 @@
 import moment from 'moment'
-import React from 'react'
-// a change to utils
-
-import { isBrowser } from './services/auth'
 
 export const formatTimeStamp = string => {
   const seconds = parseInt(string.replace('s', ''))
@@ -14,25 +10,6 @@ export const formatTimeStamp = string => {
 
 export const sortClipsChronologically = (a, b) => {
   return b.dateCreated - a.dateCreated
-}
-
-export const useStateWithLocalStorageJSON = (localStorageKey, defaultState) => {
-  const [value, setValue] = React.useState(
-    isBrowser()
-      ? JSON.parse(window.localStorage.getItem(localStorageKey)) || defaultState
-      : defaultState
-  )
-
-  React.useEffect(() => {
-    if (isBrowser()) {
-      try {
-        window.localStorage.setItem(localStorageKey, JSON.stringify(value))
-      } catch (error) {
-        console.error(error)
-      }
-    }
-  }, [value])
-  return [value, setValue]
 }
 
 export function findIndexOfWord (obj, arr) {

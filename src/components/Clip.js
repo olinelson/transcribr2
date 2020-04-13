@@ -66,9 +66,6 @@ function Clip (props) {
   const _id = props.clipId
   const { appState, setAppState } = props
 
-  const [editClipDrawerOpen, setEditClipDrawerOpen] = useState(false)
-  const [searchClipDrawerOpen, setSearchClipDrawerOpen] = useState(false)
-
   const [clip, setClip] = useState({
     // loading
     loading: true,
@@ -80,6 +77,7 @@ function Clip (props) {
     _id,
     currentPageIndex: 0,
     selectedWord: undefined,
+    focusedWord: undefined,
     wordPageSize: 200,
     wordPages: [],
 
@@ -88,6 +86,8 @@ function Clip (props) {
     wordCitationModalOpen: false,
     transcribeModalOpen: false,
     language: '',
+    editClipDrawerOpen: false,
+    searchClipDrawerOpen: false,
 
     // search data
     searchInput: '',
@@ -134,10 +134,6 @@ function Clip (props) {
     const signal = controller.signal
 
     let updatesChannel
-
-    if ('serviceWorker' in navigator && typeof (BroadcastChannel) !== 'undefined') {
-      updatesChannel = new BroadcastChannel('clip-cache-update')
-    }
 
     function joinClipChannel (token, cb) {
       socket.on('clipChannelUpdate', data => cb(data))
@@ -195,7 +191,8 @@ function Clip (props) {
 
     document.addEventListener('visibilitychange', handleVisibilityChange)
 
-    if (typeof (BroadcastChannel) !== 'undefined') {
+    if ('serviceWorker' in navigator && typeof (BroadcastChannel) !== 'undefined') {
+      updatesChannel = new BroadcastChannel('clip-cache-update')
       updatesChannel.addEventListener('message', updateStateFromCache)
     }
 
@@ -206,7 +203,7 @@ function Clip (props) {
       window.removeEventListener('offline', handleOffline)
       window.removeEventListener('online', handleOnline)
 
-      if (typeof (BroadcastChannel) !== 'undefined') {
+      if ('serviceWorker' in navigator && typeof (BroadcastChannel) !== 'undefined') {
         updatesChannel.removeEventListener('message', updateStateFromCache)
       }
     }
@@ -300,7 +297,7 @@ function Clip (props) {
 
             <Button
               disabled={!clip.words.length}
-              onClick={() => setSearchClipDrawerOpen(true)}
+              onClick={() => setClip(oldClip => ({ ...oldClip, searchClipDrawerOpen: true }))}
             >
               <FileSearchOutlined />
             </Button>
@@ -310,8 +307,8 @@ function Clip (props) {
               overlay={
                 <Menu>
                   <Menu.Item
-                    onClick={() =>
-                      setEditClipDrawerOpen(true)}
+                    onClick={() => setClip(oldClip => ({ ...oldClip, editClipDrawerOpen: true }))}
+
                   >
                     <EditOutlined />
                     Edit
@@ -527,9 +524,9 @@ function Clip (props) {
       setClip(oldClip => ({
         ...oldClip,
         currentPageIndex: pageNumber,
-        selectedWord: word
+        selectedWord: word,
+        searchClipDrawerOpen: false
       }))
-      setSearchClipDrawerOpen(false)
     } else {
       setClip(oldClip => ({
         ...oldClip,
@@ -595,8 +592,6 @@ function Clip (props) {
         <EditClipDrawer
           clip={clip}
           setClip={setClip}
-          setEditClipDrawerOpen={setEditClipDrawerOpen}
-          editClipDrawerOpen={editClipDrawerOpen}
           deleteClipHandler={deleteClipHandler}
           {...props}
         />
@@ -606,8 +601,6 @@ function Clip (props) {
           setPlayerControls={setPlayerControls}
           clip={clip}
           setClip={setClip}
-          searchClipDrawerOpen={searchClipDrawerOpen}
-          setSearchClipDrawerOpen={setSearchClipDrawerOpen}
           playerControls={playerControls}
           player={player}
 
@@ -621,7 +614,7 @@ function Clip (props) {
           player={player}
         />
 
-        <CitationModal setEditClipDrawerOpen={setEditClipDrawerOpen} setClip={setClip} clip={clip} />
+        <CitationModal setClip={setClip} clip={clip} />
         <WordCitationModal clip={clip} setClip={setClip} />
       </>
     )

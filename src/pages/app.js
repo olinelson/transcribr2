@@ -8,7 +8,7 @@ import Clips from '../components/Clips'
 
 import { openNotificationWithIcon } from '../components/Notifications'
 import { getUserProfileAndSet } from '../services/userManagement'
-import { getToken, isLoggedIn, isBrowser } from '../services/auth'
+import { getToken, isLoggedIn } from '../services/auth'
 import openSocket from 'socket.io-client'
 import { API_URL } from '../config'
 
@@ -34,11 +34,12 @@ function App (props) {
   })
 
   const mounted = useRef()
-  const bearerToken = getToken()
-  let socket = openSocket(API_URL)
-  let updatesChannel
 
   useEffect(() => {
+    const bearerToken = getToken()
+    let socket = openSocket(API_URL)
+    let updatesChannel
+
     function notificationHandler (notification) {
       switch (notification.name) {
         case 'youtubeUploadFailed':
@@ -103,10 +104,6 @@ function App (props) {
       }
     }
 
-    if ('serviceWorker' in navigator && typeof (BroadcastChannel) !== 'undefined') {
-      updatesChannel = new BroadcastChannel('user-details-cache-update')
-    }
-
     // first load
     if (!mounted.current) {
       mounted.current = true
@@ -120,7 +117,8 @@ function App (props) {
 
       document.addEventListener('visibilitychange', handleVisibilityChange)
 
-      if (typeof (BroadcastChannel) !== 'undefined') {
+      if ('serviceWorker' in navigator && typeof (BroadcastChannel) !== 'undefined') {
+        updatesChannel = new BroadcastChannel('user-details-cache-update')
         updatesChannel.addEventListener('message', updateStateFromCache)
       }
     }
@@ -134,7 +132,7 @@ function App (props) {
 
       document.removeEventListener('visibilitychange', handleVisibilityChange)
 
-      if (typeof (BroadcastChannel) !== 'undefined') {
+      if ('serviceWorker' in navigator && typeof (BroadcastChannel) !== 'undefined') {
         updatesChannel.removeEventListener('message', updateStateFromCache)
       }
     }

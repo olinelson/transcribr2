@@ -7,7 +7,7 @@ import { Alert } from 'antd'
 import { API_URL } from '../config'
 
 const layout = props => {
-  const { children, appState } = props
+  const { children } = props
 
   const showEnvironmentAlert = () => {
     if (API_URL.includes('localhost')) {

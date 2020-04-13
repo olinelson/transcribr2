@@ -1,12 +1,9 @@
 import React, { useState } from 'react'
-import { Icon, Checkbox } from './MyStyledComponents'
 import { handleForgotPassword } from '../services/auth'
 import { openNotificationWithIcon } from './Notifications'
 import { navigate, Link } from 'gatsby'
-import { Form, Input, Button, Select } from 'antd'
-import { MailOutlined, UserOutlined, LockOutlined } from '@ant-design/icons'
-
-const { Option } = Select
+import { Form, Input, Button } from 'antd'
+import { UserOutlined } from '@ant-design/icons'
 
 function ForgotPasswordForm () {
   const [loading, setLoading] = useState(false)

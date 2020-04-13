@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { debounce } from 'debounce'
 
-import { ClockCircleOutlined, EyeOutlined, PlayCircleOutlined } from '@ant-design/icons';
+import { ClockCircleOutlined, EyeOutlined, PlayCircleOutlined } from '@ant-design/icons'
 
-import { Drawer, Input, List, Button } from 'antd';
+import { Drawer, Input, List, Button } from 'antd'
 import styled from 'styled-components'
 
 import { formatTimeStamp } from '../utils'
@@ -22,8 +22,6 @@ function SearchClipDrawer (props) {
     navigateToWord,
     setPlayerControls,
     playerControls,
-    searchClipDrawerOpen,
-    setSearchClipDrawerOpen,
     player,
     clip,
     setClip
@@ -68,8 +66,8 @@ function SearchClipDrawer (props) {
       title='Search'
       mask={false}
       maskClosable={false}
-      visible={searchClipDrawerOpen}
-      onClose={() => setSearchClipDrawerOpen(false)}
+      visible={clip.searchClipDrawerOpen}
+      onClose={() => setClip(oldClip => ({ ...oldClip, searchClipDrawerOpen: false }))}
     >
       <Search
         style={{ marginBottom: '1rem' }}
@@ -135,7 +133,7 @@ function SearchClipDrawer (props) {
         )}
       />
     </Drawer>
-  );
+  )
 }
 
 export default SearchClipDrawer

@@ -1,14 +1,14 @@
 import React from 'react'
 import { API_URL } from '../config'
 import { getToken } from '../services/auth'
-import { Upload, Icon } from './MyStyledComponents'
+import { Upload } from './MyStyledComponents'
 import { openNotificationWithIcon } from './Notifications'
 import sanitize from 'sanitize-filename'
 import { InboxOutlined } from '@ant-design/icons'
 const { Dragger } = Upload
 
 function UploadClip (props) {
-  const { appState, setAppState } = props
+  const { setAppState } = props
 
   const createClip = async (file) => {
     try {

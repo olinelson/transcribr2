@@ -8,10 +8,11 @@ import {
   MoreOutlined,
   PlayCircleOutlined,
   PlusCircleOutlined,
-  SnippetsOutlined
+  SnippetsOutlined,
+  CloseOutlined
 } from '@ant-design/icons'
 
-import { Popover, Tag, Dropdown, Menu, Popconfirm, Button } from 'antd'
+import { Popover, Tag, Dropdown, Menu, Button } from 'antd'
 
 import { deleteWord } from '../services/wordManagement'
 
@@ -70,16 +71,16 @@ function Word (props) {
     })
   }
 
-  const getCurrentTime = () => {
-    const currentTime = player.current ? player.current.getCurrentTime() : 0
-    setClipProgress(currentTime)
-  }
-
   useEffect(() => {
+    const getCurrentTime = () => {
+      const currentTime = player.current ? player.current.getCurrentTime() : 0
+      setClipProgress(currentTime)
+    }
+
     const getCurrentTimeInterval = setInterval(getCurrentTime, 1000)
 
     return () => clearInterval(getCurrentTimeInterval)
-  }, [])
+  }, [player])
 
   const wordOptions = () => (
     <Menu>
@@ -150,12 +151,13 @@ function Word (props) {
       trigger='click'
       key={word._id}
       onVisibleChange={(v) => selectWordAndFocus(v)}
-      visible={clip.focusedWord && clip.focusedWord._id === word._id}
+      visible={!!(clip.focusedWord && clip.focusedWord._id === word._id)}
       content={
         <>
           <Tag style={{ marginBottom: '.5rem' }}>
             {formatTimeStamp(word.startTime)}{' '}
           </Tag>
+          <Button type='link' icon={<CloseOutlined />} onClick={() => setClip(oldClip => ({ ...oldClip, selectedWord: undefined, focusedWord: undefined }))} />
           <div>
             <ButtonGroup>
               <Button

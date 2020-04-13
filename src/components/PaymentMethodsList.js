@@ -9,8 +9,6 @@ import { Elements } from '@stripe/react-stripe-js'
 
 import AddPaymentForm from './AddPaymentForm'
 import { openNotificationWithIcon } from './Notifications'
-import { useStorageState } from 'react-storage-hooks'
-import { isBrowser } from '../services/auth'
 
 import { loadStripe } from '@stripe/stripe-js'
 import { STRIPE_PUBLIC_KEY } from '../config'
@@ -115,15 +113,15 @@ align-items: start;
           {cards.length <= 1
             ? <Popover content='To delete a card, first add a new one.' trigger='hover'>
               <Button type='link' icon={<DeleteOutlined />} disabled />
-              </Popover>
+            </Popover>
             : <Popconfirm
               title='Are you sure delete this card?'
               onConfirm={() => deletePaymentMethodHandler(c.id)}
               okText='Yes'
               cancelText='No'
-            >
+              >
               <DeleteOutlined />
-            </Popconfirm>}
+              </Popconfirm>}
 
         </StyledListItem>
       )}
@@ -141,5 +139,5 @@ align-items: start;
       </Elements>
     </Modal>
 
-         </>
+  </>
 }

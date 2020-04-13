@@ -2,14 +2,12 @@ const React = require('react')
 const Scroll = require('react-scroll')
 const ScrollElement = Scroll.ScrollElement
 
-class SpanElement extends React.Component {
-  render () {
-    return (
-      <span {...this.props}>
-        {this.props.children}
-      </span>
-    )
-  }
+function SpanElement (props) {
+  return (
+    <span name={props.name} key={props.key}>
+      {props.children}
+    </span>
+  )
 }
 
 export default ScrollElement(SpanElement)

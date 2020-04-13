@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { getUsage } from '../services/userManagement'
-import { Progress, Statistic, Card } from 'antd'
+import { Statistic } from 'antd'
 import styled from 'styled-components'
-import { useStorageState } from 'react-storage-hooks'
-import { isBrowser } from '../services/auth'
 
 const StyledCard = styled.div`
     display: grid ;
@@ -59,5 +57,5 @@ export default function Usage () {
       )
     })}
 
-  </>
+         </>
 }
