@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
-import { Form, Input, Button } from './MyStyledComponents'
 import { handleResetPassword } from '../services/auth'
 import { openNotificationWithIcon } from './Notifications'
 import { navigate } from 'gatsby'
 import WithLocation from './WithLocation'
 import queryString from 'query-string'
 import { UserOutlined } from '@ant-design/icons'
+
+import { Form, Input, Button } from 'antd'
 
 function ResetPasswordForm (props) {
   const [loading, setLoading] = useState(false)
@@ -24,6 +25,7 @@ function ResetPasswordForm (props) {
       navigate('/app')
     } else {
       openNotificationWithIcon('error', 'Sorry, something went wrong')
+      setLoading(false)
     }
   }
 
