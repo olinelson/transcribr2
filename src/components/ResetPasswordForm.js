@@ -9,6 +9,8 @@ import { UserOutlined } from '@ant-design/icons'
 import { Form, Input, Button } from 'antd'
 
 function ResetPasswordForm (props) {
+  const [form] = Form.useForm()
+
   const [loading, setLoading] = useState(false)
 
   const { token } = queryString.parse(props.location.search)
@@ -31,14 +33,46 @@ function ResetPasswordForm (props) {
 
   return (
     <Form
-      name='normal_login'
+      style={{ minWidth: 'min(15rem,90vw)' }}
+      form={form}
       onFinish={onFinish}
     >
+      <h1>Reset Password</h1>
       <Form.Item
+        hasFeedback
         name='password'
-        rules={[{ required: true, message: 'Please input your new password!' }]}
+        rules={[
+          { required: true, message: 'Please input your Password!' },
+          { min: 6, message: 'Password must be at least 6 characters long' },
+          { pattern: '^((?!password).)*$', message: 'Password must not contain the word "password"' }
+        ]}
       >
-        <Input type='password' prefix={<UserOutlined className='site-form-item-icon' />} placeholder='New Password' />
+        <Input.Password placeholder='new password' />
+      </Form.Item>
+
+      <Form.Item
+        name='confirm'
+        // label='Confirm Password'
+        className='login-form'
+        dependencies={['password']}
+        hasFeedback
+        rules={[
+          {
+            required: true,
+            message: 'Please confirm your password!'
+          },
+          ({ getFieldValue }) => ({
+            validator (rule, value) {
+              if (!value || getFieldValue('password') === value) {
+                return Promise.resolve()
+              }
+
+              return Promise.reject('The two passwords that you entered do not match!')
+            }
+          })
+        ]}
+      >
+        <Input.Password placeholder='confirm new password' />
       </Form.Item>
 
       <Form.Item>

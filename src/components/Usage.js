@@ -5,7 +5,9 @@ import styled from 'styled-components'
 
 const StyledCard = styled.div`
     display: grid ;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+    grid-gap: 1rem;
+
 
   `
 
@@ -25,7 +27,7 @@ export default function Usage () {
   if (!usage.length) {
     return (
       <StyledCard>
-
+        <Statistic title='Cost Per Minute' value={0.03} prefix='$' />
         <Statistic title='Free Minutes Used' value={0} suffix='/180' />
         <Statistic title='Paid Min Used' value={0} />
         <Statistic title='Est. Cost' value={0} prefix='$' />
@@ -49,6 +51,7 @@ export default function Usage () {
         <div key={u.id}>
           <h1>Usage This Month</h1>
           <StyledCard>
+            <Statistic title='Cost Per Minute' value={0.03} prefix='$' />
             <Statistic title='Free Minutes Used' value={freeUsage} suffix='/180' />
             <Statistic title='Paid Min Used' value={paidUsage} />
             <Statistic title='Est. Cost' value={estimatedCost} prefix='$' />
@@ -57,5 +60,5 @@ export default function Usage () {
       )
     })}
 
-         </>
+  </>
 }

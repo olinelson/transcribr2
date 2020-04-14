@@ -7,6 +7,8 @@ import { Form, Input, Button } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 
 function LoginForm () {
+  const [form] = Form.useForm()
+
   const [loading, setLoading] = useState(false)
 
   const onFinish = async (values) => {
@@ -21,6 +23,8 @@ function LoginForm () {
 
   return (
     <Form
+      form={form}
+      style={{ minWidth: 'min(20rem,90vw)' }}
       name='normal_login'
       className='login-form'
       initialValues={{ remember: true }}
@@ -35,19 +39,47 @@ function LoginForm () {
       </Form.Item>
       <Form.Item
         name='email'
-        rules={[{ required: true, message: 'Please input your Email Address!' }]}
+        rules={[
+          { required: true, message: 'Please input your Email Address!' },
+          { type: 'email', message: 'Please use a valid email address' }
+        ]}
       >
         <Input prefix={<UserOutlined className='site-form-item-icon' />} placeholder='Email' />
       </Form.Item>
       <Form.Item
+        hasFeedback
         name='password'
-        rules={[{ required: true, message: 'Please input your Password!' }]}
+        rules={[
+          { required: true, message: 'Please input your Password!' },
+          { min: 6, message: 'Password must be at least 6 characters long' },
+          { pattern: '^((?!password).)*$', message: 'Password must not contain the word "password"' }
+        ]}
       >
-        <Input
-          prefix={<LockOutlined className='site-form-item-icon' />}
-          type='password'
-          placeholder='Password'
-        />
+        <Input.Password prefix={<LockOutlined className='site-form-item-icon' />} placeholder='Password' />
+      </Form.Item>
+
+      <Form.Item
+        name='confirm'
+        // label='Confirm Password'
+        dependencies={['password']}
+        hasFeedback
+        rules={[
+          {
+            required: true,
+            message: 'Please confirm your password!'
+          },
+          ({ getFieldValue }) => ({
+            validator (rule, value) {
+              if (!value || getFieldValue('password') === value) {
+                return Promise.resolve()
+              }
+
+              return Promise.reject('The two passwords that you entered do not match!')
+            }
+          })
+        ]}
+      >
+        <Input.Password prefix={<LockOutlined className='site-form-item-icon' />} placeholder='Confirm password' />
       </Form.Item>
       <Form.Item>
         <Form.Item name='remember' valuePropName='checked' noStyle>
