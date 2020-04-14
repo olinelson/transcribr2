@@ -215,6 +215,14 @@ export const getUsage = async () => {
       redirect: 'follow', // manual, *follow, error
       referrerPolicy: 'no-referrer' // no-referrer, *client
     })
+    if (res.status === 401) {
+      window.localStorage.clear()
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.controller.postMessage('clearCache')
+      }
+      navigate('/login')
+      return false
+    }
     if (!res.ok) throw new Error('something went wrong')
     const usage = await res.json()
     return usage.data

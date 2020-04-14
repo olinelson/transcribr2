@@ -82,11 +82,11 @@ export default function UserDetails (props) {
         User Profile
 
       </h1>
-      <Descriptions layout='vertical'>
+      <Descriptions>
         <Descriptions.Item label='Name'>{user.name}{' '}<EditOutlined
           onClick={() => setAppState(oldAppState => ({ ...oldAppState, editUserDrawerOpen: true }))}
           style={{ fontSize: '1rem' }}
-        />
+                                                        />
         </Descriptions.Item>
         <Descriptions.Item label='Email'>
           {user.email}{' '}
