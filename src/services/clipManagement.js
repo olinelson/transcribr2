@@ -93,7 +93,7 @@ export const convertClip = async (clip, minutes, setClip) => {
         res = await res.json()
 
         openNotificationWithIcon('success', 'Transcription Started!')
-        setClip(oldClip => ({ ...oldClip, ...res.clip, transcriptionLoading: true }))
+        setClip(oldClip => ({ ...oldClip, ...res.clip }))
         break
 
       case 402:
