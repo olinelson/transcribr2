@@ -79,7 +79,7 @@ export default function UserDetails (props) {
         <Descriptions.Item label='Name'>{user.name}{' '}<EditOutlined
           onClick={() => setAppState(oldAppState => ({ ...oldAppState, editUserDrawerOpen: true }))}
           style={{ fontSize: '1rem' }}
-                                                        />
+        />
         </Descriptions.Item>
         <Descriptions.Item label='Email'>
           {user.email}{' '}
@@ -100,7 +100,10 @@ export default function UserDetails (props) {
         <Panel header='Payment Methods' key='1'>
           <PaymentMethodsList appState={appState} setAppState={setAppState} />
         </Panel>
-        <Panel header='Danger Zone' key='2'>
+        <Panel header='Support' key='2'>
+          <p>Having issues? Let us know by sending us an email at <a href='mailto:oli-nelson@outlook.com'>oli-nelson@outlook.com</a></p>
+        </Panel>
+        <Panel header='Danger Zone' key='3'>
           <div style={{ display: 'flex', justifyContent: 'space-around' }}>
             <Popconfirm
               title='Are you sure you want to delete your account?'

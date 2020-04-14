@@ -26,6 +26,7 @@ function LoginForm () {
       initialValues={{ remember: true }}
       onFinish={onFinish}
     >
+      <h1>Sign Up</h1>
       <Form.Item
         name='name'
         rules={[{ required: true, message: 'Please input your name' }]}

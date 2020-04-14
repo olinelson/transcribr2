@@ -128,8 +128,7 @@ function UploadClip (props) {
           Click or drag file to this area to upload
         </p>
         <p className='ant-upload-hint'>
-          Support for a single or bulk upload. Strictly prohibit from uploading
-          company data or other band files
+          Accepts any video or audio file under 400mb
         </p>
       </Dragger>
     </div>
