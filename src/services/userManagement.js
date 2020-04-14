@@ -15,6 +15,9 @@ export const getUserProfileAndSet = async (appState, setAppState) => {
     })
     if (res.status === 401) {
       window.localStorage.clear()
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.controller.postMessage('clearCache')
+      }
       navigate('/login')
       return false
     }

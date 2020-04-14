@@ -25,6 +25,9 @@ export default function UserDetails (props) {
     if (success) {
       navigate('/')
       window.localStorage.clear()
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.controller.postMessage('clearCache')
+      }
       openNotificationWithIcon('warning', 'User Profile Permanently Deleted.')
     } else {
       openNotificationWithIcon('error', 'Something went wrong :(')
@@ -35,6 +38,10 @@ export default function UserDetails (props) {
     if (success) {
       navigate('/')
       window.localStorage.clear()
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.controller.postMessage('clearCache')
+      }
+
       openNotificationWithIcon('success', 'Log out everywhere complete!')
     } else {
       openNotificationWithIcon('error', 'Something went wrong :(')

@@ -136,6 +136,10 @@ export const isLoggedIn = () => {
 
 export const logout = callback => {
   window.localStorage.clear()
-  navigator.serviceWorker.controller.postMessage('clearCache')
+
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.controller.postMessage('clearCache')
+  }
+
   navigate('/')
 }
