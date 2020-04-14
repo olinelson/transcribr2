@@ -11,7 +11,7 @@ import { Form, Input, Button } from 'antd'
 function ResetPasswordForm (props) {
   const [loading, setLoading] = useState(false)
 
-  const token = queryString.parse(props.location.search)
+  const { token } = queryString.parse(props.location.search)
 
   const onFinish = async (values) => {
     setLoading(true)
@@ -38,7 +38,7 @@ function ResetPasswordForm (props) {
         name='password'
         rules={[{ required: true, message: 'Please input your new password!' }]}
       >
-        <Input prefix={<UserOutlined className='site-form-item-icon' />} placeholder='New Password' />
+        <Input type='password' prefix={<UserOutlined className='site-form-item-icon' />} placeholder='New Password' />
       </Form.Item>
 
       <Form.Item>
