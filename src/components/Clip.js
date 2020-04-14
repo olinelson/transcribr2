@@ -100,7 +100,8 @@ function Clip (props) {
     conversionComplete: false,
     operationId: undefined,
     operationCompleted: false,
-    progressPercent: 0
+    progressPercent: 0,
+    transcriptionLoading: false
   })
 
   const [playerControls, setPlayerControls] = useState({
