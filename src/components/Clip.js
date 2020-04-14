@@ -72,6 +72,9 @@ function Clip (props) {
     clipSaving: false,
     searchLoading: false,
 
+    // To Do in API
+    // isVideo: true,
+
     // clip
     words: [],
     _id,
@@ -485,7 +488,7 @@ function Clip (props) {
                     <CheckCircleTwoTone twoToneColor='#52c41a' />
                   ) : (
                     <LoadingOutlined />
-                )
+                  )
                 }
               />
               <Step
@@ -496,7 +499,7 @@ function Clip (props) {
                     <LoadingOutlined active />
                   ) : (
                     <MessageOutlined />
-                )
+                  )
                 }
               />
 

@@ -8,7 +8,7 @@ import {
   YoutubeOutlined
 } from '@ant-design/icons'
 
-import { Menu, Input } from 'antd'
+import { Menu, Input, Affix } from 'antd'
 import { navigate } from 'gatsby'
 
 import { StyledSideBar } from './MyStyledComponents'
@@ -111,15 +111,19 @@ function SideBar ({ appState, setAppState }) {
 
         <SubMenu
           key='clip'
+          // style={{ border: ' 1px solid yellow', overflowY: 'scroll', overflowX: 'hidden', maxHeight: '100%' }}
           title={
+
             <span>
               <AudioOutlined />
               <span>Clips</span>
             </span>
           }
         >
+
           <Menu.Item>
             <Search
+
               placeholder='Search clips'
               onChange={e => setClipFilterText(e.target.value)}
               value={clipFilterText}
@@ -127,9 +131,10 @@ function SideBar ({ appState, setAppState }) {
               allowClear
             />
           </Menu.Item>
+
           {
             sortOrFilterClips(clips)
-            // .sort((a, b) => b.dateCreated - a.dateCreated)
+              // .sort((a, b) => b.dateCreated - a.dateCreated)
               .map(c => (
                 <Menu.Item
                   onClick={() => navigate(`app/clips/${c._id}`)}

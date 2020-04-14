@@ -133,6 +133,8 @@ export const FixedMenuDiv = styled.div`
 
 export const StyledSideBar = styled.div`
   width: 30vw;
+  max-height: 90vh;
+  overflow-y: scroll;
   max-width: 20rem;
   height: 100%;
   grid-area: sidebar;
