@@ -27,32 +27,32 @@ workbox.core.clientsClaim();
  */
 self.__precacheManifest = [
   {
-    "url": "webpack-runtime-7ea4d7db6144d162527b.js"
+    "url": "webpack-runtime-0bfbb63e143751bd7d43.js"
   },
   {
-    "url": "styles.610a6b9e99c506ffbbf5.css"
+    "url": "styles.fe3c30b34f8e927524f3.css"
   },
   {
     "url": "styles-0dd9b16d06f2e4f550cc.js"
   },
   {
-    "url": "framework-d58e6aa01b2ba4423f5b.js"
+    "url": "framework-7656862d80676d58607a.js"
   },
   {
-    "url": "app-0274878c86fa5c913e0e.js"
+    "url": "app-1cd77fd70a67fc2d4d1e.js"
   },
   {
     "url": "offline-plugin-app-shell-fallback/index.html",
-    "revision": "ed2688657c45b229ed2a55d1abe66bfe"
+    "revision": "85eebf8e52b7d5f87d561d0d8638d41e"
   },
   {
-    "url": "component---cache-caches-gatsby-plugin-offline-app-shell-js-53510201dcf61d0f1308.js"
+    "url": "component---cache-caches-gatsby-plugin-offline-app-shell-js-b3d32bc20641419cfed7.js"
   },
   {
-    "url": "95cb632c25a65ea663d3791c042a721a3193f9cd-35e8ea83e58704f474ce.js"
+    "url": "95cb632c25a65ea663d3791c042a721a3193f9cd-74cb0912bc1f9a1c814f.js"
   },
   {
-    "url": "component---src-pages-404-js-89b6b2ee0e9e48e8a1f9.js"
+    "url": "component---src-pages-404-js-92a2f9b6ef055e542855.js"
   },
   {
     "url": "page-data/404/page-data.json",
@@ -60,64 +60,61 @@ self.__precacheManifest = [
   },
   {
     "url": "page-data/app-data.json",
-    "revision": "230f876ca958ddf95dcae4a1169a1f5c"
+    "revision": "de731fdec0c07d09b3770dda9d4455fe"
   },
   {
     "url": "d4ad233efeb1d959420253442063e6db7488fdeb-be428484e5bd284a9dc2.js"
   },
   {
-    "url": "component---src-pages-index-js-c3990ad0d4cf698f13c7.js"
+    "url": "component---src-pages-index-js-40fc9a2629b7c52936da.js"
   },
   {
     "url": "page-data/index/page-data.json",
     "revision": "16e6d67d0f38a6c526c4d983c7128c58"
   },
   {
-    "url": "bb0e2423-1900570e2e5d327feda0.js"
+    "url": "bb0e2423-ec29ba3e10a9290410a5.js"
   },
   {
     "url": "ad895f8b1e5b0a5c811318d367d3d00489b852d5-7567b6380ad3d66f5f60.js"
   },
   {
-    "url": "component---src-pages-app-js-3d18ddb65903c728493a.js"
+    "url": "component---src-pages-app-js-65f16033cfdaab83e7a1.js"
   },
   {
     "url": "page-data/app/page-data.json",
     "revision": "9179f5604b75572075377b39cb75255f"
   },
   {
-    "url": "component---src-pages-about-js-af9f669da02740c4590c.js"
+    "url": "component---src-pages-about-js-2548540c11cb628f1eea.js"
   },
   {
     "url": "page-data/about/page-data.json",
     "revision": "7b8bb68be84d2c186896cab5851dc279"
   },
   {
-    "url": "fc064ac90949da06f863575e936272b4fffde84f-3ef226b3b9f8801d0fd2.js"
-  },
-  {
-    "url": "component---src-pages-forgot-js-445e0361723c0b3f5c77.js"
+    "url": "component---src-pages-forgot-js-514118b7e7ef36f5fbf8.js"
   },
   {
     "url": "page-data/forgot/page-data.json",
     "revision": "4c4fbc86dd6f5e4b01d799a682ac785d"
   },
   {
-    "url": "component---src-pages-login-js-141f1a88065914f6b24f.js"
+    "url": "component---src-pages-login-js-e4575ff4bc3af99da996.js"
   },
   {
     "url": "page-data/login/page-data.json",
     "revision": "3e439cbbe8d42b5b848333c3e62a8b06"
   },
   {
-    "url": "component---src-pages-reset-password-js-86f43b16b21ffda597a9.js"
+    "url": "component---src-pages-reset-password-js-58d9f3a0036756915cb7.js"
   },
   {
     "url": "page-data/resetPassword/page-data.json",
     "revision": "8601ccb49532b8b89b23e1c5abba0209"
   },
   {
-    "url": "component---src-pages-signup-js-9195e3657b9c6a241e73.js"
+    "url": "component---src-pages-signup-js-fcd6dc13d85afd01a328.js"
   },
   {
     "url": "page-data/signup/page-data.json",
@@ -222,7 +219,7 @@ const navigationRoute = new NavigationRoute(async ({ event }) => {
   // Check for resources + the app bundle
   // The latter may not exist if the SW is updating to a new version
   const resources = await idbKeyval.get(`resources:${pathname}`)
-  if (!resources || !(await caches.match(`/app-0274878c86fa5c913e0e.js`))) {
+  if (!resources || !(await caches.match(`/app-1cd77fd70a67fc2d4d1e.js`))) {
     return await fetch(event.request)
   }
 
