@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 // import 'antd/dist/antd.css'
 import NavBar from './nav-bar'
 import { Helmet } from 'react-helmet'
@@ -6,8 +6,17 @@ import { Layout as MyLayout } from './MyStyledComponents'
 import { Alert } from 'antd'
 import { API_URL } from '../config'
 
-const layout = props => {
+function LayoutComponent (props) {
   const { children } = props
+  const [isDarkTheme, setIsDarkTheme] = useState(window.matchMedia('(prefers-color-scheme: dark)').matches || false)
+
+  useEffect(() => {
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(
+      e => {
+        if (e.matches !== isDarkTheme) setIsDarkTheme(e.matches)
+      }
+    )
+  }, [])
 
   const showEnvironmentAlert = () => {
     if (API_URL.includes('localhost')) {
@@ -31,6 +40,8 @@ const layout = props => {
 
   return (
     <>
+
+
       <Helmet title='Transcribr' defer={false}>
         <meta charSet='utf-8' />
         <meta name='viewport' content='initial-scale=1,width=device-width, viewport-fit=cover' />
@@ -42,6 +53,10 @@ const layout = props => {
         <link rel='mask-icon' href='/safari-pinned-tab.svg' color='#5bbad5' />
         <meta name='msapplication-TileColor' content='#2d89ef' />
         <meta name='theme-color' content='#ffffff' />
+
+        {isDarkTheme
+          ? <link rel='stylesheet' type='text/css' href='/themes/antd.dark.css' />
+          : <link rel='stylesheet' type='text/css' href='/themes/antd.light.css' />}
       </Helmet>
       {showEnvironmentAlert()}
 
@@ -51,4 +66,4 @@ const layout = props => {
   )
 }
 
-export default layout
+export default LayoutComponent
