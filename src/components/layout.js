@@ -1,22 +1,25 @@
 import React, { useState, useEffect } from 'react'
-// import 'antd/dist/antd.css'
 import NavBar from './nav-bar'
 import { Helmet } from 'react-helmet'
 import { Layout as MyLayout } from './MyStyledComponents'
 import { Alert } from 'antd'
 import { API_URL } from '../config'
+import { isBrowser } from '../services/auth'
 
 function LayoutComponent (props) {
   const { children } = props
-  const [isDarkTheme, setIsDarkTheme] = useState(window.matchMedia('(prefers-color-scheme: dark)').matches || false)
+  const [isDarkTheme, setIsDarkTheme] = useState(!!(isBrowser() && window.matchMedia('(prefers-color-scheme: dark)').matches))
 
   useEffect(() => {
-    window.matchMedia('(prefers-color-scheme: dark)').addListener(
-      e => {
-        if (e.matches !== isDarkTheme) setIsDarkTheme(e.matches)
-      }
-    )
-  }, [])
+    const maybeSwitchTheme = (e) => { if (e.matches !== isDarkTheme) setIsDarkTheme(e.matches) }
+
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(e => maybeSwitchTheme(e))
+
+    // cleanup
+    return () => {
+      window.matchMedia('(prefers-color-scheme: dark)').removeListener(e => maybeSwitchTheme(e))
+    }
+  }, [isDarkTheme])
 
   const showEnvironmentAlert = () => {
     if (API_URL.includes('localhost')) {
@@ -40,7 +43,6 @@ function LayoutComponent (props) {
 
   return (
     <>
-
 
       <Helmet title='Transcribr' defer={false}>
         <meta charSet='utf-8' />
