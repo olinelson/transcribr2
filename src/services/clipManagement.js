@@ -1,5 +1,5 @@
 import { API_URL } from '../config'
-import { getToken } from './auth'
+import { getToken, logout } from './auth'
 import { openNotificationWithIcon } from '../components/Notifications'
 
 export const deleteClip = async clipId => {
@@ -13,7 +13,8 @@ export const deleteClip = async clipId => {
       redirect: 'follow', // manual, *follow, error
       referrerPolicy: 'no-referrer' // no-referrer, *client
     })
-    if (!res.ok) throw new Error('Something went wrong')
+    if (res.status === (401)) return logout()
+    if (!res.ok) throw new Error(res)
     res = await res.json() // parses JSON response into native JavaScript objects
     openNotificationWithIcon('warning', `Successfully deleted "${res.name}"`)
     return true
@@ -37,6 +38,8 @@ export const updateClip = async (clip, appState, setAppState, setClip) => {
       redirect: 'follow', // manual, *follow, error
       referrerPolicy: 'no-referrer' // no-referrer, *client
     })
+    if (res.status === (401)) return logout()
+    if (!res.ok) throw new Error(res)
     res = await res.json() // parses JSON response into native JavaScript objects
 
     openNotificationWithIcon('success', 'Changes saved')
@@ -58,9 +61,11 @@ export const getClip = async (_id, clip, setClip, signal) => {
         'Content-Type': 'application/json',
         Authorization: getToken()
       },
-      redirect: 'follow', // manual, *follow, error
+      redirect: 'follow', // manual, *follow, errors
       referrerPolicy: 'no-referrer' // no-referrer, *client
     })
+    if (res.status === (401)) return logout()
+    if (!res.ok) throw new Error(res)
     res = await res.json()
     setClip(oldClip => ({
       currentPageIndex: 0,
@@ -142,7 +147,8 @@ export const uploadYoutube = async ({ appState, setAppState, url, setLoading }) 
         url
       })
     })
-    if (!res.ok) throw new Error(res.status)
+    if (res.status === (401)) return logout()
+    if (!res.ok) throw new Error(res)
     openNotificationWithIcon('success', 'Youtube download started!')
     return true
   } catch (error) {

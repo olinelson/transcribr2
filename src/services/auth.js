@@ -138,8 +138,12 @@ export const logout = callback => {
   window.localStorage.clear()
 
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.controller.postMessage('clearCache')
+    try {
+      navigator.serviceWorker.controller.postMessage('clearCache')
+    } catch (error) {
+      console.error(error)
+    }
   }
 
-  navigate('/')
+  navigate('/login')
 }
