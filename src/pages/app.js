@@ -190,6 +190,10 @@ function App (props) {
         onClose={() => setAppState(oldAppState => ({ ...oldAppState, uploadDrawerOpen: false }))}
         visible={appState.uploadDrawerOpen}
         width='auto'
+        bodyStyle={{
+          display: 'grid',
+          gridTemplateRows: '3fr 1fr'
+        }}
       >
         <UploadClip appState={appState} setAppState={setAppState} />
       </Drawer>

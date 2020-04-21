@@ -111,27 +111,17 @@ function UploadClip (props) {
   }
 
   return (
-    <div
-      style={{
-        // border: '1rem solid white',
-        display: 'grid',
-        width: '100%',
-        height: '100%',
-        maxWidth: '100vw'
-      }}
-    >
-      <Dragger {...settings} style={{ padding: '1rem' }}>
-        <p className='ant-upload-drag-icon'>
-          <InboxOutlined />
-        </p>
-        <p className='ant-upload-text'>
+    <Dragger {...settings} style={{ padding: '1rem' }}>
+      <p className='ant-upload-drag-icon'>
+        <InboxOutlined />
+      </p>
+      <p className='ant-upload-text'>
           Click or drag file to this area to upload
-        </p>
-        <p className='ant-upload-hint'>
+      </p>
+      <p className='ant-upload-hint'>
           Accepts any video or audio file under 400mb
-        </p>
-      </Dragger>
-    </div>
+      </p>
+    </Dragger>
   )
 }
 
