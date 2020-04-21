@@ -24,7 +24,7 @@ export const Card = styled(_Card)``
 export const Layout = styled.div`
   display: grid;
   overflow-x: hidden;
-  min-height: 100vh;
+  height: 100vh;
   overflow: hidden;
   grid-template-columns: 1fr 3fr 1fr;
   grid-template-rows: 43px 1fr auto;
@@ -83,7 +83,8 @@ export const ClipContainer = styled.div`
   grid-gap: 1rem;
   grid-template-rows: auto auto 1fr auto;
   height: 100%;
-  max-height: 100%;
+  overflow-y: scroll;
+  max-height: 90vh;
   grid-template-areas:
     "clip"
     "toolbar"

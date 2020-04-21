@@ -261,7 +261,7 @@ function Clip (props) {
         pip
 
         height='auto'
-        width='100%'
+        width='min(100%, 30rem)'
         progressInterval={100}
         playbackRate={playerControls.playbackRate}
         style={{
@@ -489,7 +489,7 @@ function Clip (props) {
                     <CheckCircleTwoTone twoToneColor='#52c41a' />
                   ) : (
                     <LoadingOutlined />
-                )
+                  )
                 }
               />
               <Step
@@ -500,7 +500,7 @@ function Clip (props) {
                     <LoadingOutlined active />
                   ) : (
                     <MessageOutlined />
-                )
+                  )
                 }
               />
 

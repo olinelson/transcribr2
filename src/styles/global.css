@@ -35,7 +35,7 @@ audio {
 .steps-content {
   margin-top: 16px;
   border-radius: 6px;
-  background-color: #fafafa;
+  background-color: rgba(0,0,0,0) !important;
   text-align: center;
   padding: 1rem;
   width: 100%;
