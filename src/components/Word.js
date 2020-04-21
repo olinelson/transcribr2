@@ -35,7 +35,7 @@ const WordContainer = styled.span`
   
   background: ${props =>
     props.selectedWord && props.selectedWord._id === props.word._id
-    ? '#fffbe5'
+    ? 'rgba(255,251,229, 0.5)'
       : 'none'};
  
   animation: ${flash} 0.5s alternate infinite linear;
@@ -196,7 +196,7 @@ function Word (props) {
       </span>
     </Popover>
 
-         </>
+  </>
 }
 
 export default Word
