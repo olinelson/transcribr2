@@ -76,7 +76,7 @@ function CitationModal (props) {
   }
 
   const goToEditClip = () => {
-    setClip(oldClip => ({ ...oldClip, clipCitationModalOpen: false, setEditClipDrawerOpen: true }))
+    setClip(oldClip => ({ ...oldClip, clipCitationModalOpen: false, editClipDrawerOpen: true }))
   }
 
   return (

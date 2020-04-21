@@ -6,14 +6,16 @@ import {
   FileWordOutlined,
   MessageOutlined,
   SearchOutlined,
-  SnippetsOutlined,
-} from '@ant-design/icons';
+  SnippetsOutlined
+} from '@ant-design/icons'
 
-import { Tag, Button } from 'antd';
+import { Tag, Button } from 'antd'
 import { useStaticQuery, graphql, navigate } from 'gatsby'
 import Img from 'gatsby-image'
 import styled from 'styled-components'
 import Layout from '../components/layout'
+
+import { isLoggedIn } from '../services/auth'
 
 const Banner = styled.div`
   display: grid;
@@ -72,9 +74,13 @@ export default function About () {
               <h1 style={{ fontSize: '3rem' }}>
               Transcribe all the things...
               </h1>
-              <Button type='primary' onClick={() => navigate('/signup')}>
-              Sign Up - It's Free
-              </Button>
+              {isLoggedIn()
+                ? <Button type='primary' onClick={() => navigate('/app')}>
+                  Go To My Account!
+                  </Button>
+                : <Button type='primary' onClick={() => navigate('/signup')}>
+                  Sign Up - It's Free
+                  </Button>}
             </div>
             <div>
               <Img
@@ -209,5 +215,5 @@ export default function About () {
         </div>
       </div>
     </Layout>
-  );
+  )
 }

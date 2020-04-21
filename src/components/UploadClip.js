@@ -113,7 +113,7 @@ function UploadClip (props) {
   return (
     <div
       style={{
-        border: '1rem solid white',
+        // border: '1rem solid white',
         display: 'grid',
         width: '100%',
         height: '100%',
