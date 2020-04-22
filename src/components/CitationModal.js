@@ -1,11 +1,15 @@
 import React, { useRef } from 'react'
-import { CopyOutlined } from '@ant-design/icons'
+import { CopyOutlined, MacCommandFilled, HighlightOutlined } from '@ant-design/icons'
 import { Modal, Button } from 'antd'
+
+import { getBrowserName } from '../utils'
 
 import moment from 'moment'
 
 import styled from 'styled-components'
 import { openNotificationWithIcon } from './Notifications'
+
+const copyOrHighlightIcon = getBrowserName() === 'Safari' ? <HighlightOutlined /> : <CopyOutlined />
 
 const CitationContainer = styled.div`
     display: grid;
@@ -79,7 +83,7 @@ function CitationModal (props) {
       console.warn('Could not select text in node: Unsupported browser.')
     }
 
-    openNotificationWithIcon('success', `Copied ${style} citation.`)
+    if (getBrowserName() !== 'Safari') openNotificationWithIcon('success', `Copied ${style} citation.`)
   }
 
   const goToEditClip = () => {
@@ -102,14 +106,13 @@ function CitationModal (props) {
     >
       <p>Doesn't look right? <Button style={{ padding: 0, margin: 0 }} onClick={() => goToEditClip()} type='link'>Add more details</Button> to your clip to see properly formatted citation.</p>
       <CitationContainer>
-
         <h4>APA</h4>
         <span ref={apaRef}>
           {lastName}, {firstName[0]}. ({moment(datePosted).format('YYYY, MMMM D')}) <i>{episodeTitle}</i> [{mediaDescription}] {showTitle} {url}
         </span>
 
         <Button onClick={() => copyHtmlToClipboard(apaRef, 'APA')}>
-          <CopyOutlined />
+          {copyOrHighlightIcon}
         </Button>
 
         <h4>MLA</h4>
@@ -117,7 +120,7 @@ function CitationModal (props) {
           {lastName}, {firstName[0]} {middleInitial}. "{episodeTitle}" {mediaDescription}. {showTitle}. {publisher}, {moment(datePosted).format('DD MMMM YYYY')}. Web. {moment(dateAccessed).format('DD MMMM YYYY')}
         </span>
         <Button onClick={() => copyHtmlToClipboard(mlaRef, 'MLA')}>
-          <CopyOutlined />
+          {copyOrHighlightIcon}
         </Button>
 
         <h4>Vancouver</h4>
@@ -125,7 +128,7 @@ function CitationModal (props) {
           {lastName} {firstName[0]}. {episodeTitle}. {showTitle} [{mediaDescription}]. {placeOfRecording}: {publisher}; {moment(datePosted).format('YYYY')} [cited {moment(dateAccessed).format('YYYY')}]. Available from: {url}.
         </span>
         <Button onClick={() => copyHtmlToClipboard(vancouverRef, 'Vancouver')}>
-          <CopyOutlined />
+          {copyOrHighlightIcon}
         </Button>
 
         <h4>Chicago</h4>
@@ -133,7 +136,7 @@ function CitationModal (props) {
           {lastName}, {firstName}. "{episodeTitle}". {showTitle}. {mediaDescription}, {moment(datePosted).format('MMM. DD, YYYY')}. {url}
         </span>
         <Button onClick={() => copyHtmlToClipboard(chicagoRef, 'Chicago')}>
-          <CopyOutlined />
+          {copyOrHighlightIcon}
         </Button>
 
         <h4>Harvard</h4>
@@ -141,7 +144,7 @@ function CitationModal (props) {
           {lastName}, {firstName[0]}.  ({moment(datePosted).format('YYYY')}). {showTitle}. [{mediaDescription}] {episodeTitle}. Available at: {url} [Accessed {moment(dateAccessed).format('D MMM. YYYY')}].
         </span>
         <Button onClick={() => copyHtmlToClipboard(harvardRef, 'Harvard')}>
-          <CopyOutlined />
+          {copyOrHighlightIcon}
         </Button>
       </CitationContainer>
     </Modal>
