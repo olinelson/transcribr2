@@ -475,7 +475,7 @@ function Clip (props) {
             alignContent: 'center',
             gridTemplateRows: 'auto auto auto auto',
             borderRadius: '6px',
-            backgroundColor: '#fafafa',
+            backgroundColor: 'rgba(0,0,0,0)',
             padding: '1rem'
           }}
         >
@@ -489,7 +489,7 @@ function Clip (props) {
                     <CheckCircleTwoTone twoToneColor='#52c41a' />
                   ) : (
                     <LoadingOutlined />
-                  )
+                )
                 }
               />
               <Step
@@ -500,7 +500,7 @@ function Clip (props) {
                     <LoadingOutlined active />
                   ) : (
                     <MessageOutlined />
-                  )
+                )
                 }
               />
 
