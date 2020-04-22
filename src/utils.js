@@ -1,5 +1,7 @@
 import moment from 'moment'
 
+import { isBrowser } from './services/auth'
+
 export const formatTimeStamp = string => {
   const seconds = parseInt(string.replace('s', ''))
 
@@ -23,7 +25,7 @@ export function findIndexOfWord (obj, arr) {
 
 export const getBrowserName = () => {
   let name = 'Unknown'
-  if (navigator?.userAgent?.indexOf('MSIE') != -1) {
+  if (isBrowser() && navigator.userAgent.indexOf('MSIE') != -1) {
     name = 'MSIE'
   } else if (navigator.userAgent.indexOf('Firefox') != -1) {
     name = 'Firefox'
