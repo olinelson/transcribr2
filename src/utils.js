@@ -25,7 +25,8 @@ export function findIndexOfWord (obj, arr) {
 
 export const getBrowserName = () => {
   let name = 'Unknown'
-  if (isBrowser() && navigator.userAgent.indexOf('MSIE') != -1) {
+  if (!isBrowser()) return null
+  if (navigator.userAgent.indexOf('MSIE') != -1) {
     name = 'MSIE'
   } else if (navigator.userAgent.indexOf('Firefox') != -1) {
     name = 'Firefox'
