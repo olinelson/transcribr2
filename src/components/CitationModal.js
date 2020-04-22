@@ -9,9 +9,16 @@ import { openNotificationWithIcon } from './Notifications'
 
 const CitationContainer = styled.div`
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: auto auto auto;
     align-items: center;
     grid-gap: 1rem;
+    max-width: 80vw;
+
+  span {
+    word-break: break-all;
+ }
+    
+
   `
 
 function CitationModal (props) {
@@ -91,6 +98,7 @@ function CitationModal (props) {
       title='Citation'
       autoSize
       centered
+      width='auto'
     >
       <p>Doesn't look right? <Button style={{ padding: 0, margin: 0 }} onClick={() => goToEditClip()} type='link'>Add more details</Button> to your clip to see properly formatted citation.</p>
       <CitationContainer>
@@ -129,16 +137,6 @@ function CitationModal (props) {
         </Button>
 
         <h4>Harvard</h4>
-        {/* <TextArea
-          className='ant-input'
-          autoSize
-          readOnly
-          style={{
-            resize: 'none'
-          }}
-          ref={harvardRef}
-          value={`${lastName}, ${firstName[0]}.  (${moment(datePosted).format('YYYY')}). ${showTitle}. [${mediaDescription}] ${episodeTitle}. Available at: ${url} [Accessed ${moment(dateAccessed).format('D MMM. YYYY')}].`}
-        /> */}
         <span ref={harvardRef}>
           {lastName}, {firstName[0]}.  ({moment(datePosted).format('YYYY')}). {showTitle}. [{mediaDescription}] {episodeTitle}. Available at: {url} [Accessed {moment(dateAccessed).format('D MMM. YYYY')}].
         </span>
