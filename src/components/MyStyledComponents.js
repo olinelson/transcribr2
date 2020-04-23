@@ -24,7 +24,7 @@ export const Card = styled(_Card)``
 export const Layout = styled.div`
   display: grid;
   overflow-x: hidden;
-  // height: 100vh;
+  min-height: 100vh;
   // overflow: hidden;
   grid-template-columns: 1fr 3fr 1fr;
   grid-template-rows: 43px 1fr auto;
