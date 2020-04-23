@@ -35,8 +35,12 @@ const WordContainer = styled.span`
   
   background: ${props =>
     props.selectedWord && props.selectedWord._id === props.word._id
-    ? 'rgba(255,251,229, 0.5)'
+    ? 'rgba(255,251,229, 1)'
       : 'none'};
+  color: ${props =>
+    props.selectedWord && props.selectedWord._id === props.word._id
+    ? 'black'
+      : ''};
  
   animation: ${flash} 0.5s alternate infinite linear;
   animation: ${props => (!props.deleting ? 'none' : null)};
