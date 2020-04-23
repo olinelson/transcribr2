@@ -54,8 +54,8 @@ body {
   top: 0rem;
   z-index: 5;
 }
-.ant-upload-list.ant-upload-list-text{
+/* .ant-upload-list.ant-upload-list-text{
   overflow-y: scroll;
-}
+} */
 
 @import '~antd/dist/antd.css'

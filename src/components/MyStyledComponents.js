@@ -83,8 +83,8 @@ export const ClipContainer = styled.div`
   grid-gap: 1rem;
   grid-template-rows: auto auto 1fr auto;
   height: 100%;
-  overflow-y: scroll;
-  max-height: 90vh;
+  // overflow-y: scroll;
+  // max-height: 90vh;
   grid-template-areas:
     "clip"
     "toolbar"
