@@ -53,156 +53,156 @@ workbox.routing.registerRoute(
   }),
   'GET'
 )
+// disabled for now due to performace while seeking...
+// if (['Chrome', 'Firefox', 'Opera'].indexOf(currentBrowser) != -1) {
+// staging routes
 
-if (['Chrome', 'Firefox', 'Opera'].indexOf(currentBrowser) != -1) {
-  // staging routes
+//   workbox.routing.registerRoute(
+//     /^https:\/\/transcribr2-api-staging\.herokuapp\.com\/clips/,
+//     new workbox.strategies.StaleWhileRevalidate({
+//       cacheName: 'clip-cache',
+//       plugins: [
+//         new workbox.cacheableResponse.Plugin({ statuses: [200] }),
+//         new workbox.rangeRequests.Plugin(),
+//         new workbox.expiration.Plugin({
+//           maxEntries: 20,
+//           maxAgeSeconds: 1209600
+//         }),
+//         new workbox.broadcastUpdate.Plugin({
+//           channelName: 'clip-cache-update'
+//         })
+//       ]
+//     }),
+//     'GET'
+//   )
 
-  workbox.routing.registerRoute(
-    /^https:\/\/transcribr2-api-staging\.herokuapp\.com\/clips/,
-    new workbox.strategies.StaleWhileRevalidate({
-      cacheName: 'clip-cache',
-      plugins: [
-        new workbox.cacheableResponse.Plugin({ statuses: [200] }),
-        new workbox.rangeRequests.Plugin(),
-        new workbox.expiration.Plugin({
-          maxEntries: 20,
-          maxAgeSeconds: 1209600
-        }),
-        new workbox.broadcastUpdate.Plugin({
-          channelName: 'clip-cache-update'
-        })
-      ]
-    }),
-    'GET'
-  )
+//   workbox.routing.registerRoute(
+//     /^https:\/\/transcribr2-api-staging\.herokuapp\.com\/users\/me/,
+//     new workbox.strategies.StaleWhileRevalidate({
+//       cacheName: 'user-details-cache',
+//       plugins: [
+//         new workbox.cacheableResponse.Plugin({ statuses: [200] }),
+//         new workbox.rangeRequests.Plugin(),
+//         new workbox.expiration.Plugin({
+//           maxEntries: 20,
+//           maxAgeSeconds: 1209600
+//         }),
+//         new workbox.broadcastUpdate.Plugin({
+//           channelName: 'user-details-cache-update'
+//         })
+//       ]
+//     }),
+//     'GET'
+//   )
 
-  workbox.routing.registerRoute(
-    /^https:\/\/transcribr2-api-staging\.herokuapp\.com\/users\/me/,
-    new workbox.strategies.StaleWhileRevalidate({
-      cacheName: 'user-details-cache',
-      plugins: [
-        new workbox.cacheableResponse.Plugin({ statuses: [200] }),
-        new workbox.rangeRequests.Plugin(),
-        new workbox.expiration.Plugin({
-          maxEntries: 20,
-          maxAgeSeconds: 1209600
-        }),
-        new workbox.broadcastUpdate.Plugin({
-          channelName: 'user-details-cache-update'
-        })
-      ]
-    }),
-    'GET'
-  )
+//   // production routes
 
-  // production routes
+//   workbox.routing.registerRoute(
+//     /^https:\/\/transcribr2-api\.herokuapp\.com\/clips/,
+//     new workbox.strategies.StaleWhileRevalidate({
+//       cacheName: 'clip-cache',
+//       plugins: [
+//         new workbox.cacheableResponse.Plugin({ statuses: [200] }),
+//         new workbox.rangeRequests.Plugin(),
+//         new workbox.expiration.Plugin({
+//           maxEntries: 20,
+//           maxAgeSeconds: 1209600
+//         }),
+//         new workbox.broadcastUpdate.Plugin({
+//           channelName: 'clip-cache-update'
+//         })
+//       ]
+//     }),
+//     'GET'
+//   )
 
-  workbox.routing.registerRoute(
-    /^https:\/\/transcribr2-api\.herokuapp\.com\/clips/,
-    new workbox.strategies.StaleWhileRevalidate({
-      cacheName: 'clip-cache',
-      plugins: [
-        new workbox.cacheableResponse.Plugin({ statuses: [200] }),
-        new workbox.rangeRequests.Plugin(),
-        new workbox.expiration.Plugin({
-          maxEntries: 20,
-          maxAgeSeconds: 1209600
-        }),
-        new workbox.broadcastUpdate.Plugin({
-          channelName: 'clip-cache-update'
-        })
-      ]
-    }),
-    'GET'
-  )
+//   workbox.routing.registerRoute(
+//     /^https:\/\/transcribr2-api\.herokuapp\.com\/users\/me/,
+//     new workbox.strategies.StaleWhileRevalidate({
+//       cacheName: 'user-details-cache',
+//       plugins: [
+//         new workbox.cacheableResponse.Plugin({ statuses: [200] }),
+//         new workbox.rangeRequests.Plugin(),
+//         new workbox.expiration.Plugin({
+//           maxEntries: 20,
+//           maxAgeSeconds: 1209600
+//         }),
+//         new workbox.broadcastUpdate.Plugin({
+//           channelName: 'user-details-cache-update'
+//         })
+//       ]
+//     }),
+//     'GET'
+//   )
+// } else {
+// SAFARI IMPLEMENTATION
 
-  workbox.routing.registerRoute(
-    /^https:\/\/transcribr2-api\.herokuapp\.com\/users\/me/,
-    new workbox.strategies.StaleWhileRevalidate({
-      cacheName: 'user-details-cache',
-      plugins: [
-        new workbox.cacheableResponse.Plugin({ statuses: [200] }),
-        new workbox.rangeRequests.Plugin(),
-        new workbox.expiration.Plugin({
-          maxEntries: 20,
-          maxAgeSeconds: 1209600
-        }),
-        new workbox.broadcastUpdate.Plugin({
-          channelName: 'user-details-cache-update'
-        })
-      ]
-    }),
-    'GET'
-  )
-} else {
-  // SAFARI IMPLEMENTATION
+// staging routes
 
-  // staging routes
+workbox.routing.registerRoute(
+  /^https:\/\/transcribr2-api-staging\.herokuapp\.com\/clips/,
+  new workbox.strategies.NetworkFirst({
+    cacheName: 'clip-cache',
+    plugins: [
+      new workbox.cacheableResponse.Plugin({ statuses: [200] }),
+      new workbox.rangeRequests.Plugin(),
+      new workbox.expiration.Plugin({
+        maxEntries: 20,
+        maxAgeSeconds: 1209600
+      })
+    ]
+  }),
+  'GET'
+)
 
-  workbox.routing.registerRoute(
-    /^https:\/\/transcribr2-api-staging\.herokuapp\.com\/clips/,
-    new workbox.strategies.NetworkFirst({
-      cacheName: 'clip-cache',
-      plugins: [
-        new workbox.cacheableResponse.Plugin({ statuses: [200] }),
-        new workbox.rangeRequests.Plugin(),
-        new workbox.expiration.Plugin({
-          maxEntries: 20,
-          maxAgeSeconds: 1209600
-        })
-      ]
-    }),
-    'GET'
-  )
+workbox.routing.registerRoute(
+  /^https:\/\/transcribr2-api-staging\.herokuapp\.com\/users\/me/,
+  new workbox.strategies.NetworkFirst({
+    cacheName: 'user-details-cache',
+    plugins: [
+      new workbox.cacheableResponse.Plugin({ statuses: [200] }),
+      new workbox.rangeRequests.Plugin(),
+      new workbox.expiration.Plugin({
+        maxEntries: 20,
+        maxAgeSeconds: 1209600
+      })
 
-  workbox.routing.registerRoute(
-    /^https:\/\/transcribr2-api-staging\.herokuapp\.com\/users\/me/,
-    new workbox.strategies.NetworkFirst({
-      cacheName: 'user-details-cache',
-      plugins: [
-        new workbox.cacheableResponse.Plugin({ statuses: [200] }),
-        new workbox.rangeRequests.Plugin(),
-        new workbox.expiration.Plugin({
-          maxEntries: 20,
-          maxAgeSeconds: 1209600
-        })
+    ]
+  }),
+  'GET'
+)
 
-      ]
-    }),
-    'GET'
-  )
+// production routes
 
-  // production routes
+workbox.routing.registerRoute(
+  /^https:\/\/transcribr2-api\.herokuapp\.com\/clips/,
+  new workbox.strategies.NetworkFirst({
+    cacheName: 'clip-cache',
+    plugins: [
+      new workbox.cacheableResponse.Plugin({ statuses: [200] }),
+      new workbox.rangeRequests.Plugin(),
+      new workbox.expiration.Plugin({
+        maxEntries: 20,
+        maxAgeSeconds: 1209600
+      })
+    ]
+  }),
+  'GET'
+)
 
-  workbox.routing.registerRoute(
-    /^https:\/\/transcribr2-api\.herokuapp\.com\/clips/,
-    new workbox.strategies.NetworkFirst({
-      cacheName: 'clip-cache',
-      plugins: [
-        new workbox.cacheableResponse.Plugin({ statuses: [200] }),
-        new workbox.rangeRequests.Plugin(),
-        new workbox.expiration.Plugin({
-          maxEntries: 20,
-          maxAgeSeconds: 1209600
-        })
-      ]
-    }),
-    'GET'
-  )
-
-  workbox.routing.registerRoute(
-    /^https:\/\/transcribr2-api\.herokuapp\.com\/users\/me/,
-    new workbox.strategies.NetworkFirst({
-      cacheName: 'user-details-cache',
-      plugins: [
-        new workbox.cacheableResponse.Plugin({ statuses: [200] }),
-        new workbox.rangeRequests.Plugin(),
-        new workbox.expiration.Plugin({
-          maxEntries: 20,
-          maxAgeSeconds: 1209600
-        })
-      ]
-    }),
-    'GET'
-  )
-}
+workbox.routing.registerRoute(
+  /^https:\/\/transcribr2-api\.herokuapp\.com\/users\/me/,
+  new workbox.strategies.NetworkFirst({
+    cacheName: 'user-details-cache',
+    plugins: [
+      new workbox.cacheableResponse.Plugin({ statuses: [200] }),
+      new workbox.rangeRequests.Plugin(),
+      new workbox.expiration.Plugin({
+        maxEntries: 20,
+        maxAgeSeconds: 1209600
+      })
+    ]
+  }),
+  'GET'
+)
+// }
